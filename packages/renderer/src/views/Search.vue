@@ -140,18 +140,21 @@ const readText = async (params: {
           const f_k_json = [a + 1, Object.fromEntries(temp_k_json)];
           temp_x_json.push(f_k_json);
         } else {
-          //格式化<项>的条文 
+          //格式化<项>的条文
           const t_x = [a + 1, arr_x[a]];
           temp_x_json.push(t_x);
         }
       }
 
       //格式化<条>并整合json
-      const f_x_json = [num,Object.fromEntries(temp_x_json)]
+      const f_x_json = [num, Object.fromEntries(temp_x_json)];
       aLL.push(f_x_json);
     });
-    info_json.items = Object.fromEntries(aLL)
-    console.log("🚀 ~ file: Search.vue ~ line 166 ~ info_json.items", info_json.items)
+    info_json.items = Object.fromEntries(aLL);
+    console.log(
+      "🚀 ~ file: Search.vue ~ line 166 ~ info_json.items",
+      info_json.items
+    );
 
     //判断结果是否正确
     const arr_count = [];
@@ -201,9 +204,15 @@ const readText = async (params: {
 // clipboardObserver.start();
 
 const test2 = async () => {
-  await store.commit("editorModule/Set_presetText");
+  const queryString = "?name=jimmy&age=18&height=1.88";
+  const queryParams = new URLSearchParams(queryString);
+  const arr: string[][] = [];
 
-  console.log(store.state.editorModule.presetText);
+  queryParams.forEach((value, key, p) => {
+    arr.push([key, value]);
+  });
+ const paramObj = Object.fromEntries(arr);
+  console.log(paramObj); // { name: 'jimmy', age: '18', height: '1.88' }
 };
 </script>
 

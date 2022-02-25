@@ -28,8 +28,9 @@ const default_setting = {
   lawfilelist: [],
 };
 
-const saved_setting =
-  getItem("settingInfo") == null ? default_setting : getItem("settingInfo");
+const saved_setting = getItem("settingInfo")
+  ? getItem("settingInfo")
+  : default_setting;
 
 const settingModule: Module<settingState, rootState> = {
   namespaced: true,

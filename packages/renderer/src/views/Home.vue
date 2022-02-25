@@ -25,9 +25,10 @@
     stripe
     style="position: relative; top: 10px; height: calc(100% - 80px) !important"
   >
-    <template slot="empty">
+    <!-- <template slot="empty">
       <span>No Data</span>
-    </template>
+    </template> -->
+    <!-- <el-empty description="description"></el-empty> -->
     <el-table-column label="序号" width="60" align="center">
       <template v-slot="scope">
         {{ scope.$index + (currentPage - 1) * pagesize + 1 }}
@@ -143,7 +144,7 @@ const d = getItem("myCaseList");
 const currentPage = ref(1);
 const pagesize = ref(20);
 const total = d.total == undefined ? 0 : d.total;
-const tableData = d.data == undefined ? "" : d.data;
+const tableData = d.data == undefined ? [] : d.data;
 
 const reload: any = inject("reload");
 
@@ -164,27 +165,6 @@ const handleSizeChange = (val: any) => {
 </script>
 
 <style lang="scss">
-.topbars {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  &-right {
-    display: flex;
-    align-items: center;
-    flex-direction: row-reverse;
-  }
-}
-
-.ah_s a {
-  color: var(--el-color-primary);
-  text-decoration: none;
-
-  &.router-link-exact-active {
-    color: #a0cfff;
-  }
-}
-
 .el-breadcrumb {
   user-select: none;
 }
@@ -208,6 +188,8 @@ const handleSizeChange = (val: any) => {
 }
 
 .el-table__empty-block {
+  width: 100%;
+  min-height: 600px !important;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABACAMAAADbASJGAAABPlBMVEUAAADX19fa2trZ2dna2trZ2dn19fX19fXt7e319fX19fX19fXb29vZ2dnZ2dn29vb19fX29vb8/PzY2NjZ2dn29vb19fX19fXZ2dnZ2dnZ2dnZ2dn19fXa2tra2tr4+Pja2tr19fXZ2dn29vbb29vZ2dn19fX29vb19fXZ2dn19fX19fXZ2dn29vb29vbX19f29vbi4uLZ2dnj4+Ph4eHZ2dnZ2dnZ2dn29vb09PTZ2dn19fXa2trZ2dn19fXZ2dn19fX19fX29vb19fXZ2dn09PTY2Nj19fXa2tr39/fX19fd3d3Z2dnY2Nj19fXZ2dn29vbh4eH09PT29vbY2NjZ2dnZ2dn09PTY2NjZ2dn09PT19fXX19f6+vr19fXZ2dnp6eni4uLo6Ojg4ODk5OTx8fHt7e3r6+v4+Pjd3d2+WHiwAAAAXXRSTlMAQL+/74DlRhnp1bf85qKLfmMRBvv18KGHamFQTEszLh/89dzc186+sq2ZlV1XUjc2KCUR9OzSzMfBtLCpmpGOgHpxbmdfVT06Hgz84NPFxLGwqKeYk3h2dnFdSi2FEAZaAAACXElEQVRYw+3U11LjQBCF4WMbW3LC2YAxxuScc1xy2JyzuiUHDO//AqsLahEYSyNpuKH4rlXzV7V6Bk6WA46q8GdgjAWsl+BDhbtLAUd9YzwAz/5yCCKWhnkZHq3wW4jJMefgzXAeopY5CU9GWYWwAIfgwQcOwIUSf4Nru3wCV8LcB5d6+RVc6na7yH08BddCXIEL/RyEe7lRrkJYJf8OXlTzYznhS5hMrsCTBfEpb+Qv4FG/6L5s8yw8O+HvELDHv+BDmEsiH/XClz0ecL4gX+HTdteC04+bgl/qxnrVdgXXgq/hWyUZsjuli9vsOq7abJDbhOwihv7QKoed3sWE8ZBDRGvTGF6CjQtuaG1cR5r2O93LTQkRLdFtO62EJiNiBGEjaEiJNNZgo6smJaLzGTr6yU0pkes3yX50cMarmpSI1kxwsANONCVFNNKNDlqkeY+Ie4k8h0hQViT8EnmJPNvI0qisyKdLPCY7vx+juqxIjcZT5SzuW9yPkklixBRNDeLO3CSZpEdMPcptYjBO9FQRM3MJ02mB/jNupDSuLRGKngIKWdT4WkaEWCeLc8TJ4oqvZETMY8hiBhNkVa/LiNTrZDWNObJqccN/o8EtsioDM2RV45uG7kvthnW6Py3T7yhZ6Ab7ZLTIIjZ/e1FSEXoiscPs3cN1/J6ewEQmh3uUdLxIEhV3DhU85vzHRymDi+wcL8KOWk5P+ihFJtNlFUJUJXPQMzEyRMIKsXjPQUZR4Z66+Gcuc5ROTX+Ob22Ox0Yi0WJhaKhQjEZGYuObW/Ev06n0UWZeGczCzj/Kd2oUicxurAAAAABJRU5ErkJggg==");
   background-repeat: no-repeat;
   background-position: center;

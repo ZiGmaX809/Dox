@@ -168,8 +168,6 @@ const avatar_url = () => {
   }
 };
 
-
-
 //实体化剪贴板监听
 const clipboardObserver = new ClipboardObserver({
   duration: 500,
@@ -188,7 +186,6 @@ const clipboardObserver = new ClipboardObserver({
 const Listen_Clipboard = () => {
   clipboardObserver.stop();
   if (store.state.settingModule.setting.clipboard_bool) {
-    
     clipboardObserver.start();
     store.commit("clipboardModule/switch_listen");
   }
@@ -207,7 +204,7 @@ provide("reload", {
 });
 provide("drawer", drawer);
 provide("listen_clip", {
-  listen_clip: (value:boolean) => {
+  listen_clip: (value: boolean) => {
     if (!value) {
       clipboardObserver.stop();
     } else {

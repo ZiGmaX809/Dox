@@ -409,7 +409,7 @@ function find_address(str: string) {
 
 function iter_pcaJson(ss: string, str: string, json: any): any {
   if (str != "") {
-    for (var key in json) {
+    for (let key in json) {
       const ttt = Array.isArray(json[key]); //判断是否到区级
       if (!ttt) {
         /*

@@ -34,3 +34,25 @@
   src: url('@/assets/fonts/Barlow-Black.woff2') format('woff2'),
     url('@/assets/fonts/Barlow-Black.ttf') format('truetype');
 }
+
+.topbars {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &-right {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+  }
+}
+
+.ah_s a {
+  color: var(--el-color-primary);
+  text-decoration: none;
+
+  &.router-link-exact-active {
+    color: #a0cfff;
+  }
+}
+

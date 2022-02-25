@@ -8,9 +8,9 @@ import { getItem, setItem, removeItem } from "../utils/storage";
 const get_loginInfo = getItem("loginInfo").data;
 
 const data = {
-  yhdm: get_loginInfo.yhdm,
-  fydm: get_loginInfo.fydm,
-  yhxm: get_loginInfo.yhxm,
+  yhdm: get_loginInfo != null ? get_loginInfo.yhdm : "",
+  fydm: get_loginInfo != null ? get_loginInfo.fydm : "",
+  yhxm: get_loginInfo != null ? get_loginInfo.yhxm : "",
   appid: "SPXT",
   yydm: "SPXT",
   roleId: "ALL",

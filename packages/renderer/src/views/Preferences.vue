@@ -84,17 +84,51 @@
 
       <h2 class="pref_h2">其他</h2>
       <el-divider />
-      <p class="pref_p">导出&导入缓存文件</p>
-      <div style="display: flex">
-        <el-button
-          class="extra_btn_class"
-          size="small"
-          @click="export_localstage()"
-          >导出</el-button
+
+      <p class="pref_p">导出配置及缓存文件</p>
+      <el-button
+        class="extra_btn_class"
+        size="small"
+        @click="export_localstorage()"
+        >导出</el-button
+      >
+
+      <p class="pref_p">导入配置及缓存文件</p>
+      <div
+        style="
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+        "
+      >
+        <el-upload
+          ref="upload"
+          action=""
+          accept=".json"
+          :limit="1"
+          :auto-upload="false"
+          :on-exceed="importlocalstorage_handleExceed"
+          :on-Change="importlocalstorage_handleChange"
+          :http-request="uploadHandler"
+          style="width: 100%"
         >
-        <el-button class="extra_btn_class" size="small" @click=""
-          >导入</el-button
-        >
+          <template #trigger>
+            <el-button
+              class="extra_btn_class"
+              size="small"
+              style="margin-right: 20px"
+              >选择导入文件</el-button
+            >
+          </template>
+
+          <el-button
+            class="extra_btn_class"
+            size="small"
+            @click="import_localstorage()"
+            >导入</el-button
+          >
+        </el-upload>
       </div>
 
       <p class="pref_author">MADE BY ZiGma</p>
@@ -104,10 +138,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { Delete } from "@element-plus/icons-vue";
 import { useStore } from "vuex";
 import { Modules } from "../store";
+import { ElMessage, ElUpload } from "element-plus";
+import { ElFile } from "element-plus/es/components/upload/src/upload.type";
+import { setItem } from "../script/utils/storage";
 const store = useStore<Modules>();
 
 //自定义头像取值&设置
@@ -174,18 +211,74 @@ const handleDelete = (index: number) => {
 };
 
 //导出&导入缓存
-const export_localstage = () => {
+const upload = ref();
+
+const export_localstorage = () => {
   const arr_text = [];
   for (var i = 0; i < window.localStorage.length; i++) {
     const key: any = window.localStorage.key(i); //获取本地存储的Key
 
     arr_text.push([key, window.localStorage.getItem(key)]);
   }
-  const final_json = Object.fromEntries(arr_text)
-  const path = window.path.resolve(
-    `packages/renderer/public/cachefiles/export.json`
-  );
-  window.fs.writeFileSync(path, JSON.stringify(final_json) );
+  const final_json = Object.fromEntries(arr_text);
+
+  window.ipcRenderer.send("Get_Path", "downloads");
+  window.ipcRenderer.on("final_path", (event, arg) => {
+    if (arg != undefined) {
+      const file_fullpath = arg + "/export_cache.json";
+      window.fs.writeFileSync(file_fullpath, JSON.stringify(final_json));
+
+      ElMessage({
+        message: `成功将缓存内容导出至 ${file_fullpath} `,
+        grouping: true,
+        type: "success",
+      });
+    }
+  });
+};
+
+const importlocalstorage_handleExceed = (files: ElFile[]) => {
+  upload.value.clearFiles();
+  upload.value.handleStart(files[0]);
+};
+
+const importlocalstorage_handleChange = (files: ElFile[]) => {
+  console.log(upload.value);
+};
+
+const uploadHandler = (params: { file: { size: number } }) => {
+  setTimeout(() => {
+    read_localstorage_file(params);
+  }, 100);
+};
+
+const read_localstorage_file = async (params: { file: any }) => {
+  // UTF-8,GBK,GB2312
+  const readFile = new FileReader();
+  readFile.onload = (e) => {
+    const m_text: any = e.target?.result;
+    const json_ = JSON.parse(m_text);
+    for (let key in json_) {
+      setItem(key, json_[key]);
+    }
+
+    ElMessage({
+      message: "成功导入缓存文件，程序将重启",
+      grouping: true,
+      type: "success",
+    });
+
+    setTimeout(() => {
+      window.ipcRenderer.send("Restart");
+    }, 1000);
+  };
+  readFile.readAsText(params.file);
+};
+// const upload = ref<InstanceType<typeof ElUpload>>();
+const import_localstorage = () => {
+  upload.value.submit();
+  upload.value.clearFiles();
+  // }
 };
 </script>
 
@@ -226,6 +319,7 @@ const export_localstage = () => {
   color: #909090;
   font-size: 0.88rem;
   margin-top: -10px;
+  height: 50px;
   font-family: "Barlow";
 }
 

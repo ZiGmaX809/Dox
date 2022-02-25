@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain } from "electron";
+import { app, BrowserWindow, shell, ipcMain, dialog } from "electron";
 import { release } from "os";
 import { join } from "path";
 
@@ -65,6 +65,15 @@ ipcMain.on("max", (e) => {
   }
 });
 ipcMain.on("close", (e) => win?.close());
+
+ipcMain.on("Restart",(e)=>{
+  app.relaunch({ args: process.argv.slice(1).concat(["--relaunch"]) });
+  app.exit(0);
+})
+
+ipcMain.on("Get_Path", (e, a) => {
+  e.reply("final_path", app.getPath(a));
+});
 
 app.on("window-all-closed", () => {
   win = null;
