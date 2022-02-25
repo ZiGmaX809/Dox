@@ -1,0 +1,51 @@
+{
+  "name": "Dox",
+  "version": "0.0.1",
+  "main": "dist/main/index.cjs",
+  "author": "ZiGma",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node scripts/watch.mjs",
+    "prebuild": "vue-tsc --project packages/renderer/tsconfig.json --noEmit && node scripts/build.mjs",
+    "build": "electron-builder",
+    "debug": "npm run prebuild && vite ./packages/renderer"
+  },
+  "engines": {
+    "node": ">=16.14.0"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^0.2.7",
+    "@tinymce/tinymce-vue": "^4.0.6",
+    "axios": "^0.26.0",
+    "element-plus": "^2.0.2",
+    "nzh": "^1.0.8",
+    "qs": "^6.10.3",
+    "tinymce": "^5.10.3",
+    "vue": "^3.2.31",
+    "vue-router": "^4.0.12",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.2.2",
+    "chalk": "^5.0.0",
+    "electron": "^17.1.0",
+    "electron-builder": "^22.14.13",
+    "node-sass": "^7.0.1",
+    "sass": "^1.49.8",
+    "sass-loader": "^12.6.0",
+    "typescript": "^4.5.5",
+    "vite": "^2.8.4",
+    "vite-plugin-resolve": "^1.4.4",
+    "vue-tsc": "^0.31.4"
+  },
+  "env": {
+    "//": "Used in build scripts",
+    "PORT": 3344
+  },
+  "keywords": [
+    "vite",
+    "electron",
+    "vue3",
+    "rollup"
+  ]
+}
