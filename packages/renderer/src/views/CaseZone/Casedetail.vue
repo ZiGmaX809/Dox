@@ -89,8 +89,8 @@ import { Modules } from "../../store";
 const store = useStore<Modules>();
 
 const caseInfo = getItem("casedetailInfo");
-const dsrlist = caseInfo.entry.dsrList;
-const dlrlist = caseInfo.entry.dlrList;
+const dsrlist = caseInfo?.entry?.dsrList;
+const dlrlist = caseInfo?.entry?.dlrList;
 
 const span_num = ref(3);
 
@@ -110,26 +110,29 @@ const add_presettext = () => {
     });
   }
 
-  arr_prepare_text.push({
-    ItemName: "【原审法院】" + prev_fy,
-  },{
-    ItemName: "【原审案号】" + prev_ah,
-  },{
-    ItemName: "【案由】" + ay,
-  });
+  arr_prepare_text.push(
+    {
+      ItemName: "【原审法院】" + prev_fy,
+    },
+    {
+      ItemName: "【原审案号】" + prev_ah,
+    },
+    {
+      ItemName: "【案由】" + ay,
+    }
+  );
 
-  store.commit("editorModule/Add_presetText",arr_prepare_text)
+  store.commit("editorModule/Add_presetText", arr_prepare_text);
 };
 
 const transbrithday = (data: string) => {
   if (data != null) {
-    const res = data.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-    return res;
+    return data.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
   }
 };
 
 const final_dlr = (dsrxh: string) => {
-  let dlr_arr: any[] = [];
+  const dlr_arr: any[] = [];
   dlrlist.forEach((element: any) => {
     if (element.dsrxh == dsrxh) {
       dlr_arr.push([element.mc, element.lxdh, element.szdw]);

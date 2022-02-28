@@ -20,10 +20,10 @@ export interface loginState {
 const loginModule: Module<loginState, rootState> = {
   namespaced: true,
   state: {
-    loginInfo: getItem("loginInfo") != "" ? getItem("loginInfo") : "",
-    userInfo: getItem("userInfo") != "" ? getItem("userInfo") : "",
-    token: getItem("token") != "" ? getItem("token") : "",
-    avatar: getItem("avatar_url") != "" ? getItem("avatar_url") : "",
+    loginInfo: getItem("loginInfo") ? getItem("loginInfo") : "",
+    userInfo: getItem("userInfo")  ? getItem("userInfo") : "",
+    token: getItem("token") ? getItem("token") : "",
+    avatar: getItem("avatar_url") ? getItem("avatar_url") : "",
   },
   mutations: {
     SetUser(state: any, data) {
@@ -43,6 +43,7 @@ const loginModule: Module<loginState, rootState> = {
     },
     SetToken(state, data) {
       if (data) {
+        state.token = data;
         setItem("token", data);
       } else {
         removeItem("token");

@@ -16,7 +16,7 @@
       <el-button size="small" plain @click="saveText(getText(), true)"
         >暂存</el-button
       >
-      <el-button size="small" @click="getText()">生成文书</el-button>
+      <el-button size="small" @click="exoprt_word()">生成文书</el-button>
     </div>
 
     <!-- 快捷输入工具 -->
@@ -110,25 +110,25 @@
                 :class="[index === 0 ? 'select_card0' : 'select_card1']"
                 @click="addText(item.ItemName)"
               >
-                  <div style="display: flex; flex-direction: column">
-                    <span
-                      style="color: gray; font-size: 11px"
-                      v-if="handle_presettxt(item.ItemName)[0]"
-                      >{{ handle_presettxt(item.ItemName)[0] }}</span
-                    >
-                    <span
-                      style="
-                        margin-top: 5px;
-                        line-height: 1.2;
-                        max-height: 4.8em;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 4;
-                        -webkit-box-orient: vertical;
-                        overflow: hidden;
-                      "
-                      >{{ handle_presettxt(item.ItemName)[1] }}
-                    </span>
-                  </div>
+                <div style="display: flex; flex-direction: column">
+                  <span
+                    style="color: gray; font-size: 11px"
+                    v-if="handle_presettxt(item.ItemName)[0]"
+                    >{{ handle_presettxt(item.ItemName)[0] }}</span
+                  >
+                  <span
+                    style="
+                      margin-top: 5px;
+                      line-height: 1.2;
+                      max-height: 4.8em;
+                      display: -webkit-box;
+                      -webkit-line-clamp: 4;
+                      -webkit-box-orient: vertical;
+                      overflow: hidden;
+                    "
+                    >{{ handle_presettxt(item.ItemName)[1] }}
+                  </span>
+                </div>
               </el-card>
             </div>
           </el-scrollbar>
@@ -148,6 +148,13 @@
               width: 100%;
             "
           >
+            <el-button
+              size="small"
+              :type="listen_type"
+              @click="switch_listen()"
+              style="width: 50%"
+              >{{ listen_text }}</el-button
+            >
             <el-popconfirm
               confirm-button-text="是"
               cancel-button-text="否"
@@ -160,13 +167,6 @@
                 >
               </template>
             </el-popconfirm>
-            <el-button
-              size="small"
-              :type="listen_type"
-              @click="switch_listen()"
-              style="width: 50%"
-              >{{ listen_text }}</el-button
-            >
           </div>
           <el-scrollbar ref="scrollbarRef" style="height: 100%; width: 100%">
             <div style="flex: 1; height: 0; width: 100%">
@@ -181,11 +181,39 @@
                 @mouseleave="hoverIndex = -1"
               >
                 <!-- <div style="display: flex; flex-direction: column"> -->
-                <div style="height: 20px">
+                <div
+                  style="
+                    height: 20px;
+                    display: flex;
+                    justify-content: space-between;
+                  "
+                >
                   <el-icon
-                    :size="15"
+                    :size="17"
+                    @click.stop="pin_cache(index)"
+                    style="
+                      margin-top: 5px;
+                      margin-right: 10px;
+                      margin-left: 5px;
+                    "
+                    color="#ffe100"
+                    v-if="
+                      index < store.state.clipboardModule.pin_num
+                        ? true
+                        : hoverIndex == index
+                        ? true
+                        : false
+                    "
+                    ><StarFilled
+                  /></el-icon>
+                  <el-icon
+                    :size="17"
                     @click.stop="del_cache(index)"
-                    style="margin-top: 5px; margin-left: 5px"
+                    style="
+                      margin-top: 5px;
+                      margin-left: 5px;
+                      margin-right: 10px;
+                    "
                     v-if="hoverIndex == index ? true : false"
                     ><Close
                   /></el-icon>
@@ -204,16 +232,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, inject, watch } from "vue";
-import { setItem } from "../../script/utils/storage";
-import tinymce from "../../components/TEditor.vue";
-import { EditPen, Close, Delete } from "@element-plus/icons-vue";
-import { ElMessage } from "element-plus";
 import type { ElScrollbar } from "element-plus";
+import tinymce from "../../components/TEditor.vue";
+import EllipsisTooltip from "../../components/EllipsisTooltip.vue";
+import { ref, nextTick, inject, watch } from "vue";
+import { getItem, setItem } from "../../script/utils/storage";
+import { EditPen, Close, Star, StarFilled } from "@element-plus/icons-vue";
+import { ElMessage } from "element-plus";
 import { quick_input_introduction } from "../../html/introduction";
 import { quickinput } from "../../script/utils/quickinput";
 import { Stats } from "fs";
-import EllipsisTooltip from "../../components/EllipsisTooltip.vue";
+import { exportWord } from "../../script/utils/exportWord";
 import { useStore } from "vuex";
 import { Modules } from "../../store";
 const store = useStore<Modules>();
@@ -270,28 +299,31 @@ const refresh_select = () => {
 
 //刷新滚动条
 const refresh_scrollbar = () => {
-  nextTick(() => {
-    scrollbarRef.value!.update();
-  });
+  if (isClipboard.value) {
+    nextTick(() => {
+      scrollbarRef?.value!.update();
+    });
+  }
 };
 
 const clear_clipboard = () => {
   store.dispatch("clipboardModule/clear_cache");
   //刷新粘贴板数据
   pt_clip.value = store.state.clipboardModule.clipboard_cache;
-  refresh_scrollbar();
 };
 
 const del_cache = (index: number) => {
   store.dispatch("clipboardModule/del_cache", index);
-  refresh_scrollbar();
 };
 
+const pin_cache = (index: number) => {
+  store.dispatch("clipboardModule/pin_cache", index);
+};
 //监控剪贴板缓存变化以刷新滚动条
 watch(
-  () => store.state.clipboardModule.clipboard_cache,
+  () => store.getters["clipboardModule/get_cache_length"],
   (n, o) => {
-    if (isClipboard.value) {
+    if (n != o) {
       refresh_scrollbar();
     }
   }
@@ -308,7 +340,7 @@ const getText = () => {
 };
 
 const props = defineProps<{
-  id: any;
+  id: string;
 }>();
 
 //暂存文本
@@ -330,6 +362,15 @@ const saveText = (edit_text: string, ismsg: boolean) => {
 };
 
 //输出文本
+const exoprt_word = () => {
+  const test = getText();
+  console.log("🚀 ~ file: Caseeditor.vue ~ line 367 ~ test", test);
+  const data = {
+    ah: getItem("casedetailInfo").entry.ajjbxx.ah,
+    zw: test,
+  };
+  exportWord("templates/管辖模板.docx", data, "test");
+};
 
 //编辑器清屏
 const clear = () => {
@@ -386,7 +427,7 @@ interface item {
   name: string;
 }
 
-const links: any = ref<item[]>([]);
+const links = ref<item[]>([]);
 
 const querySearchAsync = async (
   queryString: string,
@@ -449,7 +490,7 @@ const file_list: any = [];
 
 walkSync(
   "packages/renderer/public/lawfiles/",
-  function (filePath, name, w_name, stat) {
+  (filePath, name, w_name, stat) => {
     file_list.push(w_name);
   }
 );

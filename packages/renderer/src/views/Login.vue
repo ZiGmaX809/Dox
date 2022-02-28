@@ -49,7 +49,7 @@ import { ref } from "@vue/reactivity";
 import qs from "qs";
 import { checkuserinfo, checkToken } from "../script/api/apiList";
 import { getItem, setItem } from "../script/utils/storage";
-import { inject } from "vue";
+import { inject, Ref } from "vue";
 import { ElMessage } from "element-plus";
 import { showLoading, hideLoading } from "../script/utils/loading";
 import { useStore } from 'vuex'
@@ -57,7 +57,7 @@ import { Modules } from '../store'
 const store = useStore<Modules>()
 
 const loginWrap = ref();
-const drawer: any = inject("drawer");
+const drawer: Ref<boolean> = inject("drawer") as Ref<boolean>;
 let showLogin = false;
 
 const formLabelAlign = ref({
@@ -123,14 +123,14 @@ const login = () => {
               setTimeout(() => {
                 _obj.send("gettoken");
               }, 2000);
-            } else if (reasult.indexOf("result") != -1) {
+            } else if (reasult.includes("result")) {
               //输出获取的Token等信息
               //console.log(reasult);
-              let result = reasult.replace("result:", "");
+              let result = (reasult.replace("result:", "")).split(",");
               //将获取的Token和头像地址写到localStorage
-              store.commit("loginModule/SetToken", result.split(",")[0]);
-              store.commit("loginModule/SetUserID", result.split(",")[1]);
-              store.commit("loginModule/SetAvatar", result.split(",")[2]);
+              store.commit("loginModule/SetToken", result[0]);
+              store.commit("loginModule/SetUserID", result[1]);
+              store.commit("loginModule/SetAvatar", result[2]);
             } else {
               login_err = true;
             }
@@ -142,7 +142,7 @@ const login = () => {
 
               loginWrap.value.removeChild(_obj);
 
-              let token = getItem("token");
+              const token = store.state.loginModule.token;
               if (token) {
                 //获取用户代码等信息
                 checkToken(token).then((res: any) => {
@@ -172,7 +172,6 @@ const login = () => {
       })
       .catch((err) => {
         //服务器接口错误时处理
-
         ElMessage({
           message: "服务器接口错误，请稍后再试。",
           grouping: true,

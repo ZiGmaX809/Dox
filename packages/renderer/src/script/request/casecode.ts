@@ -9,7 +9,7 @@ import { getItem, setItem } from "../utils/storage";
 
 export const getcasecode = (code: any) => {
   //获取当事人代码
-  const loginInfo = getItem("loginInfo").data;
+  const loginInfo = getItem("loginInfo");
   const arr_code = code.split(",");
   const dto: string[] = [];
 
@@ -19,9 +19,9 @@ export const getcasecode = (code: any) => {
 
   if (loginInfo) {
     const data = {
-      yhdm: loginInfo.yhdm,
-      fydm: loginInfo.fydm,
-      yhxm: loginInfo.yhxm,
+      yhdm: loginInfo.data.yhdm,
+      fydm: loginInfo.data.fydm,
+      yhxm: loginInfo.data.yhxm,
       appid: "SPXT",
       yydm: "SPXT",
       dto: dto,

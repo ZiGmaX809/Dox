@@ -103,7 +103,7 @@ export const getqueryCaseDsrList = (
  * @returns 实例
  */
 export const checkuserinfo = (
-  data: object,
+  data: string,
   isloading: boolean,
   ismsg: boolean
 ) => {

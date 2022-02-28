@@ -133,20 +133,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject } from "vue";
+import { ref, inject, Ref } from "vue";
 import { Refresh } from "@element-plus/icons-vue";
 import { get_caselist } from "../script/request/caselist";
 import { getItem } from "../script/utils/storage";
 import { check_login_info } from "../script/utils/checklogin";
 
+const reload: any = inject("reload");
+
 const d = getItem("myCaseList");
 
 const currentPage = ref(1);
 const pagesize = ref(20);
-const total = d.total == undefined ? 0 : d.total;
-const tableData = d.data == undefined ? [] : d.data;
-
-const reload: any = inject("reload");
+const total = d ? d.total : 0;
+const tableData = d ? d.data : [];
 
 const refresh_caselist = async () => {
   if (check_login_info()) {
@@ -155,11 +155,11 @@ const refresh_caselist = async () => {
   }
 };
 
-const handleCurrentChange = (val: any) => {
+const handleCurrentChange = (val: number) => {
   currentPage.value = val;
 };
 
-const handleSizeChange = (val: any) => {
+const handleSizeChange = (val: number) => {
   pagesize.value = val;
 };
 </script>

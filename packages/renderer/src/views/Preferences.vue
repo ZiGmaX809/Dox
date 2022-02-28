@@ -85,50 +85,24 @@
       <h2 class="pref_h2">其他</h2>
       <el-divider />
 
-      <p class="pref_p">导出配置及缓存文件</p>
-      <el-button
-        class="extra_btn_class"
-        size="small"
-        @click="export_localstorage()"
-        >导出</el-button
-      >
-
-      <p class="pref_p">导入配置及缓存文件</p>
-      <div
-        style="
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: flex-start;
-        "
-      >
-        <el-upload
-          ref="upload"
-          action=""
-          accept=".json"
-          :limit="1"
-          :auto-upload="false"
-          :on-exceed="importlocalstorage_handleExceed"
-          :on-Change="importlocalstorage_handleChange"
-          :http-request="uploadHandler"
-          style="width: 100%"
+      <div class="pref_div">
+        <p class="pref_p">导出配置及缓存文件</p>
+        <el-button
+          class="extra_btn_class"
+          size="small"
+          @click="export_localstorage()"
+          >导出</el-button
         >
-          <template #trigger>
-            <el-button
-              class="extra_btn_class"
-              size="small"
-              style="margin-right: 20px"
-              >选择导入文件</el-button
-            >
-          </template>
+      </div>
 
-          <el-button
-            class="extra_btn_class"
-            size="small"
-            @click="import_localstorage()"
-            >导入</el-button
-          >
-        </el-upload>
+      <div class="pref_div">
+        <p class="pref_p">导入配置及缓存文件</p>
+        <el-button
+          class="extra_btn_class"
+          size="small"
+          @click="import_localstorage()"
+          >选择文件并导入</el-button
+        >
       </div>
 
       <p class="pref_author">MADE BY ZiGma</p>
@@ -142,8 +116,7 @@ import { computed, ref } from "vue";
 import { Delete } from "@element-plus/icons-vue";
 import { useStore } from "vuex";
 import { Modules } from "../store";
-import { ElMessage, ElUpload } from "element-plus";
-import { ElFile } from "element-plus/es/components/upload/src/upload.type";
+import { ElMessage } from "element-plus";
 import { setItem } from "../script/utils/storage";
 const store = useStore<Modules>();
 
@@ -163,8 +136,6 @@ const auto_int2em = computed({
     return store.state.settingModule.setting.auto_int2em;
   },
   set(newVal: boolean) {
-    // if(typeof newVal)
-    // typeof newVal
     store.dispatch("settingModule/Switch_auto_int2em", newVal);
   },
 });
@@ -175,8 +146,6 @@ const swich_clipboard_bool = computed({
     return store.state.settingModule.setting.clipboard_bool;
   },
   set(newVal: boolean) {
-    // if(typeof newVal)
-    // typeof newVal
     store.dispatch("settingModule/Switch_clipboard_bool", newVal);
   },
 });
@@ -216,9 +185,10 @@ const upload = ref();
 const export_localstorage = () => {
   const arr_text = [];
   for (var i = 0; i < window.localStorage.length; i++) {
-    const key: any = window.localStorage.key(i); //获取本地存储的Key
-
-    arr_text.push([key, window.localStorage.getItem(key)]);
+    const key: string | null = window.localStorage.key(i); //获取本地存储的Key
+    if (key != null) {
+      arr_text.push([key, window.localStorage.getItem(key)]);
+    }
   }
   const final_json = Object.fromEntries(arr_text);
 
@@ -237,27 +207,10 @@ const export_localstorage = () => {
   });
 };
 
-const importlocalstorage_handleExceed = (files: ElFile[]) => {
-  upload.value.clearFiles();
-  upload.value.handleStart(files[0]);
-};
-
-const importlocalstorage_handleChange = (files: ElFile[]) => {
-  console.log(upload.value);
-};
-
-const uploadHandler = (params: { file: { size: number } }) => {
-  setTimeout(() => {
-    read_localstorage_file(params);
-  }, 100);
-};
-
-const read_localstorage_file = async (params: { file: any }) => {
-  // UTF-8,GBK,GB2312
-  const readFile = new FileReader();
-  readFile.onload = (e) => {
-    const m_text: any = e.target?.result;
-    const json_ = JSON.parse(m_text);
+const import_localstorage = () => {
+  window.ipcRenderer.send("Choose_File");
+  window.ipcRenderer.on("final_file", (event, arg) => {
+    const json_ = JSON.parse(arg);
     for (let key in json_) {
       setItem(key, json_[key]);
     }
@@ -271,14 +224,7 @@ const read_localstorage_file = async (params: { file: any }) => {
     setTimeout(() => {
       window.ipcRenderer.send("Restart");
     }, 1000);
-  };
-  readFile.readAsText(params.file);
-};
-// const upload = ref<InstanceType<typeof ElUpload>>();
-const import_localstorage = () => {
-  upload.value.submit();
-  upload.value.clearFiles();
-  // }
+  });
 };
 </script>
 

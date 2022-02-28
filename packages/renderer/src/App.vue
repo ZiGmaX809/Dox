@@ -120,8 +120,8 @@
   </el-container>
 </template>
 
-<script lang="ts" setup>
-import { ref, nextTick, provide } from "vue";
+<script setup lang="ts">
+import { Ref, ref, nextTick, provide } from "vue";
 import { Files, Search, Document, Setting } from "@element-plus/icons-vue";
 import { getItem } from "./script/utils/storage";
 import loginpage from "./views/Login.vue";
@@ -135,22 +135,22 @@ const username = getItem("loginInfo")
   ? getItem("loginInfo").data.yhxm
   : "点击登录";
 
-const isRouterAlive = ref(true);
-const drawer = ref(false);
+const isRouterAlive:Ref<boolean> = ref(true);
+const drawer: Ref<boolean> = ref(false);
 let fullscreen = false;
 
 const maximize = () => {
   fullscreen = !fullscreen;
-  window.ipcRenderer.send("max");
+  window.ipcRenderer.send("Max");
 };
 const minimize = () => {
-  window.ipcRenderer.send("min");
+  window.ipcRenderer.send("Min");
 };
 const close = () => {
-  window.ipcRenderer.send("close");
+  window.ipcRenderer.send("Close");
 };
 
-const quickloadfiles = () => {
+const PreloadFiles = () => {
   //预载预设文本
   store.dispatch("editorModule/Set_presetText");
 };
@@ -191,7 +191,7 @@ const Listen_Clipboard = () => {
   }
 };
 
-quickloadfiles();
+PreloadFiles();
 Listen_Clipboard();
 
 provide("reload", {

@@ -97,7 +97,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, nextTick, provide } from "vue";
+import { ref, inject, nextTick, provide, Ref } from "vue";
 import Casedetail from "./Casedetail.vue";
 import { Cloudy, InfoFilled, Refresh } from "@element-plus/icons-vue";
 import { checkToken } from "../../script/api/apiList";
@@ -111,20 +111,23 @@ import { useStore } from "vuex";
 import { Modules } from "../../store";
 const store = useStore<Modules>();
 
+/* 路由传参 */
 const router = useRoute();
-const router_caseid: string | string[] = useRoute().params.caseid;
-const router_prev_fy: string | string[] = useRoute().params.prev_fy;
-const drawer: any = inject("drawer"); //登录抽屉界面
+const router_caseid: string = useRoute().params.caseid as string;
+const router_prev_fy: string = useRoute().params.prev_fy as string;
+
+/* 控件开关 */
+const drawer: Ref<boolean> = inject("drawer") ?? ref(false); //登录抽屉界面
 const isReload = ref(true); //刷新组件用
 const isLoading = ref(true); //骨架用
 const Editors = ref();
 const int2em = ref(false);
 
-const previous_caseinfo = getItem("casedetailInfo").entry.yaxxEOList;
-const case_id = ref<string | string[]>(router_caseid);
+const previous_caseinfo = getItem("casedetailInfo")?.entry.yaxxEOList;
+const case_id = ref(router_caseid);
 
 //切换到编辑文书页面时自动启用首行缩进并读取暂存文本
-const handle_tabs_change = (val: any) => {
+const handle_tabs_change = (val: { index: number; }) => {
   if (val.index == 1 && !int2em.value) {
     int2em.value = true;
     setTimeout(() => {
@@ -132,7 +135,7 @@ const handle_tabs_change = (val: any) => {
         Editors.value.int2em();
       }
       const txt = getItem("saveText");
-      if (txt.ah === router_caseid) {
+      if (txt?.ah === router_caseid) {
         Editors.value.addText(txt.text);
         //在插入内容后延迟重置内容检测开关
         setTimeout(() => {
@@ -145,7 +148,7 @@ const handle_tabs_change = (val: any) => {
 
 //打开网页案件空间
 const Open_Web_Casezone = (caseid: any) => {
-  let token = getItem("token");
+  const token = store.state.loginModule.token;
   checkToken(token).then((res: any) => {
     if (res.code === 0) {
       let link = `http://babg.zj.pcc/ajkjPlus?tokenid=${token}&ahdm=${caseid}&lx=sp&flag=2`;
@@ -162,7 +165,7 @@ const Open_Web_Casezone = (caseid: any) => {
 };
 
 const Reload_DsrInfo = () => {
-  //刷新组件
+  //延迟刷新组件
   setTimeout(() => {
     isReload.value = false;
     nextTick(() => {
@@ -185,7 +188,7 @@ const Refresh_Dsrinfo = async () => {
  */
 
 const Open_Casezone = async () => {
-  const cache_caseid = getItem("casedetailInfo").entry.ajjbxx.ahdm;
+  const cache_caseid = getItem("casedetailInfo")?.entry?.ajjbxx?.ahdm;
   store.commit("editorModule/Set_prev_fy", router_prev_fy); //写入传入原审法院名称
   if (cache_caseid === router_caseid) {
     isLoading.value = false;

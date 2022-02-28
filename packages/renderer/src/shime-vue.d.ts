@@ -1,1 +1,2 @@
-declare module "qs";
+// declare module "qs";
+declare module "jszip-utils";

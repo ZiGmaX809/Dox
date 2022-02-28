@@ -1,5 +1,6 @@
-import { app, BrowserWindow, shell, ipcMain, dialog } from "electron";
+import { app, BrowserWindow, shell, ipcMain, dialog, webContents } from "electron";
 import { release } from "os";
+import fs from "fs";
 import { join } from "path";
 
 // Disable GPU Acceleration for Windows 7
@@ -56,23 +57,36 @@ async function createWindow() {
 
 app.whenReady().then(createWindow);
 
-ipcMain.on("min", (e) => win?.minimize());
-ipcMain.on("max", (e) => {
+ipcMain.on("Min", (e) => win?.minimize());
+ipcMain.on("Max", (e) => {
   if (win?.isMaximized()) {
     win.unmaximize();
   } else {
     win?.maximize();
   }
 });
-ipcMain.on("close", (e) => win?.close());
+ipcMain.on("Close", (e) => win?.close());
 
-ipcMain.on("Restart",(e)=>{
+ipcMain.on("Restart", (e) => {
   app.relaunch({ args: process.argv.slice(1).concat(["--relaunch"]) });
   app.exit(0);
-})
+});
 
 ipcMain.on("Get_Path", (e, a) => {
   e.reply("final_path", app.getPath(a));
+});
+
+ipcMain.on("Choose_File", (e) => {
+  const res = dialog.showOpenDialogSync({
+    filters: [{ name: "JSON", extensions: ["json"] }],
+  });
+  if (res) {
+    const final_res = res[0];
+    fs.readFile(final_res, { encoding: "utf-8" }, (err, data) => {
+      // console.log("🚀 ~ file: index.ts ~ line 88 ~ ipcMain.on ~ data", data)
+      e.reply("final_file", data); // 返回给渲染进程
+    });
+  }
 });
 
 app.on("window-all-closed", () => {
