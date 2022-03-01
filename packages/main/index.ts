@@ -1,7 +1,8 @@
-import { app, BrowserWindow, shell, ipcMain, dialog, webContents } from "electron";
+import { app, BrowserWindow, shell, ipcMain, dialog } from "electron";
 import { release } from "os";
 import fs from "fs";
 import { join } from "path";
+import { Buffer } from "buffer";
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith("6.1")) app.disableHardwareAcceleration();
@@ -86,6 +87,20 @@ ipcMain.on("Choose_File", (e) => {
       // console.log("🚀 ~ file: index.ts ~ line 88 ~ ipcMain.on ~ data", data)
       e.reply("final_file", data); // 返回给渲染进程
     });
+  }
+});
+
+ipcMain.on("Save_File", (e, d) => {
+  const wordFile = d.WordFile;
+  const savePath = d.SavePath ?? "";
+  const saveName = d.SaveName;
+  if (!wordFile || !saveName) {
+    e.reply("SaveFileCallback", ["error", "参数错误！"]);
+  } else {
+    const buff = Buffer.from(wordFile as ArrayBuffer);
+    fs.writeFileSync(savePath + saveName, buff);
+
+    e.reply("SaveFileCallback", ["success", "导出成功！"]);
   }
 });
 

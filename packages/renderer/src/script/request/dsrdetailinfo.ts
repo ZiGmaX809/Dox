@@ -1,5 +1,6 @@
 import { getPartyInfoList, getqueryCaseDsrList } from "../api/apiList";
 import { getItem, setItem, removeItem } from "../utils/storage";
+import store from "../../store";
 
 /**
  * 通过案件代码请求当事人信息
@@ -12,7 +13,7 @@ export const get_dsrdetialinfo = (
   isloadingview: boolean,
   ismsg: boolean
 ) => {
-  const get_loginInfo = getItem("loginInfo").data;
+  const loginInfo = store.state.loginModule.loginInfo;
 
   interface data {
     yhdm?: string;
@@ -24,9 +25,9 @@ export const get_dsrdetialinfo = (
   }
 
   let data: data = {
-    yhdm: get_loginInfo.yhdm,
-    fydm: get_loginInfo.fydm,
-    yhxm: get_loginInfo.yhxm,
+    yhdm: loginInfo.yhdm,
+    fydm: loginInfo.fydm,
+    yhxm: loginInfo.yhxm,
     appid: "SPXT",
     yydm: "SPXT",
     item: { ahdm: id, start: 1, limit: 20 },

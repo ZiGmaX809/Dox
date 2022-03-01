@@ -123,7 +123,7 @@ const isLoading = ref(true); //骨架用
 const Editors = ref();
 const int2em = ref(false);
 
-const previous_caseinfo = getItem("casedetailInfo")?.entry.yaxxEOList;
+const previous_caseinfo = store.state.caseinfoModule.previous_caseinfo;
 const case_id = ref(router_caseid);
 
 //切换到编辑文书页面时自动启用首行缩进并读取暂存文本
@@ -188,7 +188,7 @@ const Refresh_Dsrinfo = async () => {
  */
 
 const Open_Casezone = async () => {
-  const cache_caseid = getItem("casedetailInfo")?.entry?.ajjbxx?.ahdm;
+  const cache_caseid = store.state.caseinfoModule.this_caseid;
   store.commit("editorModule/Set_prev_fy", router_prev_fy); //写入传入原审法院名称
   if (cache_caseid === router_caseid) {
     isLoading.value = false;

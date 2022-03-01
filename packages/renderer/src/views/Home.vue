@@ -133,15 +133,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, Ref } from "vue";
+import { ref, inject, reactive } from "vue";
 import { Refresh } from "@element-plus/icons-vue";
 import { get_caselist } from "../script/request/caselist";
-import { getItem } from "../script/utils/storage";
 import { check_login_info } from "../script/utils/checklogin";
+import { useStore } from "vuex";
+import { Modules } from "../store";
+const store = useStore<Modules>();
 
 const reload: any = inject("reload");
 
-const d = getItem("myCaseList");
+const d = reactive(store.state.caseinfoModule.my_caselist);
 
 const currentPage = ref(1);
 const pagesize = ref(20);

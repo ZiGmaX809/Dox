@@ -2,7 +2,8 @@ import { getCodeList } from "../api/apiList";
 import { getItem, setItem } from "../utils/storage";
 
 /**
- * 拉取后端相关代码对比列表，暂时弃用
+ * 暂时弃用
+ * 拉取后端相关代码对比列表
  * @param code 代码字符串，以“,”分割
  * @returns 无
  */

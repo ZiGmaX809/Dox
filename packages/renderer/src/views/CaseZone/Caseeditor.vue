@@ -13,7 +13,11 @@
           <el-button type="danger" size="small" plain>清屏</el-button>
         </template>
       </el-popconfirm>
-      <el-button size="small" plain @click="saveText(getText(), true)"
+      <el-button
+        type="success"
+        size="small"
+        plain
+        @click="saveText(getText(), true)"
         >暂存</el-button
       >
       <el-button size="small" @click="exoprt_word()">生成文书</el-button>
@@ -241,8 +245,8 @@ import { EditPen, Close, Star, StarFilled } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 import { quick_input_introduction } from "../../html/introduction";
 import { quickinput } from "../../script/utils/quickinput";
-import { Stats } from "fs";
 import { exportWord } from "../../script/utils/exportWord";
+import { Stats } from "fs";
 import { useStore } from "vuex";
 import { Modules } from "../../store";
 const store = useStore<Modules>();
@@ -363,13 +367,20 @@ const saveText = (edit_text: string, ismsg: boolean) => {
 
 //输出文本
 const exoprt_word = () => {
-  const test = getText();
-  console.log("🚀 ~ file: Caseeditor.vue ~ line 367 ~ test", test);
-  const data = {
-    ah: getItem("casedetailInfo").entry.ajjbxx.ah,
-    zw: test,
-  };
-  exportWord("templates/管辖模板.docx", data, "test");
+  const lx = "民事裁定书";
+  const ah = store.state.caseinfoModule.this_ah;
+  const zw = getText();
+  const hytrq =
+    "审 判 长  陈  刚\n审 判 员  缪  蕾\n审 判 员  茹  愿\n \n二〇二二年二月十一日";
+  const fgzl = "法官助理  翁文杰\n书 记 员  张盼兮";
+  exportWord(lx, ah, zw, hytrq, fgzl);
+  window.ipcRenderer.on("SaveFileCallback", (event, arg) => {
+    ElMessage({
+      message: arg[1],
+      grouping: true,
+      type: arg[0],
+    });
+  });
 };
 
 //编辑器清屏

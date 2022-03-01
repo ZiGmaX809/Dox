@@ -11,7 +11,9 @@ interface userinfo {
 }
 
 export interface loginState {
-  loginInfo:string;
+  loginInfo: {
+    [propName: string]: any;
+  };
   userInfo: userinfo;
   token: string;
   avatar: string;

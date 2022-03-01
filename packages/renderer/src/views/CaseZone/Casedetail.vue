@@ -83,12 +83,11 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { getItem } from "../../script/utils/storage";
 import { useStore } from "vuex";
 import { Modules } from "../../store";
 const store = useStore<Modules>();
 
-const caseInfo = getItem("casedetailInfo");
+const caseInfo = store.state.caseinfoModule.this_caseinfo;
 const dsrlist = caseInfo?.entry?.dsrList;
 const dlrlist = caseInfo?.entry?.dlrList;
 

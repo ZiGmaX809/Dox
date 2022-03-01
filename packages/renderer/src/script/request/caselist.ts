@@ -1,16 +1,16 @@
 import { getmyCaseList } from "../api/apiList";
-import { getItem, setItem, removeItem } from "../utils/storage";
+import store from "../../store"
 
 /**
  * 拉取当前账户审理案件列表
  */
 
-const get_loginInfo = getItem("loginInfo").data;
+const loginInfo = store.state.loginModule.loginInfo;
 
 const data = {
-  yhdm: get_loginInfo != null ? get_loginInfo.yhdm : "",
-  fydm: get_loginInfo != null ? get_loginInfo.fydm : "",
-  yhxm: get_loginInfo != null ? get_loginInfo.yhxm : "",
+  yhdm: loginInfo?.yhdm,
+  fydm: loginInfo?.fydm,
+  yhxm: loginInfo?.yhxm,
   appid: "SPXT",
   yydm: "SPXT",
   roleId: "ALL",
@@ -31,6 +31,6 @@ const data = {
 
 export const get_caselist = () => {
   getmyCaseList(data, true, true).then((res: any) => {
-    setItem("myCaseList", JSON.stringify(res));
+    store.commit("caseinfoModule/request_mycaselist", res);
   });
 };

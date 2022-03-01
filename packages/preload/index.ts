@@ -1,5 +1,5 @@
 import fs from "fs";
-import { clipboard, contextBridge, dialog, ipcRenderer, shell } from "electron";
+import { clipboard, contextBridge, ipcRenderer, shell } from "electron";
 import path from "path";
 import { domReady } from "./utils";
 import { useLoading } from "./loading";

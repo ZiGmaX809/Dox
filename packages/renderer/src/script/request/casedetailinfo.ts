@@ -1,5 +1,6 @@
 import { getCaseDetail } from "../api/apiList";
-import { getItem, setItem, removeItem } from "../utils/storage";
+import { getItem } from "../utils/storage";
+import store from "../../store";
 
 /**
  * 通过案号代码获取案件详细信息
@@ -21,11 +22,12 @@ export const get_casedetailinfo = (
   };
 
   getCaseDetail(data, isloadingview, ismsg).then((res: any) => {
-    setItem("casedetailInfo", res);
+    // setItem("casedetailInfo", res);
+    store.commit("caseinfoModule/request_caseinfo", res);
   });
 
   //判断是否请求成功
-  if (id === getItem("casedetailInfo").entry.ajjbxx.ahdm) {
+  if (id === getItem("casedetailInfo")?.entry?.ajjbxx?.ahdm) {
     return true;
   } else {
     return false;

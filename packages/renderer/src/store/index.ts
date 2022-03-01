@@ -4,10 +4,11 @@ import editorModule, { editorState } from "./modules/editor";
 import settingModule, { settingState } from "./modules/setting";
 import { load_local_json } from "../script/utils/loadjson";
 import clipboardModule, { clipboardState } from "./modules/clipboard";
+import caseinfoModule, { caseinfoState } from "./modules/caseinfo";
 
+ // 因单独ts文件中无法读取module，故将调用缓存放置主store
 export interface rootState {
   [x: string]: any;
-  // 因单独ts文件中无法读取module，故将调用缓存放置主store
   pcaCache: any;
   lawfileCache: any;
 }
@@ -22,11 +23,12 @@ export default createStore<rootState>({
     editorModule,
     settingModule,
     clipboardModule,
+    caseinfoModule,
   },
-  getters:{
+  getters: {
     get_clipboard_num(state) {
       // return state.settingModule.
-    }
+    },
   },
   mutations: {
     Set_pcaCache(state, data) {
@@ -68,4 +70,5 @@ export interface Modules extends rootState {
   editorModule: editorState;
   settingModule: settingState;
   clipboardModule: clipboardState;
+  caseinfoModule: caseinfoState;
 }
