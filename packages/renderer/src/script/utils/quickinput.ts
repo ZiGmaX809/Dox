@@ -100,7 +100,7 @@ export const quickinput = async (keyword: string, file_list: []) => {
  ***************
  */
 
-function date_format(keys: string) {
+export function date_format(keys: string) {
   if (keys == "today") {
     //返回今天日期
     let today = new Date();
@@ -120,8 +120,13 @@ function date_format(keys: string) {
     } else {
       switch (date.length) {
         case 2:
-          if (year && date[1] != "" && Number(date[1]) < 13) {
-            const def_ym = year.toString() + "年" + date[1] + "月";
+          if (
+            year &&
+            date[1] != "" &&
+            Number(date[1]) < 13 &&
+            Number(date[1]) > 0
+          ) {
+            const def_ym = year.toString() + "年" + Number(date[1]) + "月";
             const enc_ym =
               encodes_year(year.toString()) +
               "年" +
@@ -136,6 +141,7 @@ function date_format(keys: string) {
               year &&
               date[1] != "" &&
               Number(date[1]) < 13 &&
+              Number(date[1]) > 0 &&
               check_Date(n_date)
             ) {
               return encodes_date(year.toString(), date[1], date[2]);
@@ -170,7 +176,7 @@ function encodes_year(year: string) {
 }
 
 function encodes_date(y: string, m: string, d: string) {
-  const def_ymd = y + "年" + m + "月" + d + "日";
+  const def_ymd = y + "年" + Number(m) + "月" + Number(d) + "日";
   const enc_ymd =
     encodes_year(y) + "年" + nzhcn.encodeS(m) + "月" + nzhcn.encodeS(d) + "日";
   return [def_ymd, enc_ymd];

@@ -100,7 +100,7 @@ const span_num = ref(3);
  * 当事人名称+一审法院+案号
  */
 const add_presettext = () => {
-  const prev_fy =  STORE_editor_instance.prev_fy;
+  const prev_fy = STORE_editor_instance.prev_fy;
   const prev_ah = caseInfo.entry.yaxxEOList[0].ah;
   const ay = caseInfo.entry.ajjbxx.ayms;
   const arr_prepare_text = [];
@@ -123,7 +123,7 @@ const add_presettext = () => {
     }
   );
 
-   STORE_editor_instance.Add_presetText(arr_prepare_text);
+  STORE_editor_instance.Add_presetText(arr_prepare_text);
 };
 
 const transbrithday = (data: string) => {

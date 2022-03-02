@@ -256,6 +256,7 @@ import { STORE_setting } from "../../store/modules/setting";
 import { STORE_caseinfo } from "../../store/modules/caseinfo";
 import { STORE_clipboard } from "../../store/modules/clipboard";
 import { walkSync } from "../../script/utils/scanfolder";
+import { integrate_info } from "../../script/utils/integrateinfo";
 
 const STORE_editor_instance = STORE_editor();
 const STORE_setting_instance = STORE_setting();
@@ -387,7 +388,8 @@ const saveText = (edit_text: string, ismsg: boolean) => {
 const exoprt_word = () => {
   const lx = "民事裁定书";
   const ah = STORE_caseinfo_instance.this_ah;
-  const zw = getText();
+  const dlrinfo = integrate_info().join("\n");
+  const zw = dlrinfo + "\n" + getText();
   const hytrq =
     "审 判 长  陈  刚\n审 判 员  缪  蕾\n审 判 员  茹  愿\n \n二〇二二年二月十一日";
   const fgzl = "法官助理  翁文杰\n书 记 员  张盼兮";
@@ -473,7 +475,11 @@ const querySearchAsync = async (
     links.value = await quickinput(queryString, file_list);
     let isSearch = /(ft)|(dz)/g.test(queryString);
     if (typeof links.value != "string") {
-      console.log("🚀 ~ file: Caseeditor.vue ~ line 476 ~ typeof links.value", typeof links.value,links.value)
+      console.log(
+        "🚀 ~ file: Caseeditor.vue ~ line 476 ~ typeof links.value",
+        typeof links.value,
+        links.value
+      );
       if (isSearch) {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
