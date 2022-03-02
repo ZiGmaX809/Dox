@@ -226,7 +226,7 @@ Router.beforeEach((to, from, next) => {
       }
     )
       .then(() => {
-        STORE_editor_instance.Set_editor_isChanged()
+        STORE_editor_instance.Reset_editor_isChanged()
         next();
       })
       .catch(() => {
@@ -252,6 +252,11 @@ Open_Casezone();
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+}
+
+.el-tabs__header {
+    margin-left: -1px;
+    user-select: none !important;
 }
 
 #editorBase {

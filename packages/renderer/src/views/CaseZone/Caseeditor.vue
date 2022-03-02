@@ -255,6 +255,7 @@ import { STORE_editor } from "../../store/modules/editor";
 import { STORE_setting } from "../../store/modules/setting";
 import { STORE_caseinfo } from "../../store/modules/caseinfo";
 import { STORE_clipboard } from "../../store/modules/clipboard";
+import { walkSync } from "../../script/utils/scanfolder";
 
 const STORE_editor_instance = STORE_editor();
 const STORE_setting_instance = STORE_setting();
@@ -334,7 +335,7 @@ const del_cache = (index: number) => {
 const pin_cache = (index: number) => {
   STORE_clipboard_instance.pin_cache(index);
 };
-//监控剪贴板缓存变化以刷新滚动条
+
 // watch(
 //   () => STORE_clipboard_instance.get_cache_length(),
 //   (n, o) => {
@@ -344,6 +345,7 @@ const pin_cache = (index: number) => {
 //   }
 // );
 
+//监控剪贴板缓存变化以刷新滚动条
 STORE_clipboard_instance.$subscribe((mutation, state) => {
   state.clipboard_cache.length;
   refresh_scrollbar();
@@ -455,6 +457,12 @@ interface item {
 }
 
 const links = ref<item[]>([]);
+//遍历存在的法律法规文件
+const file_list: any = [];
+
+walkSync("packages/renderer/public/lawfiles/", (filePath, name, w_name) => {
+  file_list.push(w_name);
+});
 
 const querySearchAsync = async (
   queryString: string,
@@ -463,9 +471,10 @@ const querySearchAsync = async (
   // if (queryString.length > 1 && queryString.indexOf(" ") > -1) {
   if (/^[a-zA-Z]+\s/.test(queryString)) {
     links.value = await quickinput(queryString, file_list);
-    let isLaw = /(ft)|(法条)/g.test(queryString);
+    let isSearch = /(ft)|(dz)/g.test(queryString);
     if (typeof links.value != "string") {
-      if (isLaw) {
+      console.log("🚀 ~ file: Caseeditor.vue ~ line 476 ~ typeof links.value", typeof links.value,links.value)
+      if (isSearch) {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
           cb(links.value);
@@ -493,26 +502,6 @@ const setBlur = () => {
   //  在点击由 clearable 属性生成的清空按钮时，主动触发失去焦点，解决‘fetch-suggestions’输入建议不提示的bug
   (<HTMLInputElement>document.activeElement).blur();
 };
-
-//遍历存在的法律法规文件
-const walkSync = (
-  currentDirPath: any,
-  callback: (arg0: string, arg1: string, arg2: string, arg3: Stats) => void
-) => {
-  window.fs.readdirSync(currentDirPath).forEach(function (name) {
-    var filePath = window.path.join(currentDirPath, name);
-    var filename = name;
-    var filename_withoutsuffix = name.replace(/\..*/g, "");
-    var stat = window.fs.statSync(filePath);
-    callback(filePath, filename, filename_withoutsuffix, stat);
-  });
-};
-
-const file_list: any = [];
-
-walkSync("packages/renderer/public/lawfiles/", (filePath, name, w_name) => {
-  file_list.push(w_name);
-});
 
 defineExpose({
   int2em,

@@ -147,8 +147,8 @@ const d = reactive(STORE_caseinfo_instance.my_caselist);
 
 const currentPage = ref(1);
 const pagesize = ref(20);
-const total = d ? d.total : 0;
-const tableData = d ? d.data : [];
+const total = d.my_caselist ? 0 : d.total;
+const tableData = d.my_caselist ? [] : d.data;
 
 const refresh_caselist = async () => {
   if (check_login_info()) {

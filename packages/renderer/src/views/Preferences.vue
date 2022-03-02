@@ -65,8 +65,20 @@
 
       <h2 class="pref_h2">快捷输入</h2>
       <el-divider />
-      <p class="pref_p">已引入的文件</p>
-      <el-table :data="tableData" border style="width: 100%">
+      <div class="pref_div">
+        <p class="pref_p">已引入的文件</p>
+        <el-button
+          class="extra_btn_class"
+          size="small"
+          @click="Refresh_lawfiles"
+          >刷新</el-button
+        >
+      </div>
+      <el-table
+        :data="tableData.list"
+        border
+        style="width: 100%; max-height: 500px"
+      >
         <el-table-column prop="fullname" label="引入文件名称" />
         <el-table-column prop="name" label="索引缩写" width="200" />
         <el-table-column align="center" label="操作" width="80">
@@ -80,8 +92,17 @@
           </template>
         </el-table-column>
       </el-table>
-      <p class="pref_p">引入新的文件</p>
 
+      <p class="pref_p">引入新的文件</p>
+      <p class="pref_desc_p" style="margin-top: -3px">
+        <b>&#10059 注意：快捷输入工具仅仅作为更加便捷编辑而存在，对于导入文件尽可能进行准确匹配，但是无法保证任何法律法规文件导入后法条完整和准确性。<br/>
+        &#10059 裁判文书校对是案件审理的必要环节与步骤。</b><br/><br/>
+        下载法律文书: http://gov.pkulaw.cn/ (北大法宝中国法律法规数据库，需互联网下载后导入)<br/> 
+        <i>国务院下属数据库因更新效率以及无法下载TXT文件格式而被排除。</i><br/><br/> 
+        进入网页选择法律法规文件后，点击右上角下载按钮，选择「纯文本」去掉勾选「保留字段信息」以及「保留正文中的法宝联想」，下载后不要修改文件名称，请保持原有名称以便提取该文书完整名称。
+        <br/>目前支持法律、法规、司法解释的导入。
+
+      </p>
       <h2 class="pref_h2">其他</h2>
       <el-divider />
 
@@ -112,11 +133,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { Delete } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 import { setItem } from "../script/utils/storage";
 import { STORE_setting } from "../store/modules/setting";
+import { scan_allfiles } from "../script/utils/scanfolder";
 
 const STORE_setting_instance = STORE_setting();
 
@@ -163,16 +185,17 @@ const handleChange_clipboard_textlength = (value: Event) => {
   STORE_setting_instance.Change_clipboard_textlength(final_num);
 };
 
-const tableData = [
-  {
-    fullname: "中华人民共和国民事诉讼法",
-    name: "民诉法",
-  },
-  {
-    fullname: "最高人民法院关于适用《中华人民共和国民事诉讼法》的解释",
-    name: "民诉法解释",
-  },
-];
+const tableData = reactive({
+  list: STORE_setting_instance.setting.lawfilelist,
+});
+
+const Refresh_lawfiles = async () => {
+  const final_list = await scan_allfiles("packages/renderer/public/lawfiles/");
+  setTimeout(() => {
+    tableData.list = final_list;
+    STORE_setting_instance.Change_lawfilelist(final_list);
+  }, 300);
+};
 
 //删除引入的法律法规
 const handleDelete = (index: number) => {

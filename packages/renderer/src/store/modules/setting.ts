@@ -16,7 +16,6 @@ const saved_setting = getItem("settingInfo")
   ? getItem("settingInfo").setting
   : default_setting;
 
-console.log("🚀 ~ file: setting.ts ~ line 16 ~ saved_setting", saved_setting);
 export const STORE_setting = defineStore({
   id: "setting",
   state: () => {
@@ -39,6 +38,9 @@ export const STORE_setting = defineStore({
     },
     Switch_custom_avatar(bool: boolean) {
       this.setting.custom_avatar_bool = bool;
+    },
+    Change_lawfilelist(list: any[]) {
+      this.setting.lawfilelist = list;
     },
   },
   persist: {

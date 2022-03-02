@@ -3,7 +3,6 @@ import { STORE_setting } from "./setting";
 
 // const saved_cache = getItem("clipboardCache") || [0, []];
 
-
 export const STORE_clipboard = defineStore({
   id: "clipboard",
   state: () => {
@@ -29,7 +28,6 @@ export const STORE_clipboard = defineStore({
         return state.clipboard_cache.length;
       };
     },
-    test() {},
   },
   actions: {
     add_cache(data: string) {
@@ -73,6 +71,7 @@ export const STORE_clipboard = defineStore({
     },
     clear_cache() {
       this.clipboard_cache = [];
+      this.pin_num = 0;
     },
     del_cache(index: number) {
       if (index < this.pin_num) {
