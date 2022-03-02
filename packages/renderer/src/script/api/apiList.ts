@@ -5,7 +5,7 @@ import http from "../utils/http";
  * @param token 请求携带token，后台校验token无需loading和msg
  * @returns 实例
  */
-export const checkToken = (
+export const HTTP_checkToken = (
   token: string,
 ) => {
   return http.request(
@@ -27,7 +27,7 @@ export const checkToken = (
  * @param ismsg 是否显示消息
  * @returns 实例
  */
-export const getmyCaseList = (
+export const HTTP_getmyCaseList = (
   data: object,
   isloading: boolean,
   ismsg: boolean
@@ -52,7 +52,7 @@ export const getmyCaseList = (
  * @param ismsg 是否显示消息
  * @returns 实例
  */
-export const getCaseDetail = (
+export const HTTP_getCaseDetail = (
   data: object,
   isloading: boolean,
   ismsg: boolean
@@ -77,7 +77,7 @@ export const getCaseDetail = (
  * @param ismsg 是否显示消息
  * @returns 实例
  */
-export const getqueryCaseDsrList = (
+export const HTTP_getqueryCaseDsrList = (
   data: object,
   isloading: boolean,
   ismsg: boolean
@@ -102,7 +102,7 @@ export const getqueryCaseDsrList = (
  * @param ismsg 是否显示消息
  * @returns 实例
  */
-export const checkuserinfo = (
+export const HTTP_checkuserinfo = (
   data: string,
   isloading: boolean,
   ismsg: boolean
@@ -127,7 +127,7 @@ export const checkuserinfo = (
  * @param ismsg 是否显示消息
  * @returns 实例
  */
-export const getPartyInfoList = (
+export const HTTP_getPartyInfoList = (
   data: object,
   isloading: boolean,
   ismsg: boolean
@@ -152,11 +152,7 @@ export const getPartyInfoList = (
  * @param ismsg 是否显示消息
  * @returns 实例
  */
-export const getCodeList = (
-  data: object,
-  isloading: boolean,
-  ismsg: boolean
-) => {
+export const HTTP_getCodeList = (data: object, isloading: boolean, ismsg: boolean) => {
   return http.request(
     {
       url: "/code/queryTsBzdmListMul",

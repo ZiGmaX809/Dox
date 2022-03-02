@@ -1,52 +1,40 @@
-import { Module } from "vuex";
-import { rootState } from "..";
+import { defineStore } from "pinia";
 import { load_local_json } from "../../script/utils/loadjson";
+import { obj } from "../index"
 
-export interface editorState {
-  lawfileCache: any;
-  presetText: any;
-  prev_fy: string;
-  editor_isChanged: boolean;
-}
-
-const editorModule: Module<editorState, rootState> = {
-  namespaced: true,
-  state: {
-    lawfileCache: "",
-    presetText: "",
-    prev_fy: "",
-    editor_isChanged: false,
+export const STORE_editor = defineStore({
+  id: "editor",
+  state: () => {
+    return {
+      lawfileCache: "",
+      presetText: [] as obj,
+      prev_fy: "",
+      editor_isChanged: false,
+    };
   },
   getters: {
     getText(state) {
       return state.presetText;
     },
   },
-  mutations: {
-    Set_prev_fy(state, data) {
-      state.prev_fy = data;
-    },
-    Set_presetText(state, data) {
-      state.presetText = data;
-    },
-    Set_editor_isChanged(state) {
-      state.editor_isChanged = true;
-    },
-    Reset_editor_isChanged(state) {
-      state.editor_isChanged = false;
-    },
-    Add_presetText(state,data){
-      state.presetText[0].Items = data;
-    }
-  },
   actions: {
-    async Set_presetText(state, data) {
+    Set_prev_fy(data: string) {
+      this.prev_fy = data;
+    },
+    Set_editor_isChanged() {
+      this.editor_isChanged = true;
+    },
+    Reset_editor_isChanged() {
+      this.editor_isChanged = false;
+    },
+    Add_presetText(data: {}) {
+      this.presetText[0].Items = data;
+    },
+    async Set_presetText() {
       //启动程序时即加载
       await load_local_json("/presettext/EditStrings.json").then((r) => {
-        const res = r.data.Template;
-        state.commit("Set_presetText", res);
+        this.presetText = r.data.Template;
       });
     },
   },
-};
-export default editorModule;
+});

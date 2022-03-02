@@ -11,7 +11,6 @@ import {
   convertMillimetersToTwip,
   Footer,
 } from "docx";
-import saveAs from "file-saver";
 
 /**
  *

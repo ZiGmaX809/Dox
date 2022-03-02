@@ -1,63 +1,38 @@
-import { Module } from "vuex";
-import { rootState } from "..";
-import { getItem, setItem, removeItem } from "../../script/utils/storage";
+import { defineStore } from "pinia";
+import { getItem, removeItem, setItem } from "../../script/utils/storage";
 
-interface userinfo {
-  username: string;
-  password: string;
-  rememberP: string;
-  rememberU: string;
-  themeurl: string;
-}
-
-export interface loginState {
-  loginInfo: {
-    [propName: string]: any;
-  };
-  userInfo: userinfo;
-  token: string;
-  avatar: string;
-}
-
-const loginModule: Module<loginState, rootState> = {
-  namespaced: true,
-  state: {
-    loginInfo: getItem("loginInfo") ? getItem("loginInfo") : "",
-    userInfo: getItem("userInfo")  ? getItem("userInfo") : "",
-    token: getItem("token") ? getItem("token") : "",
-    avatar: getItem("avatar_url") ? getItem("avatar_url") : "",
+export const STORE_login = defineStore({
+  id: "login",
+  state: () => {
+    return {
+      loginInfo: getItem("loginInfo") ? getItem("loginInfo") : "",
+      userInfo: getItem("userInfo") ? getItem("userInfo") : "",
+      token: getItem("token") ? getItem("token") : "",
+      avatar: getItem("avatar_url") ? getItem("avatar_url") : "",
+    };
   },
-  mutations: {
-    SetUser(state: any, data) {
-      state.userInfo = data;
+  actions: {
+    SetUser(data: {}) {
+      this.userInfo = data;
       if (data) {
         setItem("userInfo", JSON.stringify(data));
-      } else {
-        removeItem("userInfo");
       }
     },
-    SetUserID(state: any, data) {
+    SetUserID(data: string) {
       if (data) {
         setItem("userID", JSON.stringify(data));
-      } else {
-        removeItem("userID");
       }
     },
-    SetToken(state, data) {
+    SetToken(data: string) {
       if (data) {
-        state.token = data;
+        this.token = data;
         setItem("token", data);
-      } else {
-        removeItem("token");
       }
     },
-    SetAvatar(state, data) {
+    SetAvatar(data: string) {
       if (data) {
         setItem("avatar_url", data);
-      } else {
-        removeItem("avatar_url");
       }
     },
   },
-};
-export default loginModule;
+});

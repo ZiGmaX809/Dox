@@ -100,16 +100,22 @@
 import { ref, inject, nextTick, provide, Ref } from "vue";
 import Casedetail from "./Casedetail.vue";
 import { Cloudy, InfoFilled, Refresh } from "@element-plus/icons-vue";
-import { checkToken } from "../../script/api/apiList";
+import { HTTP_checkToken } from "../../script/api/apiList";
 import { getItem } from "../../script/utils/storage";
-import { get_casedetailinfo } from "../../script/request/casedetailinfo";
+import { REQUEST_get_casedetailinfo } from "../../script/request/casedetailinfo";
 import { useRoute } from "vue-router";
 import Router from "../../router/index";
 import { ElMessageBox, ElMessage } from "element-plus";
 import Editor from "./Caseeditor.vue";
-import { useStore } from "vuex";
-import { Modules } from "../../store";
-const store = useStore<Modules>();
+import { STORE_login } from "../../store/modules/login";
+import { STORE_editor } from "../../store/modules/editor";
+import { STORE_setting } from "../../store/modules/setting";
+import { STORE_caseinfo } from "../../store/modules/caseinfo";
+
+const STORE_login_instance = STORE_login();
+const STORE_editor_instance = STORE_editor();
+const STORE_setting_instance = STORE_setting();
+const STORE_caseinfo_instance = STORE_caseinfo();
 
 /* 路由传参 */
 const router = useRoute();
@@ -123,7 +129,8 @@ const isLoading = ref(true); //骨架用
 const Editors = ref();
 const int2em = ref(false);
 
-const previous_caseinfo = store.state.caseinfoModule.previous_caseinfo;
+/* 获取数据 */
+const previous_caseinfo = STORE_caseinfo_instance.previous_caseinfo;
 const case_id = ref(router_caseid);
 
 //切换到编辑文书页面时自动启用首行缩进并读取暂存文本
@@ -131,7 +138,7 @@ const handle_tabs_change = (val: { index: number; }) => {
   if (val.index == 1 && !int2em.value) {
     int2em.value = true;
     setTimeout(() => {
-      if (store.state.settingModule.setting.auto_int2em) {
+      if (STORE_setting_instance.setting.auto_int2em) {
         Editors.value.int2em();
       }
       const txt = getItem("saveText");
@@ -139,7 +146,7 @@ const handle_tabs_change = (val: { index: number; }) => {
         Editors.value.addText(txt.text);
         //在插入内容后延迟重置内容检测开关
         setTimeout(() => {
-          store.commit("editorModule/Reset_editor_isChanged");
+          STORE_editor_instance.Reset_editor_isChanged();
         }, 300);
       }
     }, 100);
@@ -148,8 +155,8 @@ const handle_tabs_change = (val: { index: number; }) => {
 
 //打开网页案件空间
 const Open_Web_Casezone = (caseid: any) => {
-  const token = store.state.loginModule.token;
-  checkToken(token).then((res: any) => {
+  const token = STORE_login_instance.token;
+  HTTP_checkToken(token).then((res: any) => {
     if (res.code === 0) {
       let link = `http://babg.zj.pcc/ajkjPlus?tokenid=${token}&ahdm=${caseid}&lx=sp&flag=2`;
       window.shell.openExternal(link);
@@ -177,7 +184,7 @@ const Reload_DsrInfo = () => {
 const Refresh_Dsrinfo = async () => {
   //重新请求数据并刷新组件
   // get_dsrdetialinfo(route_caseid, true, true);
-  get_casedetailinfo(router_caseid, true, true);
+  REQUEST_get_casedetailinfo(router_caseid, true, true);
   Reload_DsrInfo();
 };
 
@@ -188,21 +195,22 @@ const Refresh_Dsrinfo = async () => {
  */
 
 const Open_Casezone = async () => {
-  const cache_caseid = store.state.caseinfoModule.this_caseid;
-  store.commit("editorModule/Set_prev_fy", router_prev_fy); //写入传入原审法院名称
+  const cache_caseid = STORE_caseinfo_instance.this_caseid;
+  //写入传入原审法院名称
+  STORE_editor_instance.Set_prev_fy(router_prev_fy);
   if (cache_caseid === router_caseid) {
     isLoading.value = false;
   } else {
-    await get_casedetailinfo(router_caseid, false, true);
+    await REQUEST_get_casedetailinfo(router_caseid, false, true);
   }
   //重置内容检测开关
-  store.commit("editorModule/Reset_editor_isChanged");
+  STORE_editor_instance.Reset_editor_isChanged()
   Reload_DsrInfo();
 };
 
 //路由守卫，对比编辑器和暂存文本并提示
 Router.beforeEach((to, from, next) => {
-  if (from.name === "Casezone" && store.state.editorModule.editor_isChanged) {
+  if (from.name === "Casezone" && STORE_editor_instance.editor_isChanged) {
     ElMessageBox.confirm(
       "离开此页面将会导致未保存内容丢失，确认离开？",
       "警告",
@@ -218,7 +226,7 @@ Router.beforeEach((to, from, next) => {
       }
     )
       .then(() => {
-        store.commit("editorModule/Reset_editor_isChanged");
+        STORE_editor_instance.Set_editor_isChanged()
         next();
       })
       .catch(() => {

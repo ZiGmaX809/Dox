@@ -135,15 +135,15 @@
 <script setup lang="ts">
 import { ref, inject, reactive } from "vue";
 import { Refresh } from "@element-plus/icons-vue";
-import { get_caselist } from "../script/request/caselist";
+import { REQUEST_get_caselist } from "../script/request/caselist";
 import { check_login_info } from "../script/utils/checklogin";
-import { useStore } from "vuex";
-import { Modules } from "../store";
-const store = useStore<Modules>();
+import { STORE_caseinfo } from "../store/modules/caseinfo";
+
+const STORE_caseinfo_instance = STORE_caseinfo();
 
 const reload: any = inject("reload");
 
-const d = reactive(store.state.caseinfoModule.my_caselist);
+const d = reactive(STORE_caseinfo_instance.my_caselist);
 
 const currentPage = ref(1);
 const pagesize = ref(20);
@@ -152,7 +152,7 @@ const tableData = d ? d.data : [];
 
 const refresh_caselist = async () => {
   if (check_login_info()) {
-    await get_caselist();
+    await REQUEST_get_caselist();
     reload.reload();
   }
 };

@@ -1,4 +1,4 @@
-import { getCodeList } from "../api/apiList";
+import { HTTP_getCodeList } from "../api/apiList";
 import { getItem, setItem } from "../utils/storage";
 
 /**
@@ -8,7 +8,7 @@ import { getItem, setItem } from "../utils/storage";
  * @returns 无
  */
 
-export const getcasecode = (code: any) => {
+export const REQUEST_getcasecode = (code: any) => {
   //获取当事人代码
   const loginInfo = getItem("loginInfo");
   const arr_code = code.split(",");
@@ -28,7 +28,7 @@ export const getcasecode = (code: any) => {
       dto: dto,
     };
 
-    getCodeList(data, false, false).then((res: any) => {
+    HTTP_getCodeList(data, false, false).then((res: any) => {
       setItem("codeList", res);
     });
   }

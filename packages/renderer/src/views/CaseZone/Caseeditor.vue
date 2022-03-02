@@ -84,14 +84,18 @@
         v-model="value"
         class="m-2"
         size="small"
-        @change="handle_select_change"
+        @change="
+          (val) => {
+            handle_select_change(val);
+          }
+        "
       >
         <el-option
           v-for="(item, index) in presetText"
           :label="item.PartName"
           :value="item.PartName"
           :disabled="
-            index == 6 && !store.state.settingModule.setting.clipboard_bool
+            index == 6 && !STORE_setting_instance.setting.clipboard_bool
               ? true
               : false
           "
@@ -202,7 +206,7 @@
                     "
                     color="#ffe100"
                     v-if="
-                      index < store.state.clipboardModule.pin_num
+                      index < STORE_clipboard_instance.pin_num
                         ? true
                         : hoverIndex == index
                         ? true
@@ -240,50 +244,57 @@ import type { ElScrollbar } from "element-plus";
 import tinymce from "../../components/TEditor.vue";
 import EllipsisTooltip from "../../components/EllipsisTooltip.vue";
 import { ref, nextTick, inject, watch } from "vue";
-import { getItem, setItem } from "../../script/utils/storage";
-import { EditPen, Close, Star, StarFilled } from "@element-plus/icons-vue";
+import { setItem } from "../../script/utils/storage";
+import { EditPen, Close, StarFilled } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 import { quick_input_introduction } from "../../html/introduction";
 import { quickinput } from "../../script/utils/quickinput";
 import { exportWord } from "../../script/utils/exportWord";
 import { Stats } from "fs";
-import { useStore } from "vuex";
-import { Modules } from "../../store";
-const store = useStore<Modules>();
+import { STORE_editor } from "../../store/modules/editor";
+import { STORE_setting } from "../../store/modules/setting";
+import { STORE_caseinfo } from "../../store/modules/caseinfo";
+import { STORE_clipboard } from "../../store/modules/clipboard";
+
+const STORE_editor_instance = STORE_editor();
+const STORE_setting_instance = STORE_setting();
+const STORE_caseinfo_instance = STORE_caseinfo();
+const STORE_clipboard_instance = STORE_clipboard();
 
 const tinymce_eidtor = ref();
 const value = ref("案件信息");
 const hoverIndex = ref(-1); //单独删除剪贴板内容用
 const isReload_pt = ref(true); //刷新组件用
-const listen_type = ref(store.getters["clipboardModule/listen_type"]);
-const listen_text = ref(store.getters["clipboardModule/listen_text"]);
+const listen_type = ref(STORE_clipboard_instance.listen_type());
+const listen_text = ref(STORE_clipboard_instance.listen_text());
 const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>();
 
 const listen_clip: any = inject("listen_clip");
 
 //开关剪贴板监控实例
 const switch_listen = () => {
-  store.commit("clipboardModule/switch_listen");
-  const bool = store.state.clipboardModule.clipboard_listen;
+  STORE_clipboard_instance.switch_listen();
+  const bool = STORE_clipboard_instance.clipboard_listen;
   listen_clip.listen_clip(bool);
   listen_type.value = bool ? "success" : "danger";
   listen_text.value = bool ? "正在监听" : "暂停监听";
 };
 
 // const presetText = getItem("presetText");
-const presetText = store.state.editorModule.presetText;
+const presetText = STORE_editor_instance.presetText;
 const pt = ref(presetText[0].Items);
 const pt_clip = ref();
 const isClipboard = ref(false); //切换剪贴板、常规文本候选框
 
 //切换预设文本
-const handle_select_change = (val: string) => {
-  if (val == "剪贴板") {
-    pt_clip.value = store.state.clipboardModule.clipboard_cache;
+const handle_select_change = (val: Event) => {
+  const select_name = val.toString();
+  if (select_name == "剪贴板") {
+    pt_clip.value = STORE_clipboard_instance.clipboard_cache;
     isClipboard.value = true;
   } else {
     presetText.forEach((item: any, index: number) => {
-      if (item.PartName == val) {
+      if (item.PartName == select_name) {
         pt.value = presetText[index].Items;
       }
     });
@@ -311,27 +322,32 @@ const refresh_scrollbar = () => {
 };
 
 const clear_clipboard = () => {
-  store.dispatch("clipboardModule/clear_cache");
+  STORE_clipboard_instance.clear_cache();
   //刷新粘贴板数据
-  pt_clip.value = store.state.clipboardModule.clipboard_cache;
+  pt_clip.value = STORE_clipboard_instance.clipboard_cache;
 };
 
 const del_cache = (index: number) => {
-  store.dispatch("clipboardModule/del_cache", index);
+  STORE_clipboard_instance.del_cache(index);
 };
 
 const pin_cache = (index: number) => {
-  store.dispatch("clipboardModule/pin_cache", index);
+  STORE_clipboard_instance.pin_cache(index);
 };
 //监控剪贴板缓存变化以刷新滚动条
-watch(
-  () => store.getters["clipboardModule/get_cache_length"],
-  (n, o) => {
-    if (n != o) {
-      refresh_scrollbar();
-    }
-  }
-);
+// watch(
+//   () => STORE_clipboard_instance.get_cache_length(),
+//   (n, o) => {
+//     if (n != o) {
+//       refresh_scrollbar();
+//     }
+//   }
+// );
+
+STORE_clipboard_instance.$subscribe((mutation, state) => {
+  state.clipboard_cache.length;
+  refresh_scrollbar();
+});
 
 //获取编辑器文本
 const getText = () => {
@@ -354,7 +370,7 @@ const saveText = (edit_text: string, ismsg: boolean) => {
     text: edit_text,
   };
   setItem("saveText", txt);
-  store.commit("editorModule/Reset_editor_isChanged");
+  STORE_editor_instance.Reset_editor_isChanged();
 
   if (ismsg) {
     ElMessage({
@@ -368,7 +384,7 @@ const saveText = (edit_text: string, ismsg: boolean) => {
 //输出文本
 const exoprt_word = () => {
   const lx = "民事裁定书";
-  const ah = store.state.caseinfoModule.this_ah;
+  const ah = STORE_caseinfo_instance.this_ah;
   const zw = getText();
   const hytrq =
     "审 判 长  陈  刚\n审 判 员  缪  蕾\n审 判 员  茹  愿\n \n二〇二二年二月十一日";
@@ -387,7 +403,7 @@ const exoprt_word = () => {
 const clear = () => {
   tinymce_eidtor.value.clear();
   setTimeout(() => {
-    if (store.state.settingModule.setting.auto_int2em) {
+    if (STORE_setting_instance.setting.auto_int2em) {
       int2em();
     }
     //清屏后无需提醒
@@ -478,11 +494,6 @@ const setBlur = () => {
   (<HTMLInputElement>document.activeElement).blur();
 };
 
-const handleBlur = () => {
-  autocomplete.value.suggestions = [];
-  autocomplete.value.highlightedIndex = -1;
-};
-
 //遍历存在的法律法规文件
 const walkSync = (
   currentDirPath: any,
@@ -499,12 +510,9 @@ const walkSync = (
 
 const file_list: any = [];
 
-walkSync(
-  "packages/renderer/public/lawfiles/",
-  (filePath, name, w_name, stat) => {
-    file_list.push(w_name);
-  }
-);
+walkSync("packages/renderer/public/lawfiles/", (filePath, name, w_name) => {
+  file_list.push(w_name);
+});
 
 defineExpose({
   int2em,

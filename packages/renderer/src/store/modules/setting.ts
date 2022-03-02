@@ -1,21 +1,5 @@
-import { Module } from "vuex";
-import { rootState } from "..";
-import { getItem, setItem } from "../../script/utils/storage";
-
-interface Setting {
-  ui_color: string;
-  custom_avatar_bool: boolean;
-  custom_avatar_url: string;
-  auto_int2em: boolean;
-  clipboard_bool: boolean;
-  clipboard_num: number;
-  clipboard_textlength: number;
-  lawfilelist: [];
-}
-
-export interface settingState {
-  setting: Setting;
-}
+import { defineStore } from "pinia";
+import { getItem } from "../../script/utils/storage";
 
 const default_setting = {
   ui_color: "",
@@ -29,65 +13,42 @@ const default_setting = {
 };
 
 const saved_setting = getItem("settingInfo")
-  ? getItem("settingInfo")
+  ? getItem("settingInfo").setting
   : default_setting;
 
-const settingModule: Module<settingState, rootState> = {
-  namespaced: true,
-  state: {
-    setting: {
-      ui_color: saved_setting.ui_color,
-      custom_avatar_bool: saved_setting.custom_avatar_bool,
-      custom_avatar_url: saved_setting.custom_avatar_url,
-      auto_int2em: saved_setting.auto_int2em,
-      clipboard_bool: saved_setting.clipboard_bool,
-      clipboard_num: saved_setting.clipboard_num,
-      clipboard_textlength: saved_setting.clipboard_textlength,
-      lawfilelist: saved_setting.lawfilelist,
-    },
-  },
-  mutations: {
-    Switch_clipboard_bool(state, bool) {
-      state.setting.clipboard_bool = bool;
-    },
-    Change_clipboard_num(state, num) {
-      state.setting.clipboard_num = num;
-    },
-    Change_clipboard_textlength(state, num) {
-      state.setting.clipboard_textlength = num;
-    },
-    Switch_auto_int2em(state, bool) {
-      state.setting.auto_int2em = bool;
-    },
-    Switch_custom_avatar(state, bool) {
-      state.setting.custom_avatar_bool = bool;
-    },
-    Save_settings(state) {
-      setItem("settingInfo", state.setting);
-    },
+console.log("🚀 ~ file: setting.ts ~ line 16 ~ saved_setting", saved_setting);
+export const STORE_setting = defineStore({
+  id: "setting",
+  state: () => {
+    return {
+      setting: saved_setting,
+    };
   },
   actions: {
-    Switch_clipboard_bool(state, bool) {
-      state.commit("Switch_clipboard_bool", bool);
-      state.commit("Save_settings");
+    Switch_clipboard_bool(bool: boolean) {
+      this.setting.clipboard_bool = bool;
     },
-    Change_clipboard_num(state, num) {
-      state.commit("Change_clipboard_num", num);
-      state.commit("Save_settings");
+    Change_clipboard_num(num: number) {
+      this.setting.clipboard_num = num;
     },
-    Change_clipboard_textlength(state, num) {
-      state.commit("Change_clipboard_textlength", num);
-      state.commit("Save_settings");
+    Change_clipboard_textlength(num: number) {
+      this.setting.clipboard_textlength = num;
     },
-    Switch_auto_int2em(state, bool) {
-      state.commit("Switch_auto_int2em", bool);
-      state.commit("Save_settings");
+    Switch_auto_int2em(bool: boolean) {
+      this.setting.auto_int2em = bool;
     },
-    Switch_custom_avatar(state, bool) {
-      state.commit("Switch_custom_avatar", bool);
-      state.commit("Save_settings");
+    Switch_custom_avatar(bool: boolean) {
+      this.setting.custom_avatar_bool = bool;
     },
   },
-};
-
-export default settingModule;
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: "settingInfo",
+        storage: localStorage,
+        paths: ["setting"],
+      },
+    ],
+  },
+});

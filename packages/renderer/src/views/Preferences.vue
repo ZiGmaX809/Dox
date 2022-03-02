@@ -34,12 +34,12 @@
       <div class="pref_div">
         <p class="pref_p">剪贴板缓存数量（自定义上限200）</p>
         <el-input
-          v-model="store.state.settingModule.setting.clipboard_num"
+          v-model="STORE_setting_instance.setting.clipboard_num"
           size="small"
           style="width: 50px"
           controls-position="right"
-          :disabled="!store.state.settingModule.setting.clipboard_bool"
-          @input="handleChange_clipboard_num"
+          :disabled="!STORE_setting_instance.setting.clipboard_bool"
+          @input="(val) => handleChange_clipboard_num(val)"
         />
       </div>
       <p class="pref_desc_p" style="margin-top: -3px">
@@ -50,12 +50,12 @@
       <div class="pref_div">
         <p class="pref_p">剪贴板监听字符长度（自定义上限600）</p>
         <el-input
-          v-model="store.state.settingModule.setting.clipboard_textlength"
+          v-model="STORE_setting_instance.setting.clipboard_textlength"
           size="small"
           style="width: 50px"
           controls-position="right"
-          :disabled="!store.state.settingModule.setting.clipboard_bool"
-          @input="handleChange_clipboard_textlength"
+          :disabled="!STORE_setting_instance.setting.clipboard_bool"
+          @input="(val) => handleChange_clipboard_textlength(val)"
         />
       </div>
       <p class="pref_desc_p" style="margin-top: -3px">
@@ -114,53 +114,53 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { Delete } from "@element-plus/icons-vue";
-import { useStore } from "vuex";
-import { Modules } from "../store";
 import { ElMessage } from "element-plus";
 import { setItem } from "../script/utils/storage";
-const store = useStore<Modules>();
+import { STORE_setting } from "../store/modules/setting";
+
+const STORE_setting_instance = STORE_setting();
 
 //自定义头像取值&设置
 const coutom_avatar = computed({
   get() {
-    return store.state.settingModule.setting.custom_avatar_bool;
+    return STORE_setting_instance.setting.custom_avatar_bool;
   },
   set(newVal: boolean) {
-    store.dispatch("settingModule/Switch_custom_avatar", newVal);
+    STORE_setting_instance.Switch_custom_avatar(newVal);
   },
 });
 
 //首行缩进取值&设置
 const auto_int2em = computed({
   get() {
-    return store.state.settingModule.setting.auto_int2em;
+    return STORE_setting_instance.setting.auto_int2em;
   },
   set(newVal: boolean) {
-    store.dispatch("settingModule/Switch_auto_int2em", newVal);
+    STORE_setting_instance.Switch_auto_int2em(newVal);
   },
 });
 
 //是否启用剪贴板开关
 const swich_clipboard_bool = computed({
   get() {
-    return store.state.settingModule.setting.clipboard_bool;
+    return STORE_setting_instance.setting.clipboard_bool;
   },
   set(newVal: boolean) {
-    store.dispatch("settingModule/Switch_clipboard_bool", newVal);
+    STORE_setting_instance.Switch_clipboard_bool(newVal);
   },
 });
 
 //设置剪贴板相关设置的上限
-const handleChange_clipboard_num = (value: string) => {
-  const _str = value.replace(/[^0-9.]/g, "");
+const handleChange_clipboard_num = (value: Event) => {
+  const _str = value.toString().replace(/[^0-9.]/g, "");
   const final_num = Number(_str) > 200 ? 200 : Number(_str);
-  store.dispatch("settingModule/Change_clipboard_num", final_num);
+  STORE_setting_instance.Change_clipboard_num(final_num);
 };
 
-const handleChange_clipboard_textlength = (value: string) => {
-  const _str = value.replace(/[^0-9.]/g, "");
+const handleChange_clipboard_textlength = (value: Event) => {
+  const _str = value.toString().replace(/[^0-9.]/g, "");
   const final_num = Number(_str) > 600 ? 600 : Number(_str);
-  store.dispatch("settingModule/Change_clipboard_textlength", final_num);
+  STORE_setting_instance.Change_clipboard_textlength(final_num);
 };
 
 const tableData = [

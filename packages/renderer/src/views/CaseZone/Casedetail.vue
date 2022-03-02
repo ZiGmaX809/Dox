@@ -83,11 +83,13 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useStore } from "vuex";
-import { Modules } from "../../store";
-const store = useStore<Modules>();
+import { STORE_editor } from "../../store/modules/editor";
+import { STORE_caseinfo } from "../../store/modules/caseinfo";
 
-const caseInfo = store.state.caseinfoModule.this_caseinfo;
+const STORE_editor_instance = STORE_editor();
+const STORE_caseinfo_instance = STORE_caseinfo();
+
+const caseInfo = STORE_caseinfo_instance.this_caseinfo;
 const dsrlist = caseInfo?.entry?.dsrList;
 const dlrlist = caseInfo?.entry?.dlrList;
 
@@ -98,7 +100,7 @@ const span_num = ref(3);
  * 当事人名称+一审法院+案号
  */
 const add_presettext = () => {
-  const prev_fy = store.state.editorModule.prev_fy;
+  const prev_fy =  STORE_editor_instance.prev_fy;
   const prev_ah = caseInfo.entry.yaxxEOList[0].ah;
   const ay = caseInfo.entry.ajjbxx.ayms;
   const arr_prepare_text = [];
@@ -121,7 +123,7 @@ const add_presettext = () => {
     }
   );
 
-  store.commit("editorModule/Add_presetText", arr_prepare_text);
+   STORE_editor_instance.Add_presetText(arr_prepare_text);
 };
 
 const transbrithday = (data: string) => {

@@ -41,10 +41,6 @@
 import { ElMessage, ElUpload } from "element-plus";
 import { ref } from "vue";
 import Nzh from "nzh";
-import ClipboardObserver from "../script/utils/clipboardmoni";
-import { useStore } from "vuex";
-import { Modules } from "../store";
-const store = useStore<Modules>();
 
 const upload = ref<InstanceType<typeof ElUpload>>();
 

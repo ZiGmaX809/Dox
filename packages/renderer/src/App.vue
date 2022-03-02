@@ -126,10 +126,14 @@ import { Files, Search, Document, Setting } from "@element-plus/icons-vue";
 import { getItem } from "./script/utils/storage";
 import loginpage from "./views/Login.vue";
 import "@/assets/css/global.scss";
-import { useStore } from "vuex";
-import { Modules } from "./store";
 import ClipboardObserver from "./script/utils/clipboardmoni";
-const store = useStore<Modules>();
+import { STORE_setting } from "./store/modules/setting";
+import { STORE_editor } from "./store/modules/editor";
+import { STORE_clipboard } from "./store/modules/clipboard";
+
+const STORE_editor_instance = STORE_editor();
+const STORE_setting_instance = STORE_setting();
+const STORE_clipboard_instance = STORE_clipboard();
 
 const username = getItem("loginInfo")
   ? getItem("loginInfo").data.yhxm
@@ -152,11 +156,11 @@ const close = () => {
 
 const PreloadFiles = () => {
   //预载预设文本
-  store.dispatch("editorModule/Set_presetText");
+  STORE_editor_instance.Set_presetText()
 };
 
 const avatar_url = () => {
-  if (store.state.settingModule.setting.custom_avatar_bool) {
+  if (STORE_setting_instance.setting.custom_avatar_bool) {
     return new URL("/images/useravatar.png", import.meta.url).href;
   } else {
     const babg_avatar_url = getItem("avatar_url");
@@ -175,9 +179,10 @@ const clipboardObserver = new ClipboardObserver({
     //  处理文本变化的逻辑
 
     //限制监听文本长度
-    const t_l = store.state.settingModule.setting.clipboard_textlength;
+    const t_l = STORE_setting_instance.setting.clipboard_textlength;
     if (text.length <= t_l) {
-      store.dispatch("clipboardModule/add_cache", text);
+      STORE_clipboard_instance.add_cache(text)
+
     }
   },
 });
@@ -185,9 +190,10 @@ const clipboardObserver = new ClipboardObserver({
 //开启程序，监听剪贴板
 const Listen_Clipboard = () => {
   clipboardObserver.stop();
-  if (store.state.settingModule.setting.clipboard_bool) {
+  if (STORE_setting_instance.setting.clipboard_bool) {
     clipboardObserver.start();
-    store.commit("clipboardModule/switch_listen");
+    // store.commit("clipboardModule/switch_listen");
+    STORE_clipboard_instance.switch_listen()
   }
 };
 

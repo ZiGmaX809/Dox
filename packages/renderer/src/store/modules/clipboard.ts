@@ -1,110 +1,96 @@
-import { Module } from "vuex";
-import { rootState } from "..";
-import { getItem, setItem } from "../../script/utils/storage";
+import { defineStore } from "pinia";
+import { STORE_setting } from "./setting";
 
-export interface clipboardState {
-  clipboard_cache: any[];
-  clipboard_listen: boolean;
-  pin_num: number;
-}
+// const saved_cache = getItem("clipboardCache") || [0, []];
 
-const saved_cache = getItem("clipboardCache") || [0, []];
 
-const clipboardModule: Module<clipboardState, rootState> = {
-  namespaced: true,
-  state: {
-    clipboard_cache: saved_cache[1],
-    clipboard_listen: false,
-    pin_num: saved_cache[0],
-  },
-  mutations: {
-    add_cache(state, data) {
-      state.clipboard_cache.splice(state.pin_num, 0, data);
-    },
-    pin_cache(state, data) {
-      state.clipboard_cache.splice(0, 0, data);
-      state.pin_num++;
-    },
-    unpin_cache(state) {
-      state.pin_num--;
-    },
-    del_cache(state, index) {
-      state.clipboard_cache.splice(index[0], index[1]);
-    },
-    clear_cache(state) {
-      state.clipboard_cache = [];
-      setItem("clipboardCache", [0, []]);
-    },
-    save_cache(state) {
-      setItem("clipboardCache", [state.pin_num, state.clipboard_cache]);
-    },
-    switch_listen(state) {
-      state.clipboard_listen = !state.clipboard_listen;
-    },
+export const STORE_clipboard = defineStore({
+  id: "clipboard",
+  state: () => {
+    return {
+      clipboard_cache: [] as Array<string>,
+      clipboard_listen: false,
+      pin_num: 0,
+    };
   },
   getters: {
     listen_type(state) {
-      return state.clipboard_listen ? "success" : "danger";
+      return () => {
+        return state.clipboard_listen ? "success" : "danger";
+      };
     },
     listen_text(state) {
-      return state.clipboard_listen ? "正在监听" : "暂停监听";
+      return () => {
+        return state.clipboard_listen ? "正在监听" : "暂停监听";
+      };
     },
     get_cache_length(state) {
-      return state.clipboard_cache.length;
+      return () => {
+        return state.clipboard_cache.length;
+      };
     },
+    test() {},
   },
   actions: {
-    add_cache(state, data: string) {
-      const set_clip_num = state.rootState.settingModule.setting.clipboard_num; //设定的剪贴板数量
-      const cache_clip_num = state.state.clipboard_cache.length; // 实际剪贴板数量
+    add_cache(data: string) {
+      const STORE_setting_instance = STORE_setting();
+      const set_clip_num = STORE_setting_instance.setting.clipboard_num; //设定的剪贴板数量
+      const cache_clip_num = this.clipboard_cache.length; // 实际剪贴板数量
 
       //判断是否超出设置缓存数量
       if (cache_clip_num >= set_clip_num) {
         const num: number = cache_clip_num - set_clip_num;
-        state.commit("del_cache", [set_clip_num - 1, num + 1]);
+        this.clipboard_cache.splice(set_clip_num - 1, num + 1);
       }
 
       //判断是否已经存在该缓存条目
-      const arr_c = state.state.clipboard_cache;
+      const arr_c = this.clipboard_cache;
       const _index = arr_c.indexOf(data);
       if (_index > -1) {
-        state.commit("del_cache", [_index, 1]);
+        this.clipboard_cache.splice(_index, 1);
       }
 
       //判断是否为空字符组成
       if (data.replace(/\s/g, "") != "") {
-        state.commit("add_cache", data);
-        state.commit("save_cache");
+        this.clipboard_cache.splice(this.pin_num, 0, data);
       }
     },
-    pin_cache(state, index: number) {
+    pin_cache(index: number) {
       //获取原数据
-      const origin_text = state.state.clipboard_cache[index];
+      const origin_text = this.clipboard_cache[index];
       //删除原来数据
-      state.commit("del_cache", [index, 1]);
-      if (index >= state.state.pin_num) {
+      this.clipboard_cache.splice(index, 1);
+      if (index >= this.pin_num) {
         //Pin
         //添加到pin最后
-        state.commit("pin_cache", origin_text);
+        this.clipboard_cache.splice(0, 0, origin_text);
+        this.pin_num++;
       } else {
         //unPin
-        state.commit("unpin_cache");
-        state.commit("add_cache", origin_text);
+        this.pin_num--;
+        this.clipboard_cache.splice(this.pin_num, 0, origin_text);
       }
-
-      state.commit("save_cache");
     },
-    clear_cache(state) {
-      state.commit("clear_cache");
+    clear_cache() {
+      this.clipboard_cache = [];
     },
-    del_cache(state, index: number) {
-      if (index < state.state.pin_num) {
-        state.commit("unpin_cache");
+    del_cache(index: number) {
+      if (index < this.pin_num) {
+        this.pin_num--;
       }
-      state.commit("del_cache", [index, 1]);
-      state.commit("save_cache");
+      this.clipboard_cache.splice(index, 1);
+    },
+    switch_listen() {
+      this.clipboard_listen = !this.clipboard_listen;
     },
   },
-};
-
-export default clipboardModule;
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: "clipboardCache",
+        storage: localStorage,
+      },
+    ],
+  },
+});

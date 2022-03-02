@@ -1,6 +1,6 @@
-import { getCaseDetail } from "../api/apiList";
+import { HTTP_getCaseDetail } from "../api/apiList";
 import { getItem } from "../utils/storage";
-import store from "../../store";
+import { STORE_caseinfo } from "../../store/modules/caseinfo";
 
 /**
  * 通过案号代码获取案件详细信息
@@ -8,7 +8,7 @@ import store from "../../store";
  * @returns 是否请求成功
  */
 
-export const get_casedetailinfo = (
+export const REQUEST_get_casedetailinfo = (
   id: any,
   isloadingview: boolean,
   ismsg: boolean
@@ -21,9 +21,11 @@ export const get_casedetailinfo = (
     fydm: "1301",
   };
 
-  getCaseDetail(data, isloadingview, ismsg).then((res: any) => {
+  HTTP_getCaseDetail(data, isloadingview, ismsg).then((res: any) => {
+    const STORE_caseinfo_instance = STORE_caseinfo();
     // setItem("casedetailInfo", res);
-    store.commit("caseinfoModule/request_caseinfo", res);
+    STORE_caseinfo_instance.request_caseinfo(res);
+    // store.commit("caseinfoModule/request_caseinfo", res);
   });
 
   //判断是否请求成功

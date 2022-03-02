@@ -47,22 +47,22 @@
 <script lang="ts" setup>
 import { ref } from "@vue/reactivity";
 import qs from "qs";
-import { checkuserinfo, checkToken } from "../script/api/apiList";
-import { getItem, setItem } from "../script/utils/storage";
+import { HTTP_checkuserinfo, HTTP_checkToken } from "../script/api/apiList";
+import { setItem } from "../script/utils/storage";
 import { inject, Ref } from "vue";
 import { ElMessage } from "element-plus";
 import { showLoading, hideLoading } from "../script/utils/loading";
-import { useStore } from 'vuex'
-import { Modules } from '../store'
-const store = useStore<Modules>()
+import { STORE_login } from "../store/modules/login";
+
+const STORE_login_instance = STORE_login();
 
 const loginWrap = ref();
 const drawer: Ref<boolean> = inject("drawer") as Ref<boolean>;
 let showLogin = false;
 
 const formLabelAlign = ref({
-  username: store.state.loginModule.userInfo.username,
-  passwd: store.state.loginModule.userInfo.password,
+  username: STORE_login_instance.userInfo.username,
+  passwd: STORE_login_instance.userInfo.password,
 });
 
 const getImageUrl = (name: any) => {
@@ -94,13 +94,14 @@ const login = () => {
     let _obj = document.createElement("webview");
 
     //确认登陆信息是否正确
-    checkuserinfo(logindata, true, false)
+    HTTP_checkuserinfo(logindata, true, false)
       .then((res: any) => {
         let login_end = false; //ipcRenderer发送信息计数
         let login_err = false;
         if (res.msg == null) {
           //登陆信息无误,保存用户名和密码到localStorage
-          store.commit("loginModule/SetUser", data);
+          // store.commit("loginModule/SetUser", data);
+          STORE_login_instance.SetUser(data)
 
           let ft = false; //防止dom-ready在重定向后多次刷新
           _obj.src =
@@ -128,9 +129,9 @@ const login = () => {
               //console.log(reasult);
               let result = (reasult.replace("result:", "")).split(",");
               //将获取的Token和头像地址写到localStorage
-              store.commit("loginModule/SetToken", result[0]);
-              store.commit("loginModule/SetUserID", result[1]);
-              store.commit("loginModule/SetAvatar", result[2]);
+              STORE_login_instance.SetToken(result[0]);
+              STORE_login_instance.SetUserID(result[1]);
+              STORE_login_instance.SetAvatar(result[2]);
             } else {
               login_err = true;
             }
@@ -142,10 +143,10 @@ const login = () => {
 
               loginWrap.value.removeChild(_obj);
 
-              const token = store.state.loginModule.token;
+              const token = STORE_login_instance.token;
               if (token) {
                 //获取用户代码等信息
-                checkToken(token).then((res: any) => {
+                HTTP_checkToken(token).then((res: any) => {
                   setItem("loginInfo", res);
                 });
               }

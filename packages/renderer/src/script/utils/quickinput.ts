@@ -1,6 +1,7 @@
 import nzhcn from "nzh/cn";
 import { ref } from "vue";
 import store from "../../store";
+import { STORE_quickinput } from "../../store/modules/quickinpt";
 
 var arr_pca: any[] = [];
 
@@ -214,17 +215,19 @@ function judge_law(str: any, file_list: any[]) {
 }
 
 async function introduce_lawarticle(name: any) {
+  const STORE_quickinput_state = STORE_quickinput();
   //判断是否存在缓存
-  const lawfileCache = store.state.lawfileCache;
+  const lawfileCache = STORE_quickinput_state.lawfileCache;
   if (lawfileCache.name != name) {
-    await store.dispatch("Set_lawfileCache",name);
+    await STORE_quickinput_state.Set_lawfileCache(name);
   }
 }
 
 function input_lawarticle(index: any) {
+  const STORE_quickinput_state = STORE_quickinput();
   //从缓存中读取
   let result: any = [];
-  const law_cache = store.state.lawfileCache.contents;
+  const law_cache = STORE_quickinput_state.lawfileCache.contents;
   const reslut_law = get_detail_law(law_cache, index);
   if (typeof reslut_law == "object") {
     result.push(reslut_law);
@@ -381,12 +384,13 @@ function iter_lawJson(json: any): any {
 async function introduce_pcafile() {
   //获取当前时间戳
   let now = new Date().getTime();
+  const STORE_quickinput_state = STORE_quickinput();
 
   const isReload = () => {
-    if (store.state.pcaCache == "") {
+    if (STORE_quickinput_state.pcaCache.length == 0) {
       return true;
     } else {
-      let loadtime = Number(store.state.pcaCache.loadtime);
+      let loadtime = Number(STORE_quickinput_state.pcaCache.loadtime);
       //缓存有效期1小时
       if (loadtime + 60 * 1000 >= now) {
         return false;
@@ -396,12 +400,13 @@ async function introduce_pcafile() {
   };
 
   if (isReload()) {
-    await store.dispatch("Set_pcaCache", now);
+    await STORE_quickinput_state.Set_pcaCache(now);
   }
 }
 
 function find_address(str: string) {
-  const pca_contents = store.state.pcaCache.contents;
+  const STORE_quickinput_state = STORE_quickinput();
+  const pca_contents = STORE_quickinput_state.pcaCache.contents;
   arr_pca = [];
   iter_pcaJson("", str, pca_contents);
   return arr_pca;

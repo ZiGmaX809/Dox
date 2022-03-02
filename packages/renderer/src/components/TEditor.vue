@@ -11,8 +11,7 @@ import Editor from "@tinymce/tinymce-vue";
 // import 'tinymce/skins/content/default/content.css'
 //引入方式引入node_modules里的tinymce相关文件文件
 import tinymce from "tinymce/tinymce"; //tinymce默认hidden，不引入则不显示编辑器
-import { useStore } from "vuex";
-import { Modules } from "../store";
+import { STORE_editor } from "../store/modules/editor";
 
 import "tinymce/themes/silver"; //编辑器主题，不引入则报错
 import "tinymce/icons/default"; //引入编辑器图标icon，不引入则不显示对应图标
@@ -26,7 +25,7 @@ import "tinymce/plugins/wordcount"; //字数统计
 import "tinymce/plugins/charmap"; //特殊字符
 import { reactive, ref, watch, inject } from "vue";
 
-const store = useStore<Modules>();
+const STORE_editor_instance = STORE_editor();
 
 const value: string = "";
 
@@ -100,8 +99,8 @@ const int2em = () => {
 watch(
   () => state.contentValue,
   (newValue) => {
-    if (!store.state.editorModule.editor_isChanged) {
-      store.commit("editorModule/Set_editor_isChanged");
+    if (!STORE_editor_instance.editor_isChanged) {
+      STORE_editor_instance.Set_editor_isChanged()
     }
   }
 );
