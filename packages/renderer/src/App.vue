@@ -139,7 +139,7 @@ const username = getItem("loginInfo")
   ? getItem("loginInfo").data.yhxm
   : "点击登录";
 
-const isRouterAlive:Ref<boolean> = ref(true);
+const isRouterAlive: Ref<boolean> = ref(true);
 const drawer: Ref<boolean> = ref(false);
 let fullscreen = false;
 
@@ -156,7 +156,7 @@ const close = () => {
 
 const PreloadFiles = () => {
   //预载预设文本
-  STORE_editor_instance.Set_presetText()
+  STORE_editor_instance.Set_presetText();
 };
 
 const avatar_url = () => {
@@ -181,8 +181,7 @@ const clipboardObserver = new ClipboardObserver({
     //限制监听文本长度
     const t_l = STORE_setting_instance.setting.clipboard_textlength;
     if (text.length <= t_l) {
-      STORE_clipboard_instance.add_cache(text)
-
+      STORE_clipboard_instance.add_cache(text);
     }
   },
 });
@@ -193,9 +192,21 @@ const Listen_Clipboard = () => {
   if (STORE_setting_instance.setting.clipboard_bool) {
     clipboardObserver.start();
     // store.commit("clipboardModule/switch_listen");
-    STORE_clipboard_instance.switch_listen()
+    STORE_clipboard_instance.switch_listen();
   }
 };
+
+//监控剪贴板缓存变化以刷新滚动条
+// STORE_clipboard_instance.$subscribe((mutation, state) => {
+//   console.log(state.clipboard_listen)
+//   if (state.clipboard_listen) {
+//     clipboardObserver.start();
+//     console.log("start")
+//   } else {
+//     clipboardObserver.stop();
+//     console.log("stop")
+//   }
+// });
 
 PreloadFiles();
 Listen_Clipboard();

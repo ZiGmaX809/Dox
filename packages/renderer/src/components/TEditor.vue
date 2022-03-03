@@ -17,13 +17,11 @@ import "tinymce/themes/silver"; //编辑器主题，不引入则报错
 import "tinymce/icons/default"; //引入编辑器图标icon，不引入则不显示对应图标
 
 // 引入编辑器插件
-import "../static/tinymce/plugins/indent2em"
-// import "tinymce/plugins/indent2em"; //首行缩进
-import "tinymce/plugins/paste"; //粘贴插件
+import "../static/tinymce/plugins/indent2em" //首行缩进
 import "tinymce/plugins/quickbars"; //快速工具栏
 import "tinymce/plugins/wordcount"; //字数统计
 import "tinymce/plugins/charmap"; //特殊字符
-import { reactive, ref, watch, inject } from "vue";
+import { reactive, ref, watch } from "vue";
 
 const STORE_editor_instance = STORE_editor();
 
@@ -32,7 +30,7 @@ const value: string = "";
 const plugins: string = "charmap wordcount indent2em";
 
 const toolbar: string =
-  "undo redo | cut copy paste pastetext | indent2em | alignleft aligncenter alignright alignjustify outdent indent | charmap";
+  "undo redo | cut copy paste | indent2em | alignleft aligncenter alignright alignjustify outdent indent | charmap";
 
 const state = reactive({
   contentValue: value,
@@ -40,7 +38,7 @@ const state = reactive({
 
 const initOptions = ref({
   selector: "#tinymce_eidtor",
-  auto_focus: true,
+  // auto_focus: true,
   // base_url: "@",
   //emoticons_database_url: "/tinymce/plugins/emoticons/js/emojis.js", //更改表情插件路径
   language_url: "plugins/tinymce/langs/zh_CN.js", //引入语言包文件
@@ -83,16 +81,16 @@ const clear = () => {
 };
 
 const getText = () => {
-  var cnt = tinymce.editors[0].getContent({ format: "text" });
+  var cnt = tinymce.activeEditor.getContent({ format: "text" })
   return cnt;
 };
 
 const addText = (data: string) => {
-  tinymce.editors[0].insertContent(data);
+   tinymce.activeEditor.insertContent(data);
 };
 
 const int2em = () => {
-  tinymce.editors[0].execCommand("indent2em");
+   tinymce.activeEditor.execCommand("indent2em");
 };
 
 //监控编辑器内容变更

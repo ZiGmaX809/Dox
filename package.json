@@ -42,7 +42,7 @@
     "sass-loader": "^12.6.0",
     "typescript": "^4.6.2",
     "vite": "^2.8.6",
-    "vite-plugin-resolve": "^1.5.1",
+    "vite-plugin-resolve": "^1.5.2",
     "vue-tsc": "^0.32.1"
   },
   "env": {

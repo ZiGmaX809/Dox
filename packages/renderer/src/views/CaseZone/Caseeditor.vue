@@ -158,10 +158,10 @@
           >
             <el-button
               size="small"
-              :type="listen_type"
+              :type="listen_type()"
               @click="switch_listen()"
               style="width: 50%"
-              >{{ listen_text }}</el-button
+              >{{ listen_text() }}</el-button
             >
             <el-popconfirm
               confirm-button-text="是"
@@ -248,15 +248,15 @@ import { setItem } from "../../script/utils/storage";
 import { EditPen, Close, StarFilled } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 import { quick_input_introduction } from "../../html/introduction";
-import { quickinput } from "../../script/utils/quickinput";
+import { date_format, quickinput } from "../../script/utils/quickinput";
 import { exportWord } from "../../script/utils/exportWord";
-import { Stats } from "fs";
 import { STORE_editor } from "../../store/modules/editor";
 import { STORE_setting } from "../../store/modules/setting";
 import { STORE_caseinfo } from "../../store/modules/caseinfo";
 import { STORE_clipboard } from "../../store/modules/clipboard";
 import { walkSync } from "../../script/utils/scanfolder";
 import { integrate_info } from "../../script/utils/integrateinfo";
+import { convert_folder_path } from "../../script/utils/convertpath";
 
 const STORE_editor_instance = STORE_editor();
 const STORE_setting_instance = STORE_setting();
@@ -267,8 +267,12 @@ const tinymce_eidtor = ref();
 const value = ref("案件信息");
 const hoverIndex = ref(-1); //单独删除剪贴板内容用
 const isReload_pt = ref(true); //刷新组件用
-const listen_type = ref(STORE_clipboard_instance.listen_type());
-const listen_text = ref(STORE_clipboard_instance.listen_text());
+const listen_type = () => {
+  return STORE_clipboard_instance.listen_type();
+};
+const listen_text = () => {
+  return STORE_clipboard_instance.listen_text();
+};
 const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>();
 
 const listen_clip: any = inject("listen_clip");
@@ -278,8 +282,6 @@ const switch_listen = () => {
   STORE_clipboard_instance.switch_listen();
   const bool = STORE_clipboard_instance.clipboard_listen;
   listen_clip.listen_clip(bool);
-  listen_type.value = bool ? "success" : "danger";
-  listen_text.value = bool ? "正在监听" : "暂停监听";
 };
 
 // const presetText = getItem("presetText");
@@ -390,8 +392,9 @@ const exoprt_word = () => {
   const ah = STORE_caseinfo_instance.this_ah;
   const dlrinfo = integrate_info().join("\n");
   const zw = dlrinfo + "\n" + getText();
+  const rq = (date_format("today") as string[])[1];
   const hytrq =
-    "审 判 长  陈  刚\n审 判 员  缪  蕾\n审 判 员  茹  愿\n \n二〇二二年二月十一日";
+    "审 判 长  陈  刚\n审 判 员  缪  蕾\n审 判 员  茹  愿\n \n" + rq;
   const fgzl = "法官助理  翁文杰\n书 记 员  张盼兮";
   exportWord(lx, ah, zw, hytrq, fgzl);
   window.ipcRenderer.on("SaveFileCallback", (event, arg) => {
@@ -462,7 +465,7 @@ const links = ref<item[]>([]);
 //遍历存在的法律法规文件
 const file_list: any = [];
 
-walkSync("packages/renderer/public/lawfiles/", (filePath, name, w_name) => {
+walkSync(convert_folder_path("packages/renderer/public/lawfiles/"), (filePath, name, w_name) => {
   file_list.push(w_name);
 });
 

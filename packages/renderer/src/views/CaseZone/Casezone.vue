@@ -58,7 +58,11 @@
   </div>
   <!-- 主功能区 -->
   <div>
-    <el-tabs class="tabs" type="border-card" @tab-click="handle_tabs_change">
+    <el-tabs
+      class="tabs"
+      type="border-card"
+      @tab-click="(val:any) => handle_tabs_change(val)"
+    >
       <el-tab-pane label="当事人信息" v-if="isReload">
         <el-skeleton
           style="width: 100% !important"
@@ -134,7 +138,7 @@ const previous_caseinfo = STORE_caseinfo_instance.previous_caseinfo;
 const case_id = ref(router_caseid);
 
 //切换到编辑文书页面时自动启用首行缩进并读取暂存文本
-const handle_tabs_change = (val: { index: number; }) => {
+const handle_tabs_change = (val: { index: number }) => {
   if (val.index == 1 && !int2em.value) {
     int2em.value = true;
     setTimeout(() => {
@@ -204,7 +208,7 @@ const Open_Casezone = async () => {
     await REQUEST_get_casedetailinfo(router_caseid, false, true);
   }
   //重置内容检测开关
-  STORE_editor_instance.Reset_editor_isChanged()
+  STORE_editor_instance.Reset_editor_isChanged();
   Reload_DsrInfo();
 };
 
@@ -226,7 +230,7 @@ Router.beforeEach((to, from, next) => {
       }
     )
       .then(() => {
-        STORE_editor_instance.Reset_editor_isChanged()
+        STORE_editor_instance.Reset_editor_isChanged();
         next();
       })
       .catch(() => {
@@ -255,8 +259,8 @@ Open_Casezone();
 }
 
 .el-tabs__header {
-    margin-left: -1px;
-    user-select: none !important;
+  margin-left: -1px;
+  user-select: none !important;
 }
 
 #editorBase {

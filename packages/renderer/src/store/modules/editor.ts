@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
+import { convert_file_path } from "../../script/utils/convertpath";
 import { load_local_json } from "../../script/utils/loadjson";
-import { obj } from "../index"
+import { obj } from "../index";
 
 export const STORE_editor = defineStore({
   id: "editor",
@@ -32,7 +33,9 @@ export const STORE_editor = defineStore({
     },
     async Set_presetText() {
       //启动程序时即加载
-      await load_local_json("/presettext/EditStrings.json").then((r) => {
+      await load_local_json(
+        convert_file_path("/presettext/EditStrings.json")
+      ).then((r) => {
         this.presetText = r.data.Template;
       });
     },

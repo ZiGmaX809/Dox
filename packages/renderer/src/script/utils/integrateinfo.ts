@@ -1,5 +1,6 @@
 import { obj } from "../../store";
 import { STORE_caseinfo } from "../../store/modules/caseinfo";
+import { STORE_editor } from "../../store/modules/editor";
 import { date_format } from "./quickinput";
 
 export const integrate_info = () => {
@@ -30,15 +31,16 @@ export const integrate_info = () => {
               ? `委托诉讼代理人：${item[2]}，${item[3]}律师。`
               : `委托诉讼代理人：${item[2]}，${item[3]}员工。`;
           dsrinfo_text = dsrinfo_text + "\n" + dlrinfo_;
-        }else if (item[0] == "法定代理人"){
+        } else if (item[0] == "法定代理人") {
           const dlrinfo_ = `法定代理人：${item[2]}。`;
-          dsrinfo_text = dsrinfo_text + "\n" + dlrinfo_;
+          dsrinfo_text += "\n" + dlrinfo_;
         }
       });
     }
-
     arr_final_text.push(dsrinfo_text);
   });
+
+  arr_final_text.push(final_info(caseinfo));
 
   return arr_final_text;
 };
@@ -51,4 +53,34 @@ const final_dlr = (dsrxh: string, dlrlist: obj) => {
     }
   });
   return dlr_arr;
+};
+
+const final_info = (caseinfo: obj) => {
+  const dsrlist_: string[] = (caseinfo?.entry?.ajjbxx?.dsr).split(";");
+
+  const dsrlist = dsrlist_.map((item: string) => {
+    return item.replace(",", "、").replace(":", "");
+  });
+
+  const final_dsr_text = () => {
+    switch (dsrlist.length) {
+      case 1:
+        return dsrlist[0];
+      case 2:
+        return dsrlist[0] + "因与" + dsrlist[1];
+      case 3:
+        return dsrlist[0] + "因与" + dsrlist[1] + "及" + dsrlist[2];
+      default:
+        const def = dsrlist[0] + "因与" + dsrlist[1] + "及" + dsrlist[2];
+        const oth = dsrlist.splice(0, 3).join("、");
+        return def + oth;
+    }
+  };
+
+  const previous_ah = caseinfo?.entry?.yaxxEOList[0]?.ah;
+  const previous_fy = STORE_editor().prev_fy;
+  const la_data = (date_format(caseinfo?.entry?.ajjbxx?.larq) as string[])[0];
+  const final_oth_text = `一案，不服${previous_fy}${previous_ah}民事裁定，向本院提起上诉。本院于${la_data}立案后，依法组成合议庭审理了本案。本案现已审理终结。`;
+
+  return final_dsr_text() + final_oth_text;
 };

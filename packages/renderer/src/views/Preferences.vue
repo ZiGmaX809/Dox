@@ -39,7 +39,7 @@
           style="width: 50px"
           controls-position="right"
           :disabled="!STORE_setting_instance.setting.clipboard_bool"
-          @input="(val) => handleChange_clipboard_num(val)"
+          @input="(val:any) => handleChange_clipboard_num(val)"
         />
       </div>
       <p class="pref_desc_p" style="margin-top: -3px">
@@ -55,7 +55,7 @@
           style="width: 50px"
           controls-position="right"
           :disabled="!STORE_setting_instance.setting.clipboard_bool"
-          @input="(val) => handleChange_clipboard_textlength(val)"
+          @input="(val:any) => handleChange_clipboard_textlength(val)"
         />
       </div>
       <p class="pref_desc_p" style="margin-top: -3px">
@@ -77,7 +77,7 @@
       <el-table
         :data="tableData.list"
         border
-        style="width: 100%; max-height: 500px"
+        style="width: 100%; max-height: 500px;"
       >
         <el-table-column prop="fullname" label="引入文件名称" />
         <el-table-column prop="name" label="索引缩写" width="200" />
@@ -173,14 +173,14 @@ const swich_clipboard_bool = computed({
 });
 
 //设置剪贴板相关设置的上限
-const handleChange_clipboard_num = (value: Event) => {
-  const _str = value.toString().replace(/[^0-9.]/g, "");
+const handleChange_clipboard_num = (value:String) => {
+  const _str = value.replace(/[^0-9.]/g, "");
   const final_num = Number(_str) > 200 ? 200 : Number(_str);
   STORE_setting_instance.Change_clipboard_num(final_num);
 };
 
-const handleChange_clipboard_textlength = (value: Event) => {
-  const _str = value.toString().replace(/[^0-9.]/g, "");
+const handleChange_clipboard_textlength = (value: String) => {
+  const _str = value.replace(/[^0-9.]/g, "");
   const final_num = Number(_str) > 600 ? 600 : Number(_str);
   STORE_setting_instance.Change_clipboard_textlength(final_num);
 };
@@ -203,8 +203,6 @@ const handleDelete = (index: number) => {
 };
 
 //导出&导入缓存
-const upload = ref();
-
 const export_localstorage = () => {
   const arr_text = [];
   for (var i = 0; i < window.localStorage.length; i++) {
