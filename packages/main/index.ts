@@ -57,19 +57,25 @@ async function createWindow() {
 }
 
 async function add_userData() {
-  //检查是否存在用户信息文件夹，不存在则创建并移动public文件夹
-  console.log(app.getPath("exe"));
-  // const userData_path =
-  //   app.getPath("userData").replace(/\s/g, "") + "/CacheFiles";
-  // if (!fs.existsSync(userData_path)) {
-  //   fs.mkdirSync(userData_path);
-  //   // 复制文件
-  //   copyDir("./", userData_path, function (err) {
-  //     if (err) {
-  //       console.log(err);
-  //     }
-  //   });
-  // }
+  //检查是否存在用户信息文件夹，不存在则创建并移动public文件夹内容
+  const userData_path =
+    app.getPath("userData").replace(/\s/g, "") + "/CacheFiles";
+  if (!fs.existsSync(userData_path)) {
+    fs.mkdirSync(userData_path);
+    // 复制文件
+    const folder_list = ["divisions", "images", "lawfiles", "presettext"];
+    folder_list.forEach((foldername: string) => {
+      copyDir(
+        __dirname.replace("/main", "/renderer/") + foldername,
+        userData_path + "/" + foldername,
+        function (err) {
+          if (err) {
+            console.log(err);
+          }
+        }
+      );
+    });
+  }
 }
 
 app.whenReady().then(add_userData).then(createWindow);
@@ -90,7 +96,7 @@ ipcMain.on("Restart", (e) => {
 });
 
 ipcMain.on("Get_Path", (e, a) => {
-  e.reply("final_path", app.getPath(a));
+  e.reply("Final_Path", app.getPath(a));
 });
 
 ipcMain.on("Choose_File", (e) => {
@@ -100,8 +106,7 @@ ipcMain.on("Choose_File", (e) => {
   if (res) {
     const final_res = res[0];
     fs.readFile(final_res, { encoding: "utf-8" }, (err, data) => {
-      // console.log("🚀 ~ file: index.ts ~ line 88 ~ ipcMain.on ~ data", data)
-      e.reply("final_file", data); // 返回给渲染进程
+      e.reply("Final_File", data); // 返回给渲染进程
     });
   }
 });

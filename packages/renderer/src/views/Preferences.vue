@@ -23,9 +23,7 @@
         <p class="pref_p">默认启用首行缩进</p>
         <el-switch v-model="auto_int2em" />
       </div>
-      <p class="pref_desc_p" style="margin-top: -3px">
-        编辑器内的格式并不会影响导出文书的格式，启用首行缩进仅仅为了便于编辑文书。
-      </p>
+      <p class="pref_desc_p" style="margin-top: -3px">编辑器内的格式并不会影响导出文书的格式，启用首行缩进仅仅为了便于编辑文书。</p>
 
       <div class="pref_div">
         <p class="pref_p">启用剪贴板</p>
@@ -39,13 +37,13 @@
           style="width: 50px"
           controls-position="right"
           :disabled="!STORE_setting_instance.setting.clipboard_bool"
-          @input="(val:any) => handleChange_clipboard_num(val)"
+          @input="(val: any) => handleChange_clipboard_num(val)"
         />
       </div>
       <p class="pref_desc_p" style="margin-top: -3px">
-        启用剪贴板功能后，将会监听系统剪贴板，并且将复制的文本存入缓存中。<br />
-        条目数量过多将会导致索引效率降低，建议设置缓存条目数量控制在50以内。<br />
-        超出数量将自动清除最先数据。
+        启用剪贴板功能后，将会监听系统剪贴板，并且将复制的文本存入缓存中。
+        <br />条目数量过多将会导致索引效率降低，建议设置缓存条目数量控制在50以内。
+        <br />超出数量将自动清除最先数据。
       </p>
       <div class="pref_div">
         <p class="pref_p">剪贴板监听字符长度（自定义上限600）</p>
@@ -55,30 +53,21 @@
           style="width: 50px"
           controls-position="right"
           :disabled="!STORE_setting_instance.setting.clipboard_bool"
-          @input="(val:any) => handleChange_clipboard_textlength(val)"
+          @input="(val: any) => handleChange_clipboard_textlength(val)"
         />
       </div>
       <p class="pref_desc_p" style="margin-top: -3px">
-        为保证性能，建议监听300字符以内的文本。<br />
-        超出设定长度依旧可以复制粘贴，但不会存入缓存。
+        为保证性能，建议监听300字符以内的文本。
+        <br />超出设定长度依旧可以复制粘贴，但不会存入缓存。
       </p>
 
       <h2 class="pref_h2">快捷输入</h2>
       <el-divider />
       <div class="pref_div">
         <p class="pref_p">已引入的文件</p>
-        <el-button
-          class="extra_btn_class"
-          size="small"
-          @click="Refresh_lawfiles"
-          >刷新</el-button
-        >
+        <el-button class="extra_btn_class" size="small" @click="Refresh_lawfiles">刷新</el-button>
       </div>
-      <el-table
-        :data="tableData.list"
-        border
-        style="width: 100%; max-height: 500px;"
-      >
+      <el-table :data="tableData.list" border style="width: 100%; max-height: 500px;">
         <el-table-column prop="fullname" label="引入文件名称" />
         <el-table-column prop="name" label="索引缩写" width="200" />
         <el-table-column align="center" label="操作" width="80">
@@ -95,35 +84,36 @@
 
       <p class="pref_p">引入新的文件</p>
       <p class="pref_desc_p" style="margin-top: -3px">
-        <b>&#10059 注意：快捷输入工具仅仅作为更加便捷编辑而存在，对于导入文件尽可能进行准确匹配，但是无法保证任何法律法规文件导入后法条完整和准确性。<br/>
-        &#10059 裁判文书校对是案件审理的必要环节与步骤。</b><br/><br/>
-        下载法律文书: http://gov.pkulaw.cn/ (北大法宝中国法律法规数据库，需互联网下载后导入)<br/> 
-        <i>国务院下属数据库因更新效率以及无法下载TXT文件格式而被排除。</i><br/><br/> 
-        进入网页选择法律法规文件后，点击右上角下载按钮，选择「纯文本」去掉勾选「保留字段信息」以及「保留正文中的法宝联想」，下载后不要修改文件名称，请保持原有名称以便提取该文书完整名称。
-        <br/>目前支持法律、法规、司法解释的导入。
-
+        <b>
+          &#10059 注意：快捷输入工具仅仅作为更加便捷编辑而存在，对于导入文件尽可能进行准确匹配，但是无法保证任何法律法规文件导入后法条完整和准确性。
+          <br />&#10059裁判文书校对是案件审理的必要环节与步骤。
+        </b>
+        <br />
+        <br />下载法律文书: http://gov.pkulaw.cn/ (北大法宝中国法律法规数据库，需互联网下载后导入)
+        <br />
+        <i>国务院下属数据库因更新效率以及无法下载TXT文件格式而被排除。</i>
+        <br />
+        <br />进入网页选择法律法规文件后，点击右上角下载按钮，选择「纯文本」去掉勾选「保留字段信息」以及「保留正文中的法宝联想」，下载后不要修改文件名称，请保持原有名称以便提取该文书完整名称。
+        <br />目前支持法律、法规、司法解释的导入。
       </p>
       <h2 class="pref_h2">其他</h2>
       <el-divider />
 
       <div class="pref_div">
         <p class="pref_p">导出配置及缓存文件</p>
-        <el-button
-          class="extra_btn_class"
-          size="small"
-          @click="export_localstorage()"
-          >导出</el-button
-        >
+        <el-button class="extra_btn_class" size="small" @click="export_localstorage()">导出</el-button>
       </div>
 
       <div class="pref_div">
         <p class="pref_p">导入配置及缓存文件</p>
-        <el-button
-          class="extra_btn_class"
-          size="small"
-          @click="import_localstorage()"
-          >选择文件并导入</el-button
-        >
+        <el-button class="extra_btn_class" size="small" @click="import_localstorage()">选择文件并导入</el-button>
+      </div>
+
+      <h2 class="pref_h2">缓存</h2>
+      <el-divider />
+      <div class="pref_div">
+        <p class="pref_p">缓存文件夹</p>
+        <el-button class="extra_btn_class" size="small" @click="open_cachefile()">打开</el-button>
       </div>
 
       <p class="pref_author">MADE BY ZiGma</p>
@@ -173,7 +163,7 @@ const swich_clipboard_bool = computed({
 });
 
 //设置剪贴板相关设置的上限
-const handleChange_clipboard_num = (value:String) => {
+const handleChange_clipboard_num = (value: String) => {
   const _str = value.replace(/[^0-9.]/g, "");
   const final_num = Number(_str) > 200 ? 200 : Number(_str);
   STORE_setting_instance.Change_clipboard_num(final_num);
@@ -214,7 +204,7 @@ const export_localstorage = () => {
   const final_json = Object.fromEntries(arr_text);
 
   window.ipcRenderer.send("Get_Path", "downloads");
-  window.ipcRenderer.on("final_path", (event, arg) => {
+  window.ipcRenderer.on("Final_Fath", (event, arg) => {
     if (arg != undefined) {
       const file_fullpath = arg + "/export_cache.json";
       window.fs.writeFileSync(file_fullpath, JSON.stringify(final_json));
@@ -230,7 +220,7 @@ const export_localstorage = () => {
 
 const import_localstorage = () => {
   window.ipcRenderer.send("Choose_File");
-  window.ipcRenderer.on("final_file", (event, arg) => {
+  window.ipcRenderer.on("Final_File", (event, arg) => {
     const json_ = JSON.parse(arg);
     for (let key in json_) {
       setItem(key, json_[key]);
@@ -247,6 +237,19 @@ const import_localstorage = () => {
     }, 1000);
   });
 };
+
+const open_cachefile = () => {
+  window.ipcRenderer.send("Get_Path", "userData");
+  window.ipcRenderer.on("Final_Path", (e, a) => {
+    console.log("🚀 ~ file: Preferences.vue ~ line 248 ~ window.ipcRenderer.on ~ a", a)
+    if (a != undefined) {
+      const path = a.replace(/\s/g, "") + "/CacheFiles"
+      window.shell.openPath(path);
+    }
+  })
+
+
+}
 </script>
 
 <style lang="scss" scoped>
