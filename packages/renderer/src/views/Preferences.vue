@@ -64,7 +64,7 @@
       <h2 class="pref_h2">快捷输入</h2>
       <el-divider />
       <div class="pref_div">
-        <p class="pref_p">已引入的文件</p>
+        <p class="pref_p">已引入的法律法规文件</p>
         <el-button class="extra_btn_class" size="small" @click="Refresh_lawfiles">刷新</el-button>
       </div>
       <el-table :data="tableData.list" border style="width: 100%; max-height: 500px;">
@@ -82,7 +82,7 @@
         </el-table-column>
       </el-table>
 
-      <p class="pref_p">引入新的文件</p>
+      <p class="pref_p">引入新的法律法规文件</p>
       <p class="pref_desc_p" style="margin-top: -3px">
         <b>
           &#10059 注意：快捷输入工具仅仅作为更加便捷编辑而存在，对于导入文件尽可能进行准确匹配，但是无法保证任何法律法规文件导入后法条完整和准确性。
@@ -91,28 +91,38 @@
         <br />
         <br />下载法律文书: http://gov.pkulaw.cn/ (北大法宝中国法律法规数据库，需互联网下载后导入)
         <br />
-        <i>国务院下属数据库因更新效率以及无法下载TXT文件格式而被排除。</i>
+        <i>国务院下属国家法律法规数据库因更新效率问题以及无法下载TXT文件格式而不被支持。</i>
         <br />
         <br />进入网页选择法律法规文件后，点击右上角下载按钮，选择「纯文本」去掉勾选「保留字段信息」以及「保留正文中的法宝联想」，下载后不要修改文件名称，请保持原有名称以便提取该文书完整名称。
         <br />目前支持法律、法规、司法解释的导入。
       </p>
+      <div class="pref_div">
+        <p class="pref_p">行政区划地址信息（更新时间：{{ pca_update_time() }}）</p>
+        <el-button class="extra_btn_class" size="small" @click="import_pcafile()">选择文件并更新</el-button>
+      </div>
+      <p class="pref_desc_p" style="margin-top: -3px">
+        地域范围为国家统计局开展统计调查的全国31个省、自治区、直辖市，
+        <br />未包括我国台湾省、香港特别行政区、澳门特别行政区。
+        <br />项目更新地址：https://github.com/modood/Administrative-divisions-of-China
+        <br />下载pca.json文件引入即可
+      </p>
+
       <h2 class="pref_h2">其他</h2>
       <el-divider />
-
       <div class="pref_div">
-        <p class="pref_p">导出配置及缓存文件</p>
+        <p class="pref_p">导出配置及缓存数据</p>
         <el-button class="extra_btn_class" size="small" @click="export_localstorage()">导出</el-button>
       </div>
 
       <div class="pref_div">
-        <p class="pref_p">导入配置及缓存文件</p>
+        <p class="pref_p">导入配置及缓存数据</p>
         <el-button class="extra_btn_class" size="small" @click="import_localstorage()">选择文件并导入</el-button>
       </div>
 
-      <h2 class="pref_h2">缓存</h2>
+      <h2 class="pref_h2">资源</h2>
       <el-divider />
       <div class="pref_div">
-        <p class="pref_p">缓存文件夹</p>
+        <p class="pref_p">资源文件夹</p>
         <el-button class="extra_btn_class" size="small" @click="open_cachefile()">打开</el-button>
       </div>
 
@@ -129,6 +139,7 @@ import { ElMessage } from "element-plus";
 import { setItem } from "../script/utils/storage";
 import { STORE_setting } from "../store/modules/setting";
 import { scan_allfiles } from "../script/utils/scanfolder";
+import { ipcMsg_Get_File, ipcMsg_Get_Path } from "../script/utils/ipcmessage";
 
 const STORE_setting_instance = STORE_setting();
 
@@ -192,8 +203,17 @@ const handleDelete = (index: number) => {
   console.log(index);
 };
 
+const pca_update_time = () => {
+  const data = window.fs.statSync("/Users/zigma/Documents/Electron/Dox/packages/renderer/public/divisions/pca.json")
+  return data.birthtime.toLocaleDateString();
+}
+
+const import_pcafile = () =>{
+  
+}
+
 //导出&导入缓存
-const export_localstorage = () => {
+const export_localstorage = async () => {
   const arr_text = [];
   for (var i = 0; i < window.localStorage.length; i++) {
     const key: string | null = window.localStorage.key(i); //获取本地存储的Key
@@ -203,25 +223,24 @@ const export_localstorage = () => {
   }
   const final_json = Object.fromEntries(arr_text);
 
-  window.ipcRenderer.send("Get_Path", "downloads");
-  window.ipcRenderer.on("Final_Fath", (event, arg) => {
-    if (arg != undefined) {
-      const file_fullpath = arg + "/export_cache.json";
-      window.fs.writeFileSync(file_fullpath, JSON.stringify(final_json));
+  const downloads_path = await ipcMsg_Get_Path("downloads");
 
-      ElMessage({
-        message: `成功将缓存内容导出至 ${file_fullpath} `,
-        grouping: true,
-        type: "success",
-      });
-    }
-  });
+  if (downloads_path != undefined) {
+    const file_fullpath = downloads_path + "/export_cache.json";
+    window.fs.writeFileSync(file_fullpath, JSON.stringify(final_json));
+
+    ElMessage({
+      message: `成功将缓存内容导出至 ${file_fullpath} `,
+      grouping: true,
+      type: "success",
+    });
+  }
 };
 
-const import_localstorage = () => {
-  window.ipcRenderer.send("Choose_File");
-  window.ipcRenderer.on("Final_File", (event, arg) => {
-    const json_ = JSON.parse(arg);
+const import_localstorage = async () => {
+  const File_Result = await ipcMsg_Get_File({ name: "JSON", extensions: ["json"] });
+  if (File_Result) {
+    const json_ = JSON.parse(File_Result);
     for (let key in json_) {
       setItem(key, json_[key]);
     }
@@ -234,22 +253,20 @@ const import_localstorage = () => {
 
     setTimeout(() => {
       window.ipcRenderer.send("Restart");
-    }, 1000);
-  });
-};
-
-const open_cachefile = () => {
-  window.ipcRenderer.send("Get_Path", "userData");
-  window.ipcRenderer.on("Final_Path", (e, a) => {
-    console.log("🚀 ~ file: Preferences.vue ~ line 248 ~ window.ipcRenderer.on ~ a", a)
-    if (a != undefined) {
-      const path = a.replace(/\s/g, "") + "/CacheFiles"
-      window.shell.openPath(path);
-    }
-  })
-
-
+    }, 3000);
+  };
 }
+
+
+const open_cachefile = async () => {
+  const userData_path = await ipcMsg_Get_Path("userData");
+
+  if (userData_path != undefined) {
+    const path = userData_path.replace(/\s/g, "") + "/CacheFiles"
+    window.shell.openPath(path);
+  }
+}
+
 </script>
 
 <style lang="scss" scoped>

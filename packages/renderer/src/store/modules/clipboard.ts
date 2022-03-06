@@ -79,6 +79,7 @@ export const STORE_clipboard = defineStore({
       }
       this.clipboard_cache.splice(index, 1);
     },
+    /** 切换剪贴板监听状态 */
     switch_listen() {
       this.clipboard_listen = !this.clipboard_listen;
     },

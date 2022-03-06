@@ -45,9 +45,9 @@ async function createWindow() {
   }
 
   // Test active push message to Renderer-process
-  win.webContents.on("did-finish-load", () => {
-    win?.webContents.send("main-process-message", new Date().toLocaleString());
-  });
+  // win.webContents.on("did-finish-load", () => {
+  //   win?.webContents.send("main-process-message", new Date().toLocaleString());
+  // });
 
   // Make all links open with the browser, not with the application
   win.webContents.setWindowOpenHandler(({ url }) => {
@@ -88,42 +88,39 @@ ipcMain.on("Max", (e) => {
     win?.maximize();
   }
 });
-ipcMain.on("Close", (e) => win?.close());
+ipcMain.on("Close", (e) => app.quit());
 
 ipcMain.on("Restart", (e) => {
   app.relaunch({ args: process.argv.slice(1).concat(["--relaunch"]) });
   app.exit(0);
 });
 
-ipcMain.on("Get_Path", (e, a) => {
-  e.reply("Final_Path", app.getPath(a));
+ipcMain.handle("Get_Path", async (event, arg) => {
+  return app.getPath(arg);
 });
 
-ipcMain.on("Choose_File", (e) => {
+ipcMain.handle("Get_File", async (event, arg) => {
   const res = dialog.showOpenDialogSync({
-    filters: [{ name: "JSON", extensions: ["json"] }],
+    filters: [arg],
   });
   if (res) {
     const final_res = res[0];
-    fs.readFile(final_res, { encoding: "utf-8" }, (err, data) => {
-      e.reply("Final_File", data); // 返回给渲染进程
-    });
+    return fs.readFileSync(final_res, { encoding: "utf-8" });
   }
 });
 
-ipcMain.on("Save_File", (e, d) => {
-  const wordFile = d.WordFile;
-  const savePath = d.SavePath ?? "";
-  const saveName = d.SaveName;
+ipcMain.handle("Save_File", async (event,arg) => {
+  const wordFile = arg.WordFile;
+  const savePath = arg.SavePath ?? "";
+  const saveName = arg.SaveName;
   if (!wordFile || !saveName) {
-    e.reply("SaveFileCallback", ["error", "参数错误！"]);
+    return  ["error", "参数错误！"];
   } else {
     const buff = Buffer.from(wordFile as ArrayBuffer);
     fs.writeFileSync(savePath + saveName, buff);
-
-    e.reply("SaveFileCallback", ["success", "导出成功！"]);
+    return ["success", "导出成功！"];
   }
-});
+})
 
 app.on("window-all-closed", () => {
   win = null;

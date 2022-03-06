@@ -196,18 +196,6 @@ const Listen_Clipboard = () => {
   }
 };
 
-//监控剪贴板缓存变化以刷新滚动条
-// STORE_clipboard_instance.$subscribe((mutation, state) => {
-//   console.log(state.clipboard_listen)
-//   if (state.clipboard_listen) {
-//     clipboardObserver.start();
-//     console.log("start")
-//   } else {
-//     clipboardObserver.stop();
-//     console.log("stop")
-//   }
-// });
-
 PreloadFiles();
 Listen_Clipboard();
 

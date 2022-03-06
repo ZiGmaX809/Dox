@@ -397,13 +397,6 @@ const exoprt_word = () => {
     "审 判 长  陈  刚\n审 判 员  缪  蕾\n审 判 员  茹  愿\n \n" + rq;
   const fgzl = "法官助理  翁文杰\n书 记 员  张盼兮";
   exportWord(lx, ah, zw, hytrq, fgzl);
-  window.ipcRenderer.on("SaveFileCallback", (event, arg) => {
-    ElMessage({
-      message: arg[1],
-      grouping: true,
-      type: arg[0],
-    });
-  });
 };
 
 //编辑器清屏

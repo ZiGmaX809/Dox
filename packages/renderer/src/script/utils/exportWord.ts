@@ -11,6 +11,8 @@ import {
   convertMillimetersToTwip,
   Footer,
 } from "docx";
+import { ElMessage } from "element-plus";
+import { ipcMsg_Export_Word } from "./ipcmessage";
 
 /**
  *
@@ -272,13 +274,18 @@ export const exportWord = async (
 
   Packer.toBlob(doc).then((blob) => {
     let reader = new FileReader();
-    reader.onload = function (result) {
-      window.ipcRenderer.send("Save_File", {
+    reader.onload = async function (result) {
+      const reslut: any = await ipcMsg_Export_Word({
         WordFile: result.target?.result,
         SavePath: "/Users/zigma/Downloads/",
         SaveName: ah + ".docx",
       });
-      
+
+      ElMessage({
+        message: ah + reslut[1],
+        grouping: true,
+        type: reslut[0],
+      });
     };
     reader.readAsArrayBuffer(blob);
   });
