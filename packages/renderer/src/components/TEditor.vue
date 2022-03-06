@@ -25,15 +25,13 @@ import { reactive, ref, watch } from "vue";
 
 const STORE_editor_instance = STORE_editor();
 
-const value: string = "";
-
 const plugins: string = "charmap wordcount indent2em";
 
 const toolbar: string =
   "undo redo | cut copy paste | indent2em | alignleft aligncenter alignright alignjustify outdent indent | charmap";
 
 const state = reactive({
-  contentValue: value,
+  contentValue: "",
 });
 
 const initOptions = ref({
@@ -43,7 +41,6 @@ const initOptions = ref({
   //emoticons_database_url: "/tinymce/plugins/emoticons/js/emojis.js", //更改表情插件路径
   language_url: "plugins/tinymce/langs/zh_CN.js", //引入语言包文件
   language: "zh_CN", //语言类型
-  // skin: "oxide",
 
   skin_url: "plugins/tinymce/skins/ui/oxide", //皮肤：浅色
   // skin_url: '/tinymce/skins/ui/oxide-dark',//皮肤：暗色
@@ -56,7 +53,7 @@ const initOptions = ref({
   fontsize_formats:
     "12px 14px 16px 18px 20px 22px 24px 28px 32px 36px 48px 56px 72px", //字体大小
   font_formats:
-    "微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun,serif;仿宋体=FangSong,serif;黑体=SimHei,sans-serif;",
+    "微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun,serif;仿宋体=FangSong,serif;黑体=SimHei,sans-serif;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;",
 
   height: "610px", //注：引入autoresize插件时，此属性失效
   width: "100%",
@@ -74,7 +71,7 @@ const initOptions = ref({
   elementpath: false, //元素路径是否显示
 
   // content_style: 'img {max-width:100%;}', //直接自定义可编辑区域的css样式
-  content_css: "plugins/tinymce/skins/content/default/content.css", //以css文件方式自定义可编辑区域的css样式，css文件需自己创建并引入
+  content_css: "plugins/tinymce/skins/content/default/content.min.css", //以css文件方式自定义可编辑区域的css样式，css文件需自己创建并引入
 });
 
 const clear = () => {
