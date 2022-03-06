@@ -17,7 +17,7 @@ import "tinymce/themes/silver"; //编辑器主题，不引入则报错
 import "tinymce/icons/default"; //引入编辑器图标icon，不引入则不显示对应图标
 
 // 引入编辑器插件
-import "../static/tinymce/plugins/indent2em" //首行缩进
+import "../static/tinymce/plugins/indent2em"; //首行缩进
 import "tinymce/plugins/quickbars"; //快速工具栏
 import "tinymce/plugins/wordcount"; //字数统计
 import "tinymce/plugins/charmap"; //特殊字符
@@ -43,6 +43,7 @@ const initOptions = ref({
   //emoticons_database_url: "/tinymce/plugins/emoticons/js/emojis.js", //更改表情插件路径
   language_url: "plugins/tinymce/langs/zh_CN.js", //引入语言包文件
   language: "zh_CN", //语言类型
+  // skin: "oxide",
 
   skin_url: "plugins/tinymce/skins/ui/oxide", //皮肤：浅色
   // skin_url: '/tinymce/skins/ui/oxide-dark',//皮肤：暗色
@@ -81,16 +82,16 @@ const clear = () => {
 };
 
 const getText = () => {
-  var cnt = tinymce.activeEditor.getContent({ format: "text" })
+  var cnt = tinymce.activeEditor.getContent({ format: "text" });
   return cnt;
 };
 
 const addText = (data: string) => {
-   tinymce.activeEditor.insertContent(data);
+  tinymce.activeEditor.insertContent(data);
 };
 
 const int2em = () => {
-   tinymce.activeEditor.execCommand("indent2em");
+  tinymce.activeEditor.execCommand("indent2em");
 };
 
 //监控编辑器内容变更
@@ -98,7 +99,7 @@ watch(
   () => state.contentValue,
   (newValue) => {
     if (!STORE_editor_instance.editor_isChanged) {
-      STORE_editor_instance.Set_editor_isChanged()
+      STORE_editor_instance.Set_editor_isChanged();
     }
   }
 );
