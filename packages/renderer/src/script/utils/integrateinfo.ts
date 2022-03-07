@@ -1,11 +1,11 @@
 import { obj } from "../../store";
-import { STORE_caseinfo } from "../../store/modules/caseinfo";
-import { STORE_editor } from "../../store/modules/editor";
+import { STORE_Editor } from "../../store/modules/editor";
+import { STORE_Request } from "../../store/modules/request";
 import { date_format } from "./quickinput";
 
 export const integrate_info = () => {
-  const STORE_caseinfo_instance = STORE_caseinfo();
-  const caseinfo = STORE_caseinfo_instance.this_caseinfo;
+  const STORE_request_instance = STORE_Request();
+  const caseinfo = STORE_request_instance.CaseDetail;
   const dsrlist = caseinfo?.entry?.dsrList;
   const dlrlist = caseinfo?.entry?.dlrList;
 
@@ -78,7 +78,7 @@ const final_info = (caseinfo: obj) => {
   };
 
   const previous_ah = caseinfo?.entry?.yaxxEOList[0]?.ah;
-  const previous_fy = STORE_editor().prev_fy;
+  const previous_fy = STORE_Editor().prev_fy;
   const la_data = (date_format(caseinfo?.entry?.ajjbxx?.larq) as string[])[0];
   const final_oth_text = `一案，不服${previous_fy}${previous_ah}民事裁定，向本院提起上诉。本院于${la_data}立案后，依法组成合议庭审理了本案。本案现已审理终结。`;
 

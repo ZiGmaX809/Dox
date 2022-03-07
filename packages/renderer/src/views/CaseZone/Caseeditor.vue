@@ -95,7 +95,7 @@
           :label="item.PartName"
           :value="item.PartName"
           :disabled="
-            index == 6 && !STORE_setting_instance.setting.clipboard_bool
+            index == 6 && !STORE_setting_instance.clipboard_bool
               ? true
               : false
           "
@@ -250,18 +250,18 @@ import { ElMessage } from "element-plus";
 import { quick_input_introduction } from "../../html/introduction";
 import { date_format, quickinput } from "../../script/utils/quickinput";
 import { exportWord } from "../../script/utils/exportWord";
-import { STORE_editor } from "../../store/modules/editor";
-import { STORE_setting } from "../../store/modules/setting";
-import { STORE_caseinfo } from "../../store/modules/caseinfo";
-import { STORE_clipboard } from "../../store/modules/clipboard";
+import { STORE_Editor } from "../../store/modules/editor";
+import { STORE_Setting } from "../../store/modules/setting";
+import { STORE_Clipboard } from "../../store/modules/clipboard";
 import { walkSync } from "../../script/utils/scanfolder";
 import { integrate_info } from "../../script/utils/integrateinfo";
 import { convert_folder_path } from "../../script/utils/convertpath";
+import { STORE_Request } from "../../store/modules/request";
 
-const STORE_editor_instance = STORE_editor();
-const STORE_setting_instance = STORE_setting();
-const STORE_caseinfo_instance = STORE_caseinfo();
-const STORE_clipboard_instance = STORE_clipboard();
+const STORE_editor_instance = STORE_Editor();
+const STORE_setting_instance = STORE_Setting();
+const STORE_request_instance = STORE_Request();
+const STORE_clipboard_instance = STORE_Clipboard();
 
 const tinymce_eidtor = ref();
 const value = ref("案件信息");
@@ -374,7 +374,7 @@ const saveText = (edit_text: string, ismsg: boolean) => {
     ah: props.id,
     text: edit_text,
   };
-  setItem("saveText", txt);
+  setItem("SaveText", txt);
   STORE_editor_instance.Reset_editor_isChanged();
 
   if (ismsg) {
@@ -389,7 +389,7 @@ const saveText = (edit_text: string, ismsg: boolean) => {
 //输出文本
 const exoprt_word = () => {
   const lx = "民事裁定书";
-  const ah = STORE_caseinfo_instance.this_ah;
+  const ah = STORE_request_instance.this_ah;
   const dlrinfo = integrate_info().join("\n");
   const zw = dlrinfo + "\n" + getText();
   const rq = (date_format("today") as string[])[1];
@@ -403,7 +403,7 @@ const exoprt_word = () => {
 const clear = () => {
   tinymce_eidtor.value.clear();
   setTimeout(() => {
-    if (STORE_setting_instance.setting.auto_int2em) {
+    if (STORE_setting_instance.auto_int2em) {
       int2em();
     }
     //清屏后无需提醒

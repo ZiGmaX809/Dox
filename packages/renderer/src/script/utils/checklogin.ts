@@ -1,10 +1,8 @@
-import { getItem } from "./storage";
 import { ElMessage } from "element-plus";
-
-const get_loginInfo = getItem("loginInfo").data;
+import { STORE_Login } from "../../store/modules/login";
 
 export const check_login_info = () => {
-  if (get_loginInfo == undefined) {
+  if (STORE_Login().LoginResult.data == undefined) {
     ElMessage({
       message: "未登录",
       grouping: true,

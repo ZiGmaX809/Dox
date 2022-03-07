@@ -1,7 +1,6 @@
 import nzhcn from "nzh/cn";
 import { ref } from "vue";
-import store from "../../store";
-import { STORE_quickinput } from "../../store/modules/quickinpt";
+import { STORE_Quickinput } from "../../store/modules/quickinpt";
 
 var arr_pca: any[] = [];
 
@@ -221,7 +220,7 @@ function judge_law(str: any, file_list: any[]) {
 }
 
 async function introduce_lawarticle(name: any) {
-  const STORE_quickinput_state = STORE_quickinput();
+  const STORE_quickinput_state = STORE_Quickinput();
   //判断是否存在缓存
   const lawfileCache = STORE_quickinput_state.lawfileCache;
   if (lawfileCache.name != name) {
@@ -230,10 +229,9 @@ async function introduce_lawarticle(name: any) {
 }
 
 function input_lawarticle(index: any) {
-  const STORE_quickinput_state = STORE_quickinput();
   //从缓存中读取
   let result: any = [];
-  const law_cache = STORE_quickinput_state.lawfileCache.contents;
+  const law_cache = STORE_Quickinput().lawfileCache.contents;
   const reslut_law = get_detail_law(law_cache, index);
   if (typeof reslut_law == "object") {
     result.push(reslut_law);
@@ -390,7 +388,7 @@ function iter_lawJson(json: any): any {
 async function introduce_pcafile() {
   //获取当前时间戳
   let now = new Date().getTime();
-  const STORE_quickinput_state = STORE_quickinput();
+  const STORE_quickinput_state = STORE_Quickinput();
 
   const isReload = () => {
     if (STORE_quickinput_state.pcaCache.length == 0) {
@@ -411,8 +409,7 @@ async function introduce_pcafile() {
 }
 
 function find_address(str: string) {
-  const STORE_quickinput_state = STORE_quickinput();
-  const pca_contents = STORE_quickinput_state.pcaCache.contents;
+  const pca_contents = STORE_Quickinput().pcaCache.contents;
   arr_pca = [];
   iter_pcaJson("", str, pca_contents);
   return arr_pca;

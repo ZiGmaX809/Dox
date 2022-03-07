@@ -1,55 +1,61 @@
 import { defineStore } from "pinia";
-import { getItem } from "../../script/utils/storage";
 
-const default_setting = {
-  ui_color: "",
-  custom_avatar_bool: false,
-  custom_avatar_url: "",
-  auto_int2em: true,
-  clipboard_bool: false,
-  clipboard_num: 50,
-  clipboard_textlength: 300,
-  lawfilelist: [],
-};
+interface SettingState {
+  ui_color: string;
+  custom_avatar_bool: boolean;
+  custom_avatar_url: string;
+  auto_int2em: boolean;
+  clipboard_bool: boolean;
+  clipboard_num: number;
+  clipboard_textlength: number;
+  writeSystemClipboard_bool: boolean;
+  lawfilelist: string[];
+}
 
-const saved_setting = getItem("settingInfo")
-  ? getItem("settingInfo").setting
-  : default_setting;
-
-export const STORE_setting = defineStore({
-  id: "setting",
-  state: () => {
+export const STORE_Setting = defineStore({
+  id: "Setting",
+  state: (): SettingState => {
     return {
-      setting: saved_setting,
+      ui_color: "",
+      custom_avatar_bool: false,
+      custom_avatar_url: "",
+      auto_int2em: true,
+      clipboard_bool: false,
+      clipboard_num: 50,
+      clipboard_textlength: 300,
+      writeSystemClipboard_bool: false,
+      lawfilelist: [],
     };
   },
   actions: {
     Switch_clipboard_bool(bool: boolean) {
-      this.setting.clipboard_bool = bool;
+      this.clipboard_bool = bool;
     },
     Change_clipboard_num(num: number) {
-      this.setting.clipboard_num = num;
+      this.clipboard_num = num;
     },
     Change_clipboard_textlength(num: number) {
-      this.setting.clipboard_textlength = num;
+      this.clipboard_textlength = num;
     },
     Switch_auto_int2em(bool: boolean) {
-      this.setting.auto_int2em = bool;
+      this.auto_int2em = bool;
     },
     Switch_custom_avatar(bool: boolean) {
-      this.setting.custom_avatar_bool = bool;
+      this.custom_avatar_bool = bool;
     },
     Change_lawfilelist(list: any[]) {
-      this.setting.lawfilelist = list;
+      this.lawfilelist = list;
+    },
+    Switch_writeSystemClipboard_bool(bool: boolean) {
+      this.writeSystemClipboard_bool = bool;
     },
   },
   persist: {
     enabled: true,
     strategies: [
       {
-        key: "settingInfo",
+        key: "SettingConfig",
         storage: localStorage,
-        paths: ["setting"],
       },
     ],
   },

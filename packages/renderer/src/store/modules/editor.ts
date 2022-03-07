@@ -3,7 +3,7 @@ import { convert_file_path } from "../../script/utils/convertpath";
 import { load_local_json } from "../../script/utils/loadjson";
 import { obj } from "../index";
 
-export const STORE_editor = defineStore({
+export const STORE_Editor = defineStore({
   id: "editor",
   state: () => {
     return {

@@ -135,13 +135,11 @@ import { ref, inject, reactive } from "vue";
 import { Refresh } from "@element-plus/icons-vue";
 import { REQUEST_get_caselist } from "../script/request/caselist";
 import { check_login_info } from "../script/utils/checklogin";
-import { STORE_caseinfo } from "../store/modules/caseinfo";
-
-const STORE_caseinfo_instance = STORE_caseinfo();
+import { STORE_Request } from "../store/modules/request";
 
 const reload: any = inject("reload");
 
-const d = reactive(STORE_caseinfo_instance.my_caselist);
+const d = reactive(STORE_Request().MyCaseList);
 
 const currentPage = ref(1);
 const pagesize = ref(20);

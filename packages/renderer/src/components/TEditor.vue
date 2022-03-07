@@ -8,10 +8,10 @@
 //引入tinymce编辑器
 import Editor from "@tinymce/tinymce-vue";
 // 引入富文本编辑器主题的js和css
-// import 'tinymce/skins/content/default/content.css'
+// import "tinymce/skins/content/default/content.min.css";
 //引入方式引入node_modules里的tinymce相关文件文件
 import tinymce from "tinymce/tinymce"; //tinymce默认hidden，不引入则不显示编辑器
-import { STORE_editor } from "../store/modules/editor";
+import { STORE_Editor } from "../store/modules/editor";
 
 import "tinymce/themes/silver"; //编辑器主题，不引入则报错
 import "tinymce/icons/default"; //引入编辑器图标icon，不引入则不显示对应图标
@@ -20,15 +20,15 @@ import "tinymce/icons/default"; //引入编辑器图标icon，不引入则不显
 import "../static/tinymce/plugins/indent2em"; //首行缩进
 import "tinymce/plugins/quickbars"; //快速工具栏
 import "tinymce/plugins/wordcount"; //字数统计
-import "tinymce/plugins/charmap"; //特殊字符
+// import "tinymce/plugins/charmap"; //特殊字符
 import { reactive, ref, watch } from "vue";
 
-const STORE_editor_instance = STORE_editor();
+const STORE_editor_instance = STORE_Editor();
 
-const plugins: string = "charmap wordcount indent2em";
+const plugins: string = "wordcount indent2em";
 
 const toolbar: string =
-  "undo redo | cut copy paste | indent2em | alignleft aligncenter alignright alignjustify outdent indent | charmap";
+  "undo redo | cut copy paste | indent2em | alignleft aligncenter alignright alignjustify outdent indent";
 
 const state = reactive({
   contentValue: "",

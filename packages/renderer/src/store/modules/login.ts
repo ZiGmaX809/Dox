@@ -1,38 +1,52 @@
 import { defineStore } from "pinia";
-import { getItem, removeItem, setItem } from "../../script/utils/storage";
 
-export const STORE_login = defineStore({
+interface LoginState {
+  LoginResult: {
+    [propsname: string]: any;
+  };
+  LoginInfo: {
+    [propsname: string]: any;
+  };
+  UserID: string;
+  Avatar: string;
+  Token: string;
+}
+
+export const STORE_Login = defineStore({
   id: "login",
-  state: () => {
+  state: (): LoginState => {
     return {
-      loginInfo: getItem("loginInfo") ? getItem("loginInfo") : "",
-      userInfo: getItem("userInfo") ? getItem("userInfo") : "",
-      token: getItem("token") ? getItem("token") : "",
-      avatar: getItem("avatar_url") ? getItem("avatar_url") : "",
+      LoginResult: {},
+      LoginInfo: {},
+      UserID: "",
+      Avatar: "",
+      Token: "",
     };
   },
   actions: {
-    SetUser(data: {}) {
-      this.userInfo = data;
-      if (data) {
-        setItem("userInfo", JSON.stringify(data));
-      }
+    Set_LoginResult(data: {}) {
+      this.LoginResult = data;
     },
-    SetUserID(data: string) {
-      if (data) {
-        setItem("userID", JSON.stringify(data));
-      }
+    Set_LoginInfo(data: {}) {
+      this.LoginInfo = data;
     },
-    SetToken(data: string) {
-      if (data) {
-        this.token = data;
-        setItem("token", data);
-      }
+    Set_UserID(data: string) {
+      this.UserID = data;
     },
-    SetAvatar(data: string) {
-      if (data) {
-        setItem("avatar_url", data);
-      }
+    Set_Avatar(data: string) {
+      this.Avatar = data;
     },
+    Set_Token(data: string) {
+      this.Token = data;
+    },
+  },
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: "LoginInfo",
+        storage: localStorage,
+      },
+    ],
   },
 });

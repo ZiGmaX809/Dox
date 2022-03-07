@@ -1,6 +1,6 @@
 import { HTTP_getCaseDetail } from "../api/apiList";
-import { getItem } from "../utils/storage";
-import { STORE_caseinfo } from "../../store/modules/caseinfo";
+import { STORE_Request } from "../../store/modules/request";
+import { STORE_Login } from "../../store/modules/login";
 
 /**
  * 通过案号代码获取案件详细信息
@@ -13,7 +13,7 @@ export const REQUEST_get_casedetailinfo = (
   isloadingview: boolean,
   ismsg: boolean
 ) => {
-  const yhdm = getItem("userID");
+  const yhdm = STORE_Login().UserID;
 
   const data = {
     ahdm: id,
@@ -22,14 +22,15 @@ export const REQUEST_get_casedetailinfo = (
   };
 
   HTTP_getCaseDetail(data, isloadingview, ismsg).then((res: any) => {
-    const STORE_caseinfo_instance = STORE_caseinfo();
-    // setItem("casedetailInfo", res);
-    STORE_caseinfo_instance.request_caseinfo(res);
+    // const STORE_caseinfo_instance = STORE_caseinfo();
+    // // setItem("casedetailInfo", res);
+    // STORE_caseinfo_instance.request_caseinfo(res);
+    STORE_Request().Request_CaseDetail(res);
     // store.commit("caseinfoModule/request_caseinfo", res);
   });
 
   //判断是否请求成功
-  if (id === getItem("casedetailInfo")?.entry?.ajjbxx?.ahdm) {
+  if (id === STORE_Request().CaseDetail.entry?.ajjbxx?.ahdm) {
     return true;
   } else {
     return false;

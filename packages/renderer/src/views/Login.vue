@@ -48,21 +48,20 @@
 import { ref } from "@vue/reactivity";
 import qs from "qs";
 import { HTTP_checkuserinfo, HTTP_checkToken } from "../script/api/apiList";
-import { setItem } from "../script/utils/storage";
 import { inject, Ref } from "vue";
 import { ElMessage } from "element-plus";
 import { showLoading, hideLoading } from "../script/utils/loading";
-import { STORE_login } from "../store/modules/login";
+import { STORE_Login } from "../store/modules/login";
 
-const STORE_login_instance = STORE_login();
+const STORE_login_instance = STORE_Login();
 
 const loginWrap = ref();
 const drawer: Ref<boolean> = inject("drawer") as Ref<boolean>;
 let showLogin = false;
 
 const formLabelAlign = ref({
-  username: STORE_login_instance.userInfo.username,
-  passwd: STORE_login_instance.userInfo.password,
+  username: STORE_login_instance.LoginInfo.username,
+  passwd: STORE_login_instance.LoginInfo.password,
 });
 
 const getImageUrl = (name: any) => {
@@ -101,7 +100,7 @@ const login = () => {
         if (res.msg == null) {
           //登陆信息无误,保存用户名和密码到localStorage
           // store.commit("loginModule/SetUser", data);
-          STORE_login_instance.SetUser(data)
+          STORE_login_instance.Set_LoginInfo(data);
 
           let ft = false; //防止dom-ready在重定向后多次刷新
           _obj.src =
@@ -127,11 +126,11 @@ const login = () => {
             } else if (reasult.includes("result")) {
               //输出获取的Token等信息
               //console.log(reasult);
-              let result = (reasult.replace("result:", "")).split(",");
+              let result = reasult.replace("result:", "").split(",");
               //将获取的Token和头像地址写到localStorage
-              STORE_login_instance.SetToken(result[0]);
-              STORE_login_instance.SetUserID(result[1]);
-              STORE_login_instance.SetAvatar(result[2]);
+              STORE_login_instance.Set_Token(result[0]);
+              STORE_login_instance.Set_UserID(result[1]);
+              STORE_login_instance.Set_Avatar(result[2]);
             } else {
               login_err = true;
             }
@@ -143,11 +142,11 @@ const login = () => {
 
               loginWrap.value.removeChild(_obj);
 
-              const token = STORE_login_instance.token;
+              const token = STORE_login_instance.Token;
               if (token) {
                 //获取用户代码等信息
                 HTTP_checkToken(token).then((res: any) => {
-                  setItem("loginInfo", res);
+                  STORE_login_instance.Set_LoginResult(res);
                 });
               }
 

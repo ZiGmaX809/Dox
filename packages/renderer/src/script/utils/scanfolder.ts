@@ -27,10 +27,11 @@ export const walkSync = (
 
 export const scan_allfiles = async (folderpath: string) => {
   const file_list: any[] = [];
-  walkSync(folderpath, (filePath, name, w_name) => {
+  walkSync(folderpath, (filepath, name, w_name) => {
     if (w_name != "") {
       file_list.push({
-        fullname: filePath,
+        filepath: filepath,
+        fullname: "",
         name: w_name,
       });
     }
@@ -38,11 +39,11 @@ export const scan_allfiles = async (folderpath: string) => {
 
   file_list.forEach(async (file, index) => {
     await load_local_json(
-      file.fullname.replace("packages/renderer/public/", "")
+      file.filepath.replace("packages/renderer/public/", "")
     ).then((res: any) => {
       file_list[index]["fullname"] = res.data.name;
     });
   });
-  
+
   return file_list;
 };

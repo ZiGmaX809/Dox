@@ -83,15 +83,14 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { STORE_editor } from "../../store/modules/editor";
-import { STORE_caseinfo } from "../../store/modules/caseinfo";
+import { STORE_Editor } from "../../store/modules/editor";
+import { STORE_Request } from "../../store/modules/request";
 
-const STORE_editor_instance = STORE_editor();
-const STORE_caseinfo_instance = STORE_caseinfo();
+const STORE_editor_instance = STORE_Editor();
 
-const caseInfo = STORE_caseinfo_instance.this_caseinfo;
-const dsrlist = caseInfo?.entry?.dsrList;
-const dlrlist = caseInfo?.entry?.dlrList;
+const Case_DetailInfo = STORE_Request().CaseDetail;
+const dsrlist = Case_DetailInfo?.entry?.dsrList;
+const dlrlist = Case_DetailInfo?.entry?.dlrList;
 
 const span_num = ref(3);
 
@@ -101,8 +100,8 @@ const span_num = ref(3);
  */
 const add_presettext = () => {
   const prev_fy = STORE_editor_instance.prev_fy;
-  const prev_ah = caseInfo.entry.yaxxEOList[0].ah;
-  const ay = caseInfo.entry.ajjbxx.ayms;
+  const prev_ah = Case_DetailInfo.entry.yaxxEOList[0].ah;
+  const ay = Case_DetailInfo.entry.ajjbxx.ayms;
   const arr_prepare_text = [];
 
   for (let i = dsrlist.length - 1; i > -1; i--) {

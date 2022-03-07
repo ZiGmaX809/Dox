@@ -111,15 +111,15 @@ import { useRoute } from "vue-router";
 import Router from "../../router/index";
 import { ElMessageBox, ElMessage } from "element-plus";
 import Editor from "./Caseeditor.vue";
-import { STORE_login } from "../../store/modules/login";
-import { STORE_editor } from "../../store/modules/editor";
-import { STORE_setting } from "../../store/modules/setting";
-import { STORE_caseinfo } from "../../store/modules/caseinfo";
+import { STORE_Login } from "../../store/modules/login";
+import { STORE_Editor } from "../../store/modules/editor";
+import { STORE_Setting } from "../../store/modules/setting";
+import { STORE_Request } from "../../store/modules/request";
 
-const STORE_login_instance = STORE_login();
-const STORE_editor_instance = STORE_editor();
-const STORE_setting_instance = STORE_setting();
-const STORE_caseinfo_instance = STORE_caseinfo();
+const STORE_login_instance = STORE_Login();
+const STORE_editor_instance = STORE_Editor();
+const STORE_request_instance = STORE_Request();
+const STORE_setting_instance = STORE_Setting();
 
 /* 路由传参 */
 const router = useRoute();
@@ -134,7 +134,7 @@ const Editors = ref();
 const int2em = ref(false);
 
 /* 获取数据 */
-const previous_caseinfo = STORE_caseinfo_instance.previous_caseinfo;
+const previous_caseinfo = STORE_request_instance.previous_caseinfo;
 const case_id = ref(router_caseid);
 
 //切换到编辑文书页面时自动启用首行缩进并读取暂存文本
@@ -142,10 +142,10 @@ const handle_tabs_change = (val: { index: number }) => {
   if (val.index == 1 && !int2em.value) {
     int2em.value = true;
     setTimeout(() => {
-      if (STORE_setting_instance.setting.auto_int2em) {
+      if (STORE_setting_instance.auto_int2em) {
         Editors.value.int2em();
       }
-      const txt = getItem("saveText");
+      const txt = getItem("SaveText");
       if (txt?.ah === router_caseid) {
         Editors.value.addText(txt.text);
         //在插入内容后延迟重置内容检测开关
@@ -159,7 +159,7 @@ const handle_tabs_change = (val: { index: number }) => {
 
 //打开网页案件空间
 const Open_Web_Casezone = (caseid: any) => {
-  const token = STORE_login_instance.token;
+  const token = STORE_login_instance.Token;
   HTTP_checkToken(token).then((res: any) => {
     if (res.code === 0) {
       let link = `http://babg.zj.pcc/ajkjPlus?tokenid=${token}&ahdm=${caseid}&lx=sp&flag=2`;
@@ -199,7 +199,7 @@ const Refresh_Dsrinfo = async () => {
  */
 
 const Open_Casezone = async () => {
-  const cache_caseid = STORE_caseinfo_instance.this_caseid;
+  const cache_caseid = STORE_request_instance.this_caseid;
   //写入传入原审法院名称
   STORE_editor_instance.Set_prev_fy(router_prev_fy);
   if (cache_caseid === router_caseid) {

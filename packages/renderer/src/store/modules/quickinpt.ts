@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { load_local_json } from "../../script/utils/loadjson";
 import { obj } from "../index";
 
-export const STORE_quickinput = defineStore({
+export const STORE_Quickinput = defineStore({
   id: "quickinput",
   state: () => {
     return {

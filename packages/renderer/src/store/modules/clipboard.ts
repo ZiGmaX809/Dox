@@ -1,9 +1,7 @@
 import { defineStore } from "pinia";
-import { STORE_setting } from "./setting";
+import { STORE_Setting } from "./setting";
 
-// const saved_cache = getItem("clipboardCache") || [0, []];
-
-export const STORE_clipboard = defineStore({
+export const STORE_Clipboard = defineStore({
   id: "clipboard",
   state: () => {
     return {
@@ -31,8 +29,8 @@ export const STORE_clipboard = defineStore({
   },
   actions: {
     add_cache(data: string) {
-      const STORE_setting_instance = STORE_setting();
-      const set_clip_num = STORE_setting_instance.setting.clipboard_num; //设定的剪贴板数量
+      const STORE_setting_instance = STORE_Setting();
+      const set_clip_num = STORE_setting_instance.clipboard_num; //设定的剪贴板数量
       const cache_clip_num = this.clipboard_cache.length; // 实际剪贴板数量
 
       //判断是否超出设置缓存数量

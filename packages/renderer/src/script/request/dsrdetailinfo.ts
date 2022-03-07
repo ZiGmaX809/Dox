@@ -3,7 +3,7 @@ import {
   HTTP_getqueryCaseDsrList,
 } from "../api/apiList";
 import { getItem, setItem } from "../utils/storage";
-import { STORE_login } from "../../store/modules/login";
+import { STORE_Login } from "../../store/modules/login";
 
 /**
  * 通过案件代码请求当事人信息
@@ -11,7 +11,7 @@ import { STORE_login } from "../../store/modules/login";
  * @returns 是否请求成功
  */
 
-const STORE_login_instance = STORE_login();
+const STORE_login_instance = STORE_Login();
 
 
 export const REQUEST_get_dsrdetialinfo = (
@@ -19,7 +19,7 @@ export const REQUEST_get_dsrdetialinfo = (
   isloadingview: boolean,
   ismsg: boolean
 ) => {
-  const loginInfo = STORE_login_instance.loginInfo;
+  const loginInfo = STORE_login_instance.LoginResult;
 
   interface data {
     yhdm?: string;
