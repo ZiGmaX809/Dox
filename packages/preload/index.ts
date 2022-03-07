@@ -19,7 +19,7 @@ contextBridge.exposeInMainWorld("removeLoading", removeLoading);
 contextBridge.exposeInMainWorld("shell", shell);
 contextBridge.exposeInMainWorld("path", path);
 contextBridge.exposeInMainWorld("clipboard", clipboard);
-contextBridge.exposeInMainWorld("Romve", Remove);
+contextBridge.exposeInMainWorld("Romove", Remove);
 contextBridge.exposeInMainWorld("Copy", Copy);
 contextBridge.exposeInMainWorld("Move", Move);
 contextBridge.exposeInMainWorld("ipcRenderer", withPrototype(ipcRenderer));

@@ -86,7 +86,7 @@ export const STORE_Clipboard = defineStore({
     enabled: true,
     strategies: [
       {
-        key: "clipboardCache",
+        key: "ClipboardCache",
         storage: localStorage,
       },
     ],

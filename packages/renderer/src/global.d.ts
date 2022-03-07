@@ -1,5 +1,4 @@
-
-export { }
+export {};
 
 declare global {
   interface Window {
@@ -9,6 +8,9 @@ declare global {
     shell: import("electron").Shell;
     path: typeof import("path");
     clipboard: import("electron").Clipboard;
+    Romove: () => void;
+    Copy: () => void;
+    Move: () => void;
     removeLoading: () => void;
   }
 }

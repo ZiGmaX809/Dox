@@ -99,30 +99,7 @@ const span_num = ref(3);
  * 当事人名称+一审法院+案号
  */
 const add_presettext = () => {
-  const prev_fy = STORE_editor_instance.prev_fy;
-  const prev_ah = Case_DetailInfo.entry.yaxxEOList[0].ah;
-  const ay = Case_DetailInfo.entry.ajjbxx.ayms;
-  const arr_prepare_text = [];
-
-  for (let i = dsrlist.length - 1; i > -1; i--) {
-    arr_prepare_text.push({
-      ItemName: "【" + dsrlist[i].ssdw2mc + "】" + dsrlist[i].mc,
-    });
-  }
-
-  arr_prepare_text.push(
-    {
-      ItemName: "【原审法院】" + prev_fy,
-    },
-    {
-      ItemName: "【原审案号】" + prev_ah,
-    },
-    {
-      ItemName: "【案由】" + ay,
-    }
-  );
-
-  STORE_editor_instance.Add_presetText(arr_prepare_text);
+  STORE_editor_instance.Add_presetText();
 };
 
 const transbrithday = (data: string) => {

@@ -25,7 +25,7 @@ export const REQUEST_get_caselist = () => {
     dateType: "LARQ",
     date: [],
     pageNum: 1,
-    pageCount: 300,
+    pageCount: 200,
     orderByMap: {},
     siftSearchData: {},
     sort: "MOREN-ASC",

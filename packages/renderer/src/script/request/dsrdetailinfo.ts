@@ -6,6 +6,7 @@ import { getItem, setItem } from "../utils/storage";
 import { STORE_Login } from "../../store/modules/login";
 
 /**
+ * 暂时弃用
  * 通过案件代码请求当事人信息
  * @param code 案号代码
  * @returns 是否请求成功

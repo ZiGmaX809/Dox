@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { convert_file_path } from "../../script/utils/convertpath";
 import { load_local_json } from "../../script/utils/loadjson";
 import { obj } from "../index";
+import { STORE_Request } from "./request";
 
 export const STORE_Editor = defineStore({
   id: "editor",
@@ -17,6 +18,12 @@ export const STORE_Editor = defineStore({
     getText(state) {
       return state.presetText;
     },
+    Get_PresetText(state){
+      return state.presetText;
+    },
+    Get_CaseInfo(state){
+      return state.presetText[0].Items
+    }
   },
   actions: {
     Set_prev_fy(data: string) {
@@ -28,8 +35,32 @@ export const STORE_Editor = defineStore({
     Reset_editor_isChanged() {
       this.editor_isChanged = false;
     },
-    Add_presetText(data: {}) {
-      this.presetText[0].Items = data;
+    async Add_presetText() {
+      const prev_fy = this.prev_fy;
+      const prev_ah = await STORE_Request().CaseDetail.entry.yaxxEOList[0].ah;
+      const ay = await STORE_Request().CaseDetail.entry.ajjbxx.ayms;
+      const dsrlist = await STORE_Request().CaseDetail.entry?.dsrList;
+      const arr_prepare_text = [];
+
+      for (let i = dsrlist.length - 1; i > -1; i--) {
+        arr_prepare_text.push({
+          ItemName: "【" + dsrlist[i].ssdw2mc + "】" + dsrlist[i].mc,
+        });
+      }
+
+      arr_prepare_text.push(
+        {
+          ItemName: "【原审法院】" + prev_fy,
+        },
+        {
+          ItemName: "【原审案号】" + prev_ah,
+        },
+        {
+          ItemName: "【案由】" + ay,
+        }
+      );
+      
+      this.presetText[0].Items = arr_prepare_text;
     },
     async Set_presetText() {
       //启动程序时即加载

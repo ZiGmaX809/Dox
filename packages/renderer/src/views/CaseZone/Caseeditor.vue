@@ -95,9 +95,7 @@
           :label="item.PartName"
           :value="item.PartName"
           :disabled="
-            index == 6 && !STORE_setting_instance.clipboard_bool
-              ? true
-              : false
+            index == 6 && !STORE_setting_instance.clipboard_bool ? true : false
           "
         >
         </el-option>
@@ -113,10 +111,10 @@
             <div style="height: 0; width: 100%">
               <el-card
                 shadow="hover"
-                v-for="(item, index) in pt"
+                v-for="(item, index) in pt.data"
                 :key="index"
                 :class="[index === 0 ? 'select_card0' : 'select_card1']"
-                @click="addText(item.ItemName)"
+                @click="addText(item.ItemName, `default`)"
               >
                 <div style="display: flex; flex-direction: column">
                   <span
@@ -184,11 +182,10 @@
                 v-for="(item, index) in pt_clip"
                 :key="index"
                 :class="[index === 0 ? 'select_card0' : 'select_card1']"
-                @click.stop="addText(item)"
+                @click.stop="addText(item, `clip`)"
                 @mouseover="hoverIndex = index"
                 @mouseleave="hoverIndex = -1"
               >
-                <!-- <div style="display: flex; flex-direction: column"> -->
                 <div
                   style="
                     height: 20px;
@@ -243,7 +240,7 @@
 import type { ElScrollbar } from "element-plus";
 import tinymce from "../../components/TEditor.vue";
 import EllipsisTooltip from "../../components/EllipsisTooltip.vue";
-import { ref, nextTick, inject, watch } from "vue";
+import { ref, nextTick, inject, reactive, computed } from "vue";
 import { setItem } from "../../script/utils/storage";
 import { EditPen, Close, StarFilled } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
@@ -286,7 +283,8 @@ const switch_listen = () => {
 
 // const presetText = getItem("presetText");
 const presetText = STORE_editor_instance.presetText;
-const pt = ref(presetText[0].Items);
+// const test = computed(() => presetText[0].Items);
+const pt = reactive({ data: computed(() => presetText[0].Items) });
 const pt_clip = ref();
 const isClipboard = ref(false); //切换剪贴板、常规文本候选框
 
@@ -299,7 +297,7 @@ const handle_select_change = (val: Event) => {
   } else {
     presetText.forEach((item: any, index: number) => {
       if (item.PartName == select_name) {
-        pt.value = presetText[index].Items;
+        pt.data = computed(() => presetText[index].Items);
       }
     });
     isClipboard.value = false;
@@ -416,7 +414,7 @@ const int2em = () => {
 };
 
 //插入文本
-const addText = (data: string) => {
+const addText = (data: string, type: string) => {
   const str = data.replace(/【.+】/, "");
   const arr_str = str.split("\n");
   if (arr_str.length > 1) {
@@ -429,6 +427,11 @@ const addText = (data: string) => {
     });
   } else {
     tinymce_eidtor.value.addText(str);
+  }
+
+  //剪贴板复用
+  if (type == "clip" && STORE_setting_instance.writeSystemClipboard_bool) {
+    window.clipboard.writeText(str);
   }
 };
 
@@ -458,9 +461,12 @@ const links = ref<item[]>([]);
 //遍历存在的法律法规文件
 const file_list: any = [];
 
-walkSync(convert_folder_path("packages/renderer/public/lawfiles/"), (filePath, name, w_name) => {
-  file_list.push(w_name);
-});
+walkSync(
+  convert_folder_path("packages/renderer/public/lawfiles/"),
+  (filePath, name, w_name) => {
+    file_list.push(w_name);
+  }
+);
 
 const querySearchAsync = async (
   queryString: string,
@@ -471,11 +477,6 @@ const querySearchAsync = async (
     links.value = await quickinput(queryString, file_list);
     let isSearch = /(ft)|(dz)/g.test(queryString);
     if (typeof links.value != "string") {
-      console.log(
-        "🚀 ~ file: Caseeditor.vue ~ line 476 ~ typeof links.value",
-        typeof links.value,
-        links.value
-      );
       if (isSearch) {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
@@ -495,7 +496,7 @@ const querySearchAsync = async (
 
 const handleSelect = (item: any) => {
   // console.log(item.value);
-  if (item.id != -1) addText(item.value);
+  if (item.id != -1) addText(item.value, `default`);
   state.value = "";
   links.value = [];
 };

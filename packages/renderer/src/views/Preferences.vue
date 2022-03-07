@@ -97,7 +97,7 @@
               size="small"
               type="danger"
               :icon="Delete"
-              @click="handleDelete(scope)"
+              @click="handleDelete(scope.$index)"
             ></el-button>
           </template>
         </el-table-column>
@@ -258,7 +258,7 @@ const Refresh_lawfiles = async () => {
 
 //删除引入的法律法规
 const handleDelete = (index: number) => {
-  console.log(index);
+  console.log(STORE_Setting().lawfilelist[index]);
 };
 
 //行政区划信息更新

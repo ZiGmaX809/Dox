@@ -182,6 +182,7 @@ const Reload_DsrInfo = () => {
     nextTick(() => {
       isReload.value = true;
     });
+    isLoading.value = false;
   }, 1000);
 };
 

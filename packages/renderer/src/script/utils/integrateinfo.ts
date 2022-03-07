@@ -80,7 +80,8 @@ const final_info = (caseinfo: obj) => {
   const previous_ah = caseinfo?.entry?.yaxxEOList[0]?.ah;
   const previous_fy = STORE_Editor().prev_fy;
   const la_data = (date_format(caseinfo?.entry?.ajjbxx?.larq) as string[])[0];
-  const final_oth_text = `一案，不服${previous_fy}${previous_ah}民事裁定，向本院提起上诉。本院于${la_data}立案后，依法组成合议庭审理了本案。本案现已审理终结。`;
+  const ay = caseinfo?.entry?.ajjbxx?.ayms;
+  const final_oth_text = `${ay}一案，不服${previous_fy}${previous_ah}民事裁定，向本院提起上诉。本院于${la_data}立案后，依法组成合议庭审理了本案。本案现已审理终结。`;
 
   return final_dsr_text() + final_oth_text;
 };
