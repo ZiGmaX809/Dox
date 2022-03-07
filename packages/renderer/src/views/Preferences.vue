@@ -249,7 +249,7 @@ const tableData = reactive({
 });
 
 const Refresh_lawfiles = async () => {
-  const final_list = await scan_allfiles("packages/renderer/public/lawfiles/");
+  const final_list = await scan_allfiles(`${STORE_system_instance.CacheFile_Path}/lawfiles`);
   setTimeout(() => {
     tableData.list = final_list;
     STORE_setting_instance.Change_lawfilelist(final_list);

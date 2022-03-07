@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import { load_local_json } from "../../script/utils/loadjson";
 import { obj } from "../index";
+import { STORE_System } from "./system";
 
 export const STORE_Quickinput = defineStore({
   id: "quickinput",
@@ -11,28 +11,25 @@ export const STORE_Quickinput = defineStore({
     };
   },
   actions: {
-    async Set_pcaCache(now: number) {
-      await load_local_json("/divisions/pca.json").then((res) => {
-        if (res.status === 200) {
-          //获取地区列表
-          this.pcaCache = {
-            loadtime: now,
-            contents: res.data,
-          };
-        }
-      });
+    Set_pcaCache(now: number) {
+      const res = window.fs.readFileSync(
+        `${STORE_System().CacheFile_Path}/divisions/pca.json`,
+        "utf8"
+      );
+      this.pcaCache = {
+        loadtime: now,
+        contents: JSON.parse(res),
+      };
     },
-    async Set_lawfileCache(name: string) {
-      const def_path = "/lawfiles/" + name + ".json";
-      await load_local_json(def_path).then((res) => {
-        if (res.status === 200) {
-          //获取法律法规内容
-          this.lawfileCache = {
-            name: name,
-            contents: res.data,
-          };
-        }
-      });
+    Set_lawfileCache(name: string) {
+      const res = window.fs.readFileSync(
+        `${STORE_System().CacheFile_Path}/lawfiles/${name}.json`,
+        "utf8"
+      );
+      this.lawfileCache = {
+        name: name,
+        contents: JSON.parse(res),
+      };
     },
   },
 });

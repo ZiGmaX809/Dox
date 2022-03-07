@@ -1,7 +1,5 @@
-import { HTTP_getCaseDetail } from "../api/apiList";
 import { STORE_Request } from "../../store/modules/request";
 import { STORE_Login } from "../../store/modules/login";
-import { load_local_json } from "../utils/loadjson";
 import { STORE_System } from "../../store/modules/system";
 
 /**
@@ -26,12 +24,16 @@ export const REQUEST_get_casedetailinfo = (
   // HTTP_getCaseDetail(data, isloadingview, ismsg).then((res: any) => {
   //   STORE_Request().Request_CaseDetail(res);
   // });
-  const res = window.fs.readFileSync(
-    `${STORE_System().CacheFile_Path}/casesinfo/${id}.json`,
-    "utf8"
-  );
 
-  STORE_Request().Request_CaseDetail(JSON.parse(res));
+  //离线读取本地json文件
+  window.fs.readFile(
+    `${STORE_System().CacheFile_Path}/casesinfo/${id}.json`,
+    "utf8",
+    (err, res) => {
+      if (err) throw err;
+      STORE_Request().Request_CaseDetail(JSON.parse(res));
+    }
+  );
 
   //判断是否请求成功
   if (id === STORE_Request().CaseDetail.entry?.ajjbxx?.ahdm) {

@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
-import { convert_file_path } from "../../script/utils/convertpath";
-import { load_local_json } from "../../script/utils/loadjson";
 import { obj } from "../index";
 import { STORE_Request } from "./request";
+import { STORE_System } from "./system";
 
 export const STORE_Editor = defineStore({
   id: "editor",
@@ -62,13 +61,16 @@ export const STORE_Editor = defineStore({
       
       this.presetText[0].Items = arr_prepare_text;
     },
-    async Set_presetText() {
+    Set_presetText() {
       //启动程序时即加载
-      await load_local_json(
-        convert_file_path("/presettext/EditStrings.json")
-      ).then((r) => {
-        this.presetText = r.data.Template;
-      });
+      window.fs.readFile(
+        `${STORE_System().CacheFile_Path}/presettext/EditStrings.json`,
+        "utf8",
+        (err, res) => {
+          if (err) throw err;
+          this.presetText = JSON.parse(res).Template
+        }
+      );
     },
   },
 });

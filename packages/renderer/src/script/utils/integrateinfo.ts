@@ -13,13 +13,14 @@ export const integrate_info = () => {
 
   dsrlist.forEach((item: obj) => {
     let dsrinfo_text = "";
+    const ysdw = item.ssdw2mc.includes("原审") ? "" : `（原审${item.ssdw1mc}）`;
     if (item.lxMc === "自然人") {
       const birthday =
         item.csrq != null ? (date_format(item.csrq) as string[]) : [];
-      dsrinfo_text = `${item.ssdw2mc}（原审${item.ssdw1mc}）：${item.mc}，${item.xbMc}，${item.mzMc}，${birthday[0]}出生，住${item.dz}。公民身份号码：${item.sfzhm}。`;
+      dsrinfo_text = `${item.ssdw2mc}${ysdw}：${item.mc}，${item.xbMc}，${item.mzMc}，${birthday[0]}出生，住${item.dz}。公民身份号码：${item.sfzhm}。`;
     } else {
       const frlx = item.lxMc === "法人" ? "法定代表人" : "负责人";
-      dsrinfo_text = `${item.ssdw2mc}（原审${item.ssdw1mc}）：${item.mc}，住${item.dz}。统一社会信用代码：${item.zzjgdm}。\n${frlx}：${item.fddbr}。`;
+      dsrinfo_text = `${item.ssdw2mc}：${item.mc}，住${item.dz}。统一社会信用代码：${item.zzjgdm}。\n${frlx}：${item.fddbr}。`;
     }
 
     const dlrinfo = final_dlr(item.xh, dlrlist);
@@ -59,7 +60,7 @@ const final_info = (caseinfo: obj) => {
   const dsrlist_: string[] = (caseinfo?.entry?.ajjbxx?.dsr).split(";");
 
   const dsrlist = dsrlist_.map((item: string) => {
-    return item.replace(",", "、").replace(":", "");
+    return item.replaceAll(",", "、").replaceAll(":", "");
   });
 
   const final_dsr_text = () => {

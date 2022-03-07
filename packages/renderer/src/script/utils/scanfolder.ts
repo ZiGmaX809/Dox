@@ -1,5 +1,4 @@
 import { Stats } from "original-fs";
-import { load_local_json } from "./loadjson";
 
 /**
  * 遍历文件夹并返回文件名称
@@ -38,11 +37,14 @@ export const scan_allfiles = async (folderpath: string) => {
   });
 
   file_list.forEach(async (file, index) => {
-    await load_local_json(
-      file.filepath.replace("packages/renderer/public/", "")
-    ).then((res: any) => {
-      file_list[index]["fullname"] = res.data.name;
-    });
+    window.fs.readFile(
+      file.filepath,
+      "utf8",
+      (err, res) => {
+        if (err) throw err;
+        file_list[index]["fullname"] = JSON.parse(res).name;
+      }
+    );
   });
 
   return file_list;
