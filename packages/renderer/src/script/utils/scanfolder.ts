@@ -5,7 +5,6 @@ import { Stats } from "original-fs";
  * @param currentDirPath 遍历地址
  * @param callback 回调参数
  */
-
 export const walkSync = (
   currentDirPath: string,
   callback: (
@@ -24,6 +23,11 @@ export const walkSync = (
   });
 };
 
+/**
+ * 遍历法律法规文件夹
+ * @param folderpath 法律法规文件夹目录地址
+ * @returns 数组，包含每个文件path、fullname、name
+ */
 export const scan_allfiles = async (folderpath: string) => {
   const file_list: any[] = [];
   walkSync(folderpath, (filepath, name, w_name) => {
@@ -37,15 +41,24 @@ export const scan_allfiles = async (folderpath: string) => {
   });
 
   file_list.forEach(async (file, index) => {
-    window.fs.readFile(
-      file.filepath,
-      "utf8",
-      (err, res) => {
-        if (err) throw err;
-        file_list[index]["fullname"] = JSON.parse(res).name;
-      }
-    );
+    window.fs.readFile(file.filepath, "utf8", (err, res) => {
+      if (err) throw err;
+      file_list[index]["fullname"] = JSON.parse(res).name;
+    });
   });
 
   return file_list;
+};
+
+/**
+ * 遍历文件夹中文件数量
+ * @param folderpath 文件夹地址
+ * @returns 文件数量
+ */
+export const scan_filesnum = async (folderpath: string) => {
+  let num = 0;
+  window.fs.readdirSync(folderpath).forEach((item) => {
+    num++;
+  });
+  return num;
 };

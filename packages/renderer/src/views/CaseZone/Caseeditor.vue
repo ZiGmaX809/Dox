@@ -10,7 +10,7 @@
         title="确认需要清除所有内容？"
       >
         <template #reference>
-          <el-button type="danger" size="small" plain>清屏</el-button>
+          <el-button type="danger" size="small" plain>清 屏</el-button>
         </template>
       </el-popconfirm>
       <el-button
@@ -18,9 +18,9 @@
         size="small"
         plain
         @click="saveText(getText(), true)"
-        >暂存</el-button
+        >暂 存</el-button
       >
-      <el-button size="small" @click="exoprt_word()">生成文书</el-button>
+      <el-button size="small" @click="exoprt_word()">导 出</el-button>
     </div>
 
     <!-- 快捷输入工具 -->
@@ -329,22 +329,15 @@ const clear_clipboard = () => {
   pt_clip.value = STORE_clipboard_instance.clipboard_cache;
 };
 
+//清空剪贴板内容
 const del_cache = (index: number) => {
   STORE_clipboard_instance.del_cache(index);
+  window.clipboard.writeText("");
 };
 
 const pin_cache = (index: number) => {
   STORE_clipboard_instance.pin_cache(index);
 };
-
-// watch(
-//   () => STORE_clipboard_instance.get_cache_length(),
-//   (n, o) => {
-//     if (n != o) {
-//       refresh_scrollbar();
-//     }
-//   }
-// );
 
 //监控剪贴板缓存变化以刷新滚动条
 STORE_clipboard_instance.$subscribe((mutation, state) => {

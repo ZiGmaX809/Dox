@@ -23,7 +23,7 @@
         <p class="pref_p">默认启用首行缩进</p>
         <el-switch v-model="auto_int2em" />
       </div>
-      <p class="pref_desc_p" style="margin-top: -3px">
+      <p class="pref_desc_p">
         编辑器内的格式并不会影响导出文书的格式，启用首行缩进仅仅为了便于编辑文书。
       </p>
 
@@ -38,11 +38,11 @@
           size="small"
           style="width: 50px"
           controls-position="right"
-          :disabled="!STORE_setting_instance.clipboard_bool"
+          :disabled="!switch_clipboard_bool"
           @input="(val: any) => handleChange_clipboard_num(val)"
         />
       </div>
-      <p class="pref_desc_p" style="margin-top: -3px">
+      <p class="pref_desc_p">
         启用剪贴板功能后，将会监听系统剪贴板，并且将复制的文本存入缓存中。
         <br />条目数量过多将会导致索引效率降低，建议设置缓存条目数量控制在50以内。
         <br />超出数量将自动清除最先数据。
@@ -54,11 +54,11 @@
           size="small"
           style="width: 50px"
           controls-position="right"
-          :disabled="!STORE_setting_instance.clipboard_bool"
+          :disabled="!switch_clipboard_bool"
           @input="(val: any) => handleChange_clipboard_textlength(val)"
         />
       </div>
-      <p class="pref_desc_p" style="margin-top: -3px">
+      <p class="pref_desc_p">
         为保证性能，建议监听300字符以内的文本。
         <br />超出设定长度依旧可以复制粘贴，但不会存入缓存。
       </p>
@@ -66,10 +66,10 @@
         <p class="pref_p">复用剪贴板内容</p>
         <el-switch
           v-model="switch_writeSystemClipboard_bool"
-          :disabled="!STORE_setting_instance.clipboard_bool"
+          :disabled="!switch_clipboard_bool"
         />
       </div>
-      <p class="pref_desc_p" style="margin-top: -3px">
+      <p class="pref_desc_p">
         开启后，点击剪贴板内容将会写入到系统剪贴板，以便于使用Ctrl+V进行多次粘贴。<br />关闭后，只会将点击内容插入至编辑器。
       </p>
 
@@ -104,13 +104,19 @@
       </el-table>
 
       <p class="pref_p">引入新的法律法规文件</p>
-      <p class="pref_desc_p" style="margin-top: -3px">
+      <p class="pref_desc_p">
         <b>
           &#10059;&nbsp;注意：快捷输入工具仅仅作为更加便捷编辑而存在，对于导入文件尽可能进行准确匹配，但是无法保证任何法律法规文件导入后法条完整和准确性。
           <br />&#10059;&nbsp;裁判文书校对是案件审理的必要环节与步骤。
         </b>
         <br />
-        <br />下载法律文书: http://gov.pkulaw.cn/
+        <br />下载法律文书:
+        <el-link
+          type="success"
+          class="pref_desc_p"
+          @click="copy_url(law_url)"
+          >{{ law_url }}</el-link
+        >
         (北大法宝中国法律法规数据库，需互联网下载后导入)
         <br />
         <i
@@ -131,11 +137,56 @@
           >选择文件并更新</el-button
         >
       </div>
-      <p class="pref_desc_p" style="margin-top: -3px">
+      <p class="pref_desc_p">
         地域范围为国家统计局开展统计调查的全国31个省、自治区、直辖市，
         <br />未包括我国台湾省、香港特别行政区、澳门特别行政区。
-        <br />项目更新地址：https://github.com/modood/Administrative-divisions-of-China
+        <br />项目更新地址：
+        <el-link
+          type="success"
+          class="pref_desc_p"
+          @click="copy_url(pca_url)"
+          name="ajsh"
+          >{{ pca_url }}</el-link
+        >
         <br />下载pca.json文件引入即可
+      </p>
+
+      <h2 class="pref_h2">高级</h2>
+      <el-divider />
+      <div class="pref_div">
+        <p class="pref_p">本地资源文件夹</p>
+        <el-button
+          class="extra_btn_class"
+          size="small"
+          @click="open_cachefile()"
+          >打开</el-button
+        >
+      </div>
+      <div class="pref_div">
+        <p class="pref_p">离线功能</p>
+        <div
+          style="
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+          "
+        >
+          <el-switch v-model="switch_offline_bool" />
+          <el-button
+            class="extra_btn_class"
+            size="small"
+            style="margin-right: 10px"
+            @click="download_offline_files()"
+            :disabled="!switch_offline_bool"
+            >缓存</el-button
+          >
+        </div>
+      </div>
+      <p class="pref_desc_p">
+        开启离线功能后，可以无需联网情况下查看、编辑、生成文书。<br />
+        考虑到服务器负载，请手动点击缓存按钮以缓存案件详细信息。<br />
+        注意：此功能仅缓存「我的案件」中尚在审理的案件信息，因涉及当事人信息，请注意相关规章制度。<br />
+        已缓存数量：{{ STORE_setting_instance.offline_num }}；上次缓存时间：{{ STORE_setting_instance.offline_time }}
       </p>
 
       <h2 class="pref_h2">其他</h2>
@@ -149,7 +200,6 @@
           >导出</el-button
         >
       </div>
-
       <div class="pref_div">
         <p class="pref_p">导入配置及缓存数据</p>
         <el-button
@@ -157,18 +207,6 @@
           size="small"
           @click="import_localstorage()"
           >选择文件并导入</el-button
-        >
-      </div>
-
-      <h2 class="pref_h2">资源</h2>
-      <el-divider />
-      <div class="pref_div">
-        <p class="pref_p">资源文件夹</p>
-        <el-button
-          class="extra_btn_class"
-          size="small"
-          @click="open_cachefile()"
-          >打开</el-button
         >
       </div>
 
@@ -190,6 +228,13 @@ import { STORE_System } from "../store/modules/system";
 
 const STORE_setting_instance = STORE_Setting();
 const STORE_system_instance = STORE_System();
+
+const pca_url = ref(
+  "https://github.com/modood/Administrative-divisions-of-China"
+);
+const law_url = ref("http://gov.pkulaw.cn/");
+const offline_file_num = ref(0);
+const offline_time = ref("2022-2-22")
 
 //自定义头像取值&设置
 const coutom_avatar = computed({
@@ -231,6 +276,15 @@ const switch_writeSystemClipboard_bool = computed({
   },
 });
 
+const switch_offline_bool = computed({
+  get() {
+    return STORE_setting_instance.offline_bool;
+  },
+  set(newVal: boolean) {
+    STORE_setting_instance.Switch_offline_bool(newVal);
+  },
+});
+
 //设置剪贴板相关设置的上限
 const handleChange_clipboard_num = (value: String) => {
   const _str = value.replace(/[^0-9.]/g, "");
@@ -248,8 +302,19 @@ const tableData = reactive({
   list: STORE_setting_instance.lawfilelist,
 });
 
+const copy_url = (url: string) => {
+  window.clipboard.writeText(url);
+  ElMessage({
+    message: "已复制",
+    grouping: true,
+    type: "success",
+  });
+};
+
 const Refresh_lawfiles = async () => {
-  const final_list = await scan_allfiles(`${STORE_system_instance.CacheFile_Path}/lawfiles`);
+  const final_list = await scan_allfiles(
+    `${STORE_system_instance.CacheFile_Path}/lawfiles`
+  );
   setTimeout(() => {
     tableData.list = final_list;
     STORE_setting_instance.Change_lawfilelist(final_list);
@@ -347,6 +412,10 @@ const open_cachefile = async () => {
     window.shell.openPath(cacheFile_path);
   }
 };
+
+const download_offline_files = () => {
+
+}
 </script>
 
 <style lang="scss" scoped>
@@ -365,6 +434,7 @@ const open_cachefile = async () => {
   user-select: none;
   color: #909090;
   font-size: 13px;
+  margin-top: -3px;
 }
 
 .pref_div {

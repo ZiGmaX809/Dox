@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import Casezone from "@/views/CaseZone/Casezone.vue";
 import Home from "@/views/Home.vue";
 import Search from "@/views/Search.vue";
