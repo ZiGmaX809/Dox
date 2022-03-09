@@ -38,13 +38,16 @@
         <el-switch v-model="auto_int2em" />
       </div>
       <p class="pref_desc_p">
-        编辑器内的格式并不会影响导出文书的格式，启用首行缩进仅仅为了便于编辑文书。
+        编辑器内的字体、段落格式并不会影响导出文书的格式，启用首行缩进仅仅为了便于编辑文书。
       </p>
 
       <div class="pref_div">
         <p class="pref_p">启用剪贴板</p>
         <el-switch v-model="switch_clipboard_bool" />
       </div>
+      <p class="pref_desc_p">
+        启用剪贴板功能后，将会监听系统剪贴板，并且将复制的文本存入缓存中。
+      </p>
       <div class="pref_div">
         <p class="pref_p">剪贴板缓存数量（自定义上限200）</p>
         <el-input
@@ -57,8 +60,7 @@
         />
       </div>
       <p class="pref_desc_p">
-        启用剪贴板功能后，将会监听系统剪贴板，并且将复制的文本存入缓存中。
-        <br />条目数量过多将会导致索引效率降低，建议设置缓存条目数量控制在50以内。
+        条目数量过多将会导致索引效率降低，建议设置缓存条目数量控制在50以内。
         <br />超出数量将自动清除最先数据。
       </p>
       <div class="pref_div">
@@ -84,7 +86,7 @@
         />
       </div>
       <p class="pref_desc_p">
-        开启后，点击剪贴板内容将会写入到系统剪贴板，以便于使用Ctrl+V进行多次粘贴。<br />关闭后，只会将点击内容插入至编辑器。
+        启用后，点击剪贴板内容时，将会把点击内容写入到系统剪贴板，以便于使用Ctrl+V进行多次粘贴。
       </p>
 
       <h2 class="pref_h2">快捷输入</h2>
@@ -120,11 +122,11 @@
       <p class="pref_p">引入新的法律法规文件</p>
       <p class="pref_desc_p">
         <b>
-          &#10059;&nbsp;注意：快捷输入工具仅仅作为更加便捷编辑而存在，对于导入文件尽可能进行准确匹配，但是无法保证任何法律法规文件导入后法条完整和准确性。
-          <br />&#10059;&nbsp;裁判文书校对是案件审理的必要环节与步骤。
+          &#10059;&nbsp;注意：快捷输入工具仅为编辑文书的辅助性功能。对于导入的文件，工具将尽可能进行准确匹配、转换，但是无法保证任何法律法规文件导入后法条完整和准确性。
+          <br />&#10059;&nbsp;请不要过度依赖该功能！裁判文书校对依旧是案件审理的必要环节与步骤！
         </b>
         <br />
-        <br />下载法律文书:
+        <br />下载法律法规:
         <el-link
           type="success"
           class="pref_desc_p"
@@ -138,7 +140,7 @@
         >
         <br />
         <br />进入网页选择法律法规文件后，点击右上角下载按钮，选择「纯文本」去掉勾选「保留字段信息」以及「保留正文中的法宝联想」，下载后不要修改文件名称，请保持原有名称以便提取该文书完整名称。
-        <br />目前支持法律、法规、司法解释的导入。
+        <br />目前支持<b>法律、法规、司法解释</b>的导入，其他指导性文件、意见暂不支持。
       </p>
       <div class="pref_div">
         <p class="pref_p">
@@ -176,6 +178,9 @@
           >打开</el-button
         >
       </div>
+      <p class="pref_desc_p">
+        本地保存行政区划地址信息、法律法规文件等的文件夹。
+      </p>
       <div class="pref_div">
         <p class="pref_p">离线功能</p>
         <div
@@ -192,15 +197,15 @@
             style="margin-right: 10px"
             @click="download_offline_files()"
             :disabled="!switch_offline_bool"
-            >缓存</el-button
+            >离线数据</el-button
           >
         </div>
       </div>
       <p class="pref_desc_p">
-        开启离线功能后，可以无需联网情况下查看、编辑、生成文书。<br />
-        考虑到服务器负载，请手动点击缓存按钮以缓存案件详细信息。<br />
-        注意：此功能仅缓存「我的案件」中尚在审理的案件信息，因涉及当事人信息，请注意相关规章制度。<br />
-        已缓存数量：{{ offline_files_num() }}；上次缓存时间：{{
+        <b>&#10059;&nbsp;注意：此功能仅缓存「我的案件」中尚在审理的案件信息，因涉及当事人信息，请遵守相关规章制度！</b><br />
+        开启离线功能后，可在脱机状态下查看案件、编辑、生成文书。<br />
+        考虑到服务器负载，拉取数据间隔为60秒，请手动点击离线数据按钮进行数据离线。<br />   
+        已拉取案件数量：{{ offline_files_num.data }}；上次拉取时间：{{
           STORE_setting_instance.offline_time
         }}；
       </p>
@@ -221,10 +226,23 @@
         <el-button
           class="extra_btn_class"
           size="small"
-          @click="import_localstorage()"
+          @click=""
           >选择文件并导入</el-button
         >
       </div>
+      <div class="pref_div">
+        <p class="pref_p">重置应用</p>
+        <el-button
+          class="extra_btn_class"
+          size="small"
+          type="danger"
+          @click="import_localstorage()"
+          >重置</el-button
+        >
+      </div>
+      <p class="pref_desc_p">
+        <b style="color:#F56C6C">&#10059;&nbsp;注意：重置应用将删除所有与本工具相关文件与配置，包括已导入的法律法规文件、模板、行政区划文件，该操作不可逆！</b><br />
+      </p>
 
       <p class="pref_author">MADE BY ZiGma</p>
       <p class="pref_version">v0.0.1</p>
@@ -233,7 +251,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, h, provide, reactive, ref, watch } from "vue";
+import { computed, h, reactive, ref } from "vue";
 import { Delete } from "@element-plus/icons-vue";
 import { ElNotification } from "element-plus";
 import { setItem } from "../script/utils/storage";
@@ -425,11 +443,11 @@ const open_cachefile = async () => {
 };
 
 //计算并返回离线文件数量
-const offline_files_num = () => {
-  return STORE_setting_instance.offline_bool
+const offline_files_num = reactive({
+  data: STORE_setting_instance.offline_bool
     ? STORE_request_instance.caselist_num.join("/")
-    : "0";
-};
+    : "0",
+});
 
 //缓存离线数据
 const download_offline_files = async () => {
@@ -472,7 +490,10 @@ const download_offline_files = async () => {
       }
     });
 
+    const arr_final_offline_num = [downloaded_num.value, arr_caselist.length];
+
     STORE_setting_instance.Set_offline_time();
+    offline_files_num.data = arr_final_offline_num.join("/");
   }
 };
 </script>

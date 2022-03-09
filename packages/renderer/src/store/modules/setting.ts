@@ -11,7 +11,6 @@ interface SettingState {
   clipboard_textlength: number;
   writeSystemClipboard_bool: boolean;
   offline_bool: boolean;
-  offline_num: number;
   offline_time: string;
   offline_timestamp: number;
   lawfilelist: string[];
@@ -31,7 +30,6 @@ export const STORE_Setting = defineStore({
       clipboard_textlength: 300,
       writeSystemClipboard_bool: false,
       offline_bool: false,
-      offline_num: 0,
       offline_time: "从未",
       offline_timestamp: 0,
       lawfilelist: [],
@@ -69,7 +67,10 @@ export const STORE_Setting = defineStore({
       const date = new Date();
       this.offline_time =
         date.toLocaleDateString() +
-        ` ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+        ` ${date.getHours()}:${date
+          .getMinutes()
+          .toString()
+          .padStart(2, "0")}:${date.getSeconds().toString().padStart(2, "0")}`;
       this.offline_timestamp = date.getTime();
     },
   },
