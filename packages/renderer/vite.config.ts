@@ -33,6 +33,7 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: true,
     outDir: "../../dist/renderer",
+    target: ["edge90", "chrome90", "firefox90", "safari15"],
   },
   server: {
     port: pkg.env.PORT,

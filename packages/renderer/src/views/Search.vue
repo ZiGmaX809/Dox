@@ -49,7 +49,7 @@ const upl = () => {
   upload.value!.submit();
 };
 
-const uploadHandler = (params: {
+const uploadHandler: any = (params: {
   file: { size: number };
   onProgress: (arg0: { percent: any }) => void;
 }) => {
@@ -207,7 +207,7 @@ const test2 = async () => {
   queryParams.forEach((value, key, p) => {
     arr.push([key, value]);
   });
- const paramObj = Object.fromEntries(arr);
+  const paramObj = Object.fromEntries(arr);
   console.log(paramObj); // { name: 'jimmy', age: '18', height: '1.88' }
 };
 </script>

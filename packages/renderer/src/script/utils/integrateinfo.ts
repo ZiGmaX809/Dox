@@ -20,7 +20,7 @@ export const integrate_info = () => {
       dsrinfo_text = `${item.ssdw2mc}${ysdw}：${item.mc}，${item.xbMc}，${item.mzMc}，${birthday[0]}出生，住${item.dz}。公民身份号码：${item.sfzhm}。`;
     } else {
       const frlx = item.lxMc === "法人" ? "法定代表人" : "负责人";
-      dsrinfo_text = `${item.ssdw2mc}：${item.mc}，住所地${item.dz}。统一社会信用代码：${item.zzjgdm}。\n${frlx}：${item.fddbr}。`;
+      dsrinfo_text = `${item.ssdw2mc}${ysdw}：${item.mc}，住所地${item.dz}。统一社会信用代码：${item.zzjgdm}。\n${frlx}：${item.fddbr}。`;
     }
 
     const dlrinfo = final_dlr(item.xh, dlrlist);

@@ -10,13 +10,24 @@
   >
     <!-- 主设置页面 -->
     <div style="width: 600px; height: 100%">
-      <h2 class="pref_h2">外观</h2>
+      <h2 class="pref_h2">自定义</h2>
       <el-divider />
       <p class="pref_p">主题颜色</p>
       <div class="pref_div">
         <p class="pref_p">自定义头像</p>
         <el-switch v-model="coutom_avatar" />
       </div>
+      <div class="pref_div">
+        <p class="pref_p">所在单位代码</p>
+        <el-input
+          v-model="STORE_setting_instance.org_code"
+          size="small"
+          style="width: 50px"
+          controls-position="right"
+          @input="(val: any) => handleChange_num(val,9999)"
+        />
+      </div>
+
       <h2 class="pref_h2">编辑</h2>
       <el-divider />
       <div class="pref_div">
@@ -39,7 +50,7 @@
           style="width: 50px"
           controls-position="right"
           :disabled="!switch_clipboard_bool"
-          @input="(val: any) => handleChange_clipboard_num(val)"
+          @input="(val: any) => handleChange_num(val,200)"
         />
       </div>
       <p class="pref_desc_p">
@@ -55,7 +66,7 @@
           style="width: 50px"
           controls-position="right"
           :disabled="!switch_clipboard_bool"
-          @input="(val: any) => handleChange_clipboard_textlength(val)"
+          @input="(val: any) => handleChange_num(val,600)"
         />
       </div>
       <p class="pref_desc_p">
@@ -186,7 +197,9 @@
         开启离线功能后，可以无需联网情况下查看、编辑、生成文书。<br />
         考虑到服务器负载，请手动点击缓存按钮以缓存案件详细信息。<br />
         注意：此功能仅缓存「我的案件」中尚在审理的案件信息，因涉及当事人信息，请注意相关规章制度。<br />
-        已缓存数量：{{ STORE_setting_instance.offline_num }}；上次缓存时间：{{ STORE_setting_instance.offline_time }}
+        已缓存数量：{{ offline_files_num() }}；上次缓存时间：{{
+          STORE_setting_instance.offline_time
+        }}；
       </p>
 
       <h2 class="pref_h2">其他</h2>
@@ -217,24 +230,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
+import { computed, h, provide, reactive, ref } from "vue";
 import { Delete } from "@element-plus/icons-vue";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElNotification } from "element-plus";
 import { setItem } from "../script/utils/storage";
 import { STORE_Setting } from "../store/modules/setting";
 import { scan_allfiles } from "../script/utils/scanfolder";
 import { ipcMsg_Get_File, ipcMsg_Get_Path } from "../script/utils/ipcmessage";
 import { STORE_System } from "../store/modules/system";
+import { STORE_Request } from "../store/modules/request";
+import Notice from "../components/Notice.vue";
 
 const STORE_setting_instance = STORE_Setting();
 const STORE_system_instance = STORE_System();
+const STORE_request_instance = STORE_Request();
 
 const pca_url = ref(
   "https://github.com/modood/Administrative-divisions-of-China"
 );
 const law_url = ref("http://gov.pkulaw.cn/");
-const offline_file_num = ref(0);
-const offline_time = ref("2022-2-22")
 
 //自定义头像取值&设置
 const coutom_avatar = computed({
@@ -286,16 +300,20 @@ const switch_offline_bool = computed({
 });
 
 //设置剪贴板相关设置的上限
-const handleChange_clipboard_num = (value: String) => {
+const handleChange_num = (value: String, max: number) => {
   const _str = value.replace(/[^0-9.]/g, "");
-  const final_num = Number(_str) > 200 ? 200 : Number(_str);
-  STORE_setting_instance.Change_clipboard_num(final_num);
-};
-
-const handleChange_clipboard_textlength = (value: String) => {
-  const _str = value.replace(/[^0-9.]/g, "");
-  const final_num = Number(_str) > 600 ? 600 : Number(_str);
-  STORE_setting_instance.Change_clipboard_textlength(final_num);
+  const final_num = Number(_str) > max ? max : Number(_str);
+  switch (max) {
+    case 200:
+      STORE_setting_instance.Change_clipboard_num(final_num);
+      break;
+    case 600:
+      STORE_setting_instance.Change_clipboard_textlength(final_num);
+      break;
+    case 9999:
+      STORE_setting_instance.Change_org_code(final_num);
+      break;
+  }
 };
 
 const tableData = reactive({
@@ -413,9 +431,46 @@ const open_cachefile = async () => {
   }
 };
 
-const download_offline_files = () => {
+//计算并返回离线文件数量
+const offline_files_num = () => {
+  return STORE_setting_instance.offline_bool
+    ? STORE_request_instance.caselist_num.join("/")
+    : "0";
+};
 
-}
+const val = ref(30);
+const res = ref("10/30");
+
+//缓存离线数据
+const download_offline_files = () => {
+  // const progress_str = computed(()=>STORE_request_instance.caselist_num)
+
+  // setInterval(() => {
+  //   // console.log(
+  //   //   "🚀 ~ file: Preferences.vue ~ line 436 ~ setInterval ~ val.value",
+  //   //   val.value
+  //   // );
+  //   val.value+=10;
+  //   window.postMessage(val.value);
+  //   if (val.value === 100) {
+  //     clearInterval();
+  //   }
+  // }, 1000);
+
+  // setTimeout(() => {
+  //   clearInterval();
+  // }, 10 * 1000);
+  ElNotification({
+    title: "正在缓存离线文件……",
+    dangerouslyUseHTMLString: true,
+    message: h(Notice, {
+      style: "user-select: none",
+    }),
+    offset: 50,
+    duration: 0,
+    showClose: false,
+  });
+};
 </script>
 
 <style lang="scss" scoped>

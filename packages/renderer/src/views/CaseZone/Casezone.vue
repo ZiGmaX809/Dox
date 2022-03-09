@@ -175,22 +175,31 @@ const Open_Web_Casezone = (caseid: any) => {
   });
 };
 
-const Reload_DsrInfo = () => {
+const request_bool = ref(false)
+
+const Reload_DsrInfo = (bool: boolean) => {
   //延迟刷新组件
   setTimeout(() => {
     isReload.value = false;
     nextTick(() => {
       isReload.value = true;
     });
-    isLoading.value = false;
+    if(bool) isLoading.value = false
   }, 1000);
 };
 
 const Refresh_Dsrinfo = async () => {
   //重新请求数据并刷新组件
   // get_dsrdetialinfo(route_caseid, true, true);
-  REQUEST_get_casedetailinfo(router_caseid, true, true);
-  Reload_DsrInfo();
+  request_bool.value = await REQUEST_get_casedetailinfo(
+    router_caseid,
+    true,
+    true
+  );
+  Reload_DsrInfo(request_bool.value);
+  // if (request_bool) {
+  isLoading.value = false;
+  // }
 };
 
 /**
@@ -206,11 +215,15 @@ const Open_Casezone = async () => {
   if (cache_caseid === router_caseid) {
     isLoading.value = false;
   } else {
-    await REQUEST_get_casedetailinfo(router_caseid, false, true);
+    request_bool.value = await REQUEST_get_casedetailinfo(
+      router_caseid,
+      false,
+      true
+    );
   }
   //重置内容检测开关
   STORE_editor_instance.Reset_editor_isChanged();
-  Reload_DsrInfo();
+  Reload_DsrInfo(request_bool.value);
 };
 
 //路由守卫，对比编辑器和暂存文本并提示

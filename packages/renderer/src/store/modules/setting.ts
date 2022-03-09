@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 
 interface SettingState {
   ui_color: string;
+  org_code: number;
   custom_avatar_bool: boolean;
   custom_avatar_url: string;
   auto_int2em: boolean;
@@ -20,6 +21,7 @@ export const STORE_Setting = defineStore({
   state: (): SettingState => {
     return {
       ui_color: "",
+      org_code: 1301,
       custom_avatar_bool: false,
       custom_avatar_url: "",
       auto_int2em: true,
@@ -42,6 +44,9 @@ export const STORE_Setting = defineStore({
     },
     Change_clipboard_textlength(num: number) {
       this.clipboard_textlength = num;
+    },
+    Change_org_code(num:number){
+      this.org_code = num;
     },
     Switch_auto_int2em(bool: boolean) {
       this.auto_int2em = bool;
