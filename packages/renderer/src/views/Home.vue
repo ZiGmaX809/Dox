@@ -139,12 +139,12 @@ import { STORE_Request } from "../store/modules/request";
 
 const reload: any = inject("reload");
 
-const d = reactive(STORE_Request().MyCaseList);
+const mycaselist = reactive(STORE_Request().MyCaseList);
 
 const currentPage = ref(1);
 const pagesize = ref(20);
-const total = d ? d.total : 0;
-const tableData = d ?  d.data : [];
+const total = mycaselist ? mycaselist.total : 0;
+const tableData = mycaselist ? mycaselist.data : [];
 
 const table_data = () => {
   if (tableData) {
@@ -152,7 +152,7 @@ const table_data = () => {
       (currentPage.value - 1) * pagesize.value,
       currentPage.value * pagesize.value
     );
-  }else{
+  } else {
     return [];
   }
 };
@@ -201,7 +201,7 @@ const handleSizeChange = (val: number) => {
   background-repeat: no-repeat;
   background-position: center;
   user-select: none;
-  padding-top:10px;
+  padding-top: 10px;
   margin-top: 25%;
   margin-bottom: 20%;
   span {

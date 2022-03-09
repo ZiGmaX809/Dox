@@ -202,9 +202,11 @@
         </div>
       </div>
       <p class="pref_desc_p">
-        <b>&#10059;&nbsp;注意：此功能仅缓存「我的案件」中尚在审理的案件信息，因涉及当事人信息，请遵守相关规章制度！</b><br />
+        <b
+          >&#10059;&nbsp;注意：此功能仅缓存「我的案件」中尚在审理的案件信息，因涉及当事人信息，请遵守相关规章制度！</b
+        ><br />
         开启离线功能后，可在脱机状态下查看案件、编辑、生成文书。<br />
-        考虑到服务器负载，拉取数据间隔为60秒，请手动点击离线数据按钮进行数据离线。<br />   
+        考虑到服务器负载，拉取数据间隔为60秒，请手动点击离线数据按钮进行数据离线。<br />
         已拉取案件数量：{{ offline_files_num.data }}；上次拉取时间：{{
           STORE_setting_instance.offline_time
         }}；
@@ -223,10 +225,7 @@
       </div>
       <div class="pref_div">
         <p class="pref_p">导入配置及缓存数据</p>
-        <el-button
-          class="extra_btn_class"
-          size="small"
-          @click=""
+        <el-button class="extra_btn_class" size="small" @click=""
           >选择文件并导入</el-button
         >
       </div>
@@ -241,7 +240,9 @@
         >
       </div>
       <p class="pref_desc_p">
-        <b style="color:#F56C6C">&#10059;&nbsp;注意：重置应用将删除所有与本工具相关文件与配置，包括已导入的法律法规文件、模板、行政区划文件，该操作不可逆！</b><br />
+        <b style="color: #f56c6c"
+          >&#10059;&nbsp;注意：重置应用将删除所有与本工具相关文件与配置，包括已导入的法律法规文件、模板、行政区划文件，该操作不可逆！</b
+        ><br />
       </p>
 
       <p class="pref_author">MADE BY ZiGma</p>
@@ -260,10 +261,10 @@ import { scan_allfiles } from "../script/utils/scanfolder";
 import { ipcMsg_Get_File, ipcMsg_Get_Path } from "../script/utils/ipcmessage";
 import { STORE_System } from "../store/modules/system";
 import { STORE_Request } from "../store/modules/request";
-import Notice from "../components/Notice.vue";
 import { REQUEST_get_ALL_casedetailinfo } from "../script/request/casedetailinfo";
 import { delay } from "../script/utils/delay";
 import { Msg } from "../script/utils/message";
+import Notice from "../components/Notice.vue";
 
 const STORE_setting_instance = STORE_Setting();
 const STORE_system_instance = STORE_System();
@@ -311,15 +312,6 @@ const switch_writeSystemClipboard_bool = computed({
   },
   set(newVal: boolean) {
     STORE_setting_instance.Switch_writeSystemClipboard_bool(newVal);
-  },
-});
-
-const switch_offline_bool = computed({
-  get() {
-    return STORE_setting_instance.offline_bool;
-  },
-  set(newVal: boolean) {
-    STORE_setting_instance.Switch_offline_bool(newVal);
   },
 });
 
@@ -394,46 +386,6 @@ const import_pcafile = async () => {
   }
 };
 
-//导出&导入缓存
-const export_localstorage = async () => {
-  const arr_text = [];
-  for (var i = 0; i < window.localStorage.length; i++) {
-    const key: string | null = window.localStorage.key(i); //获取本地存储的Key
-    if (key != null) {
-      arr_text.push([key, window.localStorage.getItem(key)]);
-    }
-  }
-  const final_json = Object.fromEntries(arr_text);
-
-  const downloads_path = await ipcMsg_Get_Path("downloads");
-
-  if (downloads_path != undefined) {
-    const file_fullpath = downloads_path + "/export_cache.json";
-    window.fs.writeFileSync(file_fullpath, JSON.stringify(final_json));
-
-    Msg(`成功将缓存内容导出至 ${file_fullpath} `, "success");
-  }
-};
-
-const import_localstorage = async () => {
-  const File_Result = await ipcMsg_Get_File({
-    name: "JSON",
-    extensions: ["json"],
-  });
-  if (File_Result) {
-    const json_ = JSON.parse(File_Result);
-    for (let key in json_) {
-      setItem(key, json_[key]);
-    }
-
-    Msg("成功导入缓存文件，程序将在3秒内重启", "success");
-
-    setTimeout(() => {
-      window.ipcRenderer.send("Restart");
-    }, 3000);
-  }
-};
-
 const open_cachefile = async () => {
   const cacheFile_path = STORE_system_instance.CacheFile_Path;
 
@@ -441,6 +393,16 @@ const open_cachefile = async () => {
     window.shell.openPath(cacheFile_path);
   }
 };
+
+//开关离线功能
+const switch_offline_bool = computed({
+  get() {
+    return STORE_setting_instance.offline_bool;
+  },
+  set(newVal: boolean) {
+    STORE_setting_instance.Switch_offline_bool(newVal);
+  },
+});
 
 //计算并返回离线文件数量
 const offline_files_num = reactive({
@@ -494,6 +456,46 @@ const download_offline_files = async () => {
 
     STORE_setting_instance.Set_offline_time();
     offline_files_num.data = arr_final_offline_num.join("/");
+  }
+};
+
+//导出&导入缓存
+const export_localstorage = async () => {
+  const arr_text = [];
+  for (var i = 0; i < window.localStorage.length; i++) {
+    const key: string | null = window.localStorage.key(i); //获取本地存储的Key
+    if (key != null) {
+      arr_text.push([key, window.localStorage.getItem(key)]);
+    }
+  }
+  const final_json = Object.fromEntries(arr_text);
+
+  const downloads_path = await ipcMsg_Get_Path("downloads");
+
+  if (downloads_path != undefined) {
+    const file_fullpath = downloads_path + "/export_cache.json";
+    window.fs.writeFileSync(file_fullpath, JSON.stringify(final_json));
+
+    Msg(`成功将缓存内容导出至 ${file_fullpath} `, "success");
+  }
+};
+
+const import_localstorage = async () => {
+  const File_Result = await ipcMsg_Get_File({
+    name: "JSON",
+    extensions: ["json"],
+  });
+  if (File_Result) {
+    const json_ = JSON.parse(File_Result);
+    for (let key in json_) {
+      setItem(key, json_[key]);
+    }
+
+    Msg("成功导入缓存文件，程序将在3秒内重启", "success");
+
+    setTimeout(() => {
+      window.ipcRenderer.send("Restart");
+    }, 3000);
   }
 };
 </script>
