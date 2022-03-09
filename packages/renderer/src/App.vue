@@ -136,7 +136,7 @@ const STORE_editor_instance = STORE_Editor();
 const STORE_setting_instance = STORE_Setting();
 const STORE_clipboard_instance = STORE_Clipboard();
 
-const username = STORE_Login().LoginResult.data.yhxm ?? "点击登录"
+const username = STORE_Login()?.LoginResult?.data?.yhxm ?? "点击登录"
 
 const isRouterAlive: Ref<boolean> = ref(true);
 const drawer: Ref<boolean> = ref(false);
