@@ -20,7 +20,9 @@
             v-model="formLabelAlign.username"
             clearable
             placeholder="输入用户名"
-            ><template #prepend>1301-</template></el-input
+            ><template #prepend
+              >{{ STORE_Setting().org_code }}-</template
+            ></el-input
           >
         </el-form-item>
         <el-form-item label="密码">
@@ -49,9 +51,10 @@ import { ref } from "@vue/reactivity";
 import qs from "qs";
 import { HTTP_checkuserinfo, HTTP_checkToken } from "../script/api/apiList";
 import { inject, Ref } from "vue";
-import { ElMessage } from "element-plus";
 import { showLoading, hideLoading } from "../script/utils/loading";
 import { STORE_Login } from "../store/modules/login";
+import { Msg } from "../script/utils/message";
+import { STORE_Setting } from "../store/modules/setting";
 
 const STORE_login_instance = STORE_Login();
 
@@ -78,7 +81,7 @@ const login = () => {
   if (username_ != "" && password_ != "") {
     //格式化登录信息
     const data = {
-      username: "1301-" + username_,
+      username: username_,
       password: password_,
       themeurl: "http://babg.zj.pcc/",
       rememberU: "on",
@@ -99,8 +102,10 @@ const login = () => {
         let login_err = false;
         if (res.msg == null) {
           //登陆信息无误,保存用户名和密码到localStorage
-          // store.commit("loginModule/SetUser", data);
           STORE_login_instance.Set_LoginInfo(data);
+
+          //添加法院代码
+          data.username = STORE_Setting().org_code + data.username;
 
           let ft = false; //防止dom-ready在重定向后多次刷新
           _obj.src =
@@ -150,11 +155,10 @@ const login = () => {
                 });
               }
 
-              ElMessage({
-                message: login_err ? "服务器错误，请稍后再试。" : "登录成功!",
-                grouping: true,
-                type: login_err ? "error" : "success",
-              });
+              Msg(
+                login_err ? "服务器错误，请稍后再试。" : "登录成功!",
+                login_err ? "error" : "success"
+              );
 
               drawer.value = false;
               return;
@@ -163,20 +167,12 @@ const login = () => {
           });
         } else {
           //登录信息校验失败
-          ElMessage({
-            message: res.msg,
-            grouping: true,
-            type: "error",
-          });
+          Msg(res.msg, "error");
         }
       })
       .catch((err) => {
         //服务器接口错误时处理
-        ElMessage({
-          message: "服务器接口错误，请稍后再试。",
-          grouping: true,
-          type: "error",
-        });
+        Msg("服务器接口错误，请稍后再试。", "error");
         drawer.value = false;
       })
       .finally(() => {
@@ -184,11 +180,7 @@ const login = () => {
       });
   } else {
     const msg_ = username_ == "" ? "用户名" : "密码";
-    ElMessage({
-      message: msg_ + "不能为空",
-      grouping: true,
-      type: "warning",
-    });
+    Msg(msg_ + "不能为空", "warning");
   }
 };
 </script>

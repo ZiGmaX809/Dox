@@ -38,9 +38,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage, ElUpload } from "element-plus";
+import { ElUpload } from "element-plus";
 import { ref } from "vue";
 import Nzh from "nzh";
+import { Msg } from "../script/utils/message";
 
 const upload = ref<InstanceType<typeof ElUpload>>();
 
@@ -165,17 +166,12 @@ const readText = async (params: {
         `packages/renderer/public/lawfiles/test.json`
       );
       window.fs.writeFileSync(path, JSON.stringify(info_json));
-      ElMessage({
-        message: `成功导入${arr_count.length}条法条，请手动核实条目数量，如不正确请重新导入`,
-        grouping: true,
-        type: "success",
-      });
+      Msg(
+        `成功导入${arr_count.length}条法条，请手动核实条目数量，如不正确请重新导入`,
+        "success"
+      );
     } else {
-      ElMessage({
-        message: `导入失败，请确认法条格式`,
-        grouping: true,
-        type: "error",
-      });
+      Msg("导入失败，请确认法条格式", "error");
     }
   };
   readFile.readAsText(params.file);

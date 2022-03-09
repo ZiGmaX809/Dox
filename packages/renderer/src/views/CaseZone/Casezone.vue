@@ -101,7 +101,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, nextTick, provide, Ref } from "vue";
+import { ref, inject, nextTick, Ref } from "vue";
 import Casedetail from "./Casedetail.vue";
 import { Cloudy, InfoFilled, Refresh } from "@element-plus/icons-vue";
 import { HTTP_checkToken } from "../../script/api/apiList";
@@ -109,12 +109,13 @@ import { getItem } from "../../script/utils/storage";
 import { REQUEST_get_casedetailinfo } from "../../script/request/casedetailinfo";
 import { useRoute } from "vue-router";
 import Router from "../../router/index";
-import { ElMessageBox, ElMessage } from "element-plus";
+import { ElMessageBox } from "element-plus";
 import Editor from "./Caseeditor.vue";
 import { STORE_Login } from "../../store/modules/login";
 import { STORE_Editor } from "../../store/modules/editor";
 import { STORE_Setting } from "../../store/modules/setting";
 import { STORE_Request } from "../../store/modules/request";
+import { Msg } from "../../script/utils/message";
 
 const STORE_login_instance = STORE_Login();
 const STORE_editor_instance = STORE_Editor();
@@ -165,17 +166,13 @@ const Open_Web_Casezone = (caseid: any) => {
       let link = `http://babg.zj.pcc/ajkjPlus?tokenid=${token}&ahdm=${caseid}&lx=sp&flag=2`;
       window.shell.openExternal(link);
     } else {
-      ElMessage({
-        message: "会话超时,请重新登录~",
-        grouping: true,
-        type: "error",
-      });
+      Msg("会话超时,请重新登录~", "error");
       drawer.value = true;
     }
   });
 };
 
-const request_bool = ref(false)
+const request_bool = ref(false);
 
 const Reload_DsrInfo = (bool: boolean) => {
   //延迟刷新组件
@@ -184,7 +181,7 @@ const Reload_DsrInfo = (bool: boolean) => {
     nextTick(() => {
       isReload.value = true;
     });
-    if(bool) isLoading.value = false
+    if (bool) isLoading.value = false;
   }, 1000);
 };
 

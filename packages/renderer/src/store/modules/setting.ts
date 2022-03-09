@@ -13,6 +13,7 @@ interface SettingState {
   offline_bool: boolean;
   offline_num: number;
   offline_time: string;
+  offline_timestamp: number;
   lawfilelist: string[];
 }
 
@@ -32,6 +33,7 @@ export const STORE_Setting = defineStore({
       offline_bool: false,
       offline_num: 0,
       offline_time: "从未",
+      offline_timestamp: 0,
       lawfilelist: [],
     };
   },
@@ -45,7 +47,7 @@ export const STORE_Setting = defineStore({
     Change_clipboard_textlength(num: number) {
       this.clipboard_textlength = num;
     },
-    Change_org_code(num:number){
+    Change_org_code(num: number) {
       this.org_code = num;
     },
     Switch_auto_int2em(bool: boolean) {
@@ -62,6 +64,13 @@ export const STORE_Setting = defineStore({
     },
     Switch_offline_bool(bool: boolean) {
       this.offline_bool = bool;
+    },
+    Set_offline_time() {
+      const date = new Date();
+      this.offline_time =
+        date.toLocaleDateString() +
+        ` ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      this.offline_timestamp = date.getTime();
     },
   },
   persist: {

@@ -32,10 +32,11 @@ export const REQUEST_get_casedetailinfo = async (
   } finally {
     if (!request_success) {
       const yhdm = STORE_Login().UserID;
+      const fydm = STORE_Setting().org_code.toString();
       const data = {
         ahdm: id,
         yhdm: yhdm,
-        fydm: "1301",
+        fydm: fydm,
       };
       await HTTP_getCaseDetail(data, isloadingview, ismsg).then((res: any) => {
         STORE_Request().Request_CaseDetail(res);
@@ -61,15 +62,19 @@ export const REQUEST_get_ALL_casedetailinfo = async (
   ismsg: boolean
 ) => {
   const yhdm = STORE_Login().UserID;
+  const fydm = STORE_Setting().org_code.toString();
   const data = {
     ahdm: id,
     yhdm: yhdm,
-    fydm: "1301",
+    fydm: fydm,
   };
-  await HTTP_getCaseDetail(data, isloadingview, ismsg).then((res: any) => {
+  return await HTTP_getCaseDetail(data, isloadingview, ismsg).then((res: any) => {
     window.fs.writeFileSync(
       `${STORE_System().CacheFile_Path}/offlinecasefiles/${id}.json`,
       JSON.stringify(res)
     );
+    return true;
+  }).catch((err)=>{
+    return false;
   });
 };

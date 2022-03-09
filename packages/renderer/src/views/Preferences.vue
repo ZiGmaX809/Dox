@@ -12,7 +12,9 @@
     <div style="width: 600px; height: 100%">
       <h2 class="pref_h2">自定义</h2>
       <el-divider />
-      <p class="pref_p">主题颜色</p>
+      <div class="pref_div">
+        <p class="pref_p">主题颜色</p>
+      </div>
       <div class="pref_div">
         <p class="pref_p">自定义头像</p>
         <el-switch v-model="coutom_avatar" />
@@ -27,6 +29,7 @@
           @input="(val: any) => handleChange_num(val,9999)"
         />
       </div>
+      <p class="pref_desc_p">登录用户名前缀数字。</p>
 
       <h2 class="pref_h2">编辑</h2>
       <el-divider />
@@ -230,9 +233,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, h, provide, reactive, ref } from "vue";
+import { computed, h, provide, reactive, ref, watch } from "vue";
 import { Delete } from "@element-plus/icons-vue";
-import { ElMessage, ElNotification } from "element-plus";
+import { ElNotification } from "element-plus";
 import { setItem } from "../script/utils/storage";
 import { STORE_Setting } from "../store/modules/setting";
 import { scan_allfiles } from "../script/utils/scanfolder";
@@ -240,6 +243,9 @@ import { ipcMsg_Get_File, ipcMsg_Get_Path } from "../script/utils/ipcmessage";
 import { STORE_System } from "../store/modules/system";
 import { STORE_Request } from "../store/modules/request";
 import Notice from "../components/Notice.vue";
+import { REQUEST_get_ALL_casedetailinfo } from "../script/request/casedetailinfo";
+import { delay } from "../script/utils/delay";
+import { Msg } from "../script/utils/message";
 
 const STORE_setting_instance = STORE_Setting();
 const STORE_system_instance = STORE_System();
@@ -322,11 +328,7 @@ const tableData = reactive({
 
 const copy_url = (url: string) => {
   window.clipboard.writeText(url);
-  ElMessage({
-    message: "已复制",
-    grouping: true,
-    type: "success",
-  });
+  Msg("已复制", "success");
 };
 
 const Refresh_lawfiles = async () => {
@@ -367,11 +369,10 @@ const import_pcafile = async () => {
       );
     }
 
-    ElMessage({
-      message: bool ? "已成功导入行政区划文件" : "导入失败，请校验文件！",
-      grouping: true,
-      type: bool ? "success" : "error",
-    });
+    Msg(
+      bool ? "已成功导入行政区划文件" : "导入失败，请校验文件！",
+      bool ? "success" : "error"
+    );
   }
 };
 
@@ -392,11 +393,7 @@ const export_localstorage = async () => {
     const file_fullpath = downloads_path + "/export_cache.json";
     window.fs.writeFileSync(file_fullpath, JSON.stringify(final_json));
 
-    ElMessage({
-      message: `成功将缓存内容导出至 ${file_fullpath} `,
-      grouping: true,
-      type: "success",
-    });
+    Msg(`成功将缓存内容导出至 ${file_fullpath} `, "success");
   }
 };
 
@@ -411,11 +408,7 @@ const import_localstorage = async () => {
       setItem(key, json_[key]);
     }
 
-    ElMessage({
-      message: "成功导入缓存文件，程序将在3秒内重启",
-      grouping: true,
-      type: "success",
-    });
+    Msg("成功导入缓存文件，程序将在3秒内重启", "success");
 
     setTimeout(() => {
       window.ipcRenderer.send("Restart");
@@ -438,38 +431,49 @@ const offline_files_num = () => {
     : "0";
 };
 
-const val = ref(30);
-const res = ref("10/30");
-
 //缓存离线数据
-const download_offline_files = () => {
-  // const progress_str = computed(()=>STORE_request_instance.caselist_num)
+const download_offline_files = async () => {
+  const time = new Date();
+  const interval_time =
+    time.getTime() - STORE_setting_instance.offline_timestamp;
 
-  // setInterval(() => {
-  //   // console.log(
-  //   //   "🚀 ~ file: Preferences.vue ~ line 436 ~ setInterval ~ val.value",
-  //   //   val.value
-  //   // );
-  //   val.value+=10;
-  //   window.postMessage(val.value);
-  //   if (val.value === 100) {
-  //     clearInterval();
-  //   }
-  // }, 1000);
+  if (interval_time < 60 * 1000) {
+    Msg(
+      `请勿重复拉取离线数据，请在${Math.floor(
+        60 - interval_time / 1000
+      )}秒后再试。`,
+      "warning"
+    );
+  } else {
+    const notice_instance = ElNotification({
+      title: "正在缓存离线文件……",
+      dangerouslyUseHTMLString: true,
+      message: h(Notice, {
+        style: "user-select: none",
+      }),
+      offset: 50,
+      duration: 0,
+      showClose: false,
+    });
 
-  // setTimeout(() => {
-  //   clearInterval();
-  // }, 10 * 1000);
-  ElNotification({
-    title: "正在缓存离线文件……",
-    dangerouslyUseHTMLString: true,
-    message: h(Notice, {
-      style: "user-select: none",
-    }),
-    offset: 50,
-    duration: 0,
-    showClose: false,
-  });
+    const arr_caselist = STORE_request_instance.CaseIDList;
+    const downloaded_num = ref(0);
+
+    arr_caselist.forEach(async (caseid, index) => {
+      await delay(300);
+      const result = await REQUEST_get_ALL_casedetailinfo(caseid, false, false);
+      if (result) {
+        downloaded_num.value++;
+      }
+      window.postMessage([downloaded_num.value, index + 1]);
+      if (index + 1 == arr_caselist.length) {
+        await delay(2000);
+        notice_instance.close();
+      }
+    });
+
+    STORE_setting_instance.Set_offline_time();
+  }
 };
 </script>
 

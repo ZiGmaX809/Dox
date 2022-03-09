@@ -243,7 +243,6 @@ import EllipsisTooltip from "../../components/EllipsisTooltip.vue";
 import { ref, nextTick, inject, reactive, computed } from "vue";
 import { setItem } from "../../script/utils/storage";
 import { EditPen, Close, StarFilled } from "@element-plus/icons-vue";
-import { ElMessage } from "element-plus";
 import { quick_input_introduction } from "../../html/introduction";
 import { date_format, quickinput } from "../../script/utils/quickinput";
 import { exportWord } from "../../script/utils/exportWord";
@@ -254,6 +253,7 @@ import { walkSync } from "../../script/utils/scanfolder";
 import { integrate_info } from "../../script/utils/integrateinfo";
 import { convert_folder_path } from "../../script/utils/convertpath";
 import { STORE_Request } from "../../store/modules/request";
+import { Msg } from "../../script/utils/message";
 
 const STORE_editor_instance = STORE_Editor();
 const STORE_setting_instance = STORE_Setting();
@@ -369,11 +369,7 @@ const saveText = (edit_text: string, ismsg: boolean) => {
   STORE_editor_instance.Reset_editor_isChanged();
 
   if (ismsg) {
-    ElMessage({
-      message: "暂存成功！",
-      grouping: true,
-      type: "success",
-    });
+    Msg("暂存成功！","success")
   }
 };
 

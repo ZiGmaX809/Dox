@@ -77,13 +77,13 @@ class AxiosHttpRequest implements BaseType {
     instance.interceptors.request.use(
       (config: AxiosRequestType) => {
         // 非请求当事人信息时,取消重复请求
-        // if (config.url?.indexOf("getPartyInfoList") != -1) {
-        removeSource(config);
-        config.cancelToken = new CancelToken((c) => {
+        if (!config.url?.includes("caseDetail")) {
+          removeSource(config);
+          config.cancelToken = new CancelToken((c) => {
             // 将取消函数存起来
-          sources.push({ umet: config.url + "&" + config.method, cancel: c });
-        });
-        // }
+            sources.push({ umet: config.url + "&" + config.method, cancel: c });
+          });
+        }
 
         // 添加全局的loading..
         // if (config.url?.indexOf("queryCaseDsrList") != -1) {
@@ -157,11 +157,16 @@ class AxiosHttpRequest implements BaseType {
             message: msg_txt === "null" ? "请求成功！" : msg_txt,
             grouping: true,
             type: "success",
+            offset: 50,
           });
 
           return Promise.resolve(res.data);
         } else {
-          ElMessage.error(msg);
+          ElMessage.error({
+            message: msg,
+            duration: 5 * 1000,
+            offset: 50,
+          });
           //return Promise.reject(res.data);
           return res.data;
         }
@@ -183,6 +188,7 @@ class AxiosHttpRequest implements BaseType {
           ElMessage.error({
             message: message,
             duration: 5 * 1000,
+            offset: 50,
           });
         }
         hideLoading();

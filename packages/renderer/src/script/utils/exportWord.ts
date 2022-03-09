@@ -11,8 +11,8 @@ import {
   convertMillimetersToTwip,
   Footer,
 } from "docx";
-import { ElMessage } from "element-plus";
 import { ipcMsg_Export_Word } from "./ipcmessage";
+import { Msg } from "./message";
 
 /**
  *
@@ -85,6 +85,8 @@ export const exportWord = async (
             font: {
               ascii: "仿宋_GB2312",
               eastAsia: "仿宋_GB2312",
+              cs: "仿宋_GB2312",
+              hAnsi: "仿宋_GB2312",
             },
           },
           paragraph: {
@@ -104,6 +106,8 @@ export const exportWord = async (
             font: {
               ascii: "仿宋_GB2312",
               eastAsia: "仿宋_GB2312",
+              cs: "仿宋_GB2312",
+              hAnsi: "仿宋_GB2312",
             },
           },
           paragraph: {
@@ -126,6 +130,8 @@ export const exportWord = async (
             font: {
               ascii: "仿宋_GB2312",
               eastAsia: "仿宋_GB2312",
+              cs: "仿宋_GB2312",
+              hAnsi: "仿宋_GB2312",
             },
           },
           paragraph: {
@@ -145,6 +151,8 @@ export const exportWord = async (
             font: {
               ascii: "仿宋_GB2312",
               eastAsia: "仿宋_GB2312",
+              cs: "仿宋_GB2312",
+              hAnsi: "仿宋_GB2312",
             },
           },
         },
@@ -281,11 +289,7 @@ export const exportWord = async (
         SaveName: ah + ".docx",
       });
 
-      ElMessage({
-        message: ah + reslut[1],
-        grouping: true,
-        type: reslut[0],
-      });
+      Msg(ah + reslut[1], reslut[0]);
     };
     reader.readAsArrayBuffer(blob);
   });
