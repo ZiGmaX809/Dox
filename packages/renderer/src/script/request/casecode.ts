@@ -1,3 +1,4 @@
+import { STORE_Login } from "../../store/modules/login";
 import { HTTP_getCodeList } from "../api/apiList";
 import { getItem, setItem } from "../utils/storage";
 
@@ -10,12 +11,12 @@ import { getItem, setItem } from "../utils/storage";
 
 export const REQUEST_getcasecode = (code: any) => {
   //获取当事人代码
-  const loginInfo = getItem("loginInfo");
+  const loginInfo = STORE_Login().LoginResult;
   const arr_code = code.split(",");
   const dto: string[] = [];
 
   arr_code.forEach((item: any) => {
-    dto.push(`{kind:${item}}`)
+    dto.push(`{kind:${item}}`);
   });
 
   if (loginInfo) {
@@ -29,7 +30,7 @@ export const REQUEST_getcasecode = (code: any) => {
     };
 
     HTTP_getCodeList(data, false, false).then((res: any) => {
-      setItem("codeList", res);
+      console.log(res);
     });
   }
 };

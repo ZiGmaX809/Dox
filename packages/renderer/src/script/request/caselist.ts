@@ -8,12 +8,12 @@ import { STORE_Request } from "../../store/modules/request";
 
 export const REQUEST_get_caselist = async () => {
   const STORE_login_instance = STORE_Login();
-  const loginInfo = STORE_login_instance.LoginResult;
+  const Request_Info = STORE_login_instance.LoginResult;
 
   const data = {
-    yhdm: loginInfo?.yhdm,
-    fydm: loginInfo?.fydm,
-    yhxm: loginInfo?.yhxm,
+    yhdm: Request_Info?.yhdm,
+    fydm: Request_Info?.fydm,
+    yhxm: Request_Info?.yhxm,
     appid: "SPXT",
     yydm: "SPXT",
     roleId: "ALL",

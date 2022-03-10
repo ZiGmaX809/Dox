@@ -243,15 +243,13 @@ import EllipsisTooltip from "../../components/EllipsisTooltip.vue";
 import { ref, nextTick, inject, reactive, computed } from "vue";
 import { setItem } from "../../script/utils/storage";
 import { EditPen, Close, StarFilled } from "@element-plus/icons-vue";
-import { quick_input_introduction } from "../../html/introduction";
+import { quick_input_introduction } from "../../script/utils/introduction";
 import { date_format, quickinput } from "../../script/utils/quickinput";
 import { exportWord } from "../../script/utils/exportWord";
 import { STORE_Editor } from "../../store/modules/editor";
 import { STORE_Setting } from "../../store/modules/setting";
 import { STORE_Clipboard } from "../../store/modules/clipboard";
-import { walkSync } from "../../script/utils/scanfolder";
 import { integrate_info } from "../../script/utils/integrateinfo";
-import { convert_folder_path } from "../../script/utils/convertpath";
 import { STORE_Request } from "../../store/modules/request";
 import { Msg } from "../../script/utils/message";
 
