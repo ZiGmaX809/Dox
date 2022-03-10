@@ -15,9 +15,9 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.1",
-    "@tinymce/tinymce-vue": "^4.0.6",
+    "@tinymce/tinymce-vue": "^4.0.7",
     "@types/file-saver": "^2.0.5",
-    "axios": "^0.26.0",
+    "axios": "^0.26.1",
     "docx": "^7.3.0",
     "docxtemplater": "^3.29.0",
     "element-plus": "^2.0.5",
@@ -26,7 +26,7 @@
     "pinia": "^2.0.11",
     "pinia-plugin-persist": "^0.0.93",
     "qs": "^6.10.3",
-    "tinymce": "^5.10.3",
+    "tinymce": "^6.0.0",
     "vue": "^3.2.31",
     "vue-cropper": "^1.0.2",
     "vue-router": "^4.0.13"
@@ -34,8 +34,8 @@
   "devDependencies": {
     "@types/qs": "^6.9.7",
     "@vitejs/plugin-vue": "^2.2.4",
-    "chalk": "^5.0.0",
-    "electron": "^17.1.1",
+    "chalk": "^5.0.1",
+    "electron": "^17.1.2",
     "electron-builder": "^22.14.13",
     "node-sass": "^7.0.1",
     "sass": "^1.49.9",

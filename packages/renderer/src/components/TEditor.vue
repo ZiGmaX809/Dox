@@ -14,6 +14,7 @@ import tinymce from "tinymce/tinymce"; //tinymce默认hidden，不引入则不�
 import { STORE_Editor } from "../store/modules/editor";
 
 import "tinymce/themes/silver"; //编辑器主题，不引入则报错
+import "tinymce/models/dom"; //6.0.0新增特性
 import "tinymce/icons/default"; //引入编辑器图标icon，不引入则不显示对应图标
 
 // 引入编辑器插件
@@ -25,10 +26,10 @@ import { reactive, ref, watch } from "vue";
 
 const STORE_editor_instance = STORE_Editor();
 
-const plugins: string = "wordcount indent2em";
+const plugins: string = "wordcount indent2em ";
 
 const toolbar: string =
-  "undo redo | cut copy paste | indent2em | alignleft aligncenter alignright alignjustify outdent indent";
+  "undo redo | cut copy | fontfamily | fontsize | indent2em | alignleft aligncenter alignright alignjustify outdent indent";
 
 const state = reactive({
   contentValue: "",
@@ -50,9 +51,9 @@ const initOptions = ref({
   menubar: false,
   // menubar: 'file edit',  //菜单栏配置，设为false则隐藏，不配置则默认显示全部菜单，也可自定义配置--查看 http://tinymce.ax-z.cn/configure/editor-appearance.php --搜索“自定义菜单”
 
-  fontsize_formats:
+  font_size_formats:
     "12px 14px 16px 18px 20px 22px 24px 28px 32px 36px 48px 56px 72px", //字体大小
-  font_formats:
+  font_family_formats:
     "微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun,serif;仿宋体=FangSong,serif;黑体=SimHei,sans-serif;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;",
 
   height: "610px", //注：引入autoresize插件时，此属性失效
