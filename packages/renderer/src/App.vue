@@ -192,13 +192,22 @@ const Listen_Clipboard = () => {
   clipboardObserver.stop();
   if (STORE_setting_instance.clipboard_bool) {
     clipboardObserver.start();
-    // store.commit("clipboardModule/switch_listen");
     STORE_clipboard_instance.switch_listen();
   }
 };
 
 PreloadFiles();
 Listen_Clipboard();
+
+// STORE_clipboard_instance.$subscribe((mutation, state) => {
+//   // console.log(mutation);
+//   // console.log(state);
+//   if(!state.clipboard_listen){
+//     clipboardObserver.stop();
+//   }else{
+//     clipboardObserver.start();
+//   }
+// });
 
 provide("reload", {
   reload: () => {

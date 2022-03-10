@@ -262,15 +262,16 @@ const tinymce_eidtor = ref();
 const value = ref("案件信息");
 const hoverIndex = ref(-1); //单独删除剪贴板内容用
 const isReload_pt = ref(true); //刷新组件用
+const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>();
+
+const listen_clip: any = inject("listen_clip");
+
 const listen_type = () => {
   return STORE_clipboard_instance.listen_type();
 };
 const listen_text = () => {
   return STORE_clipboard_instance.listen_text();
 };
-const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>();
-
-const listen_clip: any = inject("listen_clip");
 
 //开关剪贴板监控实例
 const switch_listen = () => {

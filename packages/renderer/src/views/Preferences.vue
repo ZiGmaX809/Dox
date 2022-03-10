@@ -203,16 +203,12 @@
       </p>
       <div class="pref_div">
         <p class="pref_p">离线功能</p>
-        <div
-          class="div_class_center"
-        >
+        <div class="div_class_center">
           <el-switch v-model="switch_offline_bool" />
         </div>
       </div>
       <div class="div_class">
-        <div
-          class="div_class_end"
-        >
+        <div class="div_class_end">
           <el-button
             class="btn-right"
             size="small"

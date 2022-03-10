@@ -41,12 +41,6 @@ export const STORE_Setting = defineStore({
     };
   },
   actions: {
-    Import_setting() {
-      console.log(
-        "🚀 ~ file: setting.ts ~ line 47 ~ Import_setting ~ this",
-        this
-      );
-    },
     Switch_clipboard_bool(bool: boolean) {
       this.clipboard_bool = bool;
     },

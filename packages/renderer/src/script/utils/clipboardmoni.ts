@@ -6,7 +6,6 @@ interface Options {
 class ClipboardObserver {
   timer!: NodeJS.Timeout;
   beforeText!: string;
-
   duration = 500;
   textChange: (text: string, beforeText: string) => void;
 
@@ -66,6 +65,7 @@ class ClipboardObserver {
    * 开始
    */
   start(): void {
+    // console.log("开始监听");
     this.setClipboardDefaultValue();
     this.setTimer();
   }
@@ -74,6 +74,7 @@ class ClipboardObserver {
    * 暂停
    */
   stop(): void {
+    // console.log("暂停监听");
     this.clearTimer();
   }
 }
