@@ -131,15 +131,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, reactive } from "vue";
+import { ref, inject, reactive, Ref } from "vue";
 import { Refresh } from "@element-plus/icons-vue";
 import { REQUEST_get_caselist } from "../script/request/caselist";
-import { check_login_info } from "../script/utils/checklogin";
 import { STORE_Request } from "../store/modules/request";
+import { STORE_Login } from "../store/modules/login";
+import { Msg } from "../script/utils/message";
 
-const reload: any = inject("reload");
+const reload: { reload: () => void } = inject("reload")!;
 
 const mycaselist = reactive(STORE_Request().MyCaseList);
+const drawer: Ref<boolean> = inject("drawer") ?? ref(false); //登录抽屉界面
 
 const currentPage = ref(1);
 const pagesize = ref(20);
@@ -158,9 +160,14 @@ const table_data = () => {
 };
 
 const refresh_caselist = async () => {
-  if (check_login_info()) {
+  if (STORE_Login().LoginResult.data) {
     await REQUEST_get_caselist();
     reload.reload();
+  } else {
+    Msg("尚未登录，请先登录～", "warning");
+    setTimeout(() => {
+      drawer.value = true;
+    }, 500);
   }
 };
 

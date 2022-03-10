@@ -129,17 +129,16 @@ const drawer: Ref<boolean> = inject("drawer") ?? ref(false); //登录抽屉界�
 const isReload = ref(true); //刷新组件用
 const isLoading = ref(true); //骨架用
 const Editors = ref();
-const int2em = ref(false);
 
 /* 获取数据 */
 const previous_caseinfo = STORE_request_instance.previous_caseinfo;
 const case_id = ref(router_caseid);
 
 //切换到编辑文书页面时自动启用首行缩进并读取暂存文本
+const first_into = ref(true);
 const handle_tabs_change = (val: { index: number }) => {
-  if (val.index == 1 && !int2em.value) {
-    int2em.value = true;
-
+  if (val.index == 1 && first_into.value) {
+    first_into.value = false;
     const txt = getItem("SaveText");
     if (txt?.ah === router_caseid) {
       Editors.value.addText(txt.text);
@@ -165,16 +164,17 @@ const Open_Web_Casezone = (caseid: any) => {
   });
 };
 
+//判断是否成功请求到案件详细信息
 const request_bool = ref(false);
 
-const Reload_DsrInfo = (bool: boolean) => {
+const Reload_DsrInfo = () => {
   //延迟刷新组件
   setTimeout(() => {
     isReload.value = false;
     nextTick(() => {
       isReload.value = true;
     });
-    if (bool) isLoading.value = false;
+    if (request_bool.value) isLoading.value = false;
   }, 1000);
 };
 
@@ -186,7 +186,7 @@ const Refresh_Dsrinfo = async () => {
     true,
     true
   );
-  Reload_DsrInfo(request_bool.value);
+  Reload_DsrInfo();
   // if (request_bool) {
   isLoading.value = false;
   // }
@@ -213,7 +213,7 @@ const Open_Casezone = async () => {
   }
   //重置内容检测开关
   STORE_editor_instance.Reset_editor_isChanged();
-  Reload_DsrInfo(request_bool.value);
+  Reload_DsrInfo();
 };
 
 //打开页面时执行

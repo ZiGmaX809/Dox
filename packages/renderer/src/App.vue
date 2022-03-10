@@ -121,12 +121,14 @@
 </template>
 
 <script setup lang="ts">
+import "@/assets/css/global.scss";
 import { Ref, ref, nextTick, provide } from "vue";
 import { Files, Search, Document, Setting } from "@element-plus/icons-vue";
 import { getItem } from "./script/utils/storage";
+
 import loginpage from "./views/Login.vue";
-import "@/assets/css/global.scss";
 import ClipboardObserver from "./script/utils/clipboardmoni";
+
 import { STORE_Setting } from "./store/modules/setting";
 import { STORE_Editor } from "./store/modules/editor";
 import { STORE_Clipboard } from "./store/modules/clipboard";
@@ -136,7 +138,7 @@ const STORE_editor_instance = STORE_Editor();
 const STORE_setting_instance = STORE_Setting();
 const STORE_clipboard_instance = STORE_Clipboard();
 
-const username = STORE_Login()?.LoginResult?.data?.yhxm ?? "点击登录"
+const username = STORE_Login()?.LoginResult?.data?.yhxm ?? "点击登录";
 
 const isRouterAlive: Ref<boolean> = ref(true);
 const drawer: Ref<boolean> = ref(false);
