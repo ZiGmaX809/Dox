@@ -23,17 +23,22 @@ import "tinymce/plugins/quickbars"; //快速工具栏
 import "tinymce/plugins/wordcount"; //字数统计
 // import "tinymce/plugins/charmap"; //特殊字符
 import { reactive, ref, watch } from "vue";
+import { STORE_Setting } from "../store/modules/setting";
 
 const STORE_editor_instance = STORE_Editor();
+const STORE_setting_instance = STORE_Setting();
 
 const plugins: string = "wordcount indent2em ";
 
 const toolbar: string =
-  "undo redo | cut copy | fontfamily | fontsize | indent2em | alignleft aligncenter alignright alignjustify outdent indent";
+  "undo redo | cut copy paste | pastetext | fontfamily | fontsize | indent2em | alignleft aligncenter alignright alignjustify outdent indent";
 
 const state = reactive({
   contentValue: "",
 });
+
+const default_font_name = STORE_setting_instance.editor_font_name;
+const default_font_size = STORE_setting_instance.editor_font_size;
 
 const initOptions = ref({
   selector: "#tinymce_eidtor",
@@ -73,6 +78,20 @@ const initOptions = ref({
 
   // content_style: 'img {max-width:100%;}', //直接自定义可编辑区域的css样式
   content_css: "plugins/tinymce/skins/content/default/content.min.css", //以css文件方式自定义可编辑区域的css样式，css文件需自己创建并引入
+
+  setup: function (editor: {
+    on: (arg0: string, arg1: (e: any) => void) => void;
+  }) {
+    editor.on("init", function (e) {
+      tinymce.activeEditor.getBody().style.fontSize = default_font_size;
+      tinymce.activeEditor.getBody().style.fontFamily = default_font_name.split("=")[1];
+    });
+  },
+  init_instance_callback: function () {
+    if (STORE_setting_instance.auto_int2em) {
+      tinymce.activeEditor.execCommand("indent2em");
+    }
+  },
 });
 
 const clear = () => {
@@ -86,10 +105,6 @@ const getText = () => {
 
 const addText = (data: string) => {
   tinymce.activeEditor.insertContent(data);
-};
-
-const int2em = () => {
-  tinymce.activeEditor.execCommand("indent2em");
 };
 
 //监控编辑器内容变更
@@ -107,7 +122,6 @@ defineExpose({
   clear,
   getText,
   addText,
-  int2em,
 });
 </script>
 

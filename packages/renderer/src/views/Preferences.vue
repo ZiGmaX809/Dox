@@ -34,6 +34,39 @@
       <h2 class="pref_h2">编辑</h2>
       <el-divider />
       <div class="pref_div">
+        <p class="pref_p">编辑器默认字体</p>
+        <el-select
+          v-model="default_font_name"
+          class="m-2"
+          placeholder="Select"
+          size="small"
+          style="width: 100px"
+          @change="(val:Event) => Set_Editer_font_name(val)"
+        >
+          <el-option
+            v-for="item in fonts_family"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+      </div>
+      <div class="pref_div">
+        <p class="pref_p">编辑器默认字号</p>
+        <el-select
+          v-model="default_font_size"
+          class="m-2"
+          placeholder="Select"
+          size="small"
+          style="width: 80px"
+          @change="(val:Event) => Set_Editer_font_size(val)"
+        >
+          <el-option v-for="item in font_sizes" :key="item" :value="item">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="pref_div">
         <p class="pref_p">默认启用首行缩进</p>
         <el-switch v-model="auto_int2em" />
       </div>
@@ -225,7 +258,10 @@
       </div>
       <div class="pref_div">
         <p class="pref_p">导入配置及缓存数据</p>
-        <el-button class="extra_btn_class" size="small" @click=""
+        <el-button
+          class="extra_btn_class"
+          size="small"
+          @click="import_localstorage()"
           >选择文件并导入</el-button
         >
       </div>
@@ -235,7 +271,7 @@
           class="extra_btn_class"
           size="small"
           type="danger"
-          @click="import_localstorage()"
+          @click="reset_program()"
           >重置</el-button
         >
       </div>
@@ -254,7 +290,7 @@
 <script setup lang="ts">
 import { computed, h, reactive, ref } from "vue";
 import { Delete } from "@element-plus/icons-vue";
-import { ElNotification } from "element-plus";
+import { ElMessageBox, ElNotification } from "element-plus";
 import { setItem } from "../script/utils/storage";
 import { STORE_Setting } from "../store/modules/setting";
 import { scan_allfiles } from "../script/utils/scanfolder";
@@ -332,6 +368,48 @@ const handleChange_num = (value: String, max: number) => {
   }
 };
 
+//编辑器字体字号设置
+const default_font_name = ref(STORE_setting_instance.editor_font_name.split("=")[0]);
+const fonts_family = [
+  {
+    value: "系统字体=",
+    label: "系统字体",
+  },
+  {
+    value: "微软雅黑=Microsoft YaHei",
+    label: "微软雅黑",
+  },
+  {
+    value: "苹果苹方=PingFang SC",
+    label: "苹果苹方",
+  },
+  {
+    value: "仿宋=FangSong,serif",
+    label: "仿宋",
+  },
+  {
+    value: "宋体=simsun,serif",
+    label: "宋体",
+  },
+  {
+    value: "黑体=SimHei,sans-serif",
+    label: "黑体",
+  },
+];
+const default_font_size = ref(STORE_setting_instance.editor_font_size);
+const font_sizes = ["12px", "14px", "16px", "18px", "20px", "22px", "24px"];
+
+const Set_Editer_font_name = (val: Event) => {
+  const res = val.toString();
+  STORE_setting_instance.Set_font_name(res);
+};
+
+const Set_Editer_font_size = (val: Event) => {
+  const res = val.toString();
+  STORE_setting_instance.Set_font_size(res);
+};
+
+//法律法规文件管理
 const tableData = reactive({
   list: STORE_setting_instance.lawfilelist,
 });
@@ -461,6 +539,7 @@ const download_offline_files = async () => {
 
 //导出&导入缓存
 const export_localstorage = async () => {
+  const now = new Date();
   const arr_text = [];
   for (var i = 0; i < window.localStorage.length; i++) {
     const key: string | null = window.localStorage.key(i); //获取本地存储的Key
@@ -473,10 +552,10 @@ const export_localstorage = async () => {
   const downloads_path = await ipcMsg_Get_Path("downloads");
 
   if (downloads_path != undefined) {
-    const file_fullpath = downloads_path + "/export_cache.json";
+    const file_fullpath = `${downloads_path}/export_${now.getTime()}.json`;
     window.fs.writeFileSync(file_fullpath, JSON.stringify(final_json));
 
-    Msg(`成功将缓存内容导出至 ${file_fullpath} `, "success");
+    Msg(`已导出至 ${file_fullpath} `, "success");
   }
 };
 
@@ -491,12 +570,22 @@ const import_localstorage = async () => {
       setItem(key, json_[key]);
     }
 
-    Msg("成功导入缓存文件，程序将在3秒内重启", "success");
+    Msg("成功导入缓存文件，应用将在3秒内重启", "success");
 
     setTimeout(() => {
       window.ipcRenderer.send("Restart");
     }, 3000);
   }
+};
+
+const reset_program = () => {
+  ElMessageBox.confirm("确认重置应用？", "警告", {
+    confirmButtonText: "确认",
+    cancelButtonText: "取消",
+    type: "warning",
+  }).then(() => {
+    Msg("重置成功，应用将在3秒内重启！", "success");
+  });
 };
 </script>
 

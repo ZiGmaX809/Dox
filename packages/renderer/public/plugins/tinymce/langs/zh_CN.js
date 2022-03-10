@@ -177,7 +177,7 @@ tinymce.addI18n('zh_CN',{
 "Media...": "\u591a\u5a92\u4f53...",
 "Nonbreaking space": "\u4e0d\u95f4\u65ad\u7a7a\u683c",
 "Page break": "\u5206\u9875\u7b26",
-"Paste as text": "\u7c98\u8d34\u4e3a\u6587\u672c",
+"Paste as text": "\u7c98\u8d34\u4e3a\u7eaf\u6587\u672c",
 "Preview": "\u9884\u89c8",
 "Print...": "\u6253\u5370...",
 "Save": "\u4fdd\u5b58",

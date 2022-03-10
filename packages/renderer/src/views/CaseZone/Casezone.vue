@@ -142,19 +142,15 @@ const case_id = ref(router_caseid);
 const handle_tabs_change = (val: { index: number }) => {
   if (val.index == 1 && !int2em.value) {
     int2em.value = true;
-    setTimeout(() => {
-      if (STORE_setting_instance.auto_int2em) {
-        Editors.value.int2em();
-      }
-      const txt = getItem("SaveText");
-      if (txt?.ah === router_caseid) {
-        Editors.value.addText(txt.text);
-        //在插入内容后延迟重置内容检测开关
-        setTimeout(() => {
-          STORE_editor_instance.Reset_editor_isChanged();
-        }, 300);
-      }
-    }, 100);
+
+    const txt = getItem("SaveText");
+    if (txt?.ah === router_caseid) {
+      Editors.value.addText(txt.text);
+      //在插入内容后延迟重置内容检测开关
+      setTimeout(() => {
+        STORE_editor_instance.Reset_editor_isChanged();
+      }, 300);
+    }
   }
 };
 

@@ -369,7 +369,7 @@ const saveText = (edit_text: string, ismsg: boolean) => {
   STORE_editor_instance.Reset_editor_isChanged();
 
   if (ismsg) {
-    Msg("暂存成功！","success")
+    Msg("暂存成功！", "success");
   }
 };
 
@@ -389,13 +389,8 @@ const exoprt_word = () => {
 //编辑器清屏
 const clear = () => {
   tinymce_eidtor.value.clear();
-  setTimeout(() => {
-    if (STORE_setting_instance.auto_int2em) {
-      int2em();
-    }
-    //清屏后无需提醒
-    saveText("", false);
-  }, 500);
+  //清屏后无需提醒
+  saveText("", false);
 };
 
 const int2em = () => {
