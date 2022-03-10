@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { obj } from "../../store";
 import { STORE_Quickinput } from "../../store/modules/quickinpt";
 
-var arr_pca: any[] = [];
+var arr_pca: string[] = [];
 
 export const quickinput = (keyword: string, file_list: string[]) => {
   //分割命令

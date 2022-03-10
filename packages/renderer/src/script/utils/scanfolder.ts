@@ -24,7 +24,8 @@ export const walkSync = (
 };
 
 /**
- * 遍历法律法规文件夹
+ * 遍历法律法规文件夹，并打开读取其中name的值，以拿到相关文件的简称
+ * 为保证性能仅暴露给设置中手动刷新
  * @param folderpath 法律法规文件夹目录地址
  * @returns 数组，包含每个文件path、fullname、name
  */

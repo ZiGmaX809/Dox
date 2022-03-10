@@ -13,8 +13,6 @@ let loadingInstance: any;
 // 编写一个显示loading的函数 并且记录请求次数 ++
 const showLoading = (txt: string) => {
   if (loadingRequestCount === 0) {
-    // element的服务方式 target 我这边取的是表格class
-    // 类似整个表格loading和在表格配置v-loading一样的效果，这么做是全局实现了，不用每个页面单独去v-loading
     loadingInstance = ElLoading.service({
       fullscreen: true,
       lock: true,

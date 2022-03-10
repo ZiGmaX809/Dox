@@ -1,4 +1,5 @@
-/** 与主进程通信以获取相关目录的绝对地址 */
+/** 与主进程通信相关方法 */
+
 export const ipcMsg_Get_Path = async (Folder: string) => {
   return await window.ipcRenderer
     .invoke("Get_Path", Folder)
