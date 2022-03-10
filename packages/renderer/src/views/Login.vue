@@ -47,10 +47,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "@vue/reactivity";
 import qs from "qs";
 import { HTTP_checkuserinfo, HTTP_checkToken } from "../script/api/apiList";
-import { inject, Ref } from "vue";
+import { inject, Ref, ref } from "vue";
 import { showLoading, hideLoading } from "../script/utils/loading";
 import { STORE_Login } from "../store/modules/login";
 import { Msg } from "../script/utils/message";

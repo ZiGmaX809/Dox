@@ -102,25 +102,22 @@
 
 <script setup lang="ts">
 import { ref, inject, nextTick, Ref } from "vue";
-import Casedetail from "./Casedetail.vue";
 import { Cloudy, InfoFilled, Refresh } from "@element-plus/icons-vue";
 import { HTTP_checkToken } from "../../script/api/apiList";
 import { getItem } from "../../script/utils/storage";
 import { REQUEST_get_casedetailinfo } from "../../script/request/casedetailinfo";
 import { useRoute } from "vue-router";
-import Router from "../../router/index";
-import { ElMessageBox } from "element-plus";
-import Editor from "./Caseeditor.vue";
 import { STORE_Login } from "../../store/modules/login";
 import { STORE_Editor } from "../../store/modules/editor";
-import { STORE_Setting } from "../../store/modules/setting";
 import { STORE_Request } from "../../store/modules/request";
 import { Msg } from "../../script/utils/message";
+
+import Casedetail from "./Casedetail.vue";
+import Editor from "./Caseeditor.vue";
 
 const STORE_login_instance = STORE_Login();
 const STORE_editor_instance = STORE_Editor();
 const STORE_request_instance = STORE_Request();
-const STORE_setting_instance = STORE_Setting();
 
 /* 路由传参 */
 const router = useRoute();
@@ -218,35 +215,6 @@ const Open_Casezone = async () => {
   STORE_editor_instance.Reset_editor_isChanged();
   Reload_DsrInfo(request_bool.value);
 };
-
-//路由守卫，对比编辑器和暂存文本并提示
-Router.beforeEach((to, from, next) => {
-  if (from.name === "Casezone" && STORE_editor_instance.editor_isChanged) {
-    ElMessageBox.confirm(
-      "离开此页面将会导致未保存内容丢失，确认离开？",
-      "警告",
-      {
-        distinguishCancelAndClose: true,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
-        closeOnHashChange: false,
-        showClose: false,
-        confirmButtonText: "确认",
-        cancelButtonText: "取消",
-        type: "warning",
-      }
-    )
-      .then(() => {
-        STORE_editor_instance.Reset_editor_isChanged();
-        next();
-      })
-      .catch(() => {
-        return false;
-      });
-  } else {
-    next();
-  }
-});
 
 //打开页面时执行
 Open_Casezone();

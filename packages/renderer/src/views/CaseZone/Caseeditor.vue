@@ -442,15 +442,6 @@ interface item {
 }
 
 const links = ref<item[]>([]);
-//遍历存在的法律法规文件
-const file_list: any = [];
-
-walkSync(
-  convert_folder_path("packages/renderer/public/lawfiles/"),
-  (filePath, name, w_name) => {
-    file_list.push(w_name);
-  }
-);
 
 const querySearchAsync = async (
   queryString: string,
@@ -458,7 +449,7 @@ const querySearchAsync = async (
 ) => {
   // if (queryString.length > 1 && queryString.indexOf(" ") > -1) {
   if (/^[a-zA-Z]+\s/.test(queryString)) {
-    links.value = await quickinput(queryString, file_list);
+    links.value = await quickinput(queryString, STORE_setting_instance.lawfilelist);
     let isSearch = /(ft)|(dz)/g.test(queryString);
     if (typeof links.value != "string") {
       if (isSearch) {

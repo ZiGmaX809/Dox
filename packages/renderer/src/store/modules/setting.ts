@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { obj } from "..";
 
 interface SettingState {
   ui_color: string;
@@ -6,8 +7,8 @@ interface SettingState {
   custom_avatar_bool: boolean;
   custom_avatar_url: string;
   auto_int2em: boolean;
-  editor_font_name:string,
-  editor_font_size:string,
+  editor_font_name: string;
+  editor_font_size: string;
   clipboard_bool: boolean;
   clipboard_num: number;
   clipboard_textlength: number;
@@ -40,6 +41,12 @@ export const STORE_Setting = defineStore({
     };
   },
   actions: {
+    Import_setting() {
+      console.log(
+        "🚀 ~ file: setting.ts ~ line 47 ~ Import_setting ~ this",
+        this
+      );
+    },
     Switch_clipboard_bool(bool: boolean) {
       this.clipboard_bool = bool;
     },

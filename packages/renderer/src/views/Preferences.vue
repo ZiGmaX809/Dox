@@ -274,12 +274,11 @@
 import { computed, h, reactive, ref } from "vue";
 import { Delete } from "@element-plus/icons-vue";
 import { ElMessageBox, ElNotification } from "element-plus";
-import { setItem } from "../script/utils/storage";
 import { STORE_Setting } from "../store/modules/setting";
-import { scan_allfiles } from "../script/utils/scanfolder";
-import { ipcMsg_Get_File, ipcMsg_Get_Path } from "../script/utils/ipcmessage";
 import { STORE_System } from "../store/modules/system";
 import { STORE_Request } from "../store/modules/request";
+import { scan_allfiles } from "../script/utils/scanfolder";
+import { ipcMsg_Get_File, ipcMsg_Get_Path } from "../script/utils/ipcmessage";
 import { REQUEST_get_ALL_casedetailinfo } from "../script/request/casedetailinfo";
 import { delay } from "../script/utils/delay";
 import { Msg } from "../script/utils/message";
@@ -536,7 +535,7 @@ const export_localstorage = async () => {
 
   const downloads_path = await ipcMsg_Get_Path("downloads");
 
-  if (downloads_path != undefined) {
+  if (downloads_path) {
     const file_fullpath = `${downloads_path}/export_${now.getTime()}.json`;
     window.fs.writeFileSync(file_fullpath, JSON.stringify(final_json));
 
@@ -552,7 +551,7 @@ const import_localstorage = async () => {
   if (File_Result) {
     const json_ = JSON.parse(File_Result);
     for (let key in json_) {
-      setItem(key, json_[key]);
+      window.localStorage.setItem(key, json_[key]);
     }
 
     Msg("成功导入缓存文件，应用将在3秒内重启", "success");

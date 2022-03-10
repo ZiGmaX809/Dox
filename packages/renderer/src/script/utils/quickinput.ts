@@ -1,17 +1,18 @@
 import nzhcn from "nzh/cn";
 import { ref } from "vue";
+import { obj } from "../../store";
 import { STORE_Quickinput } from "../../store/modules/quickinpt";
 
 var arr_pca: any[] = [];
 
-export const quickinput = async (keyword: string, file_list: []) => {
+export const quickinput = (keyword: string, file_list: string[]) => {
   //分割命令
   const keys = keyword.split(/\s/);
   //判断功能
   switch (keys[0]) {
     case "rq":
       let result_date = date_format(keys[1]);
-      if (result_date != undefined) {
+      if (result_date) {
         const t = result_date.map((item, index) => {
           return {
             id: item == "不存在该日期" ? -1 : index,
@@ -43,7 +44,7 @@ export const quickinput = async (keyword: string, file_list: []) => {
       if (keys[1] == "") {
         return "请输入地区";
       } else {
-        await introduce_pcafile();
+        introduce_pcafile();
         const arr_address = find_address(keys[1]);
 
         if (typeof arr_address == "object" && arr_address.length > 0) {
@@ -67,7 +68,7 @@ export const quickinput = async (keyword: string, file_list: []) => {
         if (index_ == "" || Number(index_) == 0) {
           return "请输入法条索引";
         }
-        await introduce_lawarticle(name_);
+        introduce_lawarticle(name_);
 
         const arr_res = input_lawarticle(index_);
         if (typeof arr_res == "object") {
@@ -205,12 +206,17 @@ function check_Date(date: any) {
  ***************
  */
 
-function judge_law(str: any, file_list: any[]) {
-  const name = str.match(/^[\u4e00-\u9fa5]{0,}/)[0];
+function judge_law(str: string, file_list: obj) {
+  const name = str.match(/^[\u4e00-\u9fa5]{0,}/)![0];
+  const arr_file_list = file_list.map(
+    (item: { filepath: string; fullname: string; name: string }) => {
+      return item.name;
+    }
+  );
   // 判断是否输入法律法规名称及是否存在该文件
   if (name != null && name.length > 0) {
     const index = str.replace(name, "");
-    if (file_list.includes(name)) {
+    if (arr_file_list.includes(name)) {
       return [name, index];
     } else {
       return 1;
@@ -219,12 +225,12 @@ function judge_law(str: any, file_list: any[]) {
   return 0;
 }
 
-async function introduce_lawarticle(name: any) {
+function introduce_lawarticle(name: any) {
   const STORE_quickinput_state = STORE_Quickinput();
   //判断是否存在缓存
   const lawfileCache = STORE_quickinput_state.lawfileCache;
   if (lawfileCache.name != name) {
-    await STORE_quickinput_state.Set_lawfileCache(name);
+    STORE_quickinput_state.Set_lawfileCache(name);
   }
 }
 
@@ -385,7 +391,7 @@ function iter_lawJson(json: any): any {
  ***************
  */
 //判断是否存在缓存以及缓存是否已经超时
-async function introduce_pcafile() {
+function introduce_pcafile() {
   //获取当前时间戳
   let now = new Date().getTime();
   const STORE_quickinput_state = STORE_Quickinput();
@@ -396,7 +402,7 @@ async function introduce_pcafile() {
     } else {
       let loadtime = Number(STORE_quickinput_state.pcaCache.loadtime);
       //缓存有效期1小时
-      if (loadtime + 60 * 1000 >= now) {
+      if (loadtime + 60 * 60 * 1000 >= now) {
         return false;
       }
       return true;
@@ -404,7 +410,7 @@ async function introduce_pcafile() {
   };
 
   if (isReload()) {
-    await STORE_quickinput_state.Set_pcaCache(now);
+    STORE_quickinput_state.Set_pcaCache(now);
   }
 }
 
