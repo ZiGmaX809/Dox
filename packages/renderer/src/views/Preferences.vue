@@ -34,13 +34,13 @@
       <h2 class="pref_h2">编辑</h2>
       <el-divider />
       <div class="pref_div">
-        <p class="pref_p">编辑器默认字体</p>
+        <p class="pref_p">默认字体</p>
         <el-select
           v-model="default_font_name"
           class="m-2"
           placeholder="Select"
           size="small"
-          style="width: 100px"
+          style="width: 80px"
           @change="(val:Event) => Set_Editer_font_name(val)"
         >
           <el-option
@@ -53,13 +53,13 @@
         </el-select>
       </div>
       <div class="pref_div">
-        <p class="pref_p">编辑器默认字号</p>
+        <p class="pref_p">默认字号</p>
         <el-select
           v-model="default_font_size"
           class="m-2"
           placeholder="Select"
           size="small"
-          style="width: 80px"
+          style="width: 60px"
           @change="(val:Event) => Set_Editer_font_size(val)"
         >
           <el-option v-for="item in font_sizes" :key="item" :value="item">
@@ -71,7 +71,7 @@
         <el-switch v-model="auto_int2em" />
       </div>
       <p class="pref_desc_p">
-        编辑器内的字体、段落格式并不会影响导出文书的格式，启用首行缩进仅仅为了便于编辑文书。
+        编辑器内的字体、字号、段落格并不会影响导出文书的格式，仅为了便于编辑文书。
       </p>
 
       <div class="pref_div">
@@ -126,12 +126,7 @@
       <el-divider />
       <div class="pref_div">
         <p class="pref_p">已引入的法律法规文件</p>
-        <el-button
-          class="extra_btn_class"
-          size="small"
-          @click="Refresh_lawfiles"
-          >刷新</el-button
-        >
+        <el-button size="small" @click="Refresh_lawfiles">刷新</el-button>
       </div>
       <el-table
         :data="tableData.list"
@@ -179,10 +174,7 @@
         <p class="pref_p">
           行政区划地址信息（更新时间：{{ pca_update_time() }}）
         </p>
-        <el-button
-          class="extra_btn_class"
-          size="small"
-          @click="import_pcafile()"
+        <el-button size="small" @click="import_pcafile()"
           >选择文件并更新</el-button
         >
       </div>
@@ -204,12 +196,7 @@
       <el-divider />
       <div class="pref_div">
         <p class="pref_p">本地资源文件夹</p>
-        <el-button
-          class="extra_btn_class"
-          size="small"
-          @click="open_cachefile()"
-          >打开</el-button
-        >
+        <el-button size="small" @click="open_cachefile()">打开</el-button>
       </div>
       <p class="pref_desc_p">
         本地保存行政区划地址信息、法律法规文件等的文件夹。
@@ -217,61 +204,57 @@
       <div class="pref_div">
         <p class="pref_p">离线功能</p>
         <div
-          style="
-            display: flex;
-            flex-direction: row-reverse;
-            align-items: center;
-          "
+          class="div_class_center"
         >
           <el-switch v-model="switch_offline_bool" />
+        </div>
+      </div>
+      <div class="div_class">
+        <div
+          class="div_class_end"
+        >
           <el-button
-            class="extra_btn_class"
+            class="btn-right"
             size="small"
-            style="margin-right: 10px"
             @click="download_offline_files()"
             :disabled="!switch_offline_bool"
             >离线数据</el-button
+          ><el-button
+            class="btn-right"
+            size="small"
+            type="danger"
+            @click=""
+            :disabled="!switch_offline_bool"
+            >清理过期数据</el-button
           >
         </div>
+        <p class="pref_desc_p">
+          <b
+            >&#10059;&nbsp;注意：此功能仅缓存「我的案件」中尚在审理的案件信息，因涉及当事人信息，请遵守相关规章制度！</b
+          ><br />
+          开启离线功能后，可在脱机状态下查看案件、编辑、生成文书。<br />
+          考虑到服务器负载，拉取数据间隔为60秒，请手动点击离线数据按钮进行数据离线。<br />
+          已拉取案件数量：{{ offline_files_num.data }}；上次拉取时间：{{
+            STORE_setting_instance.offline_time
+          }}；
+        </p>
       </div>
-      <p class="pref_desc_p">
-        <b
-          >&#10059;&nbsp;注意：此功能仅缓存「我的案件」中尚在审理的案件信息，因涉及当事人信息，请遵守相关规章制度！</b
-        ><br />
-        开启离线功能后，可在脱机状态下查看案件、编辑、生成文书。<br />
-        考虑到服务器负载，拉取数据间隔为60秒，请手动点击离线数据按钮进行数据离线。<br />
-        已拉取案件数量：{{ offline_files_num.data }}；上次拉取时间：{{
-          STORE_setting_instance.offline_time
-        }}；
-      </p>
 
       <h2 class="pref_h2">其他</h2>
       <el-divider />
       <div class="pref_div">
         <p class="pref_p">导出配置及缓存数据</p>
-        <el-button
-          class="extra_btn_class"
-          size="small"
-          @click="export_localstorage()"
-          >导出</el-button
-        >
+        <el-button size="small" @click="export_localstorage()">导出</el-button>
       </div>
       <div class="pref_div">
         <p class="pref_p">导入配置及缓存数据</p>
-        <el-button
-          class="extra_btn_class"
-          size="small"
-          @click="import_localstorage()"
+        <el-button size="small" @click="import_localstorage()"
           >选择文件并导入</el-button
         >
       </div>
       <div class="pref_div">
         <p class="pref_p">重置应用</p>
-        <el-button
-          class="extra_btn_class"
-          size="small"
-          type="danger"
-          @click="reset_program()"
+        <el-button size="small" type="danger" @click="reset_program()"
           >重置</el-button
         >
       </div>
@@ -369,7 +352,9 @@ const handleChange_num = (value: String, max: number) => {
 };
 
 //编辑器字体字号设置
-const default_font_name = ref(STORE_setting_instance.editor_font_name.split("=")[0]);
+const default_font_name = ref(
+  STORE_setting_instance.editor_font_name.split("=")[0]
+);
 const fonts_family = [
   {
     value: "系统字体=",
@@ -629,6 +614,24 @@ const reset_program = () => {
   margin-top: -10px;
   height: 50px;
   font-family: "Barlow";
+}
+
+.btn-right {
+  margin-top: 10px;
+}
+
+.div_class {
+  display: flex;
+  flex-direction: row-reverse;
+  &_center {
+    @extend .div_class;
+    align-items: center;
+  }
+  &_end {
+    @extend .div_class;
+    flex-direction: column !important;
+    align-items: flex-end;
+  }
 }
 
 p {

@@ -1,7 +1,7 @@
-export function delay(ms: number) {
-  return new Promise((resolve, reject) => {
+export async function delay(ms: number) {
+  return await new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log("Done waiting");
+      // console.log("Done waiting");
       resolve(ms);
     }, ms);
   });

@@ -27,7 +27,7 @@ export const STORE_Setting = defineStore({
       custom_avatar_bool: false,
       custom_avatar_url: "",
       auto_int2em: true,
-      editor_font_name: "系统字体",
+      editor_font_name: "系统字体=",
       editor_font_size: "16px",
       clipboard_bool: false,
       clipboard_num: 50,
