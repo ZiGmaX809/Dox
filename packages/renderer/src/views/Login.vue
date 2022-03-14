@@ -60,6 +60,7 @@ import { showLoading, hideLoading } from "../script/utils/loading";
 import { STORE_Login } from "../store/modules/login";
 import { Msg } from "../script/utils/message";
 import { STORE_Setting } from "../store/modules/setting";
+import { REQUEST_get_caselist } from "../script/request/caselist";
 
 const STORE_login_instance = STORE_Login();
 
@@ -86,7 +87,7 @@ const login = () => {
   if (username_ != "" && password_ != "") {
     //格式化登录信息
     const data = {
-      username: STORE_Setting().org_code + "-" + username_,
+      username: username_,
       password: password_,
       themeurl: "http://babg.zj.pcc/",
       rememberU: "on",
@@ -97,12 +98,16 @@ const login = () => {
     const preload_url =
       "file://" +
       window.path.resolve("packages/renderer/src/script/preload/login.js");
-    const logindata = qs.stringify(data);
+    const login_info = {
+      ...data,
+      username: STORE_Setting().org_code + "-" + username_,
+    };
+    const logindata = qs.stringify(login_info);
     let _obj = document.createElement("webview");
 
     //确认登陆信息是否正确
-    HTTP_checkuserinfo(logindata, true, false)
-      .then((res: any) => {
+    HTTP_checkuserinfo(logindata)
+      .then(async (res: any) => {
         let login_end = false; //ipcRenderer发送信息计数
         let login_err = false;
         if (res.msg == null) {
@@ -123,7 +128,7 @@ const login = () => {
             }
           });
 
-          _obj.addEventListener("ipc-message", (e) => {
+          _obj.addEventListener("ipc-message", async (e) => {
             let reasult = e.channel;
             if (reasult == "login success") {
               //登录成功后延迟获取Token等信息
@@ -132,8 +137,8 @@ const login = () => {
               }, 2000);
             } else if (reasult.includes("result")) {
               //输出获取的Token等信息
-              //console.log(reasult);
               let result = reasult.replace("result:", "").split(",");
+
               //将获取的Token和头像地址写到localStorage
               STORE_login_instance.Set_Token(result[0]);
               STORE_login_instance.Set_UserID(result[1]);
@@ -152,17 +157,23 @@ const login = () => {
               const token = STORE_login_instance.Token;
               if (token) {
                 //获取用户代码等信息
-                HTTP_checkToken(token).then((res: any) => {
+                await HTTP_checkToken(token).then(async (res: any) => {
                   STORE_login_instance.Set_LoginResult(res);
+                  await REQUEST_get_caselist(false);
+                  hideLoading();
                 });
               }
 
               Msg(
-                login_err ? "服务器错误，请稍后再试。" : "登录成功!",
+                login_err ? "服务器错误，请稍后再试。" : "登录成功，即将刷新。",
                 login_err ? "error" : "success"
               );
 
               drawer.value = false;
+
+              setTimeout(() => {
+                window.location.reload();
+              }, 500);
               return;
             }
             login_end = true;
@@ -170,16 +181,18 @@ const login = () => {
         } else {
           //登录信息校验失败
           Msg(res.msg, "error");
+          hideLoading();
         }
       })
       .catch((err) => {
         //服务器接口错误时处理
         Msg("服务器接口错误，请稍后再试。", "error");
         drawer.value = false;
-      })
-      .finally(() => {
         hideLoading();
       });
+    // .finally(() => {
+    //   hideLoading();
+    // });
   } else {
     const msg_ = username_ == "" ? "用户名" : "密码";
     Msg(msg_ + "不能为空", "warning");

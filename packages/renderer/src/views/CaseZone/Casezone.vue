@@ -31,7 +31,7 @@
             >
             <!-- 判断有无前序案件 -->
             <el-dropdown-item
-              v-if="previous_caseinfo.length > 0 ? false : true"
+              v-if="previous_caseinfo?.length > 0 ? false : true"
               disabled
               >无前序案件</el-dropdown-item
             >
@@ -208,7 +208,7 @@ const Open_Casezone = async () => {
     request_bool.value = await REQUEST_get_casedetailinfo(
       router_caseid,
       false,
-      true
+      false,
     );
   }
   //重置内容检测开关

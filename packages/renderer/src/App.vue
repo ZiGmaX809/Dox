@@ -1,8 +1,8 @@
 <template>
-  <el-container style="height: 100%">
+  <el-container>
     <!-- 标题栏 -->
-    <el-header style="text-align: center; font-size: 12px; user-select: none">
-      <p>Documents Editor Lite</p>
+    <el-header>
+      <p style="width:90%">Documents Editor Lite</p>
       <!-- 红绿灯按钮开关 -->
       <div class="traffic-lights focus">
         <button
@@ -259,7 +259,11 @@ $asidebgcolor: #f4f6f9;
   background-color: $headerbgcolor;
   color: white;
   height: 40px !important;
+  // width:calc(100% - 80px);
   -webkit-app-region: drag;
+  text-align: center; 
+  font-size: 12px; 
+  user-select: none
 }
 
 .el-aside {
@@ -302,7 +306,8 @@ $asidebgcolor: #f4f6f9;
   position: absolute;
   top: 6px;
   right: 10px;
-  z-index: 1000;
+  -webkit-app-region: no-drag;
+  // background-color: $headerbgcolor;
 
   &.focus,
   &:hover,
@@ -404,6 +409,7 @@ body,
   margin: 0px;
   height: 100%;
   overflow: hidden;
+  --el-dialog-bg-color:#ffffff;
 }
 
 img {

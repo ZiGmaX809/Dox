@@ -209,14 +209,14 @@ export const exportWord = async (
   //添加类型以及空格
   const f_lx = lx.split("").join("  ").toString();
 
-  doc.Document.View.addChildElement(
+  doc.Document.View.Body.addChildElement(
     new Paragraph({
       text: f_lx,
       heading: HeadingLevel.HEADING_2,
     })
   );
 
-  doc.Document.View.addChildElement(
+  doc.Document.View.Body.addChildElement(
     new Paragraph({
       text: "",
       style: "maintext",
@@ -224,7 +224,7 @@ export const exportWord = async (
   );
 
   //添加案号
-  doc.Document.View.addChildElement(
+  doc.Document.View.Body.addChildElement(
     new Paragraph({
       text: ah,
       style: "righttext",
@@ -234,7 +234,7 @@ export const exportWord = async (
   //添加主文
   const arr_zw = zw.split("\n");
   arr_zw.forEach((text) => {
-    doc.Document.View.addChildElement(
+    doc.Document.View.Body.addChildElement(
       new Paragraph({
         text: text,
         style: "maintext",
@@ -245,7 +245,7 @@ export const exportWord = async (
   //添加合议庭+日期
   const arr_hytrq = hytrq.split("\n");
   arr_hytrq.forEach((text) => {
-    doc.Document.View.addChildElement(
+    doc.Document.View.Body.addChildElement(
       new Paragraph({
         text: text,
         style: "righttext",
@@ -256,7 +256,7 @@ export const exportWord = async (
   //添加核对信息
   const arr_hd = ["本件与原本核对无异", ""];
   arr_hd.forEach((text) => {
-    doc.Document.View.addChildElement(
+    doc.Document.View.Body.addChildElement(
       new Paragraph({
         text: text,
         style: "indent0text",
@@ -267,13 +267,14 @@ export const exportWord = async (
   //添加法官助理、书记员信息
   const arr_fgzl = fgzl.split("\n");
   arr_fgzl.forEach((text) => {
-    doc.Document.View.addChildElement(
+    doc.Document.View.Body.addChildElement(
       new Paragraph({
         text: text,
         style: "righttext",
       })
     );
   });
+
 
   // Packer.toBlob(doc).then((blob) => {
   //   saveAs(blob, ah + ".docx");
@@ -285,7 +286,7 @@ export const exportWord = async (
     reader.onload = async function (result) {
       const reslut: any = await ipcMsg_Export_Word({
         WordFile: result.target?.result,
-        SavePath: "/Users/zigma/Downloads/",
+        SavePath: "/home/user/Downloads/",
         SaveName: ah + ".docx",
       });
 

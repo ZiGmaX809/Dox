@@ -9,6 +9,7 @@ interface BaseType {
   interceptors(
     instance: AxiosInstance,
     url: string | number | undefined,
+    isloading: boolean,
     ismsg: boolean,
     msg_txt: string
   ): any;
@@ -70,6 +71,7 @@ class AxiosHttpRequest implements BaseType {
   interceptors(
     instance: AxiosInstance,
     url: string | number | undefined,
+    isloading: boolean,
     ismsg: boolean,
     msg_txt: string
   ) {
@@ -151,14 +153,20 @@ class AxiosHttpRequest implements BaseType {
             msg = "访问资源不存在";
             break;
         }
-        hideLoading();
+        
+        if (isloading) {
+          hideLoading();
+        }
+
         if (code == 200 || login_status) {
-          ElMessage({
-            message: msg_txt === "null" ? "请求成功！" : msg_txt,
-            grouping: true,
-            type: "success",
-            offset: 50,
-          });
+          if (ismsg) {
+            ElMessage({
+              message: msg_txt === "null" ? "请求成功！" : msg_txt,
+              grouping: true,
+              type: "success",
+              offset: 50,
+            });
+          }
 
           return Promise.resolve(res.data);
         } else {
@@ -191,7 +199,9 @@ class AxiosHttpRequest implements BaseType {
             offset: 50,
           });
         }
-        hideLoading();
+        if (isloading) {
+          hideLoading();
+        }
         return Promise.reject(error);
       }
     );
@@ -218,7 +228,7 @@ class AxiosHttpRequest implements BaseType {
       showLoading(loading_txt === "null" ? "努力加载中......" : loading_txt);
     }
     options = Object.assign(this.getConfigParams(), options);
-    this.interceptors(instance, options.url, ismsg, msg_txt);
+    this.interceptors(instance, options.url, ismsg, isloading, msg_txt);
     return instance(options);
   }
 }

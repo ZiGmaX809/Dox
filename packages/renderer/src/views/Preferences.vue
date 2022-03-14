@@ -495,25 +495,27 @@ const download_offline_files = async () => {
     });
 
     const arr_caselist = STORE_request_instance.CaseIDList;
-    const downloaded_num = ref(0);
+    let downloaded_num = 0;
 
-    arr_caselist.forEach(async (caseid, index) => {
-      await delay(300);
-      const result = await REQUEST_get_ALL_casedetailinfo(caseid, false, false);
+    let index = 0;
+    const offline_id = setInterval(async ()=>{
+      const result = await REQUEST_get_ALL_casedetailinfo(arr_caselist[index], false, false);
       if (result) {
-        downloaded_num.value++;
+        downloaded_num++;
       }
-      window.postMessage([downloaded_num.value, index + 1]);
+      window.postMessage([downloaded_num, index + 1]);
       if (index + 1 == arr_caselist.length) {
+        clearInterval(offline_id)
+        const arr_final_offline_num = [downloaded_num, arr_caselist.length];
+        offline_files_num.data = arr_final_offline_num.join("/");
+
         await delay(2000);
         notice_instance.close();
       }
-    });
-
-    const arr_final_offline_num = [downloaded_num.value, arr_caselist.length];
-
+      index++
+    },200)
     STORE_setting_instance.Set_offline_time();
-    offline_files_num.data = arr_final_offline_num.join("/");
+    
   }
 };
 

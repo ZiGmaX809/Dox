@@ -59,7 +59,7 @@ export const HTTP_getCaseDetail = (
 ) => {
   return http.request(
     {
-      url: "/api/widgets/searchCase/sp/caseDetail",
+      url: "http://babg.zj.pcc/proxy/gzpt-widget-all-new/api/widgets/searchCase/sp/caseDetail",
       method: "POST",
       data,
     },
@@ -103,9 +103,7 @@ export const HTTP_getqueryCaseDsrList = (
  * @returns 实例
  */
 export const HTTP_checkuserinfo = (
-  data: string,
-  isloading: boolean,
-  ismsg: boolean
+  data: string
 ) => {
   return http.request(
     {
@@ -113,9 +111,9 @@ export const HTTP_checkuserinfo = (
       method: "PUT",
       data,
     },
-    isloading,
+    false,
     "null",
-    ismsg,
+    false,
     "null"
   );
 };

@@ -44,8 +44,8 @@ async function get_token() {
     let resJson1 = resp1.json();
     resJson1.then(async (res) => {
       const result = [];
-      result.push(JSON.stringify(res.token));
-      result.push(JSON.stringify(res.userId));
+      result.push(res.token);
+      result.push(res.userId);
       let userid = res.userId;
       await fetch("http://babg.zj.pcc/gzpt3-platform/api/v2/users/" + userid, {
         headers: { accept: "application/json,text/plain,*/*" },
@@ -53,9 +53,9 @@ async function get_token() {
       }).then((resp2) => {
         let resJson2 = resp2.json();
         resJson2.then((res) => {
-          result.push(JSON.stringify(res.avatar));
-          ipcRenderer.sendToHost("result:" + result.toString());
-          console.log("result:" + result.toString());
+          result.push(res.avatar);
+          ipcRenderer.sendToHost("result:" + result.join(","));
+          // console.log("result:" + result.toString());
         });
       });
     });

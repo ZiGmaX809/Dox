@@ -161,7 +161,7 @@ const table_data = () => {
 
 const refresh_caselist = async () => {
   if (STORE_Login().LoginResult.data) {
-    await REQUEST_get_caselist();
+    await REQUEST_get_caselist(true);
     reload.reload();
   } else {
     Msg("尚未登录，请先登录～", "warning");

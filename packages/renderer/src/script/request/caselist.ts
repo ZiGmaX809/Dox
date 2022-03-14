@@ -6,7 +6,7 @@ import { STORE_Request } from "../../store/modules/request";
  * 拉取当前账户审理案件列表
  */
 
-export const REQUEST_get_caselist = async () => {
+export const REQUEST_get_caselist = async (bool:boolean) => {
   const STORE_login_instance = STORE_Login();
   const Request_Info = STORE_login_instance.LoginResult.data;
 
@@ -32,7 +32,7 @@ export const REQUEST_get_caselist = async () => {
     sfhxt: true,
   };
 
-  await HTTP_getmyCaseList(data, true, true).then((res: any) => {
+  await HTTP_getmyCaseList(data, bool, bool).then((res: any) => {
     STORE_Request().Request_MyCaseList(res)
   });
 };
