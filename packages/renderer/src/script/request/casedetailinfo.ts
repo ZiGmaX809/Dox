@@ -31,12 +31,10 @@ export const REQUEST_get_casedetailinfo = async (
     console.log(err);
   } finally {
     if (!request_success) {
-      const yhdm = STORE_Login().UserID;
-      const fydm = STORE_Setting().org_code.toString();
       const data = {
         ahdm: id,
-        yhdm: yhdm,
-        fydm: fydm,
+        yhdm: STORE_Login().UserID,
+        fydm: STORE_Setting().org_code.toString(),
       };
       await HTTP_getCaseDetail(data, isloadingview, ismsg).then((res: any) => {
         STORE_Request().Request_CaseDetail(res);

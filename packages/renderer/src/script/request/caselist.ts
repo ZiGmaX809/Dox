@@ -8,7 +8,7 @@ import { STORE_Request } from "../../store/modules/request";
 
 export const REQUEST_get_caselist = async () => {
   const STORE_login_instance = STORE_Login();
-  const Request_Info = STORE_login_instance.LoginResult;
+  const Request_Info = STORE_login_instance.LoginResult.data;
 
   const data = {
     yhdm: Request_Info?.yhdm,

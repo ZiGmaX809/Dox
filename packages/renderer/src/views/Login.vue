@@ -1,5 +1,5 @@
 <template>
-  <div class="bg">
+  <div>
     <img
       class="bg-img"
       :src="getImageUrl('loginbg.svg')"
@@ -21,7 +21,13 @@
             clearable
             placeholder="输入用户名"
             ><template #prepend
-              >{{ STORE_Setting().org_code }}-</template
+              ><el-tooltip
+                class="box-item"
+                effect="dark"
+                content="请前往设置更改所在单位代码"
+                placement="bottom"
+                >{{ STORE_Setting().org_code.toString() }}</el-tooltip
+              >-</template
             ></el-input
           >
         </el-form-item>
@@ -80,7 +86,7 @@ const login = () => {
   if (username_ != "" && password_ != "") {
     //格式化登录信息
     const data = {
-      username: username_,
+      username: STORE_Setting().org_code + "-" + username_,
       password: password_,
       themeurl: "http://babg.zj.pcc/",
       rememberU: "on",
@@ -102,9 +108,6 @@ const login = () => {
         if (res.msg == null) {
           //登陆信息无误,保存用户名和密码到localStorage
           STORE_login_instance.Set_LoginInfo(data);
-
-          //添加法院代码
-          data.username = STORE_Setting().org_code + data.username;
 
           let ft = false; //防止dom-ready在重定向后多次刷新
           _obj.src =
@@ -196,7 +199,6 @@ const login = () => {
   width: 100%;
   height: 100%;
   user-select: none;
-  display: block;
-  margin: 0 auto;
+  display: flex;
 }
 </style>

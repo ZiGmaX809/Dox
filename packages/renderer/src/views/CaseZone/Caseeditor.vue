@@ -10,7 +10,7 @@
         title="确认需要清除所有内容？"
       >
         <template #reference>
-          <el-button type="danger" size="small" plain>清 屏</el-button>
+          <el-button type="danger" size="small" plain>清屏</el-button>
         </template>
       </el-popconfirm>
       <el-button
@@ -18,9 +18,29 @@
         size="small"
         plain
         @click="saveText(getText(), true)"
-        >暂 存</el-button
+        >暂存</el-button
       >
-      <el-button size="small" @click="exoprt_word()">导 出</el-button>
+       <el-button
+        size="small"
+        @click="exoprt_word()"
+        >生成文书</el-button
+      >
+      <!-- <el-dropdown
+        size="small"
+        split-button
+        @click="exoprt_word()"
+        style="width:190px"
+      >
+        生成文书
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>Action 1</el-dropdown-item>
+            <el-dropdown-item>Action 2</el-dropdown-item>
+            <el-dropdown-item>Action 3</el-dropdown-item>
+            <el-dropdown-item>Action 4</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown> -->
     </div>
 
     <!-- 快捷输入工具 -->
@@ -448,7 +468,10 @@ const querySearchAsync = async (
 ) => {
   // if (queryString.length > 1 && queryString.indexOf(" ") > -1) {
   if (/^[a-zA-Z]+\s/.test(queryString)) {
-    links.value = await quickinput(queryString, STORE_setting_instance.lawfilelist);
+    links.value = await quickinput(
+      queryString,
+      STORE_setting_instance.lawfilelist
+    );
     let isSearch = /(ft)|(dz)/g.test(queryString);
     if (typeof links.value != "string") {
       if (isSearch) {

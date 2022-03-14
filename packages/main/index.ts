@@ -64,7 +64,13 @@ async function add_userData() {
   if (!fs.existsSync(userData_path)) {
     fs.mkdirSync(userData_path);
     // 复制文件
-    const folder_list = ["divisions", "images", "lawfiles", "presettext"];
+    const folder_list = [
+      "divisions",
+      "images",
+      "lawfiles",
+      "presettext",
+      "offlinecasefiles",
+    ];
     folder_list.forEach((foldername: string) => {
       Copy(
         __dirname.replace("/main", "/renderer/") + foldername,

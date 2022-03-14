@@ -302,6 +302,7 @@ $asidebgcolor: #f4f6f9;
   position: absolute;
   top: 6px;
   right: 10px;
+  z-index: 1000;
 
   &.focus,
   &:hover,
