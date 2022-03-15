@@ -72,7 +72,7 @@ const initOptions = ref({
 
   // placeholder: "开始编写吧……",
   branding: false, //tiny技术支持信息是否显示
-  resize: true, //编辑器宽高是否可变，false-否,true-高可变，'both'-宽高均可，注意引号
+  resize: false, //编辑器宽高是否可变，false-否,true-高可变，'both'-宽高均可，注意引号
   // statusbar: false,  //最下方的元素路径和字数统计那一栏是否显示
   elementpath: false, //元素路径是否显示
 

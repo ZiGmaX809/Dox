@@ -130,12 +130,4 @@ add_presettext();
 .el-space {
   display: block !important;
 }
-
-.tag1 {
-  margin-left: 0px;
-}
-
-.tag2 {
-  margin-left: 10px;
-}
 </style>

@@ -63,22 +63,34 @@
       type="border-card"
       @tab-click="(val:any) => handle_tabs_change(val)"
     >
-      <el-tab-pane label="当事人信息" v-if="isReload">
-        <el-skeleton :loading="isLoading" animated :rows="5" >
+      <el-tab-pane v-if="isReload">
+        <template #label>
+          <span class="custom-tabs-label"
+            ><el-icon><postcard /></el-icon><span>当事人信息</span></span
+          >
+        </template>
+
+        <el-skeleton :loading="isLoading" animated :rows="5">
           <template #template>
-            <div v-for="i in 2" :key="i" style="padding: 15px">
-              <el-card>
-                <el-skeleton-item
-                  variant="h1"
-                  style="width: 30%; padding: 7px; line-height: 20px"
-                />
-                <el-skeleton-item
-                  v-for="o in 5"
-                  :key="o"
-                  variant="h3"
-                  style="margin-top: 15px; line-height: 20px"
-                />
-              </el-card>
+            <div style="padding: 15px">
+              <div
+                v-for="i in 2"
+                :key="i"
+                :class="[i === 1 ? 'box-card0' : 'box-card1']"
+              >
+                <el-card>
+                  <el-skeleton-item
+                    variant="h1"
+                    style="width: 30%; padding: 7px; line-height: 20px"
+                  />
+                  <el-skeleton-item
+                    v-for="o in 5"
+                    :key="o"
+                    variant="h3"
+                    style="margin-top: 20px; line-height: 20px"
+                  />
+                </el-card>
+              </div>
             </div>
           </template>
           <template #default>
@@ -90,7 +102,12 @@
           </template>
         </el-skeleton>
       </el-tab-pane>
-      <el-tab-pane class="Horizontal_alignment" label="编辑文书">
+      <el-tab-pane class="Horizontal_alignment">
+        <template #label>
+          <span class="custom-tabs-label"
+            ><el-icon><EditPen /></el-icon><span>编辑文书</span></span
+          >
+        </template>
         <!-- 编辑器 -->
         <div class="tab_view">
           <Editor ref="Editors" :id="case_id" />
@@ -102,7 +119,7 @@
 
 <script setup lang="ts">
 import { ref, inject, nextTick, Ref } from "vue";
-import { Cloudy, InfoFilled, Refresh } from "@element-plus/icons-vue";
+import { Cloudy, InfoFilled, Refresh, Postcard, EditPen } from "@element-plus/icons-vue";
 import { HTTP_checkToken } from "../../script/api/apiList";
 import { getItem } from "../../script/utils/storage";
 import { REQUEST_get_casedetailinfo } from "../../script/request/casedetailinfo";
@@ -228,6 +245,14 @@ Open_Casezone();
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.tabs .custom-tabs-label .el-icon {
+  vertical-align: middle;
+}
+.tabs .custom-tabs-label span {
+  vertical-align: middle;
+  margin-left: 4px;
 }
 
 .Horizontal_alignment {
