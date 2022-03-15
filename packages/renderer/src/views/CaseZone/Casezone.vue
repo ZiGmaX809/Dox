@@ -94,9 +94,9 @@
             </div>
           </template>
           <template #default>
-            <el-scrollbar>
+            <el-scrollbar v-show="!isLoading">
               <div style="padding: 15px">
-                <casedetail v-show="!isLoading" />
+                <casedetail />
               </div>
             </el-scrollbar>
           </template>
@@ -119,7 +119,13 @@
 
 <script setup lang="ts">
 import { ref, inject, nextTick, Ref } from "vue";
-import { Cloudy, InfoFilled, Refresh, Postcard, EditPen } from "@element-plus/icons-vue";
+import {
+  Cloudy,
+  InfoFilled,
+  Refresh,
+  Postcard,
+  EditPen,
+} from "@element-plus/icons-vue";
 import { HTTP_checkToken } from "../../script/api/apiList";
 import { getItem } from "../../script/utils/storage";
 import { REQUEST_get_casedetailinfo } from "../../script/request/casedetailinfo";

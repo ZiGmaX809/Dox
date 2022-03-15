@@ -21,6 +21,7 @@
       <el-descriptions-item label="类别" label-align="right">
         <el-tag size="small">{{ dsritem.lxMc }}</el-tag></el-descriptions-item
       >
+
       <div v-if="dsritem.lx === '15_000004-1'">
         <el-descriptions-item label="性别" label-align="right">
           {{ dsritem.xbMc }}
@@ -38,6 +39,7 @@
           >{{ dsritem.hjszd }}</el-descriptions-item
         >
       </div>
+
       <div v-else>
         <el-descriptions-item label="法定代表人" label-align="right">
           {{ dsritem.fddbr }}
@@ -59,12 +61,14 @@
           dsritem.zzjgdm
         }}</el-descriptions-item>
       </div>
+
       <el-descriptions-item
         label="现住址"
         label-align="right"
         :span="span_num"
         >{{ dsritem.dz }}</el-descriptions-item
       >
+
       <div v-for="dlritem in final_dlr(dsritem.xh)">
         <el-descriptions-item label="诉讼委托代理人" label-align="right">
           {{ dlritem[0] }}
@@ -76,6 +80,7 @@
           {{ dlritem[2] }}
         </el-descriptions-item>
       </div>
+
     </el-descriptions>
   </el-card>
 </template>
@@ -125,9 +130,5 @@ add_presettext();
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.el-space {
-  display: block !important;
 }
 </style>
