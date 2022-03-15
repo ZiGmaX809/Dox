@@ -2,7 +2,7 @@
   <el-container>
     <!-- 标题栏 -->
     <el-header>
-      <p style="width:90%">Documents Editor Lite</p>
+      <p style="width: 90%">Documents Editor Lite</p>
       <!-- 红绿灯按钮开关 -->
       <div class="traffic-lights focus">
         <button
@@ -261,9 +261,9 @@ $asidebgcolor: #f4f6f9;
   height: 40px !important;
   // width:calc(100% - 80px);
   -webkit-app-region: drag;
-  text-align: center; 
-  font-size: 12px; 
-  user-select: none
+  text-align: center;
+  font-size: 12px;
+  user-select: none;
 }
 
 .el-aside {
@@ -276,7 +276,11 @@ $asidebgcolor: #f4f6f9;
 }
 
 .el-main {
-  position: relative;
+  .deep {
+    display: flex;
+    flex-direction: column;
+  }
+  // position: relative;
 }
 
 .el-avatar {
@@ -409,7 +413,7 @@ body,
   margin: 0px;
   height: 100%;
   overflow: hidden;
-  --el-dialog-bg-color:#ffffff;
+  --el-dialog-bg-color: #ffffff;
 }
 
 img {

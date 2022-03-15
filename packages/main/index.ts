@@ -63,7 +63,7 @@ async function add_userData() {
     app.getPath("userData").replace(/\s/g, "") + "/CacheFiles";
   if (!fs.existsSync(userData_path)) {
     fs.mkdirSync(userData_path);
-    // 复制文件
+    // 复制文件列表
     const folder_list = [
       "divisions",
       "images",

@@ -8,10 +8,7 @@
     <div id="webbg" class="login-wrap" v-show="showLogin" ref="loginWrap">
       <!-- <webview id="wb" src="http://babg.zj.pcc/" /> -->
     </div>
-    <el-card
-      class="box-card"
-      style="width: 100%; position: relative; top: 50px"
-    >
+    <el-card class="box-card-login">
       <h3 align="center">用户登录</h3>
       <el-form label-position="left" label-width="65px" :model="formLabelAlign">
         <el-form-item label="用户名">
@@ -180,7 +177,7 @@ const login = () => {
           });
         } else {
           //登录信息校验失败
-          Msg(res.msg, "error");
+          // Msg(res.msg, "error");
           hideLoading();
         }
       })

@@ -1,31 +1,27 @@
 <template>
-  <tinymce id="editorBase" ref="tinymce_eidtor" />
-  <!-- 快捷区 -->
-  <div class="quickview_right">
-    <div style="display: flex; justify-content: space-between">
-      <el-popconfirm
-        confirm-button-text="是"
-        cancel-button-text="否"
-        @confirm="clear()"
-        title="确认需要清除所有内容？"
-      >
-        <template #reference>
-          <el-button type="danger" size="small" plain>清屏</el-button>
-        </template>
-      </el-popconfirm>
-      <el-button
-        type="success"
-        size="small"
-        plain
-        @click="saveText(getText(), true)"
-        >暂存</el-button
-      >
-       <el-button
-        size="small"
-        @click="exoprt_word()"
-        >生成文书</el-button
-      >
-      <!-- <el-dropdown
+    <tinymce id="editorBase" ref="tinymce_eidtor" />
+    <!-- 快捷区 -->
+    <div class="quickview_right">
+      <div style="display: flex; justify-content: space-between">
+        <el-popconfirm
+          confirm-button-text="是"
+          cancel-button-text="否"
+          @confirm="clear()"
+          title="确认需要清除所有内容？"
+        >
+          <template #reference>
+            <el-button type="danger" size="small" plain>清屏</el-button>
+          </template>
+        </el-popconfirm>
+        <el-button
+          type="success"
+          size="small"
+          plain
+          @click="saveText(getText(), true)"
+          >暂存</el-button
+        >
+        <el-button size="small" @click="exoprt_word()">生成文书</el-button>
+        <!-- <el-dropdown
         size="small"
         split-button
         @click="exoprt_word()"
@@ -41,219 +37,227 @@
           </el-dropdown-menu>
         </template>
       </el-dropdown> -->
-    </div>
+      </div>
 
-    <!-- 快捷输入工具 -->
-    <div
-      style="
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 5px;
-      "
-    >
-      <el-autocomplete
-        size="small"
-        ref="autocomplete"
-        popper-class="el-autocomplete-suggestion"
-        style="flex: 1; width: 100%"
-        v-model="state"
-        placement="bottom"
-        :trigger-on-focus="false"
-        :teleported="false"
-        :clearable="true"
-        :fetch-suggestions="querySearchAsync"
-        @select="handleSelect"
-        @clear="setBlur()"
+      <!-- 快捷输入工具 -->
+      <div
+        style="
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 5px;
+        "
       >
-        <template #prefix>
-          <el-tooltip
-            :content="quick_input_introduction"
-            placement="left-start"
-            effect="dark"
-            :show-after="500"
-            raw-content
-          >
-            <el-icon class="el-input__icon"><EditPen /></el-icon>
-          </el-tooltip>
-        </template>
-        <!-- 过长内容利用Tooltip显示 -->
-        <template v-slot="{ item }">
-          <EllipsisTooltip :text="item.value" :name="item.name" />
-        </template>
-      </el-autocomplete>
-    </div>
+        <el-autocomplete
+          size="small"
+          ref="autocomplete"
+          popper-class="el-autocomplete-suggestion"
+          style="flex: 1; width: 100%"
+          v-model="state"
+          placement="bottom"
+          :trigger-on-focus="false"
+          :teleported="false"
+          :clearable="true"
+          :fetch-suggestions="querySearchAsync"
+          @select="handleSelect"
+          @clear="setBlur()"
+        >
+          <template #prefix>
+            <el-tooltip
+              :content="quick_input_introduction"
+              placement="left-start"
+              effect="dark"
+              :show-after="500"
+              raw-content
+            >
+              <el-icon class="el-input__icon"><EditPen /></el-icon>
+            </el-tooltip>
+          </template>
+          <!-- 过长内容利用Tooltip显示 -->
+          <template v-slot="{ item }">
+            <EllipsisTooltip :text="item.value" :name="item.name" />
+          </template>
+        </el-autocomplete>
+      </div>
 
-    <!-- 预设文本选择框 -->
-    <div
-      style="
-        margin-top: 5px;
-        flex: 1;
-        border-style: solid;
-        border-width: 1px;
-        border-color: #ccc;
-        padding: 5px;
-        display: flex;
-        flex-direction: column;
-        width: 182px;
-        user-select: none;
-      "
-    >
-      <el-select
-        v-model="value"
-        class="m-2"
-        size="small"
-        @change="
-          (val) => {
+      <!-- 预设文本选择框 -->
+      <div
+        style="
+          margin-top: 5px;
+          flex: 1;
+          border-style: solid;
+          border-width: 1px;
+          border-color: #ccc;
+          padding: 5px;
+          display: flex;
+          flex-direction: column;
+          width: 182px;
+          user-select: none;
+        "
+      >
+        <el-select
+          v-model="value"
+          class="m-2"
+          size="small"
+          @change="
+          (val:Event) => {
             handle_select_change(val);
           }
         "
-      >
-        <el-option
-          v-for="(item, index) in presetText"
-          :label="item.PartName"
-          :value="item.PartName"
-          :disabled="
-            index == 6 && !STORE_setting_instance.clipboard_bool ? true : false
-          "
         >
-        </el-option>
-      </el-select>
-
-      <div
-        style="display: flex; flex: 1; height: 0; width: 100%; margin-top: 5px"
-        v-if="isReload_pt"
-      >
-        <!-- 常规 -->
-        <div v-if="!isClipboard">
-          <el-scrollbar>
-            <div style="height: 0; width: 100%">
-              <el-card
-                shadow="hover"
-                v-for="(item, index) in pt.data"
-                :key="index"
-                :class="[index === 0 ? 'select_card0' : 'select_card1']"
-                @click="addText(item.ItemName, `default`)"
-              >
-                <div style="display: flex; flex-direction: column">
-                  <span
-                    style="color: gray; font-size: 11px"
-                    v-if="handle_presettxt(item.ItemName)[0]"
-                    >{{ handle_presettxt(item.ItemName)[0] }}</span
-                  >
-                  <span
-                    style="
-                      margin-top: 5px;
-                      line-height: 1.2;
-                      max-height: 4.8em;
-                      display: -webkit-box;
-                      -webkit-line-clamp: 4;
-                      -webkit-box-orient: vertical;
-                      overflow: hidden;
-                    "
-                    >{{ handle_presettxt(item.ItemName)[1] }}
-                  </span>
-                </div>
-              </el-card>
-            </div>
-          </el-scrollbar>
-        </div>
-        <!-- 剪贴板 -->
-        <div
-          style="display: flex; flex-direction: column; width: 100%"
-          v-if="isClipboard"
-        >
-          <!-- 剪贴板操作区 -->
-          <div
-            style="
-              margin-bottom: 5px;
-              display: flex;
-              flex-direction: row;
-              justify-content: space-between;
-              width: 100%;
+          <el-option
+            v-for="(item, index) in presetText"
+            :label="item.PartName"
+            :value="item.PartName"
+            :disabled="
+              index == 6 && !STORE_setting_instance.clipboard_bool
+                ? true
+                : false
             "
           >
-            <el-button
-              size="small"
-              :type="listen_type()"
-              @click="switch_listen()"
-              style="width: 50%"
-              >{{ listen_text() }}</el-button
-            >
-            <el-popconfirm
-              confirm-button-text="是"
-              cancel-button-text="否"
-              @confirm="clear_clipboard"
-              title="确认需要清除剪贴板所有内容？"
-            >
-              <template #reference>
-                <el-button type="danger" size="small" style="width: 50%" plain
-                  >清空剪贴板</el-button
+          </el-option>
+        </el-select>
+
+        <div
+          style="
+            display: flex;
+            flex: 1;
+            height: 0;
+            width: 100%;
+            margin-top: 5px;
+          "
+          v-if="isReload_pt"
+        >
+          <!-- 常规 -->
+          <div v-if="!isClipboard">
+            <el-scrollbar>
+              <div style="height: 0; width: 100%">
+                <el-card
+                  shadow="hover"
+                  v-for="(item, index) in pt.data"
+                  :key="index"
+                  :class="[index === 0 ? 'select_card0' : 'select_card1']"
+                  @click="addText(item.ItemName, `default`)"
                 >
-              </template>
-            </el-popconfirm>
+                  <div style="display: flex; flex-direction: column">
+                    <span
+                      style="color: gray; font-size: 11px"
+                      v-if="handle_presettxt(item.ItemName)[0]"
+                      >{{ handle_presettxt(item.ItemName)[0] }}</span
+                    >
+                    <span
+                      style="
+                        margin-top: 5px;
+                        line-height: 1.2;
+                        max-height: 4.8em;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 4;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                      "
+                      >{{ handle_presettxt(item.ItemName)[1] }}
+                    </span>
+                  </div>
+                </el-card>
+              </div>
+            </el-scrollbar>
           </div>
-          <el-scrollbar ref="scrollbarRef" style="height: 100%; width: 100%">
-            <div style="flex: 1; height: 0; width: 100%">
-              <el-card
-                :body-style="{ padding: '0px' }"
-                shadow="hover"
-                v-for="(item, index) in pt_clip"
-                :key="index"
-                :class="[index === 0 ? 'select_card0' : 'select_card1']"
-                @click.stop="addText(item, `clip`)"
-                @mouseover="hoverIndex = index"
-                @mouseleave="hoverIndex = -1"
+          <!-- 剪贴板 -->
+          <div
+            style="display: flex; flex-direction: column; width: 100%"
+            v-if="isClipboard"
+          >
+            <!-- 剪贴板操作区 -->
+            <div
+              style="
+                margin-bottom: 5px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+              "
+            >
+              <el-button
+                size="small"
+                :type="listen_type()"
+                @click="switch_listen()"
+                style="width: 50%"
+                >{{ listen_text() }}</el-button
               >
-                <div
-                  style="
-                    height: 20px;
-                    display: flex;
-                    justify-content: space-between;
-                  "
-                >
-                  <el-icon
-                    :size="17"
-                    @click.stop="pin_cache(index)"
-                    style="
-                      margin-top: 5px;
-                      margin-right: 10px;
-                      margin-left: 5px;
-                    "
-                    color="#ffe100"
-                    v-if="
-                      index < STORE_clipboard_instance.pin_num
-                        ? true
-                        : hoverIndex == index
-                        ? true
-                        : false
-                    "
-                    ><StarFilled
-                  /></el-icon>
-                  <el-icon
-                    :size="17"
-                    @click.stop="del_cache(index)"
-                    style="
-                      margin-top: 5px;
-                      margin-left: 5px;
-                      margin-right: 10px;
-                    "
-                    v-if="hoverIndex == index ? true : false"
-                    ><Close
-                  /></el-icon>
-                </div>
-                <div style="padding: 20px; margin-top: -20px">
-                  <span style="word-wrap: break-word">{{ item }}</span>
-                  <!-- </div> -->
-                </div>
-              </el-card>
+              <el-popconfirm
+                confirm-button-text="是"
+                cancel-button-text="否"
+                @confirm="clear_clipboard"
+                title="确认需要清除剪贴板所有内容？"
+              >
+                <template #reference>
+                  <el-button type="danger" size="small" style="width: 50%" plain
+                    >清空剪贴板</el-button
+                  >
+                </template>
+              </el-popconfirm>
             </div>
-          </el-scrollbar>
+            <el-scrollbar ref="scrollbarRef" style="height: 100%; width: 100%">
+              <div style="flex: 1; height: 0; width: 100%">
+                <el-card
+                  :body-style="{ padding: '0px' }"
+                  shadow="hover"
+                  v-for="(item, index) in pt_clip"
+                  :key="index"
+                  :class="[index === 0 ? 'select_card0' : 'select_card1']"
+                  @click.stop="addText(item, `clip`)"
+                  @mouseover="hoverIndex = index"
+                  @mouseleave="hoverIndex = -1"
+                >
+                  <div
+                    style="
+                      height: 20px;
+                      display: flex;
+                      justify-content: space-between;
+                    "
+                  >
+                    <el-icon
+                      :size="17"
+                      @click.stop="pin_cache(index)"
+                      style="
+                        margin-top: 5px;
+                        margin-right: 10px;
+                        margin-left: 5px;
+                      "
+                      color="#ffe100"
+                      v-if="
+                        index < STORE_clipboard_instance.pin_num
+                          ? true
+                          : hoverIndex == index
+                          ? true
+                          : false
+                      "
+                      ><StarFilled
+                    /></el-icon>
+                    <el-icon
+                      :size="17"
+                      @click.stop="del_cache(index)"
+                      style="
+                        margin-top: 5px;
+                        margin-left: 5px;
+                        margin-right: 10px;
+                      "
+                      v-if="hoverIndex == index ? true : false"
+                      ><Close
+                    /></el-icon>
+                  </div>
+                  <div style="padding: 20px; margin-top: -20px">
+                    <span style="word-wrap: break-word">{{ item }}</span>
+                    <!-- </div> -->
+                  </div>
+                </el-card>
+              </div>
+            </el-scrollbar>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -511,7 +515,7 @@ defineExpose({
 
 <style lang="scss">
 .quickview_right {
-  height: 610px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   margin-left: 10px;

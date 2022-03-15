@@ -57,44 +57,44 @@
     </div>
   </div>
   <!-- 主功能区 -->
-  <div>
+  <div style="display: flex; flex-direction: column; flex: 1">
     <el-tabs
       class="tabs"
       type="border-card"
       @tab-click="(val:any) => handle_tabs_change(val)"
     >
       <el-tab-pane label="当事人信息" v-if="isReload">
-        <el-skeleton
-          style="width: 100% !important"
-          :loading="isLoading"
-          animated
-          :rows="5"
-        >
+        <el-skeleton :loading="isLoading" animated :rows="5" >
           <template #template>
-            <el-space wrap
-              ><div v-for="i in 2" :key="i">
-                <el-card>
-                  <el-skeleton-item
-                    variant="h1"
-                    style="width: 30%; padding: 7px; line-height: 20px"
-                  />
-                  <el-skeleton-item
-                    v-for="o in 5"
-                    :key="o"
-                    variant="h3"
-                    style="margin-top: 20px; line-height: 20px"
-                  />
-                </el-card></div
-            ></el-space>
+            <div v-for="i in 2" :key="i" style="padding: 15px">
+              <el-card>
+                <el-skeleton-item
+                  variant="h1"
+                  style="width: 30%; padding: 7px; line-height: 20px"
+                />
+                <el-skeleton-item
+                  v-for="o in 5"
+                  :key="o"
+                  variant="h3"
+                  style="margin-top: 15px; line-height: 20px"
+                />
+              </el-card>
+            </div>
           </template>
           <template #default>
-            <casedetail v-show="!isLoading" />
+            <el-scrollbar>
+              <div style="padding: 15px">
+                <casedetail v-show="!isLoading" />
+              </div>
+            </el-scrollbar>
           </template>
         </el-skeleton>
       </el-tab-pane>
       <el-tab-pane class="Horizontal_alignment" label="编辑文书">
         <!-- 编辑器 -->
-        <Editor ref="Editors" :id="case_id" />
+        <div class="tab_view">
+          <Editor ref="Editors" :id="case_id" />
+        </div>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -208,7 +208,7 @@ const Open_Casezone = async () => {
     request_bool.value = await REQUEST_get_casedetailinfo(
       router_caseid,
       false,
-      false,
+      false
     );
   }
   //重置内容检测开关
@@ -223,8 +223,11 @@ Open_Casezone();
 <style lang="scss">
 .tabs {
   position: relative;
-  top: 10px;
-  margin-bottom: 10px;
+  margin-top: 10px;
+  height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .Horizontal_alignment {
@@ -236,6 +239,23 @@ Open_Casezone();
 .el-tabs__header {
   margin-left: -1px;
   user-select: none !important;
+}
+
+.el-tabs__content {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  padding: 0px !important;
+}
+
+.el-tab-pane {
+  flex: 1;
+}
+
+.tab_view {
+  padding: 15px;
+  display: flex;
+  width: 100%;
 }
 
 #editorBase {

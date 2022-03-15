@@ -5,10 +5,10 @@
 //     url('@/assets/fonts/Barlow-Regular.ttf') format('truetype');
 // }
 @font-face {
-  font-family: 'Barlow';
+  font-family: "Barlow";
   font-weight: medium;
-  src: url('@/assets/fonts/Barlow-Medium.woff2') format('woff2'),
-    url('@/assets/fonts/Barlow-Medium.ttf') format('truetype');
+  src: url("@/assets/fonts/Barlow-Medium.woff2") format("woff2"),
+    url("@/assets/fonts/Barlow-Medium.ttf") format("truetype");
 }
 // @font-face {
 //   font-family: 'Barlow';
@@ -56,3 +56,14 @@
   }
 }
 
+.box-card {
+  &0 {
+    margin-top: 0;
+  }
+  &1 {
+    margin-top: 10px;
+  }
+  &-login {
+    margin-top: 50px;
+  }
+}

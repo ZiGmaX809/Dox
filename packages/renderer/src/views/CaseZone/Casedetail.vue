@@ -1,84 +1,83 @@
 <template>
-  <el-space direction="vertical">
-    <el-card v-for="dsritem in dsrlist" class="box-card">
-      <template #header>
-        <div class="card-header">
-          <span style="font-weight: bold; font-size: 20px">{{
-            dsritem.mc
-          }}</span>
-        </div>
-      </template>
-      <el-descriptions :column="3" border>
-        <!-- <template #title>
+  <el-card
+    v-for="(dsritem, index) in dsrlist"
+    :class="[index === 0 ? 'box-card0' : 'box-card1']"
+  >
+    <template #header>
+      <div class="card-header">
+        <span style="font-weight: bold; font-size: 20px">{{ dsritem.mc }}</span>
+      </div>
+    </template>
+    <el-descriptions :column="3" border>
+      <!-- <template #title>
           <span>当事人信息</span>
         </template> -->
-        <el-descriptions-item label="诉讼地位" label-align="right">{{
-          dsritem.ssdw2mc
+      <el-descriptions-item label="诉讼地位" label-align="right">{{
+        dsritem.ssdw2mc
+      }}</el-descriptions-item>
+      <el-descriptions-item label="一审诉讼地位" label-align="right">{{
+        dsritem.ssdw1mc
+      }}</el-descriptions-item>
+      <el-descriptions-item label="类别" label-align="right">
+        <el-tag size="small">{{ dsritem.lxMc }}</el-tag></el-descriptions-item
+      >
+      <div v-if="dsritem.lx === '15_000004-1'">
+        <el-descriptions-item label="性别" label-align="right">
+          {{ dsritem.xbMc }}
+        </el-descriptions-item>
+        <el-descriptions-item label="出生日期" label-align="right">{{
+          transbrithday(dsritem.csrq)
         }}</el-descriptions-item>
-        <el-descriptions-item label="一审诉讼地位" label-align="right">{{
-          dsritem.ssdw1mc
+        <el-descriptions-item label="民族" label-align="right">{{
+          dsritem.mzMc
         }}</el-descriptions-item>
-        <el-descriptions-item label="类别" label-align="right">
-          <el-tag size="small">{{ dsritem.lxMc }}</el-tag></el-descriptions-item
-        >
-        <div v-if="dsritem.lx === '15_000004-1'">
-          <el-descriptions-item label="性别" label-align="right">
-            {{ dsritem.xbMc }}
-          </el-descriptions-item>
-          <el-descriptions-item label="出生日期" label-align="right">{{
-            transbrithday(dsritem.csrq)
-          }}</el-descriptions-item>
-          <el-descriptions-item label="民族" label-align="right">{{
-            dsritem.mzMc
-          }}</el-descriptions-item>
-          <el-descriptions-item
-            label="户籍所在地"
-            label-align="right"
-            :span="span_num"
-            >{{ dsritem.hjszd }}</el-descriptions-item
-          >
-        </div>
-        <div v-else>
-          <el-descriptions-item label="法定代表人" label-align="right">
-            {{ dsritem.fddbr }}
-          </el-descriptions-item>
-        </div>
-        <el-descriptions-item label="国家或地区" label-align="right">{{
-          dsritem.gjMc
-        }}</el-descriptions-item>
-        <el-descriptions-item label="联系电话" label-align="right">{{
-          dsritem.sjhm
-        }}</el-descriptions-item>
-        <div v-if="dsritem.lx === '15_000004-1'">
-          <el-descriptions-item label="居民身份证号码" label-align="right">{{
-            dsritem.sfzhm
-          }}</el-descriptions-item>
-        </div>
-        <div v-else>
-          <el-descriptions-item label="组织机构代码" label-align="right">{{
-            dsritem.zzjgdm
-          }}</el-descriptions-item>
-        </div>
         <el-descriptions-item
-          label="现住址"
+          label="户籍所在地"
           label-align="right"
           :span="span_num"
-          >{{ dsritem.dz }}</el-descriptions-item
+          >{{ dsritem.hjszd }}</el-descriptions-item
         >
-        <div v-for="dlritem in final_dlr(dsritem.xh)">
-          <el-descriptions-item label="诉讼委托代理人" label-align="right">
-            {{ dlritem[0] }}
-          </el-descriptions-item>
-          <el-descriptions-item label="联系电话" label-align="right">
-            {{ dlritem[1] }}
-          </el-descriptions-item>
-          <el-descriptions-item label="所在单位" label-align="right">
-            {{ dlritem[2] }}
-          </el-descriptions-item>
-        </div>
-      </el-descriptions>
-    </el-card>
-  </el-space>
+      </div>
+      <div v-else>
+        <el-descriptions-item label="法定代表人" label-align="right">
+          {{ dsritem.fddbr }}
+        </el-descriptions-item>
+      </div>
+      <el-descriptions-item label="国家或地区" label-align="right">{{
+        dsritem.gjMc
+      }}</el-descriptions-item>
+      <el-descriptions-item label="联系电话" label-align="right">{{
+        dsritem.sjhm
+      }}</el-descriptions-item>
+      <div v-if="dsritem.lx === '15_000004-1'">
+        <el-descriptions-item label="居民身份证号码" label-align="right">{{
+          dsritem.sfzhm
+        }}</el-descriptions-item>
+      </div>
+      <div v-else>
+        <el-descriptions-item label="组织机构代码" label-align="right">{{
+          dsritem.zzjgdm
+        }}</el-descriptions-item>
+      </div>
+      <el-descriptions-item
+        label="现住址"
+        label-align="right"
+        :span="span_num"
+        >{{ dsritem.dz }}</el-descriptions-item
+      >
+      <div v-for="dlritem in final_dlr(dsritem.xh)">
+        <el-descriptions-item label="诉讼委托代理人" label-align="right">
+          {{ dlritem[0] }}
+        </el-descriptions-item>
+        <el-descriptions-item label="联系电话" label-align="right">
+          {{ dlritem[1] }}
+        </el-descriptions-item>
+        <el-descriptions-item label="所在单位" label-align="right">
+          {{ dlritem[2] }}
+        </el-descriptions-item>
+      </div>
+    </el-descriptions>
+  </el-card>
 </template>
 
 <script setup lang="ts">
