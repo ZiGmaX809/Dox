@@ -2,7 +2,7 @@
   <el-container>
     <!-- 标题栏 -->
     <el-header>
-      <p style="width: 90%">Documents Editor Lite</p>
+      <p>Documents Editor Lite</p>
       <!-- 红绿灯按钮开关 -->
       <div class="traffic-lights focus">
         <button

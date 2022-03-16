@@ -14,7 +14,7 @@
     "node": ">=16.14.0"
   },
   "devDependencies": {
-    "@element-plus/icons-vue": "^1.1.1",
+    "@element-plus/icons-vue": "^1.1.3",
     "@tinymce/tinymce-vue": "^4.0.7",
     "@types/qs": "^6.9.7",
     "@vitejs/plugin-vue": "^2.2.4",
@@ -23,7 +23,7 @@
     "docx": "^7.3.0",
     "electron": "^17.1.2",
     "electron-builder": "^22.14.13",
-    "element-plus": "^2.1.2",
+    "element-plus": "^2.1.3",
     "node-sass": "^7.0.1",
     "nzh": "^1.0.8",
     "pinia": "^2.0.12",
@@ -38,7 +38,7 @@
     "vue": "^3.2.31",
     "vue-cropper": "^0.5.8",
     "vue-router": "^4.0.14",
-    "vue-tsc": "^0.33.1"
+    "vue-tsc": "^0.33.2"
   },
   "env": {
     "//": "Used in build scripts",

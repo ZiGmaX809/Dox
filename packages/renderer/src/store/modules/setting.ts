@@ -1,7 +1,7 @@
-import { defineStore } from "pinia";
-import { obj } from "..";
+import { defineStore } from 'pinia';
 
 interface SettingState {
+  first_launch: boolean;
   ui_color: string;
   org_code: number;
   custom_avatar_bool: boolean;
@@ -13,6 +13,10 @@ interface SettingState {
   clipboard_num: number;
   clipboard_textlength: number;
   writeSystemClipboard_bool: boolean;
+  exportfile_path: string;
+  class_year_bool: boolean;
+  class_year_type: string;
+  class_caseid_bool: boolean;
   offline_bool: boolean;
   offline_time: string;
   offline_timestamp: number;
@@ -20,22 +24,27 @@ interface SettingState {
 }
 
 export const STORE_Setting = defineStore({
-  id: "Setting",
+  id: 'Setting',
   state: (): SettingState => {
     return {
-      ui_color: "",
+      first_launch: true,
+      ui_color: '',
       org_code: 1301,
       custom_avatar_bool: false,
-      custom_avatar_url: "",
+      custom_avatar_url: '',
       auto_int2em: true,
-      editor_font_name: "系统字体=",
-      editor_font_size: "16px",
+      editor_font_name: '系统字体=',
+      editor_font_size: '16px',
       clipboard_bool: false,
       clipboard_num: 50,
       clipboard_textlength: 300,
       writeSystemClipboard_bool: false,
+      exportfile_path: '',
+      class_year_bool: false,
+      class_year_type: '案号年度',
+      class_caseid_bool: false,
       offline_bool: false,
-      offline_time: "从未",
+      offline_time: '从未',
       offline_timestamp: 0,
       lawfilelist: [],
     };
@@ -71,6 +80,18 @@ export const STORE_Setting = defineStore({
     Switch_writeSystemClipboard_bool(bool: boolean) {
       this.writeSystemClipboard_bool = bool;
     },
+    Set_exportfile_path(path: string) {
+      this.exportfile_path = path;
+    },
+    Switch_class_year_bool(bool: boolean) {
+      this.class_year_bool = bool;
+    },
+    Set_class_year_type(str: string) {
+      this.class_year_type = str;
+    },
+    Switch_class_caseid_bool(bool: boolean) {
+      this.class_caseid_bool = bool;
+    },
     Switch_offline_bool(bool: boolean) {
       this.offline_bool = bool;
     },
@@ -78,10 +99,10 @@ export const STORE_Setting = defineStore({
       const date = new Date();
       this.offline_time =
         date.toLocaleDateString() +
-        ` ${date.getHours()}:${date
-          .getMinutes()
+        ` ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}:${date
+          .getSeconds()
           .toString()
-          .padStart(2, "0")}:${date.getSeconds().toString().padStart(2, "0")}`;
+          .padStart(2, '0')}`;
       this.offline_timestamp = date.getTime();
     },
   },
@@ -89,7 +110,7 @@ export const STORE_Setting = defineStore({
     enabled: true,
     strategies: [
       {
-        key: "SettingConfig",
+        key: 'SettingConfig',
         storage: localStorage,
       },
     ],
