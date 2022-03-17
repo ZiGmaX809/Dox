@@ -3,36 +3,14 @@
   <!-- 快捷区 -->
   <div class="quickview_right">
     <div style="display: flex; justify-content: space-between">
-      <el-popconfirm
-        confirm-button-text="是"
-        cancel-button-text="否"
-        @confirm="clear()"
-        title="确认需要清除所有内容？"
-      >
-        <template #reference>
-          <el-button type="danger" size="small" plain>清屏</el-button>
-        </template>
-      </el-popconfirm>
-      <el-button type="success" size="small" plain @click="saveText(getText(), true)">
-        暂存
-      </el-button>
-      <el-button size="small" @click="exoprt_word()">生成文书</el-button>
-      <!-- <el-dropdown
-        size="small"
-        split-button
-        @click="exoprt_word()"
-        style="width:190px"
-      >
+      <el-dropdown size="small" split-button @click="exoprt_word()" placement="bottom-end">
         生成文书
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>Action 1</el-dropdown-item>
-            <el-dropdown-item>Action 2</el-dropdown-item>
-            <el-dropdown-item>Action 3</el-dropdown-item>
-            <el-dropdown-item>Action 4</el-dropdown-item>
+            <el-dropdown-item v-for="item in export_type_list">{{ item }}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
-      </el-dropdown> -->
+      </el-dropdown>
     </div>
 
     <!-- 快捷输入工具 -->
@@ -238,7 +216,6 @@ import type { ElScrollbar } from 'element-plus';
 import tinymce from '../../components/TEditor.vue';
 import EllipsisTooltip from '../../components/EllipsisTooltip.vue';
 import { ref, nextTick, inject, reactive, computed } from 'vue';
-import { setItem } from '../../script/utils/storage';
 import { EditPen, Close, StarFilled } from '@element-plus/icons-vue';
 import { quick_input_introduction } from '../../script/utils/introduction';
 import { date_format, quickinput } from '../../script/utils/quickinput';
@@ -248,7 +225,6 @@ import { STORE_Setting } from '../../store/modules/setting';
 import { STORE_Clipboard } from '../../store/modules/clipboard';
 import { integrate_info } from '../../script/utils/integrateinfo';
 import { STORE_Request } from '../../store/modules/request';
-import { Msg } from '../../script/utils/message';
 
 const STORE_editor_instance = STORE_Editor();
 const STORE_setting_instance = STORE_Setting();
@@ -351,24 +327,6 @@ const getText = () => {
   return r;
 };
 
-const props = defineProps<{
-  id: string;
-}>();
-
-//暂存文本
-const saveText = (edit_text: string, ismsg: boolean) => {
-  const txt = {
-    ah: props.id,
-    text: edit_text,
-  };
-  setItem('SaveText', txt);
-  STORE_editor_instance.Reset_editor_isChanged();
-
-  if (ismsg) {
-    Msg('暂存成功！', 'success');
-  }
-};
-
 //输出文本
 const exoprt_word = () => {
   const lx = '民事裁定书';
@@ -381,12 +339,7 @@ const exoprt_word = () => {
   exportWord(lx, ah, zw, hytrq, fgzl);
 };
 
-//编辑器清屏
-const clear = () => {
-  tinymce_eidtor.value.clear();
-  //清屏后无需提醒
-  saveText('', false);
-};
+const export_type_list = ['撤诉类', '判决书', '裁定书', '合议笔录'];
 
 const focus = () => {
   tinymce_eidtor.value.focus();
@@ -485,6 +438,17 @@ defineExpose({
   display: flex;
   flex-direction: column;
   margin-left: 10px;
+}
+
+.quickview_right .el-dropdown {
+  width: 194px !important;
+  button {
+    width: 162px;
+  }
+}
+
+.el-dropdown .el-dropdown__caret-button {
+  width: 32px !important;
 }
 
 .el-autocomplete-suggestion {

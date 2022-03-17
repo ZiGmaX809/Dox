@@ -50,7 +50,7 @@ const initOptions = reactive({
   selector: '#tinymce_eidtor',
   // auto_focus: true,
   // base_url: "@",
-  //emoticons_database_url: "/tinymce/plugins/emoticons/js/emojis.js", //更改表情插件路径
+  // emoticons_database_url: "/tinymce/plugins/emoticons/js/emojis.js", //更改表情插件路径
   language_url: 'plugins/tinymce/langs/zh_CN.js', //引入语言包文件
   language: 'zh_CN', //语言类型
 
@@ -69,12 +69,6 @@ const initOptions = reactive({
 
   height: '100%', //注：引入autoresize插件时，此属性失效
   width: '100%',
-
-  // autoresize_bottom_margin: 50,
-  // autoresize_max_height: 650, // 编辑区域的最大高
-  // autoresize_min_height: 350, //编辑区域的最小高度
-  // autoresize_on_init: true,
-  // autoresize_overflow_padding: 50,
 
   // placeholder: "开始编写吧……",
   branding: false, //tiny技术支持信息是否显示
@@ -99,10 +93,6 @@ const initOptions = reactive({
   },
 });
 
-const clear = () => {
-  state.contentValue = '';
-};
-
 const getText = () => {
   var cnt = tinymce.activeEditor.getContent({ format: 'text' });
   return cnt;
@@ -113,8 +103,6 @@ const addText = (data: string) => {
 };
 
 const focus = () => {
-  // tinymce.activeEditor.execCommand('selectAll');
-  // tinymce.activeEditor.selection.getRng().collapse(false);
   tinymce.activeEditor.focus();
 };
 
@@ -130,7 +118,6 @@ watch(
 
 //暴露方法
 defineExpose({
-  clear,
   getText,
   addText,
   focus,

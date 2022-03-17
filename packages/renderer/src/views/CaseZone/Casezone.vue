@@ -95,7 +95,7 @@
         </template>
         <!-- 编辑器 -->
         <div class="tab_view">
-          <Editor ref="Editors" :id="case_id" />
+          <Editor ref="Editors" />
         </div>
       </el-tab-pane>
     </el-tabs>
