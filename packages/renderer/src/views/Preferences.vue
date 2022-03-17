@@ -1,297 +1,310 @@
 <template>
   <div style="width: 100%; height: 100%; display: flex; justify-content: center">
     <el-scrollbar>
-    <!-- 主设置页面 -->
-    <div
-      style="
-        height: 100%;
-        padding-left: calc((100vh - 300px) / 2);
-        padding-right: calc((100vh - 300px) / 2);
-      "
-    >
-      <h2 class="pref_h2">自定义</h2>
-      <el-divider />
-      <div class="pref_div">
-        <p class="pref_p">主题颜色</p>
-      </div>
+      <!-- 主设置页面 -->
+      <div
+        style="
+          height: 100%;
+          padding-left: calc((100vh - 300px) / 2);
+          padding-right: calc((100vh - 300px) / 2);
+        "
+      >
+        <h2 class="pref_h2">自定义</h2>
+        <el-divider />
+        <div class="pref_div">
+          <p class="pref_p">主题颜色</p>
+        </div>
 
-      <div class="pref_div">
-        <p class="pref_p">所在单位代码</p>
-        <el-input
-          v-model="STORE_setting_instance.org_code"
-          size="small"
-          style="width: 50px"
-          controls-position="right"
-          @input="(val: any) => handleChange_num(val,9999)"
-        />
-      </div>
-      <p class="pref_desc_p">登录用户名前缀数字。</p>
-      <div class="pref_div">
-        <p class="pref_p">自定义头像</p>
-        <el-switch v-model="coutom_avatar" />
-      </div>
+        <div class="pref_div">
+          <p class="pref_p">所在单位代码</p>
+          <el-input
+            v-model="STORE_setting_instance.org_code"
+            size="small"
+            style="width: 50px"
+            controls-position="right"
+            @input="(val: any) => handleChange_num(val,9999)"
+          />
+        </div>
+        <p class="pref_desc_p">登录用户名前缀数字。</p>
+        <div class="pref_div">
+          <p class="pref_p">自定义头像</p>
+          <el-switch v-model="coutom_avatar" />
+        </div>
 
-      <h2 class="pref_h2">编辑</h2>
-      <el-divider />
-      <div class="pref_div">
-        <p class="pref_p">默认字体</p>
-        <el-select
-          v-model="default_font_name"
-          class="m-2"
-          placeholder="Select"
-          size="small"
-          style="width: 80px"
-          @change="(val:Event) => Set_Editer_font_name(val)"
-        >
-          <el-option
-            v-for="item in fonts_family"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-      </div>
-      <div class="pref_div">
-        <p class="pref_p">默认字号</p>
-        <el-select
-          v-model="default_font_size"
-          class="m-2"
-          placeholder="Select"
-          size="small"
-          style="width: 60px"
-          @change="(val:Event) => Set_Editer_font_size(val)"
-        >
-          <el-option v-for="item in font_sizes" :key="item" :value="item"></el-option>
-        </el-select>
-      </div>
-      <div class="pref_div">
-        <p class="pref_p">默认启用首行缩进</p>
-        <el-switch v-model="auto_int2em" />
-      </div>
-      <p class="pref_desc_p">
-        编辑器内的字体、字号、段落格并不会影响导出文书的格式，仅为了便于编辑文书。
-      </p>
-
-      <div class="pref_div">
-        <p class="pref_p">启用剪贴板</p>
-        <el-switch v-model="switch_clipboard_bool" />
-      </div>
-      <p class="pref_desc_p">启用剪贴板功能后，将会监听系统剪贴板，并且将复制的文本存入缓存中。</p>
-      <div class="pref_div">
-        <p class="pref_p">剪贴板缓存数量（自定义上限200）</p>
-        <el-input
-          v-model="STORE_setting_instance.clipboard_num"
-          size="small"
-          style="width: 50px"
-          controls-position="right"
-          :disabled="!switch_clipboard_bool"
-          @input="(val: any) => handleChange_num(val,200)"
-        />
-      </div>
-      <p class="pref_desc_p">
-        条目数量过多将会导致索引效率降低，建议设置缓存条目数量控制在50以内。
-        <br />
-        超出数量将自动清除最先数据。
-      </p>
-      <div class="pref_div">
-        <p class="pref_p">剪贴板监听字符长度（自定义上限600）</p>
-        <el-input
-          v-model="STORE_setting_instance.clipboard_textlength"
-          size="small"
-          style="width: 50px"
-          controls-position="right"
-          :disabled="!switch_clipboard_bool"
-          @input="(val: any) => handleChange_num(val,600)"
-        />
-      </div>
-      <p class="pref_desc_p">
-        为保证性能，建议监听300字符以内的文本。
-        <br />
-        超出设定长度依旧可以复制粘贴，但不会存入缓存。
-      </p>
-      <div class="pref_div">
-        <p class="pref_p">复用剪贴板内容</p>
-        <el-switch v-model="switch_writeSystemClipboard_bool" :disabled="!switch_clipboard_bool" />
-      </div>
-      <p class="pref_desc_p">
-        启用后，点击剪贴板内容时，将会把点击内容写入到系统剪贴板，以便于使用Ctrl+V进行多次粘贴。
-      </p>
-
-      <h2 class="pref_h2">导出</h2>
-      <el-divider />
-      <div class="pref_div">
-        <p class="pref_p">文书导出路径</p>
-        <el-button size="small" @click="Choose_export_path">选择文件夹</el-button>
-      </div>
-      <p class="pref_desc_p">
-          当前路径：{{ exportfile_path }}
-        </p>
-      <div class="pref_div">
-        <p class="pref_p">以年份分类</p>
-        <el-switch v-model="switch_class_year_bool" />
-      </div>
-      <div class="div_class">
-        <div class="div_class_end">
+        <h2 class="pref_h2">编辑</h2>
+        <el-divider />
+        <div class="pref_div">
+          <p class="pref_p">默认字体</p>
           <el-select
-            v-model="export_type_defult"
+            v-model="default_font_name"
             class="m-2"
             size="small"
             style="width: 80px"
-            :disabled="!switch_class_year_bool"
-            @change="(val:Event) => Set_class_year_type(val)"
+            @change="(val:Event) => Set_Editer_font_name(val)"
           >
-            <el-option v-for="item in export_type" :key="item" :value="item"></el-option>
+            <el-option
+              v-for="item in fonts_family"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
           </el-select>
         </div>
+        <div class="pref_div">
+          <p class="pref_p">默认字号</p>
+          <el-select
+            v-model="default_font_size"
+            class="m-2"
+            size="small"
+            style="width: 60px"
+            @change="(val:Event) => Set_Editer_font_size(val)"
+          >
+            <el-option v-for="item in font_sizes" :key="item" :value="item"></el-option>
+          </el-select>
+        </div>
+        <div class="pref_div">
+          <p class="pref_p">默认行高</p>
+          <el-select
+            v-model="default_lineheight"
+            class="m-2"
+            size="small"
+            style="width: 60px"
+            @change="(val:Event) => Set_Editer_lineheight(val)"
+          >
+            <el-option v-for="item in lineheights" :key="item" :value="item"></el-option>
+          </el-select>
+        </div>
+        <div class="pref_div">
+          <p class="pref_p">默认启用首行缩进</p>
+          <el-switch v-model="auto_int2em" />
+        </div>
         <p class="pref_desc_p">
-          启用后，将会以案号中的年度或者编辑日期的年度创建文件夹，以归档该年度案件。
+          编辑器内的字体、字号、段落格并不会影响导出文书的格式，仅为了便于编辑文书。
         </p>
-      </div>
 
-      <div class="pref_div">
-        <p class="pref_p">以案号分类</p>
-        <el-switch v-model="switch_class_caseid_bool" />
-      </div>
-      <p class="pref_desc_p">
-        启用后，将会创建案号文件夹，以归档该案所有材料。
-        <br />
-        文件夹创建优先级：年度>案号
-      </p>
-
-      <h2 class="pref_h2">快捷输入</h2>
-      <el-divider />
-      <div class="pref_div">
-        <p class="pref_p">已引入的法律法规文件</p>
-        <el-button size="small" @click="Refresh_lawfiles">刷新</el-button>
-      </div>
-      <el-table :data="tableData.list" border style="width: 100%; max-height: 500px">
-        <el-table-column prop="fullname" label="引入文件名称" />
-        <el-table-column prop="name" label="索引缩写" width="200" />
-        <el-table-column align="center" label="操作" width="80">
-          <template #default="scope">
-            <el-button
-              size="small"
-              type="danger"
-              :icon="Delete"
-              @click="handleDelete(scope.$index)"
-            ></el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-
-      <p class="pref_p">引入新的法律法规文件</p>
-      <p class="pref_desc_p">
-        <b>
-          &#10059;&nbsp;注意：快捷输入工具仅为编辑文书的辅助性功能。对于导入的文件，工具将尽可能进行准确匹配、转换，但是无法保证任何法律法规文件导入后法条完整和准确性。
+        <div class="pref_div">
+          <p class="pref_p">启用剪贴板</p>
+          <el-switch v-model="switch_clipboard_bool" />
+        </div>
+        <p class="pref_desc_p">
+          启用剪贴板功能后，将会监听系统剪贴板，并且将复制的文本存入缓存中。
+        </p>
+        <div class="pref_div">
+          <p class="pref_p">剪贴板缓存数量（自定义上限200）</p>
+          <el-input
+            v-model="STORE_setting_instance.clipboard_num"
+            size="small"
+            style="width: 50px"
+            controls-position="right"
+            :disabled="!switch_clipboard_bool"
+            @input="(val: any) => handleChange_num(val,200)"
+          />
+        </div>
+        <p class="pref_desc_p">
+          条目数量过多将会导致索引效率降低，建议设置缓存条目数量控制在50以内。
           <br />
-          &#10059;&nbsp;请不要过度依赖该功能！裁判文书校对依旧是案件审理的必要环节与步骤！
-        </b>
-        <br />
-        <br />
-        下载法律法规:
-        <el-link type="success" class="pref_desc_p" @click="copy_url(law_url)">
-          {{ law_url }}
-        </el-link>
-        (北大法宝中国法律法规数据库，需互联网下载后导入)
-        <br />
-        <i>国务院下属国家法律法规数据库因更新效率问题以及无法下载TXT文件格式而不被支持。</i>
-        <br />
-        <br />
-        进入网页选择法律法规文件后，点击右上角下载按钮，选择「纯文本」去掉勾选「保留字段信息」以及「保留正文中的法宝联想」，下载后不要修改文件名称，请保持原有名称以便提取该文书完整名称。
-        <br />
-        目前支持
-        <b>法律、法规、司法解释</b>
-        的导入，其他指导性文件、意见暂不支持。
-      </p>
-      <div class="pref_div">
-        <p class="pref_p">行政区划地址信息（更新时间：{{ pca_update_time() }}）</p>
-        <el-button size="small" @click="import_pcafile()">选择文件并更新</el-button>
-      </div>
-      <p class="pref_desc_p">
-        地域范围为国家统计局开展统计调查的全国31个省、自治区、直辖市，
-        <br />
-        未包括我国台湾省、香港特别行政区、澳门特别行政区。
-        <br />
-        项目更新地址：
-        <el-link type="success" class="pref_desc_p" @click="copy_url(pca_url)" name="ajsh">
-          {{ pca_url }}
-        </el-link>
-        <br />
-        下载pca.json文件引入即可
-      </p>
+          超出数量将自动清除最先数据。
+        </p>
+        <div class="pref_div">
+          <p class="pref_p">剪贴板监听字符长度（自定义上限600）</p>
+          <el-input
+            v-model="STORE_setting_instance.clipboard_textlength"
+            size="small"
+            style="width: 50px"
+            controls-position="right"
+            :disabled="!switch_clipboard_bool"
+            @input="(val: any) => handleChange_num(val,600)"
+          />
+        </div>
+        <p class="pref_desc_p">
+          为保证性能，建议监听300字符以内的文本。
+          <br />
+          超出设定长度依旧可以复制粘贴，但不会存入缓存。
+        </p>
+        <div class="pref_div">
+          <p class="pref_p">复用剪贴板内容</p>
+          <el-switch
+            v-model="switch_writeSystemClipboard_bool"
+            :disabled="!switch_clipboard_bool"
+          />
+        </div>
+        <p class="pref_desc_p">
+          启用后，点击剪贴板内容时，将会把点击内容写入到系统剪贴板，以便于使用Ctrl+V进行多次粘贴。
+        </p>
 
-      <h2 class="pref_h2">高级</h2>
-      <el-divider />
-      <div class="pref_div">
-        <p class="pref_p">本地资源文件夹</p>
-        <el-button size="small" @click="open_cachefile()">打开</el-button>
-      </div>
-      <p class="pref_desc_p">本地保存行政区划地址信息、法律法规文件等的文件夹。</p>
-      <div class="pref_div">
-        <p class="pref_p">离线功能</p>
-        <div class="div_class_center">
-          <el-switch v-model="switch_offline_bool" />
+        <h2 class="pref_h2">导出</h2>
+        <el-divider />
+        <div class="pref_div">
+          <p class="pref_p">文书导出路径</p>
+          <el-button size="small" @click="Choose_export_path">选择文件夹</el-button>
         </div>
-      </div>
-      <div class="div_class">
-        <div class="div_class_end">
-          <el-button
-            class="btn-right"
-            size="small"
-            @click="download_offline_files()"
-            :disabled="!switch_offline_bool"
-          >
-            离线数据
-          </el-button>
-          <el-button
-            class="btn-right"
-            size="small"
-            type="danger"
-            @click=""
-            :disabled="!switch_offline_bool"
-          >
-            清理过期数据
-          </el-button>
+        <p class="pref_desc_p">当前路径：{{ exportfile_path }}</p>
+        <div class="pref_div">
+          <p class="pref_p">以年份分类</p>
+          <el-switch v-model="switch_class_year_bool" />
         </div>
+        <div class="div_class">
+          <div class="div_class_end">
+            <el-select
+              v-model="export_type_defult"
+              class="m-2"
+              size="small"
+              style="width: 80px"
+              :disabled="!switch_class_year_bool"
+              @change="(val:Event) => Set_class_year_type(val)"
+            >
+              <el-option v-for="item in export_type" :key="item" :value="item"></el-option>
+            </el-select>
+          </div>
+          <p class="pref_desc_p">
+            启用后，将会以案号中的年度或者编辑日期的年度创建文件夹，以归档该年度案件。
+          </p>
+        </div>
+
+        <div class="pref_div">
+          <p class="pref_p">以案号分类</p>
+          <el-switch v-model="switch_class_caseid_bool" />
+        </div>
+        <p class="pref_desc_p">
+          启用后，将会创建案号文件夹，以归档该案所有材料。
+          <br />
+          文件夹创建优先级：年度>案号
+        </p>
+
+        <h2 class="pref_h2">快捷输入</h2>
+        <el-divider />
+        <div class="pref_div">
+          <p class="pref_p">已引入的法律法规文件</p>
+          <el-button size="small" @click="Refresh_lawfiles">刷新</el-button>
+        </div>
+        <el-table :data="tableData.list" border style="width: 100%; max-height: 500px">
+          <el-table-column prop="fullname" label="引入文件名称" />
+          <el-table-column prop="name" label="索引缩写" width="200" />
+          <el-table-column align="center" label="操作" width="80">
+            <template #default="scope">
+              <el-button
+                size="small"
+                type="danger"
+                :icon="Delete"
+                @click="handleDelete(scope.$index)"
+              ></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <p class="pref_p">引入新的法律法规文件</p>
         <p class="pref_desc_p">
           <b>
-            &#10059;&nbsp;注意：此功能仅缓存「我的案件」中尚在审理的案件信息，因涉及当事人信息，请遵守相关规章制度！
+            &#10059;&nbsp;注意：快捷输入工具仅为编辑文书的辅助性功能。对于导入的文件，工具将尽可能进行准确匹配、转换，但是无法保证任何法律法规文件导入后法条完整和准确性。
+            <br />
+            &#10059;&nbsp;请不要过度依赖该功能！裁判文书校对依旧是案件审理的必要环节与步骤！
           </b>
           <br />
-          开启离线功能后，可在脱机状态下查看案件、编辑、生成文书。
           <br />
-          考虑到服务器负载，拉取数据间隔为60秒，请手动点击离线数据按钮进行数据离线。
+          下载法律法规:
+          <el-link type="success" class="pref_desc_p" @click="copy_url(law_url)">
+            {{ law_url }}
+          </el-link>
+          (北大法宝中国法律法规数据库，需互联网下载后导入)
           <br />
-          已拉取案件数量：{{ offline_files_num.data }}；上次拉取时间：{{
-            STORE_setting_instance.offline_time
-          }}；
+          <i>国务院下属国家法律法规数据库因更新效率问题以及无法下载TXT文件格式而不被支持。</i>
+          <br />
+          <br />
+          进入网页选择法律法规文件后，点击右上角下载按钮，选择「纯文本」去掉勾选「保留字段信息」以及「保留正文中的法宝联想」，下载后不要修改文件名称，请保持原有名称以便提取该文书完整名称。
+          <br />
+          目前支持
+          <b>法律、法规、司法解释</b>
+          的导入，其他指导性文件、意见暂不支持。
         </p>
-      </div>
+        <div class="pref_div">
+          <p class="pref_p">行政区划地址信息（更新时间：{{ pca_update_time() }}）</p>
+          <el-button size="small" @click="import_pcafile()">选择文件并更新</el-button>
+        </div>
+        <p class="pref_desc_p">
+          地域范围为国家统计局开展统计调查的全国31个省、自治区、直辖市，
+          <br />
+          未包括我国台湾省、香港特别行政区、澳门特别行政区。
+          <br />
+          项目更新地址：
+          <el-link type="success" class="pref_desc_p" @click="copy_url(pca_url)" name="ajsh">
+            {{ pca_url }}
+          </el-link>
+          <br />
+          下载pca.json文件引入即可
+        </p>
 
-      <h2 class="pref_h2">其他</h2>
-      <el-divider />
-      <div class="pref_div">
-        <p class="pref_p">导出配置及缓存数据</p>
-        <el-button size="small" @click="export_localstorage()">导出</el-button>
-      </div>
-      <div class="pref_div">
-        <p class="pref_p">导入配置及缓存数据</p>
-        <el-button size="small" @click="import_localstorage()">选择文件并导入</el-button>
-      </div>
-      <div class="pref_div">
-        <p class="pref_p">重置应用</p>
-        <el-button size="small" type="danger" @click="reset_program()">重置</el-button>
-      </div>
-      <p class="pref_desc_p">
-        <b style="color: #f56c6c">
-          &#10059;&nbsp;注意：重置应用将删除所有与本工具相关文件与配置，包括已导入的法律法规文件、模板、行政区划文件，该操作不可逆！
-        </b>
-        <br />
-      </p>
+        <h2 class="pref_h2">高级</h2>
+        <el-divider />
+        <div class="pref_div">
+          <p class="pref_p">本地资源文件夹</p>
+          <el-button size="small" @click="open_cachefile()">打开</el-button>
+        </div>
+        <p class="pref_desc_p">本地保存行政区划地址信息、法律法规文件等的文件夹。</p>
+        <div class="pref_div">
+          <p class="pref_p">离线功能</p>
+          <div class="div_class_center">
+            <el-switch v-model="switch_offline_bool" />
+          </div>
+        </div>
+        <div class="div_class">
+          <div class="div_class_end">
+            <el-button
+              class="btn-right"
+              size="small"
+              @click="download_offline_files()"
+              :disabled="!switch_offline_bool"
+            >
+              离线数据
+            </el-button>
+            <el-button
+              class="btn-right"
+              size="small"
+              type="danger"
+              @click=""
+              :disabled="!switch_offline_bool"
+            >
+              清理过期数据
+            </el-button>
+          </div>
+          <p class="pref_desc_p">
+            <b>
+              &#10059;&nbsp;注意：此功能仅缓存「我的案件」中尚在审理的案件信息，因涉及当事人信息，请遵守相关规章制度！
+            </b>
+            <br />
+            开启离线功能后，可在脱机状态下查看案件、编辑、生成文书。
+            <br />
+            考虑到服务器负载，拉取数据间隔为60秒，请手动点击离线数据按钮进行数据离线。
+            <br />
+            已拉取案件数量：{{ offline_files_num.data }}；上次拉取时间：{{
+              STORE_setting_instance.offline_time
+            }}；
+          </p>
+        </div>
 
-      <p class="pref_author">MADE BY ZiGma</p>
-      <p class="pref_version">v0.0.2</p>
-    </div>
+        <h2 class="pref_h2">其他</h2>
+        <el-divider />
+        <div class="pref_div">
+          <p class="pref_p">导出配置及缓存数据</p>
+          <el-button size="small" @click="export_localstorage()">导出</el-button>
+        </div>
+        <div class="pref_div">
+          <p class="pref_p">导入配置及缓存数据</p>
+          <el-button size="small" @click="import_localstorage()">选择文件并导入</el-button>
+        </div>
+        <div class="pref_div">
+          <p class="pref_p">重置应用</p>
+          <el-button size="small" type="danger" @click="reset_program()">重置</el-button>
+        </div>
+        <p class="pref_desc_p">
+          <b style="color: #f56c6c">
+            &#10059;&nbsp;注意：重置应用将删除所有与本工具相关文件与配置，包括已导入的法律法规文件、模板、行政区划文件，该操作不可逆！
+          </b>
+          <br />
+        </p>
+
+        <p class="pref_author">MADE BY ZiGma</p>
+        <p class="pref_version">v0.0.2</p>
+      </div>
     </el-scrollbar>
   </div>
 </template>
@@ -404,6 +417,8 @@ const fonts_family = [
 ];
 const default_font_size = ref(STORE_setting_instance.editor_font_size);
 const font_sizes = ['12px', '14px', '16px', '18px', '20px', '22px', '24px'];
+const default_lineheight = ref(STORE_setting_instance.editor_lineheight);
+const lineheights = [1, 1.5, 2, 2.5, 3];
 
 const Set_Editer_font_name = (val: Event) => {
   const res = val.toString();
@@ -415,15 +430,20 @@ const Set_Editer_font_size = (val: Event) => {
   STORE_setting_instance.Set_font_size(res);
 };
 
+const Set_Editer_lineheight = (val: Event) => {
+  const res = val.toString();
+  STORE_setting_instance.Set_lineheight(res);
+};
+
 //文本导出
-const exportfile_path = ref(STORE_setting_instance.exportfile_path)
+const exportfile_path = ref(STORE_setting_instance.exportfile_path);
 const export_type = ['案号年度', '编辑年度'];
 const export_type_defult = ref(STORE_setting_instance.class_year_type);
 
-const Set_class_year_type = (val:Event)=>{
+const Set_class_year_type = (val: Event) => {
   const res = val.toString();
-  STORE_setting_instance.Set_class_year_type(res)
-}
+  STORE_setting_instance.Set_class_year_type(res);
+};
 
 //开关以案号为目录归档
 const switch_class_year_bool = computed({
@@ -446,12 +466,13 @@ const switch_class_caseid_bool = computed({
 });
 
 const Choose_export_path = async () => {
-  const res = await ipcMsg_Choose_Folder()
-  if(res){
-    STORE_setting_instance.Set_exportfile_path(res);
-    exportfile_path.value = res;
+  const res = await ipcMsg_Choose_Folder();
+  if (res) {
+    const f_path = res + '/';
+    STORE_setting_instance.Set_exportfile_path(f_path);
+    exportfile_path.value = f_path;
   }
-}
+};
 
 //法律法规文件管理
 const tableData = reactive({

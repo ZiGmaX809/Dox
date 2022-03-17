@@ -12,26 +12,31 @@ import Editor from '@tinymce/tinymce-vue';
 //引入方式引入node_modules里的tinymce相关文件文件
 import tinymce from 'tinymce/tinymce'; //tinymce默认hidden，不引入则不显示编辑器
 import { STORE_Editor } from '../store/modules/editor';
+import { reactive, ref, watch } from 'vue';
+import { STORE_Setting } from '../store/modules/setting';
 
 import 'tinymce/themes/silver'; //编辑器主题，不引入则报错
 import 'tinymce/models/dom'; //6.0.0新增特性
 import 'tinymce/icons/default'; //引入编辑器图标icon，不引入则不显示对应图标
 
 // 引入编辑器插件
-import '../static/tinymce/plugins/indent2em'; //首行缩进
 import 'tinymce/plugins/quickbars'; //快速工具栏
 import 'tinymce/plugins/wordcount'; //字数统计
+import 'tinymce/plugins/searchreplace'; //查找替换
 // import "tinymce/plugins/charmap"; //特殊字符
-import { reactive, ref, watch } from 'vue';
-import { STORE_Setting } from '../store/modules/setting';
+
+//自定义插件
+import '../static/tinymce/plugins/indent2em'; //首行缩进
+import '../static/tinymce/plugins/customsave'; //自定义保存
+import '../static/tinymce/plugins/clear'; //清屏
 
 const STORE_editor_instance = STORE_Editor();
 const STORE_setting_instance = STORE_Setting();
 
-const plugins: string = 'wordcount indent2em ';
+const plugins: string = 'wordcount indent2em clear customsave searchreplace';
 
 const toolbar: string =
-  'undo redo | cut copy paste | pastetext | fontfamily | fontsize | indent2em | alignleft aligncenter alignright alignjustify outdent indent';
+  'undo redo | clear customsave | cut copy paste | pastetext | searchreplace | lineheight | indent2em | alignleft aligncenter alignright alignjustify outdent indent ';
 
 const state = reactive({
   contentValue: '',
@@ -39,8 +44,9 @@ const state = reactive({
 
 const default_font_name = STORE_setting_instance.editor_font_name;
 const default_font_size = STORE_setting_instance.editor_font_size;
+const default_lineheight = STORE_setting_instance.editor_lineheight;
 
-const initOptions = ref({
+const initOptions = reactive({
   selector: '#tinymce_eidtor',
   // auto_focus: true,
   // base_url: "@",
@@ -56,9 +62,10 @@ const initOptions = ref({
   menubar: false,
   // menubar: 'file edit',  //菜单栏配置，设为false则隐藏，不配置则默认显示全部菜单，也可自定义配置--查看 http://tinymce.ax-z.cn/configure/editor-appearance.php --搜索“自定义菜单”
 
-  font_size_formats: '12px 14px 16px 18px 20px 22px 24px 28px 32px 36px 48px 56px 72px', //字体大小
-  font_family_formats:
-    '微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun,serif;仿宋体=FangSong,serif;黑体=SimHei,sans-serif;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;',
+  // font_size_formats: '12px 14px 16px 18px 20px 22px 24px 28px 32px 36px 48px 56px 72px', //字体大小
+  // font_family_formats:
+  //   '微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun,serif;仿宋体=FangSong,serif;黑体=SimHei,sans-serif;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;',
+  line_height_formats: '1 1.5 2 2.5 3',
 
   height: '100%', //注：引入autoresize插件时，此属性失效
   width: '100%',
@@ -82,6 +89,7 @@ const initOptions = ref({
     editor.on('init', function (e) {
       tinymce.activeEditor.getBody().style.fontSize = default_font_size;
       tinymce.activeEditor.getBody().style.fontFamily = default_font_name.split('=')[1];
+      tinymce.activeEditor.getBody().style.lineHeight = default_lineheight;
     });
   },
   init_instance_callback: function () {

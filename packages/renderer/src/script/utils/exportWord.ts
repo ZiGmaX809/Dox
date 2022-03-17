@@ -11,6 +11,7 @@ import {
   convertMillimetersToTwip,
   Footer,
 } from "docx";
+import { STORE_Setting } from "../../store/modules/setting";
 import { ipcMsg_Export_Word } from "./ipcmessage";
 import { Msg } from "./message";
 
@@ -286,7 +287,7 @@ export const exportWord = async (
     reader.onload = async function (result) {
       const reslut: any = await ipcMsg_Export_Word({
         WordFile: result.target?.result,
-        SavePath: "/home/user/Downloads/",
+        SavePath: STORE_Setting().exportfile_path,
         SaveName: ah + ".docx",
       });
 

@@ -103,7 +103,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, nextTick, Ref } from 'vue';
+import { ref, inject, nextTick, Ref, provide } from 'vue';
 import { Cloudy, InfoFilled, Refresh, Postcard, EditPen } from '@element-plus/icons-vue';
 import { HTTP_checkToken } from '../../script/api/apiList';
 import { getItem } from '../../script/utils/storage';
@@ -206,6 +206,7 @@ const Open_Casezone = async () => {
   const cache_caseid = STORE_request_instance.this_caseid;
   //写入传入原审法院名称
   STORE_editor_instance.Set_prev_fy(router_prev_fy);
+  STORE_editor_instance.Set_case_id(router_caseid);
   if (cache_caseid === router_caseid) {
     isLoading.value = false;
   } else {

@@ -9,6 +9,7 @@ interface SettingState {
   auto_int2em: boolean;
   editor_font_name: string;
   editor_font_size: string;
+  editor_lineheight: string;
   clipboard_bool: boolean;
   clipboard_num: number;
   clipboard_textlength: number;
@@ -35,6 +36,7 @@ export const STORE_Setting = defineStore({
       auto_int2em: true,
       editor_font_name: '系统字体=',
       editor_font_size: '16px',
+      editor_lineheight: "1",
       clipboard_bool: false,
       clipboard_num: 50,
       clipboard_textlength: 300,
@@ -67,6 +69,9 @@ export const STORE_Setting = defineStore({
     },
     Set_font_size(str: string) {
       this.editor_font_size = str;
+    },
+    Set_lineheight(num: string) {
+      this.editor_lineheight = num;
     },
     Switch_auto_int2em(bool: boolean) {
       this.auto_int2em = bool;
