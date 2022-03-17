@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%; display: flex; justify-content: center">
-    <!-- <el-scrollbar> -->
+    <el-scrollbar>
     <!-- 主设置页面 -->
     <div
       style="
@@ -144,7 +144,7 @@
           </el-select>
         </div>
         <p class="pref_desc_p">
-          启用后，将会以案号中的年度或者导出日期的年度创建文件夹，以归档该年度案件。
+          启用后，将会以案号中的年度或者编辑日期的年度创建文件夹，以归档该年度案件。
         </p>
       </div>
 
@@ -292,7 +292,7 @@
       <p class="pref_author">MADE BY ZiGma</p>
       <p class="pref_version">v0.0.2</p>
     </div>
-    <!-- </el-scrollbar> -->
+    </el-scrollbar>
   </div>
 </template>
 

@@ -5,11 +5,9 @@
     <div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">我的案件</el-breadcrumb-item>
-        <el-breadcrumb-item
-          ><a href="/" style="pointer-events: none">{{
-            router.hash.slice(1)
-          }}</a></el-breadcrumb-item
-        >
+        <el-breadcrumb-item>
+          <a href="/" style="pointer-events: none">{{ router.hash.slice(1) }}</a>
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!-- 右上角功能区 -->
@@ -27,57 +25,43 @@
             <el-dropdown-item
               v-for="item in previous_caseinfo"
               @click="Open_Web_Casezone(item.yabs)"
-              >{{ item.ah }}</el-dropdown-item
             >
+              {{ item.ah }}
+            </el-dropdown-item>
             <!-- 判断有无前序案件 -->
-            <el-dropdown-item
-              v-if="previous_caseinfo?.length > 0 ? false : true"
-              disabled
-              >无前序案件</el-dropdown-item
-            >
+            <el-dropdown-item v-if="previous_caseinfo?.length > 0 ? false : true" disabled>
+              无前序案件
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <el-button
-        :icon="Refresh"
-        size="small"
-        @click="Refresh_Dsrinfo"
-        style="margin-right: 5px"
-        >刷新</el-button
-      >
+      <el-button :icon="Refresh" size="small" @click="Refresh_Dsrinfo" style="margin-right: 5px">
+        刷新
+      </el-button>
       <el-tooltip
         content="如需修改当前页信息，请进入案件空间修改后刷新本页！"
         placement="bottom"
         effect="light"
       >
-        <el-icon :size="15" color="#d1d2d3" style="margin-right: 5px"
-          ><InfoFilled
-        /></el-icon>
+        <el-icon :size="15" color="#d1d2d3" style="margin-right: 5px"><InfoFilled /></el-icon>
       </el-tooltip>
     </div>
   </div>
   <!-- 主功能区 -->
   <div style="display: flex; flex-direction: column; flex: 1">
-    <el-tabs
-      class="tabs"
-      type="border-card"
-      @tab-click="(val:any) => handle_tabs_change(val)"
-    >
+    <el-tabs class="tabs" type="border-card" @tab-click="(val:any) => handle_tabs_change(val)">
       <el-tab-pane v-if="isReload">
         <template #label>
-          <span class="custom-tabs-label"
-            ><el-icon><postcard /></el-icon><span>当事人信息</span></span
-          >
+          <span class="custom-tabs-label">
+            <el-icon><postcard /></el-icon>
+            <span>当事人信息</span>
+          </span>
         </template>
 
         <el-skeleton :loading="isLoading" animated :rows="5">
           <template #template>
             <div style="padding: 15px">
-              <div
-                v-for="i in 2"
-                :key="i"
-                :class="[i === 1 ? 'box-card0' : 'box-card1']"
-              >
+              <div v-for="i in 2" :key="i" :class="[i === 1 ? 'box-card0' : 'box-card1']">
                 <el-card>
                   <el-skeleton-item
                     variant="h1"
@@ -104,9 +88,10 @@
       </el-tab-pane>
       <el-tab-pane class="Horizontal_alignment">
         <template #label>
-          <span class="custom-tabs-label"
-            ><el-icon><EditPen /></el-icon><span>编辑文书</span></span
-          >
+          <span class="custom-tabs-label">
+            <el-icon><EditPen /></el-icon>
+            <span>编辑文书</span>
+          </span>
         </template>
         <!-- 编辑器 -->
         <div class="tab_view">
@@ -118,25 +103,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, nextTick, Ref } from "vue";
-import {
-  Cloudy,
-  InfoFilled,
-  Refresh,
-  Postcard,
-  EditPen,
-} from "@element-plus/icons-vue";
-import { HTTP_checkToken } from "../../script/api/apiList";
-import { getItem } from "../../script/utils/storage";
-import { REQUEST_get_casedetailinfo } from "../../script/request/casedetailinfo";
-import { useRoute } from "vue-router";
-import { STORE_Login } from "../../store/modules/login";
-import { STORE_Editor } from "../../store/modules/editor";
-import { STORE_Request } from "../../store/modules/request";
-import { Msg } from "../../script/utils/message";
+import { ref, inject, nextTick, Ref } from 'vue';
+import { Cloudy, InfoFilled, Refresh, Postcard, EditPen } from '@element-plus/icons-vue';
+import { HTTP_checkToken } from '../../script/api/apiList';
+import { getItem } from '../../script/utils/storage';
+import { REQUEST_get_casedetailinfo } from '../../script/request/casedetailinfo';
+import { useRoute } from 'vue-router';
+import { STORE_Login } from '../../store/modules/login';
+import { STORE_Editor } from '../../store/modules/editor';
+import { STORE_Request } from '../../store/modules/request';
+import { Msg } from '../../script/utils/message';
 
-import Casedetail from "./Casedetail.vue";
-import Editor from "./Caseeditor.vue";
+import Casedetail from './Casedetail.vue';
+import Editor from './Caseeditor.vue';
 
 const STORE_login_instance = STORE_Login();
 const STORE_editor_instance = STORE_Editor();
@@ -148,7 +127,7 @@ const router_caseid: string = useRoute().params.caseid as string;
 const router_prev_fy: string = useRoute().params.prev_fy as string;
 
 /* 控件开关 */
-const drawer: Ref<boolean> = inject("drawer") ?? ref(false); //登录抽屉界面
+const drawer: Ref<boolean> = inject('drawer') ?? ref(false); //登录抽屉界面
 const isReload = ref(true); //刷新组件用
 const isLoading = ref(true); //骨架用
 const Editors = ref();
@@ -160,16 +139,22 @@ const case_id = ref(router_caseid);
 //切换到编辑文书页面时自动启用首行缩进并读取暂存文本
 const first_into = ref(true);
 const handle_tabs_change = (val: { index: number }) => {
-  if (val.index == 1 && first_into.value) {
+  if (first_into.value) {
     first_into.value = false;
-    const txt = getItem("SaveText");
+    const txt = getItem('SaveText');
     if (txt?.ah === router_caseid) {
       Editors.value.addText(txt.text);
       //在插入内容后延迟重置内容检测开关
       setTimeout(() => {
         STORE_editor_instance.Reset_editor_isChanged();
-      }, 300);
+      }, 100);
     }
+  }
+
+  if (val.index == 1) {
+    setTimeout(() => {
+      Editors.value.focus();
+    }, 100);
   }
 };
 
@@ -181,7 +166,7 @@ const Open_Web_Casezone = (caseid: any) => {
       let link = `http://babg.zj.pcc/ajkjPlus?tokenid=${token}&ahdm=${caseid}&lx=sp&flag=2`;
       window.shell.openExternal(link);
     } else {
-      Msg("会话超时,请重新登录~", "error");
+      Msg('会话超时,请重新登录~', 'error');
       drawer.value = true;
     }
   });
@@ -204,11 +189,7 @@ const Reload_DsrInfo = () => {
 const Refresh_Dsrinfo = async () => {
   //重新请求数据并刷新组件
   // get_dsrdetialinfo(route_caseid, true, true);
-  request_bool.value = await REQUEST_get_casedetailinfo(
-    router_caseid,
-    true,
-    true
-  );
+  request_bool.value = await REQUEST_get_casedetailinfo(router_caseid, true, true);
   Reload_DsrInfo();
   // if (request_bool) {
   isLoading.value = false;
@@ -228,11 +209,7 @@ const Open_Casezone = async () => {
   if (cache_caseid === router_caseid) {
     isLoading.value = false;
   } else {
-    request_bool.value = await REQUEST_get_casedetailinfo(
-      router_caseid,
-      false,
-      false
-    );
+    request_bool.value = await REQUEST_get_casedetailinfo(router_caseid, false, false);
   }
   //重置内容检测开关
   STORE_editor_instance.Reset_editor_isChanged();

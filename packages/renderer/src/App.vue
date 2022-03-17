@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <!-- 标题栏 -->
-    <el-header>
+    <el-header @dblclick="maximize">
       <p>Documents Editor Lite</p>
       <!-- 红绿灯按钮开关 -->
       <div class="traffic-lights focus">
