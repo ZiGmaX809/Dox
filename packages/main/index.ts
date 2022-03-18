@@ -91,13 +91,25 @@ ipcMain.handle('Get_Path', async (event, arg) => {
   return app.getPath(arg);
 });
 
-ipcMain.handle('Get_File', async (event, arg) => {
+ipcMain.handle('Get_File', async (event, filters, encoding) => {
   const res = dialog.showOpenDialogSync({
-    filters: [arg],
+    filters: filters,
   });
   if (res) {
     const final_res = res[0];
-    return fs.readFileSync(final_res, { encoding: 'utf-8' });
+      return fs.readFileSync(final_res, encoding);
+  }
+});
+
+ipcMain.handle('Get_Image', async (event, filters) => {
+  const res = dialog.showOpenDialogSync({
+    filters: filters,
+  });
+  if (res) {
+    const final_res = res[0];
+    const buffer = fs.readFileSync(final_res);
+    const base64String = "data:image/jpeg;base64,"  + btoa(String.fromCharCode(...new Uint8Array(buffer)))
+    return base64String;
   }
 });
 

@@ -22,20 +22,25 @@
   </div>
   <div class="div_class">
     <div class="div_class_end">
-      <el-button size="small" @click="" :disabled="!switch_coutom_avatar">
-        选择图片
+      <el-button size="small" @click="dialogTableVisible = true" :disabled="!switch_coutom_avatar">
+        替换头像
       </el-button>
+      <el-dialog v-model="dialogTableVisible" title="裁剪头像">
+        <AvatarCropper />
+      </el-dialog>
     </div>
     <p class="pref_desc_p">自定义显示本地头像，不影响远程服务器头像显示。</p>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, provide, ref } from 'vue';
 import { STORE_Setting } from '../../store/modules/setting';
 import { handleChange_num } from '../../script/utils/settings';
+import AvatarCropper from '../../components/AvatarCropper.vue';
 
 const STORE_setting_instance = STORE_Setting();
+const dialogTableVisible = ref(false);
 
 //自定义头像取值&设置
 const switch_coutom_avatar = computed({
@@ -46,4 +51,6 @@ const switch_coutom_avatar = computed({
     STORE_setting_instance.Switch_custom_avatar(newVal);
   },
 });
+
+provide('dialogTableVisible', dialogTableVisible.value);
 </script>

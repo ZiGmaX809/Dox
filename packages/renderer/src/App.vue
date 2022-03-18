@@ -41,7 +41,7 @@
           <div>
             <el-avatar
               id="avatar"
-              :size="60"
+              :size="50"
               :src="avatar_url()"
               @click="drawer = true"
             ></el-avatar>

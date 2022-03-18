@@ -108,10 +108,15 @@ const pca_update_time = () => {
 
 /** 导入行政区划信息 */
 const import_pcafile = async () => {
-  const File_Result = await ipcMsg_Get_File({
-    name: 'JSON',
-    extensions: ['json'],
-  });
+  const File_Result = await ipcMsg_Get_File(
+    [
+      {
+        name: 'JSON',
+        extensions: ['json'],
+      },
+    ],
+    { encoding: 'utf-8' }
+  );
   if (File_Result) {
     const bool = JSON.parse(File_Result)['北京市'] != undefined ? true : false;
     if (bool) {

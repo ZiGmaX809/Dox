@@ -49,10 +49,15 @@ const export_localstorage = async () => {
 };
 
 const import_localstorage = async () => {
-  const File_Result = await ipcMsg_Get_File({
-    name: 'JSON',
-    extensions: ['json'],
-  });
+  const File_Result = await ipcMsg_Get_File(
+    [
+      {
+        name: 'JSON',
+        extensions: ['json'],
+      },
+    ],
+    { encoding: 'utf-8' }
+  );
   if (File_Result) {
     const json_ = JSON.parse(File_Result);
     for (let key in json_) {

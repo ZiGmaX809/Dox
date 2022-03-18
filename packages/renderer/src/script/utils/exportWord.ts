@@ -10,10 +10,10 @@ import {
   NumberFormat,
   convertMillimetersToTwip,
   Footer,
-} from "docx";
-import { STORE_Setting } from "../../store/modules/setting";
-import { ipcMsg_Export_Word } from "./ipcmessage";
-import { Msg } from "./message";
+} from 'docx';
+import { STORE_Setting } from '../../store/modules/setting';
+import { Msg } from './message';
+import { Save_File_From_Blob } from './savefile';
 
 /**
  *
@@ -32,20 +32,20 @@ export const exportWord = async (
   fgzl: string
 ) => {
   const doc = new Document({
-    creator: "ZiGma",
-    title: "Export Document",
-    description: "A docx export from DOX",
+    creator: 'ZiGma',
+    title: 'Export Document',
+    description: 'A docx export from DOX',
     styles: {
       paragraphStyles: [
         {
-          id: "Heading1",
-          name: "Heading 1",
-          basedOn: "Normal",
-          next: "Normal",
+          id: 'Heading1',
+          name: 'Heading 1',
+          basedOn: 'Normal',
+          next: 'Normal',
           quickFormat: true,
           run: {
             size: 44,
-            font: { eastAsia: "方正小标宋简体" },
+            font: { eastAsia: '方正小标宋简体' },
           },
           paragraph: {
             spacing: {
@@ -55,16 +55,16 @@ export const exportWord = async (
           },
         },
         {
-          id: "Heading2",
-          name: "Heading 2",
-          basedOn: "Normal",
-          next: "Normal",
+          id: 'Heading2',
+          name: 'Heading 2',
+          basedOn: 'Normal',
+          next: 'Normal',
           quickFormat: true,
           run: {
             size: 52,
             font: {
-              ascii: "华文中宋",
-              eastAsia: "华文中宋",
+              ascii: '华文中宋',
+              eastAsia: '华文中宋',
             },
             bold: true,
             characterSpacing: 120,
@@ -77,17 +77,17 @@ export const exportWord = async (
           },
         },
         {
-          id: "righttext",
-          name: "righttext",
-          basedOn: "Normal",
-          next: "Normal",
+          id: 'righttext',
+          name: 'righttext',
+          basedOn: 'Normal',
+          next: 'Normal',
           run: {
             size: 32,
             font: {
-              ascii: "仿宋_GB2312",
-              eastAsia: "仿宋_GB2312",
-              cs: "仿宋_GB2312",
-              hAnsi: "仿宋_GB2312",
+              ascii: '仿宋_GB2312',
+              eastAsia: '仿宋_GB2312',
+              cs: '仿宋_GB2312',
+              hAnsi: '仿宋_GB2312',
             },
           },
           paragraph: {
@@ -98,17 +98,17 @@ export const exportWord = async (
           },
         },
         {
-          id: "maintext",
-          name: "maintext",
-          basedOn: "Normal",
-          next: "Normal",
+          id: 'maintext',
+          name: 'maintext',
+          basedOn: 'Normal',
+          next: 'Normal',
           run: {
             size: 32,
             font: {
-              ascii: "仿宋_GB2312",
-              eastAsia: "仿宋_GB2312",
-              cs: "仿宋_GB2312",
-              hAnsi: "仿宋_GB2312",
+              ascii: '仿宋_GB2312',
+              eastAsia: '仿宋_GB2312',
+              cs: '仿宋_GB2312',
+              hAnsi: '仿宋_GB2312',
             },
           },
           paragraph: {
@@ -122,17 +122,17 @@ export const exportWord = async (
           },
         },
         {
-          id: "indent0text",
-          name: "indent0text",
-          basedOn: "Normal",
-          next: "Normal",
+          id: 'indent0text',
+          name: 'indent0text',
+          basedOn: 'Normal',
+          next: 'Normal',
           run: {
             size: 32,
             font: {
-              ascii: "仿宋_GB2312",
-              eastAsia: "仿宋_GB2312",
-              cs: "仿宋_GB2312",
-              hAnsi: "仿宋_GB2312",
+              ascii: '仿宋_GB2312',
+              eastAsia: '仿宋_GB2312',
+              cs: '仿宋_GB2312',
+              hAnsi: '仿宋_GB2312',
             },
           },
           paragraph: {
@@ -143,17 +143,17 @@ export const exportWord = async (
           },
         },
         {
-          id: "pagenumber",
-          name: "pagenumber",
-          basedOn: "Normal",
-          next: "Normal",
+          id: 'pagenumber',
+          name: 'pagenumber',
+          basedOn: 'Normal',
+          next: 'Normal',
           run: {
             size: 18,
             font: {
-              ascii: "仿宋_GB2312",
-              eastAsia: "仿宋_GB2312",
-              cs: "仿宋_GB2312",
-              hAnsi: "仿宋_GB2312",
+              ascii: '仿宋_GB2312',
+              eastAsia: '仿宋_GB2312',
+              cs: '仿宋_GB2312',
+              hAnsi: '仿宋_GB2312',
             },
           },
         },
@@ -187,7 +187,7 @@ export const exportWord = async (
             children: [
               new Paragraph({
                 alignment: AlignmentType.CENTER,
-                style: "pagenumber",
+                style: 'pagenumber',
                 children: [
                   new TextRun({
                     children: [PageNumber.CURRENT],
@@ -199,7 +199,7 @@ export const exportWord = async (
         },
         children: [
           new Paragraph({
-            text: "浙江省杭州市中级人民法院",
+            text: '浙江省杭州市中级人民法院',
             heading: HeadingLevel.HEADING_1,
           }),
         ],
@@ -208,7 +208,7 @@ export const exportWord = async (
   });
 
   //添加类型以及空格
-  const f_lx = lx.split("").join("  ").toString();
+  const f_lx = lx.split('').join('  ').toString();
 
   doc.Document.View.Body.addChildElement(
     new Paragraph({
@@ -219,8 +219,8 @@ export const exportWord = async (
 
   doc.Document.View.Body.addChildElement(
     new Paragraph({
-      text: "",
-      style: "maintext",
+      text: '',
+      style: 'maintext',
     })
   );
 
@@ -228,72 +228,66 @@ export const exportWord = async (
   doc.Document.View.Body.addChildElement(
     new Paragraph({
       text: ah,
-      style: "righttext",
+      style: 'righttext',
     })
   );
 
   //添加主文
-  const arr_zw = zw.split("\n");
-  arr_zw.forEach((text) => {
+  const arr_zw = zw.split('\n');
+  arr_zw.forEach(text => {
     doc.Document.View.Body.addChildElement(
       new Paragraph({
         text: text,
-        style: "maintext",
+        style: 'maintext',
       })
     );
   });
 
   //添加合议庭+日期
-  const arr_hytrq = hytrq.split("\n");
-  arr_hytrq.forEach((text) => {
+  const arr_hytrq = hytrq.split('\n');
+  arr_hytrq.forEach(text => {
     doc.Document.View.Body.addChildElement(
       new Paragraph({
         text: text,
-        style: "righttext",
+        style: 'righttext',
       })
     );
   });
 
   //添加核对信息
-  const arr_hd = ["本件与原本核对无异", ""];
-  arr_hd.forEach((text) => {
+  const arr_hd = ['本件与原本核对无异', ''];
+  arr_hd.forEach(text => {
     doc.Document.View.Body.addChildElement(
       new Paragraph({
         text: text,
-        style: "indent0text",
+        style: 'indent0text',
       })
     );
   });
 
   //添加法官助理、书记员信息
-  const arr_fgzl = fgzl.split("\n");
-  arr_fgzl.forEach((text) => {
+  const arr_fgzl = fgzl.split('\n');
+  arr_fgzl.forEach(text => {
     doc.Document.View.Body.addChildElement(
       new Paragraph({
         text: text,
-        style: "righttext",
+        style: 'righttext',
       })
     );
   });
-
 
   // Packer.toBlob(doc).then((blob) => {
   //   saveAs(blob, ah + ".docx");
   //   // window.fs.writeFileSync(ah + ".docx", blob);
   // });
 
-  Packer.toBlob(doc).then((blob) => {
-    let reader = new FileReader();
-    reader.onload = async function (result) {
-      const reslut: any = await ipcMsg_Export_Word({
-        WordFile: result.target?.result,
-        SavePath: STORE_Setting().exportfile_path,
-        SaveName: ah + ".docx",
-      });
-
-      Msg(ah + reslut[1], reslut[0]);
-    };
-    reader.readAsArrayBuffer(blob);
+  Packer.toBlob(doc).then(async blob => {
+    const result: string[] = await Save_File_From_Blob(
+      blob,
+      STORE_Setting().exportfile_path,
+      ah + '.docx'
+    );
+    Msg(ah + "导出" + result[1], result[0]);
   });
 };
 

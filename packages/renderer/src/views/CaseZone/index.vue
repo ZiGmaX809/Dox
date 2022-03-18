@@ -127,7 +127,7 @@ const router_caseid: string = useRoute().params.caseid as string;
 const router_prev_fy: string = useRoute().params.prev_fy as string;
 
 /* 控件开关 */
-const drawer: Ref<boolean> = inject('drawer') ?? ref(false); //登录抽屉界面
+const drawer: Ref<boolean> = inject('drawer')!; //登录抽屉界面
 const isReload = ref(true); //刷新组件用
 const isLoading = ref(true); //骨架用
 const Editors = ref();
