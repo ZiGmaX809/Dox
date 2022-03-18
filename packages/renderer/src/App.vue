@@ -41,7 +41,7 @@
           <div>
             <el-avatar
               id="avatar"
-              :size="50"
+              :size="60"
               :src="avatar_url()"
               @click="drawer = true"
             ></el-avatar>
@@ -136,7 +136,7 @@ const avatar_url = () => {
   if (STORE_setting_instance.custom_avatar_bool) {
     return new URL('/images/useravatar.png', import.meta.url).href;
   } else {
-    const babg_avatar_url = getItem('avatar_url');
+    const babg_avatar_url = STORE_Login().Avatar;
     if (!babg_avatar_url) {
       return new URL('/images/fail.png', import.meta.url).href;
     } else {

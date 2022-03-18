@@ -37,7 +37,7 @@
     "vite": "^2.8.6",
     "vite-plugin-resolve": "^1.8.0",
     "vue": "^3.2.31",
-    "vue-cropper": "^0.5.8",
+    "vue-cropper": "^1.0.2",
     "vue-router": "^4.0.14",
     "vue-tsc": "^0.33.2"
   },

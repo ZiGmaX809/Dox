@@ -1,8 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import Casezone from '@/views/CaseZone/Casezone.vue';
+import Casezone from '@/views/CaseZone/index.vue';
 import Home from '@/views/Home.vue';
 import Search from '@/views/Search.vue';
-import Preferences from '@/views/Preferences.vue';
+import Preferences from '@/views/Preferences/index.vue';
 import Template from '@/views/Template.vue';
 import { ElMessageBox } from 'element-plus';
 import { STORE_Editor } from '../store/modules/editor';

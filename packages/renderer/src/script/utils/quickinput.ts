@@ -1,7 +1,7 @@
 import nzhcn from "nzh/cn";
 import { ref } from "vue";
 import { obj } from "../../store";
-import { STORE_Quickinput } from "../../store/modules/quickinpt";
+import { STORE_Quickinput } from "../../store/modules/quickinput";
 
 var arr_pca: string[] = [];
 

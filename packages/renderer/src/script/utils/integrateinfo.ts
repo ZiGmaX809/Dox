@@ -1,3 +1,5 @@
+/** 整合案件信息 */
+
 import { obj } from "../../store";
 import { STORE_Editor } from "../../store/modules/editor";
 import { STORE_Request } from "../../store/modules/request";
