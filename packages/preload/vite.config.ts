@@ -11,15 +11,11 @@ export default defineConfig({
       formats: ['cjs'],
       fileName: () => '[name].cjs',
     },
-    sourcemap: false,
-    minify: process.env./* from mode option */NODE_ENV === 'production',
+    sourcemap: 'inline',
+    minify: process.env./* from mode option */ NODE_ENV === 'production',
     emptyOutDir: true,
     rollupOptions: {
-      external: [
-        'electron',
-        ...builtinModules,
-        ...Object.keys(pkg.dependencies || {}),
-      ],
+      external: ['electron', ...builtinModules, ...Object.keys(pkg.dependencies || {})],
     },
   },
-})
+});

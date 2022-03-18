@@ -68,7 +68,7 @@
             v-model="default_lineheight"
             class="m-2"
             size="small"
-            style="width: 60px"
+            style="width: 50px"
             @change="(val:Event) => Set_Editer_lineheight(val)"
           >
             <el-option v-for="item in lineheights" :key="item" :value="item"></el-option>

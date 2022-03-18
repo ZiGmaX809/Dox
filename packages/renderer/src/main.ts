@@ -7,11 +7,13 @@ import store from './store';
 import { ipcMsg_Get_Path } from './script/utils/ipcmessage';
 import { STORE_System } from './store/modules/system';
 import { STORE_Setting } from './store/modules/setting';
+import LottieAnimation from 'lottie-web-vue';
 
 createApp(App)
   .use(store)
   .use(ElementPlus)
   .use(router)
+  .use(LottieAnimation)
   .mount('#app')
   .$nextTick(window.removeLoading);
 

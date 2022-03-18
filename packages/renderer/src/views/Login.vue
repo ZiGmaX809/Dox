@@ -1,10 +1,13 @@
 <template>
   <div>
-    <img
-      class="bg-img"
-      :src="getImageUrl('loginbg.svg')"
-      style="-webkit-user-select: none; user-select: none"
+    <lottie-animation
+      :animation-data="LottieJSON"
+      :auto-play="true"
+      :loop="true"
+      :speed="1"
+      ref="anim"
     />
+
     <div id="webbg" class="login-wrap" v-show="showLogin" ref="loginWrap">
       <!-- <webview id="wb" src="http://babg.zj.pcc/" /> -->
     </div>
@@ -51,16 +54,18 @@
 <script lang="ts" setup>
 import qs from 'qs';
 import { HTTP_checkuserinfo, HTTP_checkToken } from '../script/api/apiList';
-import { inject, reactive, Ref, ref } from 'vue';
+import { inject, onMounted, reactive, Ref, ref, watch } from 'vue';
 import { showLoading, hideLoading } from '../script/utils/loading';
 import { STORE_Login } from '../store/modules/login';
 import { Msg } from '../script/utils/message';
 import { STORE_Setting } from '../store/modules/setting';
 import { REQUEST_get_caselist } from '../script/request/caselist';
+import LottieJSON from '../assets/lottie/Rocket.json';
 
 const STORE_login_instance = STORE_Login();
 
 const loginWrap = ref();
+const anim = ref();
 const drawer: Ref<boolean> = inject('drawer') as Ref<boolean>;
 let showLogin = false;
 
@@ -69,9 +74,16 @@ const logininfo_ = reactive({
   passwd: STORE_login_instance.LoginInfo.password,
 });
 
-const getImageUrl = (name: any) => {
-  return new URL(`../assets/${name}`, import.meta.url).href;
-};
+watch(
+  () => drawer.value,
+  (n, o) => {
+    if (n) {
+      anim.value.play();
+    } else {
+      anim.value.stop();
+    }
+  }
+);
 
 const login = () => {
   showLoading('正在登录......');
@@ -172,7 +184,7 @@ const login = () => {
               } else {
                 msg = '登录成功';
               }
-              
+
               Msg(login_err ? '服务器错误，请稍后再试。' : msg, login_err ? 'error' : 'success');
               drawer.value = false;
               return;
@@ -199,6 +211,10 @@ const login = () => {
     Msg(msg_ + '不能为空', 'warning');
   }
 };
+
+// onMounted(() => {
+//   anim.value.play();
+// });
 </script>
 
 <style>

@@ -1,5 +1,5 @@
 import { Msg } from '@/script/utils/message';
-import { STORE_Editor } from '../../../../store/modules/editor';
+import { STORE_Editor } from '@/store/modules/editor';
 
 tinymce.PluginManager.add('customsave', function (editor, url) {
   var pluginName = '保存';

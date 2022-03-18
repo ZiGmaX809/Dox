@@ -5,36 +5,13 @@
       <p>Documents Editor Lite</p>
       <!-- 红绿灯按钮开关 -->
       <div class="traffic-lights focus">
-        <button
-          class="traffic-light traffic-light-minimize"
-          id="minimize"
-          @click="minimize"
-        >
-          <svg
-            width="7"
-            height="2"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke="#000"
-              stroke-width="1.2"
-              stroke-linecap="round"
-              d="M.61.703h5.8"
-            />
+        <button class="traffic-light traffic-light-minimize" id="minimize" @click="minimize">
+          <svg width="7" height="2" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path stroke="#000" stroke-width="1.2" stroke-linecap="round" d="M.61.703h5.8" />
           </svg>
         </button>
-        <button
-          class="traffic-light traffic-light-maximize"
-          id="maximize"
-          @click="maximize"
-        >
-          <svg
-            width="8"
-            height="7"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+        <button class="traffic-light traffic-light-maximize" id="maximize" @click="maximize">
+          <svg width="8" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               stroke="#000"
               stroke-width="1.2"
@@ -43,17 +20,8 @@
             />
           </svg>
         </button>
-        <button
-          class="traffic-light traffic-light-close"
-          id="close"
-          @click="close"
-        >
-          <svg
-            width="7"
-            height="7"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+        <button class="traffic-light traffic-light-close" id="close" @click="close">
+          <svg width="7" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               stroke="#000"
               stroke-width="1.2"
@@ -93,22 +61,26 @@
         >
           <el-menu-item index="/">
             <template #title>
-              <el-icon><files /></el-icon>我的案件
+              <el-icon><files /></el-icon>
+              我的案件
             </template>
           </el-menu-item>
           <el-menu-item index="/Search">
             <template #title>
-              <el-icon><search /></el-icon>案件查询
+              <el-icon><search /></el-icon>
+              案件查询
             </template>
           </el-menu-item>
           <el-menu-item index="/Template">
             <template #title>
-              <el-icon><document /></el-icon>模板管理
+              <el-icon><document /></el-icon>
+              模板管理
             </template>
           </el-menu-item>
           <el-menu-item index="/Preferences">
             <template #title>
-              <el-icon><setting /></el-icon>设置
+              <el-icon><setting /></el-icon>
+              设置
             </template>
           </el-menu-item>
         </el-menu>
@@ -121,24 +93,24 @@
 </template>
 
 <script setup lang="ts">
-import "@/assets/css/global.scss";
-import { Ref, ref, nextTick, provide } from "vue";
-import { Files, Search, Document, Setting } from "@element-plus/icons-vue";
-import { getItem } from "./script/utils/storage";
+import '@/assets/css/global.scss';
+import { Ref, ref, nextTick, provide } from 'vue';
+import { Files, Search, Document, Setting } from '@element-plus/icons-vue';
+import { getItem } from './script/utils/storage';
 
-import loginpage from "./views/Login.vue";
-import ClipboardObserver from "./script/utils/clipboardmoni";
+import loginpage from './views/Login.vue';
+import ClipboardObserver from './script/utils/clipboardmoni';
 
-import { STORE_Setting } from "./store/modules/setting";
-import { STORE_Editor } from "./store/modules/editor";
-import { STORE_Clipboard } from "./store/modules/clipboard";
-import { STORE_Login } from "./store/modules/login";
+import { STORE_Setting } from './store/modules/setting';
+import { STORE_Editor } from './store/modules/editor';
+import { STORE_Clipboard } from './store/modules/clipboard';
+import { STORE_Login } from './store/modules/login';
 
 const STORE_editor_instance = STORE_Editor();
 const STORE_setting_instance = STORE_Setting();
 const STORE_clipboard_instance = STORE_Clipboard();
 
-const username = STORE_Login()?.LoginResult?.data?.yhxm ?? "点击登录";
+const username = STORE_Login()?.LoginResult?.data?.yhxm ?? '点击登录';
 
 const isRouterAlive: Ref<boolean> = ref(true);
 const drawer: Ref<boolean> = ref(false);
@@ -146,13 +118,13 @@ let fullscreen = false;
 
 const maximize = () => {
   fullscreen = !fullscreen;
-  window.ipcRenderer.send("Max");
+  window.ipcRenderer.send('Max');
 };
 const minimize = () => {
-  window.ipcRenderer.send("Min");
+  window.ipcRenderer.send('Min');
 };
 const close = () => {
-  window.ipcRenderer.send("Close");
+  window.ipcRenderer.send('Close');
 };
 
 const PreloadFiles = () => {
@@ -162,11 +134,11 @@ const PreloadFiles = () => {
 
 const avatar_url = () => {
   if (STORE_setting_instance.custom_avatar_bool) {
-    return new URL("/images/useravatar.png", import.meta.url).href;
+    return new URL('/images/useravatar.png', import.meta.url).href;
   } else {
-    const babg_avatar_url = getItem("avatar_url");
+    const babg_avatar_url = getItem('avatar_url');
     if (!babg_avatar_url) {
-      return new URL("/images/fail.png", import.meta.url).href;
+      return new URL('/images/fail.png', import.meta.url).href;
     } else {
       return babg_avatar_url;
     }
@@ -209,7 +181,7 @@ Listen_Clipboard();
 //   }
 // });
 
-provide("reload", {
+provide('reload', {
   reload: () => {
     isRouterAlive.value = false;
     nextTick(() => {
@@ -217,8 +189,8 @@ provide("reload", {
     });
   },
 });
-provide("drawer", drawer);
-provide("listen_clip", {
+provide('drawer', drawer);
+provide('listen_clip', {
   listen_clip: (value: boolean) => {
     if (!value) {
       clipboardObserver.stop();
