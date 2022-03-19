@@ -96,7 +96,6 @@
 import '@/assets/css/global.scss';
 import { Ref, ref, nextTick, provide } from 'vue';
 import { Files, Search, Document, Setting } from '@element-plus/icons-vue';
-import { getItem } from './script/utils/storage';
 
 import loginpage from './views/Login.vue';
 import ClipboardObserver from './script/utils/clipboardmoni';
@@ -105,6 +104,8 @@ import { STORE_Setting } from './store/modules/setting';
 import { STORE_Editor } from './store/modules/editor';
 import { STORE_Clipboard } from './store/modules/clipboard';
 import { STORE_Login } from './store/modules/login';
+import { STORE_System } from './store/modules/system';
+import { Load_Image_To_Base64 } from './script/utils/handlefiles';
 
 const STORE_editor_instance = STORE_Editor();
 const STORE_setting_instance = STORE_Setting();
@@ -133,12 +134,13 @@ const PreloadFiles = () => {
 };
 
 const avatar_url = () => {
+  const local_avatar_path = `${STORE_System().CacheFile_Path}/images/`;
   if (STORE_setting_instance.custom_avatar_bool) {
-    return new URL('/images/useravatar.png', import.meta.url).href;
+    return Load_Image_To_Base64(local_avatar_path + 'useravatar.jpg');
   } else {
     const babg_avatar_url = STORE_Login().Avatar;
     if (!babg_avatar_url) {
-      return new URL('/images/fail.png', import.meta.url).href;
+      return new URL('./images/fail.png', import.meta.url).href;
     } else {
       return babg_avatar_url;
     }

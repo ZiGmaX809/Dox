@@ -13,28 +13,27 @@ export const ipcMsg_Get_Path = async (Folder: string) => {
  * @param encoding 编码 { encoding: 'utf-8' }
  * @returns 文件内容
  */
-export const ipcMsg_Get_File = async (filter: any[], encoding: {}) => {
-  const arg = { filter, encoding };
-  return await window.ipcRenderer.invoke('Get_File', arg).then((res: any) => {
+export const ipcMsg_Select_File = async (filter: any[]) => {
+  return await window.ipcRenderer.invoke('Select_File', filter).then((res: any) => {
     return res;
   });
 };
 
-export const ipcMsg_Get_Image = async (filter: any[]) => {
-  return await window.ipcRenderer.invoke('Get_Image', filter).then((res: any) => {
-    return res;
-  });
-};
+// export const ipcMsg_Select_Image = async (filter: any[]) => {
+//   return await window.ipcRenderer.invoke('Select_Image', filter).then((res: any) => {
+//     return res;
+//   });
+// };
 
 export const ipcMsg_Export_File = async (args: {}) => {
-  return await window.ipcRenderer.invoke('Save_File', args).then((res: string[]) => {
+  return await window.ipcRenderer.invoke('Export_File', args).then((res: string[]) => {
     return res;
   });
 };
 
 /** 与主进程通信，打开dialog并返回选择文件夹路径 */
-export const ipcMsg_Choose_Folder = async () => {
-  return await window.ipcRenderer.invoke('Choose_Folder').then((res: string) => {
+export const ipcMsg_Select_Folder = async () => {
+  return await window.ipcRenderer.invoke('Select_Folder').then((res: string) => {
     return res;
   });
 };

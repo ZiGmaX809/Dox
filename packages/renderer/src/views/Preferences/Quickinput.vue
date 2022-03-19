@@ -68,7 +68,7 @@ import { Delete } from '@element-plus/icons-vue';
 import { STORE_Setting } from '../../store/modules/setting';
 import { STORE_System } from '../../store/modules/system';
 import { scan_allfiles } from '../../script/utils/scanfolder';
-import { ipcMsg_Get_File } from '../../script/utils/ipcmessage';
+import { ipcMsg_Select_File } from '../../script/utils/ipcmessage';
 import { Msg } from '../../script/utils/message';
 
 const STORE_setting_instance = STORE_Setting();
@@ -108,7 +108,7 @@ const pca_update_time = () => {
 
 /** 导入行政区划信息 */
 const import_pcafile = async () => {
-  const File_Result = await ipcMsg_Get_File(
+  const File_Result = await ipcMsg_Select_File(
     [
       {
         name: 'JSON',

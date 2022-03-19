@@ -59,7 +59,7 @@ export const HTTP_getCaseDetail = (
 ) => {
   return http.request(
     {
-      url: "http://babg.zj.pcc/proxy/gzpt-widget-all-new/api/widgets/searchCase/sp/caseDetail",
+      url: "/api/widgets/searchCase/sp/caseDetail",
       method: "POST",
       data,
     },

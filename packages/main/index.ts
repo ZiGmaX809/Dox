@@ -91,29 +91,14 @@ ipcMain.handle('Get_Path', async (event, arg) => {
   return app.getPath(arg);
 });
 
-ipcMain.handle('Get_File', async (event, filters, encoding) => {
+ipcMain.handle('Select_File', async (event, filters) => {
   const res = dialog.showOpenDialogSync({
     filters: filters,
   });
-  if (res) {
-    const final_res = res[0];
-      return fs.readFileSync(final_res, encoding);
-  }
+  return res;
 });
 
-ipcMain.handle('Get_Image', async (event, filters) => {
-  const res = dialog.showOpenDialogSync({
-    filters: filters,
-  });
-  if (res) {
-    const final_res = res[0];
-    const buffer = fs.readFileSync(final_res);
-    const base64String = "data:image/jpeg;base64,"  + btoa(String.fromCharCode(...new Uint8Array(buffer)))
-    return base64String;
-  }
-});
-
-ipcMain.handle('Choose_Folder', async () => {
+ipcMain.handle('Select_Folder', async () => {
   const res = dialog.showOpenDialogSync({
     properties: ['openDirectory'],
   });
@@ -122,17 +107,12 @@ ipcMain.handle('Choose_Folder', async () => {
   }
 });
 
-ipcMain.handle('Save_File', async (event, arg) => {
+ipcMain.handle('Export_File', async (event, arg) => {
   const wordFile = arg.WordFile;
   const savePath = arg.SavePath ?? '';
   const saveName = arg.SaveName;
-  if (!wordFile || !saveName) {
-    return ['error', '参数错误！'];
-  } else {
-    const buff = Buffer.from(wordFile as ArrayBuffer);
-    fs.writeFileSync(savePath + saveName, buff);
-    return ['success', '导出成功！'];
-  }
+  const buff = Buffer.from(wordFile as ArrayBuffer);
+  fs.writeFileSync(savePath + saveName, buff);
 });
 
 app.on('window-all-closed', () => {

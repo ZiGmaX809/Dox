@@ -3,7 +3,7 @@
   <el-divider />
   <div class="pref_div">
     <p class="pref_p">文书导出路径</p>
-    <el-button size="small" @click="Choose_export_path">选择文件夹</el-button>
+    <el-button size="small" @click="Select_export_path">选择文件夹</el-button>
   </div>
   <p class="pref_desc_p">当前路径：{{ exportfile_path }}</p>
   <div class="pref_div">
@@ -42,7 +42,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { STORE_Setting } from '../../store/modules/setting';
-import { ipcMsg_Choose_Folder } from '../../script/utils/ipcmessage';
+import { ipcMsg_Select_Folder } from '../../script/utils/ipcmessage';
 
 const STORE_setting_instance = STORE_Setting();
 
@@ -76,8 +76,8 @@ const switch_class_caseid_bool = computed({
   },
 });
 
-const Choose_export_path = async () => {
-  const res = await ipcMsg_Choose_Folder();
+const Select_export_path = async () => {
+  const res = await ipcMsg_Select_Folder();
   if (res) {
     const f_path = res + '/';
     STORE_setting_instance.Set_exportfile_path(f_path);

@@ -7,11 +7,15 @@
         ref="cropper"
         centerBox
         fixed
+        :autoCrop="options.autoCrop"
+        :outputSize="options.outputsize"
         :auto-crop-width="options.autoCropWidth"
         :auto-crop-height="options.autoCropHeight"
         :fixedBox="options.fixedBox"
         :fixedNumber="options.fixedNumber"
         :maxImgSize="options.maxImgSize"
+        :original="options.original"
+        :enlarge="options.enlarge"
       />
     </div>
     <div style="display: flex; flex-direction: column; margin-left: 20px">
@@ -25,10 +29,10 @@
 import 'vue-cropper/dist/index.css';
 import { VueCropper } from 'vue-cropper';
 import { inject, reactive, Ref, ref } from 'vue';
-import { ipcMsg_Get_Image } from '../script/utils/ipcmessage';
 import { STORE_System } from '../store/modules/system';
-import { Save_File_From_Blob } from '../script/utils/savefile';
+import { Load_Image_To_Base64, Save_File_From_Blob } from '../script/utils/handlefiles';
 import { Msg } from '../script/utils/message';
+import { ipcMsg_Select_File } from '../script/utils/ipcmessage';
 
 /* vue-cropper DOM */
 const cropper = ref();
@@ -42,33 +46,34 @@ interface cropperInter {
 /* vue-cropper 配置项 */
 const options: cropperInter = reactive({
   img: '',
-  size: 1,
   full: false,
   outputType: 'png',
   canMove: false,
   fixedBox: false,
-  original: false,
+  original: true,
   canMoveBox: true,
   autoCrop: true,
-  autoCropWidth: 500,
-  autoCropHeight: 500,
+  autoCropWidth: 200,
+  autoCropHeight: 200,
   centerBox: true,
   high: true,
-  maxImgSize: 2000,
+  maxImgSize: 1500,
   fixed: true,
   outputSize: 1,
   fixedNumber: [1, 1],
   colorRange: '150',
+  enlarge: 0.99999,
 });
 
 const select_pic = async () => {
-  const img = await ipcMsg_Get_Image([
+  const filter = [
     {
       name: '图片',
       extensions: ['jpeg', 'jpg', 'png'],
     },
-  ]);
-  options.img = img;
+  ];
+  const select_image_path = await ipcMsg_Select_File(filter);
+  options.img = Load_Image_To_Base64(select_image_path[0]);
 };
 
 const save_pic = () => {
@@ -78,10 +83,10 @@ const save_pic = () => {
       const result: string[] = await Save_File_From_Blob(
         blob,
         custom_avatar_path,
-        'useravatar.png'
+        'useravatar.jpg'
       );
       Msg('保存' + result[1], result[0]);
-      dialogTableVisible.value = false;
+      // dialogTableVisible.value = false;
     });
   }
 };

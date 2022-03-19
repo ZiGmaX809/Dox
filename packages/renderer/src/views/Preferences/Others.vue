@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { ipcMsg_Get_File, ipcMsg_Get_Path } from '../../script/utils/ipcmessage';
+import { ipcMsg_Select_File, ipcMsg_Get_Path } from '../../script/utils/ipcmessage';
 import { Msg } from '../../script/utils/message';
 
 //导出&导入缓存
@@ -49,7 +49,7 @@ const export_localstorage = async () => {
 };
 
 const import_localstorage = async () => {
-  const File_Result = await ipcMsg_Get_File(
+  const File_Result = await ipcMsg_Select_File(
     [
       {
         name: 'JSON',
