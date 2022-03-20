@@ -39,12 +39,7 @@
         <!-- 头像及名称 -->
         <div class="avatar">
           <div>
-            <el-avatar
-              id="avatar"
-              :size="50"
-              :src="avatar_url()"
-              @click="drawer = true"
-            ></el-avatar>
+            <el-avatar id="avatar" :size="50" :src="avatar_src" @click="drawer = true"></el-avatar>
             <p class="login_text" @click="drawer = true">{{ username }}</p>
           </div>
         </div>
@@ -115,6 +110,7 @@ const username = STORE_Login()?.LoginResult?.data?.yhxm ?? '点击登录';
 
 const isRouterAlive: Ref<boolean> = ref(true);
 const drawer: Ref<boolean> = ref(false);
+const avatar_src = ref();
 let fullscreen = false;
 
 const maximize = () => {
@@ -133,16 +129,18 @@ const PreloadFiles = () => {
   STORE_editor_instance.Set_presetText();
 };
 
-const avatar_url = () => {
+const set_avatar_src = () => {
   const local_avatar_path = `${STORE_System().CacheFile_Path}/images/`;
   if (STORE_setting_instance.custom_avatar_bool) {
-    return Load_Image_To_Base64(local_avatar_path + 'useravatar.jpg');
+    Load_Image_To_Base64(local_avatar_path + 'useravatar.jpg').then(res => {
+      avatar_src.value = res;
+    });
   } else {
     const babg_avatar_url = STORE_Login().Avatar;
     if (!babg_avatar_url) {
-      return new URL('./images/fail.png', import.meta.url).href;
+      avatar_src.value = new URL('./images/fail.png', import.meta.url).href;
     } else {
-      return babg_avatar_url;
+      avatar_src.value = babg_avatar_url;
     }
   }
 };
@@ -172,6 +170,7 @@ const Listen_Clipboard = () => {
 
 PreloadFiles();
 Listen_Clipboard();
+set_avatar_src();
 
 // STORE_clipboard_instance.$subscribe((mutation, state) => {
 //   // console.log(mutation);
@@ -192,6 +191,7 @@ provide('reload', {
   },
 });
 provide('drawer', drawer);
+provide('avatar_src', set_avatar_src);
 provide('listen_clip', {
   listen_clip: (value: boolean) => {
     if (!value) {

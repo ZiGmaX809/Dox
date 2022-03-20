@@ -91,20 +91,12 @@ ipcMain.handle('Get_Path', async (event, arg) => {
   return app.getPath(arg);
 });
 
-ipcMain.handle('Select_File', async (event, filters) => {
+ipcMain.handle('Select_FileOrFolder', async (event, properties, filters) => {
   const res = dialog.showOpenDialogSync({
     filters: filters,
+    properties: properties,
   });
   return res;
-});
-
-ipcMain.handle('Select_Folder', async () => {
-  const res = dialog.showOpenDialogSync({
-    properties: ['openDirectory'],
-  });
-  if (res) {
-    return res[0];
-  }
 });
 
 ipcMain.handle('Export_File', async (event, arg) => {

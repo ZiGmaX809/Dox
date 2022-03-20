@@ -2,25 +2,31 @@
   <div style="display: flex; flex-direction: row; height: 500px">
     <div class="content" style="width: 500px; height: 500px">
       <vue-cropper
-        autoCrop
-        :img="options.img"
         ref="cropper"
-        centerBox
-        fixed
+        :img="options.img"
         :autoCrop="options.autoCrop"
         :outputSize="options.outputsize"
         :auto-crop-width="options.autoCropWidth"
         :auto-crop-height="options.autoCropHeight"
+        :centerBox="options.centerBox"
+        :fixed="options.fixed"
         :fixedBox="options.fixedBox"
         :fixedNumber="options.fixedNumber"
-        :maxImgSize="options.maxImgSize"
         :original="options.original"
         :enlarge="options.enlarge"
       />
     </div>
     <div style="display: flex; flex-direction: column; margin-left: 20px">
       <el-button size="small" style="width: 100px" @click="select_pic">打开图片</el-button>
-      <el-button size="small" style="width: 100px" type="success" @click="save_pic">保存</el-button>
+      <el-button
+        size="small"
+        style="width: 100px"
+        type="success"
+        @click="save_pic"
+        :disabled="save_disabled"
+      >
+        保存
+      </el-button>
     </div>
   </div>
 </template>
@@ -28,15 +34,16 @@
 <script setup lang="ts">
 import 'vue-cropper/dist/index.css';
 import { VueCropper } from 'vue-cropper';
-import { inject, reactive, Ref, ref } from 'vue';
+import { inject, reactive, ref } from 'vue';
 import { STORE_System } from '../store/modules/system';
 import { Load_Image_To_Base64, Save_File_From_Blob } from '../script/utils/handlefiles';
 import { Msg } from '../script/utils/message';
-import { ipcMsg_Select_File } from '../script/utils/ipcmessage';
+import { ipcMsg_Select_FileOrFolder } from '../script/utils/ipcmessage';
 
 /* vue-cropper DOM */
 const cropper = ref();
-const dialogTableVisible: Ref<boolean> = inject('dialogTableVisible')!;
+const save_disabled = ref(true);
+const avatar_src: () => void = inject('avatar_src')!;
 
 interface cropperInter {
   img: any;
@@ -53,8 +60,8 @@ const options: cropperInter = reactive({
   original: true,
   canMoveBox: true,
   autoCrop: true,
-  autoCropWidth: 200,
-  autoCropHeight: 200,
+  autoCropWidth: 500,
+  autoCropHeight: 500,
   centerBox: true,
   high: true,
   maxImgSize: 1500,
@@ -62,7 +69,7 @@ const options: cropperInter = reactive({
   outputSize: 1,
   fixedNumber: [1, 1],
   colorRange: '150',
-  enlarge: 0.99999,
+  enlarge: 0.9999,
 });
 
 const select_pic = async () => {
@@ -72,9 +79,16 @@ const select_pic = async () => {
       extensions: ['jpeg', 'jpg', 'png'],
     },
   ];
-  const select_image_path = await ipcMsg_Select_File(filter);
-  options.img = Load_Image_To_Base64(select_image_path[0]);
+  const select_image_path = await ipcMsg_Select_FileOrFolder(['openFile'], filter);
+  if (select_image_path) {
+    Load_Image_To_Base64(select_image_path[0]).then(res => {
+      options.img = res;
+      save_disabled.value = false;
+    });
+  }
 };
+
+const emit = defineEmits(['dialog_close']);
 
 const save_pic = () => {
   if (cropper.value) {
@@ -86,7 +100,10 @@ const save_pic = () => {
         'useravatar.jpg'
       );
       Msg('保存' + result[1], result[0]);
-      // dialogTableVisible.value = false;
+      emit('dialog_close');
+      setTimeout(() => {
+        avatar_src();
+      }, 500);
     });
   }
 };

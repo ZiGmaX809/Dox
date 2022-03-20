@@ -1,5 +1,5 @@
 <template>
-  <h2 class="pref_h2">自定义</h2>
+  <h2 class="pref_h2">偏好</h2>
   <el-divider />
   <div class="pref_div">
     <p class="pref_p">主题颜色</p>
@@ -23,24 +23,29 @@
   <div class="div_class">
     <div class="div_class_end">
       <el-button size="small" @click="dialogTableVisible = true" :disabled="!switch_coutom_avatar">
-        替换头像
+        更换头像
       </el-button>
       <el-dialog v-model="dialogTableVisible" title="裁剪头像">
-        <AvatarCropper />
+        <AvatarCropper @dialog_close="close_dialog" />
       </el-dialog>
     </div>
-    <p class="pref_desc_p">自定义显示本地头像，不影响远程服务器头像显示。</p>
+    <p class="pref_desc_p">
+      自定义显示本地头像，不影响远程服务器头像显示。<br/>
+      虽然可以进行裁剪，但是尽量选择正方形的图片，裁剪后最大尺寸为500*500px。<br/>
+      为保证性能，虽未对裁剪前的图片大小做限制，但尽量控制在2000*2000px以下。
+    </p>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, provide, ref } from 'vue';
+import { computed, inject, ref } from 'vue';
 import { STORE_Setting } from '../../store/modules/setting';
 import { handleChange_num } from '../../script/utils/settings';
 import AvatarCropper from '../../components/AvatarCropper.vue';
 
 const STORE_setting_instance = STORE_Setting();
 const dialogTableVisible = ref(false);
+const avatar_src: () => void = inject('avatar_src')!;
 
 //自定义头像取值&设置
 const switch_coutom_avatar = computed({
@@ -49,8 +54,11 @@ const switch_coutom_avatar = computed({
   },
   set(newVal: boolean) {
     STORE_setting_instance.Switch_custom_avatar(newVal);
+    avatar_src();
   },
 });
 
-provide('dialogTableVisible', dialogTableVisible.value);
+const close_dialog = () => {
+  dialogTableVisible.value = false;
+};
 </script>

@@ -42,7 +42,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { STORE_Setting } from '../../store/modules/setting';
-import { ipcMsg_Select_Folder } from '../../script/utils/ipcmessage';
+import { ipcMsg_Select_FileOrFolder } from '../../script/utils/ipcmessage';
 
 const STORE_setting_instance = STORE_Setting();
 
@@ -77,7 +77,7 @@ const switch_class_caseid_bool = computed({
 });
 
 const Select_export_path = async () => {
-  const res = await ipcMsg_Select_Folder();
+  const res = await ipcMsg_Select_FileOrFolder(['openDirectory']);
   if (res) {
     const f_path = res + '/';
     STORE_setting_instance.Set_exportfile_path(f_path);
