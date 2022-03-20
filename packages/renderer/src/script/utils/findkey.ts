@@ -3,7 +3,7 @@ import { getItem } from "./storage";
 const codelist = getItem("codeList").data;
 
 /**
- * 通过当事人信息的Code在List中查询Value返回Key
+ * 通过当事人信息的Code在List中查询Value返回Key(暂时弃用)
  * @param code 数据的Code
  * @returns Code的名称
  */

@@ -22,10 +22,10 @@
   </div>
   <div class="div_class">
     <div class="div_class_end">
-      <el-button size="small" @click="dialogTableVisible = true" :disabled="!switch_coutom_avatar">
+      <el-button size="small" @click="CropperDialogVisible = true" :disabled="!switch_coutom_avatar">
         更换头像
       </el-button>
-      <el-dialog v-model="dialogTableVisible" title="裁剪头像">
+      <el-dialog v-model="CropperDialogVisible" title="裁剪头像">
         <AvatarCropper @dialog_close="close_dialog" />
       </el-dialog>
     </div>
@@ -44,7 +44,7 @@ import { handleChange_num } from '../../script/utils/settings';
 import AvatarCropper from '../../components/AvatarCropper.vue';
 
 const STORE_setting_instance = STORE_Setting();
-const dialogTableVisible = ref(false);
+const CropperDialogVisible = ref(false);
 const avatar_src: () => void = inject('avatar_src')!;
 
 //自定义头像取值&设置
@@ -59,6 +59,6 @@ const switch_coutom_avatar = computed({
 });
 
 const close_dialog = () => {
-  dialogTableVisible.value = false;
+  CropperDialogVisible.value = false;
 };
 </script>

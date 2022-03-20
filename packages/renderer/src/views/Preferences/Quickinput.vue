@@ -5,25 +5,33 @@
     <p class="pref_p">已引入的法律法规文件</p>
     <el-button size="small" @click="Refresh_lawfiles">刷新</el-button>
   </div>
-  <el-table :data="tableData.list" border style="width: 100%; max-height: 500px">
-    <el-table-column prop="fullname" label="引入文件名称" />
-    <el-table-column prop="name" label="索引缩写" width="200" />
-    <el-table-column align="center" label="操作" width="80">
-      <template #default="scope">
-        <el-button
-          size="small"
-          type="danger"
-          :icon="Delete"
-          @click="handleDelete(scope.$index)"
-        ></el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <p class="pref_desc_table">
+    <el-table :data="tableData.list" border style="width: 100%; max-height: 500px">
+      <el-table-column prop="fullname" label="引入文件名称" />
+      <el-table-column prop="name" label="索引缩写" width="200" />
+      <el-table-column align="center" label="操作" width="80">
+        <template #default="scope">
+          <el-button
+            size="small"
+            type="danger"
+            :icon="Delete"
+            @click="handleDelete(scope.$index)"
+          ></el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </p>
 
-  <p class="pref_p">引入新的法律法规文件</p>
+  <div class="pref_div">
+    <p class="pref_p">引入新的法律法规文件</p>
+    <el-button size="small" @click="ImportFileDialogVisible = true">引入</el-button>
+    <el-dialog v-model="ImportFileDialogVisible" title="引入新文件">
+      <ImportFile @dialog_close="close_dialog" />
+    </el-dialog>
+  </div>
   <p class="pref_desc_p">
     <b>
-      &#10059;&nbsp;注意：快捷输入工具仅为编辑文书的辅助性功能。对于导入的文件，工具将尽可能进行准确匹配、转换，但是无法保证任何法律法规文件导入后法条完整和准确性。
+      &#10059;&nbsp;注意：快捷输入工具仅为编辑文书的辅助性功能。对于导入的文件，工具将尽可能进行准确匹配、转换，但是无法百分百保证任何法律法规文件导入后法条完整和准确性。
       <br />
       &#10059;&nbsp;请不要过度依赖该功能！裁判文书校对依旧是案件审理的必要环节与步骤！
     </b>
@@ -41,7 +49,7 @@
     进入网页选择法律法规文件后，点击右上角下载按钮，选择「纯文本」去掉勾选「保留字段信息」以及「保留正文中的法宝联想」，下载后不要修改文件名称，请保持原有名称以便提取该文书完整名称。
     <br />
     目前支持
-    <b>法律、法规、司法解释</b>
+    <b>「法律、法规、司法解释」</b>
     的导入，其他指导性文件、意见暂不支持。
   </p>
   <div class="pref_div">
@@ -70,12 +78,15 @@ import { STORE_System } from '../../store/modules/system';
 import { scan_allfiles } from '../../script/utils/scanfolder';
 import { Msg } from '../../script/utils/message';
 import { Load_Local_Files } from '../../script/utils/handlefiles';
+import ImportFile from '../../components/ImportFile.vue';
 
 const STORE_setting_instance = STORE_Setting();
 const STORE_system_instance = STORE_System();
 
 const pca_url = ref('https://github.com/modood/Administrative-divisions-of-China');
 const law_url = ref('http://gov.pkulaw.cn/');
+
+const ImportFileDialogVisible = ref(false);
 
 //法律法规文件管理
 const tableData = reactive({
@@ -85,6 +96,10 @@ const tableData = reactive({
 const copy_url = (url: string) => {
   window.clipboard.writeText(url);
   Msg('已复制', 'success');
+};
+
+const close_dialog = () => {
+  ImportFileDialogVisible.value = false;
 };
 
 const Refresh_lawfiles = async () => {

@@ -21,12 +21,30 @@
       <el-button
         size="small"
         style="width: 100px"
+        type="danger"
+        :disabled="save_disabled"
+        @click="clear_pic"
+      >
+        清除
+      </el-button>
+      <el-button
+        size="small"
+        style="width: 100px"
         type="success"
         @click="save_pic"
         :disabled="save_disabled"
       >
         保存
       </el-button>
+      <p style="width: 100px; font-size: 12px; color: #909090">
+        Tips:
+        <br />
+        可在选框外拖动图片；
+        <br />
+        裁剪框固定为正方形;
+        <br />
+        可用滚轮放大缩小图片。
+      </p>
     </div>
   </div>
 </template>
@@ -86,6 +104,11 @@ const select_pic = async () => {
       save_disabled.value = false;
     });
   }
+};
+
+const clear_pic = () => {
+  options.img = '';
+  save_disabled.value = true;
 };
 
 const emit = defineEmits(['dialog_close']);

@@ -48,7 +48,14 @@ import Others from './Others.vue';
   user-select: none;
   color: #909090;
   font-size: 13px;
-  margin-top: -3px;
+  margin-top: -2px;
+}
+
+.pref_desc_table {
+  user-select: none;
+  color: #909090;
+  font-size: 13px;
+  margin-top: 0px;
 }
 
 .pref_div {
