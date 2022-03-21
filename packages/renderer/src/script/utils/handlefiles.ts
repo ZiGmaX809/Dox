@@ -23,6 +23,12 @@ export const Save_File_From_Blob = async (blob: Blob, savepath: string, savename
   }
 };
 
+/**
+ * 读取本地图片并返回一个相应callback类型的Promise
+ * @param obj 读取路径或Blob文件
+ * @param _cbty callback类型['base64'|'blob']
+ * @returns
+ */
 export const Load_Image_To_Base64 = (obj: string | Blob) => {
   let blob: Blob;
   if (typeof obj == 'string') {

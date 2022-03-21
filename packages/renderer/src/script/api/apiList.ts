@@ -66,7 +66,7 @@ export const HTTP_getCaseDetail = (
     isloading,
     "null",
     ismsg,
-    "null"
+    "刷新成功！"
   );
 };
 

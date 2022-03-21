@@ -189,7 +189,7 @@ const Reload_DsrInfo = () => {
 const Refresh_Dsrinfo = async () => {
   //重新请求数据并刷新组件
   // get_dsrdetialinfo(route_caseid, true, true);
-  request_bool.value = await REQUEST_get_casedetailinfo(router_caseid, true, true);
+  request_bool.value = await REQUEST_get_casedetailinfo(router_caseid, true, true, false);
   Reload_DsrInfo();
   // if (request_bool) {
   isLoading.value = false;
@@ -210,7 +210,7 @@ const Open_Casezone = async () => {
   if (cache_caseid === router_caseid) {
     isLoading.value = false;
   } else {
-    request_bool.value = await REQUEST_get_casedetailinfo(router_caseid, false, false);
+    request_bool.value = await REQUEST_get_casedetailinfo(router_caseid, false, false, true);
   }
   //重置内容检测开关
   STORE_editor_instance.Reset_editor_isChanged();

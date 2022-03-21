@@ -48,7 +48,7 @@ import Others from './Others.vue';
   user-select: none;
   color: #909090;
   font-size: 13px;
-  margin-top: -2px;
+  margin-top: 0px;
 }
 
 .pref_desc_table {
@@ -98,6 +98,10 @@ import Others from './Others.vue';
     flex-direction: column;
     align-items: flex-end;
   }
+}
+
+.el-dialog__header span {
+  user-select: none;
 }
 
 p {

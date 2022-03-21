@@ -29,7 +29,7 @@ async function createWindow() {
     height: 800,
     frame: false,
     titleBarStyle: 'hiddenInset',
-    titleBarOverlay: true,
+    // titleBarOverlay: true,
   });
 
   win?.webContents.openDevTools({ mode: 'detach' });

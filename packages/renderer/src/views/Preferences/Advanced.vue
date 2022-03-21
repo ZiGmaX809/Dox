@@ -1,11 +1,7 @@
 <template>
   <h2 class="pref_h2">高级</h2>
   <el-divider />
-  <div class="pref_div">
-    <p class="pref_p">本地资源文件夹</p>
-    <el-button size="small" @click="open_cachefile()">打开</el-button>
-  </div>
-  <p class="pref_desc_p">本地保存行政区划地址信息、法律法规文件等的文件夹。</p>
+
   <div class="pref_div">
     <p class="pref_p">离线功能</p>
     <div class="div_class_center">
@@ -46,6 +42,11 @@
       }}；
     </p>
   </div>
+  <div class="pref_div">
+    <p class="pref_p">本地资源文件夹</p>
+    <el-button size="small" @click="open_cachefile()">打开</el-button>
+  </div>
+  <p class="pref_desc_p">本地保存行政区划地址信息、法律法规文件等的文件夹。</p>
 </template>
 
 <script setup lang="ts">

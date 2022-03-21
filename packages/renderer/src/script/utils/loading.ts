@@ -12,7 +12,7 @@ let loadingInstance: any;
 
 // 编写一个显示loading的函数 并且记录请求次数 ++
 const showLoading = (txt: string) => {
-  console.log("调用1次loading")
+  // console.log("调用1次loading")
   if (loadingRequestCount === 0) {
     loadingInstance = ElLoading.service({
       fullscreen: true,
@@ -25,7 +25,7 @@ const showLoading = (txt: string) => {
 
 // 编写一个隐藏loading的函数，并且记录请求次数 --
 const hideLoading = () => {
-  console.log("调用1次hidesloading")
+  // console.log("调用1次hidesloading")
   if (loadingRequestCount <= 0) return;
   loadingRequestCount--;
   if (loadingRequestCount === 0) {

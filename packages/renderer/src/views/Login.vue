@@ -51,10 +51,10 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import qs from 'qs';
 import { HTTP_checkuserinfo, HTTP_checkToken } from '../script/api/apiList';
-import { inject, onMounted, reactive, Ref, ref, watch } from 'vue';
+import { inject, reactive, Ref, ref, watch } from 'vue';
 import { showLoading, hideLoading } from '../script/utils/loading';
 import { STORE_Login } from '../store/modules/login';
 import { Msg } from '../script/utils/message';
