@@ -73,12 +73,13 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
 import { Delete } from '@element-plus/icons-vue';
-import { STORE_Setting } from '../../store/modules/setting';
-import { STORE_System } from '../../store/modules/system';
-import { scan_allfiles } from '../../script/utils/scanfolder';
-import { Msg } from '../../script/utils/message';
-import { Load_Local_Files } from '../../script/utils/handlefiles';
-import ImportFile from '../../components/ImportFile.vue';
+import { STORE_Setting } from '/store/modules/setting';
+import { STORE_System } from '/store/modules/system';
+import { scan_allfiles } from '/utils/scanfolder';
+import { Load_Local_Files } from '/utils/handlefiles';
+import { Msg } from '/utils/message';
+
+import ImportFile from '/components/ImportFile.vue';
 
 const STORE_setting_instance = STORE_Setting();
 const STORE_system_instance = STORE_System();

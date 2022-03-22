@@ -212,19 +212,22 @@
 </template>
 
 <script setup lang="ts">
-import type { ElScrollbar } from 'element-plus';
-import tinymce from '../../components/TEditor.vue';
-import EllipsisTooltip from '../../components/EllipsisTooltip.vue';
 import { ref, nextTick, inject, reactive, computed } from 'vue';
+import type { ElScrollbar } from 'element-plus';
 import { EditPen, Close, StarFilled } from '@element-plus/icons-vue';
-import { quick_input_introduction } from '../../script/utils/introduction';
-import { date_format, quickinput } from '../../script/utils/quickinput';
-import { exportWord } from '../../script/utils/exportWord';
-import { STORE_Editor } from '../../store/modules/editor';
-import { STORE_Setting } from '../../store/modules/setting';
-import { STORE_Clipboard } from '../../store/modules/clipboard';
-import { integrate_info } from '../../script/utils/integrateinfo';
-import { STORE_Request } from '../../store/modules/request';
+
+import { STORE_Editor } from '/store/modules/editor';
+import { STORE_Request } from '/store/modules/request';
+import { STORE_Setting } from '/store/modules/setting';
+import { STORE_Clipboard } from '/store/modules/clipboard';
+
+import tinymce from '/components/TEditor.vue';
+import EllipsisTooltip from '/components/EllipsisTooltip.vue';
+
+import { exportWord } from '/utils/exportWord';
+import { integrate_info } from '/utils/integrateinfo';
+import { date_format, quickinput } from '/utils/quickinput';
+import { quick_input_introduction } from '/utils/introduction';
 
 const STORE_editor_instance = STORE_Editor();
 const STORE_setting_instance = STORE_Setting();

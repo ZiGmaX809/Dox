@@ -53,14 +53,14 @@
 
 <script setup lang="ts">
 import qs from 'qs';
-import { HTTP_checkuserinfo, HTTP_checkToken } from '../script/api/apiList';
 import { inject, reactive, Ref, ref, watch } from 'vue';
-import { showLoading, hideLoading } from '../script/utils/loading';
-import { STORE_Login } from '../store/modules/login';
-import { Msg } from '../script/utils/message';
-import { STORE_Setting } from '../store/modules/setting';
-import { REQUEST_get_caselist } from '../script/request/caselist';
-import LottieJSON from '../assets/lottie/Rocket.json';
+import LottieJSON from '@/assets/lottie/Rocket.json';
+import { REQUEST_get_caselist } from '/script/request/caselist';
+import { HTTP_checkuserinfo, HTTP_checkToken } from '/script/api/apiList';
+import { STORE_Login } from '/store/modules/login';
+import { STORE_Setting } from '/store/modules/setting';
+import { Msg } from '/utils/message';
+import { showLoading, hideLoading } from '/utils/loading';
 
 const STORE_login_instance = STORE_Login();
 

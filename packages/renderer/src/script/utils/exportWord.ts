@@ -13,7 +13,6 @@ import {
 } from 'docx';
 import { STORE_Setting } from '../../store/modules/setting';
 import { Msg } from './message';
-import { Save_File_From_Blob } from './handlefiles';
 
 /**
  *
@@ -282,12 +281,11 @@ export const exportWord = async (
   // });
 
   Packer.toBlob(doc).then(async blob => {
-    const result: string[] = await Save_File_From_Blob(
-      blob,
-      STORE_Setting().exportfile_path,
-      ah + '.docx'
-    );
-    Msg(ah + "导出" + result[1], result[0]);
+    const Path = STORE_Setting().exportfile_path;
+    const Name = ah + '.docx';
+
+    const result: string[] = window.Export_File(blob, Path, Name);
+    Msg(ah + '导出' + result[1], result[0]);
   });
 };
 

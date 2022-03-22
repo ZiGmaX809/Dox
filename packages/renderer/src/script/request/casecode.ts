@@ -1,6 +1,5 @@
-import { STORE_Login } from "../../store/modules/login";
-import { HTTP_getCodeList } from "../api/apiList";
-import { getItem, setItem } from "../utils/storage";
+import { STORE_Login } from "/store/modules/login";
+import { HTTP_getCodeList } from "/script/api/apiList";
 
 /**
  * 暂时弃用

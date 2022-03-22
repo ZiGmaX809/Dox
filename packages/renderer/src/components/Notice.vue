@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import "element-plus/dist/index.css";
-import { STORE_Request } from "../store/modules/request";
+import { STORE_Request } from "/store/modules/request";
 
 const res = ref(0);
 const success_num = ref(0);

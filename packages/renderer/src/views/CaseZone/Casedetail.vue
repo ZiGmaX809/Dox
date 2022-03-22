@@ -87,8 +87,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { STORE_Editor } from "../../store/modules/editor";
-import { STORE_Request } from "../../store/modules/request";
+import { STORE_Editor } from "/store/modules/editor";
+import { STORE_Request } from "/store/modules/request";
 
 const STORE_editor_instance = STORE_Editor();
 

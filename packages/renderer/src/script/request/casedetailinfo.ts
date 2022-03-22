@@ -1,8 +1,8 @@
-import { STORE_Request } from '../../store/modules/request';
-import { STORE_Login } from '../../store/modules/login';
-import { STORE_System } from '../../store/modules/system';
-import { HTTP_getCaseDetail } from '../api/apiList';
-import { STORE_Setting } from '../../store/modules/setting';
+import { HTTP_getCaseDetail } from '/script/api/apiList';
+import { STORE_Login } from '/store/modules/login';
+import { STORE_System } from '/store/modules/system';
+import { STORE_Request } from '/store/modules/request';
+import { STORE_Setting } from '/store/modules/setting';
 
 /**
  * 通过案号代码获取案件详细信息

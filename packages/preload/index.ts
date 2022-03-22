@@ -1,9 +1,9 @@
-import fs from "fs";
-import { clipboard, contextBridge, ipcRenderer, shell } from "electron";
-import path from "path";
-import { domReady } from "./utils";
-import { useLoading } from "./loading";
-import { Copy, Move, Remove } from "../main/utils/FileOperation";
+import fs from 'fs';
+import { clipboard, contextBridge, ipcRenderer, shell } from 'electron';
+import path from 'path';
+import { domReady } from './utils';
+import { useLoading } from './loading';
+import  * as FileOperation from '../main/utils/FileOperation';
 
 const { appendLoading, removeLoading } = useLoading();
 
@@ -14,15 +14,17 @@ const { appendLoading, removeLoading } = useLoading();
 })();
 
 // --------- Expose some API to the Renderer process. ---------
-contextBridge.exposeInMainWorld("fs", fs);
-contextBridge.exposeInMainWorld("removeLoading", removeLoading);
-contextBridge.exposeInMainWorld("shell", shell);
-contextBridge.exposeInMainWorld("path", path);
-contextBridge.exposeInMainWorld("clipboard", clipboard);
-contextBridge.exposeInMainWorld("Romove", Remove);
-contextBridge.exposeInMainWorld("Copy", Copy);
-contextBridge.exposeInMainWorld("Move", Move);
-contextBridge.exposeInMainWorld("ipcRenderer", withPrototype(ipcRenderer));
+contextBridge.exposeInMainWorld('fs', fs);
+contextBridge.exposeInMainWorld('removeLoading', removeLoading);
+contextBridge.exposeInMainWorld('shell', shell);
+contextBridge.exposeInMainWorld('path', path);
+contextBridge.exposeInMainWorld('clipboard', clipboard);
+contextBridge.exposeInMainWorld('Romove', FileOperation.Remove);
+contextBridge.exposeInMainWorld('Copy', FileOperation.Copy);
+contextBridge.exposeInMainWorld('Move', FileOperation.Move);
+contextBridge.exposeInMainWorld('Export_File', FileOperation.Export_File);
+contextBridge.exposeInMainWorld('Select_FileOrFolder', FileOperation.Select_FileOrFolder);
+contextBridge.exposeInMainWorld('ipcRenderer', withPrototype(ipcRenderer));
 
 // `exposeInMainWorld` can't detect attributes and methods of `prototype`, manually patching it.
 function withPrototype(obj: Record<string, any>) {
@@ -31,7 +33,7 @@ function withPrototype(obj: Record<string, any>) {
   for (const [key, value] of Object.entries(protos)) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) continue;
 
-    if (typeof value === "function") {
+    if (typeof value === 'function') {
       // Some native APIs, like `NodeJS.EventEmitter['on']`, don't work in the Renderer process. Wrapping them into a function.
       obj[key] = function (...args: any) {
         return value.call(obj, ...args);

@@ -1,11 +1,11 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import Casezone from '@/views/CaseZone/index.vue';
-import Home from '@/views/Home.vue';
-import Search from '@/views/Search.vue';
-import Preferences from '@/views/Preferences/index.vue';
-import Template from '@/views/Template.vue';
 import { ElMessageBox } from 'element-plus';
-import { STORE_Editor } from '../store/modules/editor';
+import Home from '/views/Home.vue';
+import Search from '/views/Search.vue';
+import Template from '/views/Template.vue';
+import Casezone from '/views/CaseZone/index.vue';
+import Preferences from '/views/Preferences/index.vue';
+import { STORE_Editor } from '/store/modules/editor';
 
 const Router = createRouter({
   history: createWebHashHistory(),

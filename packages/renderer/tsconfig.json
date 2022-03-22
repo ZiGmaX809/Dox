@@ -14,9 +14,12 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@store/*": ["src/store/*"],
-      "@public/*": ["src/public/*"],
-      "@utils/*": ["src/script/utils/*"]
+      "/public/*": ["public/*"],
+      "/store/*": ["src/store/*"],
+      "/script/*": ["src/script/*"],
+      "/components/*": ["src/components/*"],
+      "/views/*": ["src/views/*"],
+      "/utils/*": ["src/script/utils/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]

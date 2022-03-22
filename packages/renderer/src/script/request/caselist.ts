@@ -1,6 +1,6 @@
-import { HTTP_getmyCaseList } from "../api/apiList";
-import { STORE_Login } from "../../store/modules/login";
-import { STORE_Request } from "../../store/modules/request";
+import { HTTP_getmyCaseList } from "/script/api/apiList";
+import { STORE_Login } from "/store/modules/login";
+import { STORE_Request } from "/store/modules/request";
 
 /**
  * 拉取当前账户审理案件列表

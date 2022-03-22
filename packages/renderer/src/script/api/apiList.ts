@@ -1,4 +1,4 @@
-import http from "../utils/http";
+import http from "/utils/http";
 
 /**
  * 外部调用方法

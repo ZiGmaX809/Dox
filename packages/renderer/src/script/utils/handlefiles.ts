@@ -1,27 +1,4 @@
-import { ipcMsg_Export_File, ipcMsg_Select_FileOrFolder } from './ipcmessage';
-
-/**
- *
- * @param blob 需要保存的二进制文件
- * @param savepath 保存路径
- * @param savename 保存名称
- */
-export const Save_File_From_Blob = async (blob: Blob, savepath: string, savename: string) => {
-  if (savepath && savename && blob.size > 0) {
-    let reader = new FileReader();
-    reader.readAsArrayBuffer(blob);
-    reader.onload = async result => {
-      await ipcMsg_Export_File({
-        WordFile: result.target?.result,
-        SavePath: savepath,
-        SaveName: savename,
-      });
-    };
-    return ['success', '成功！'];
-  } else {
-    return ['error', '参数错误！'];
-  }
-};
+import { OpenDialogSyncOptions } from 'electron';
 
 /**
  * 读取本地图片并返回一个相应callback类型的Promise
@@ -29,7 +6,8 @@ export const Save_File_From_Blob = async (blob: Blob, savepath: string, savename
  * @param _cbty callback类型['base64'|'blob']
  * @returns
  */
-export const Load_Image_To_Base64 = (obj: string | Blob) => {
+export /** */
+ const Load_Image_To_Base64 = (obj: string | Blob) => {
   let blob: Blob;
   if (typeof obj == 'string') {
     const buffer = window.fs.readFileSync(obj);
@@ -54,7 +32,7 @@ export const Load_Image_To_Base64 = (obj: string | Blob) => {
  * @param encoding （可选）读取文件编码
  * @returns 读取结果
  */
-export const Load_Local_Files = async (
+export const Load_Local_Files = (
   path?: string,
   filter?: any[],
   encoding?: { encoding: BufferEncoding }
@@ -71,9 +49,40 @@ export const Load_Local_Files = async (
   if (path) {
     return window.fs.readFileSync(path, encoding_);
   } else {
-    const res_path = await ipcMsg_Select_FileOrFolder(['openFile'], fileter_);
+    const res_path = Select_FileOrFolder(['openFile'], fileter_);
     if (res_path) {
       return window.fs.readFileSync(res_path[0], encoding_);
     }
+  }
+};
+
+/**
+ * 选择文件并返回结果
+ * @param filter 过滤器 { filters: [{ name: 'JSON',extensions: ['json'] }]}
+ * @param properties dialog类型：['openFile','openDirectory']
+ * @returns 文件内容
+ */
+export const Select_FileOrFolder = (
+  properties: (
+    | 'openFile'
+    | 'openDirectory'
+    | 'multiSelections'
+    | 'showHiddenFiles'
+    | 'createDirectory'
+    | 'promptToCreate'
+    | 'noResolveAliases'
+    | 'treatPackageAsDirectory'
+    | 'dontAddToRecent'
+  )[],
+  filters?: any[]
+) => {
+  const options: OpenDialogSyncOptions = {
+    filters: filters,
+    properties: properties,
+  };
+  const res_path = window.Select_FileOrFolder(options);
+
+  if (res_path) {
+    return res_path;
   }
 };

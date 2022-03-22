@@ -52,13 +52,16 @@
 <script setup lang="ts">
 import { computed, h, reactive } from 'vue';
 import { ElNotification } from 'element-plus';
-import { STORE_Setting } from '../../store/modules/setting';
-import { STORE_System } from '../../store/modules/system';
-import { STORE_Request } from '../../store/modules/request';
-import { REQUEST_get_ALL_casedetailinfo } from '../../script/request/casedetailinfo';
-import { delay } from '../../script/utils/delay';
-import { Msg } from '../../script/utils/message';
-import Notice from '../../components/Notice.vue';
+
+import { STORE_System } from '/store/modules/system';
+import { STORE_Setting } from '/store/modules/setting';
+import { STORE_Request } from '/store/modules/request';
+
+import { REQUEST_get_ALL_casedetailinfo } from '/script/request/casedetailinfo';
+
+import { delay } from '/utils/delay';
+import { Msg } from '/utils/message';
+import Notice from '/components/Notice.vue';
 
 const STORE_setting_instance = STORE_Setting();
 const STORE_system_instance = STORE_System();

@@ -53,10 +53,10 @@
 import 'vue-cropper/dist/index.css';
 import { VueCropper } from 'vue-cropper';
 import { inject, reactive, ref } from 'vue';
-import { STORE_System } from '../store/modules/system';
-import { Load_Image_To_Base64, Save_File_From_Blob } from '../script/utils/handlefiles';
-import { Msg } from '../script/utils/message';
-import { ipcMsg_Select_FileOrFolder } from '../script/utils/ipcmessage';
+import { STORE_System } from '/store/modules/system';
+
+import { Msg } from '/utils/message';
+import { Load_Image_To_Base64, Select_FileOrFolder } from '/utils/handlefiles';
 
 /* vue-cropper DOM */
 const cropper = ref();
@@ -90,14 +90,14 @@ const options: cropperInter = reactive({
   enlarge: 0.9999,
 });
 
-const select_pic = async () => {
+const select_pic = () => {
   const filter = [
     {
       name: '图片',
       extensions: ['jpeg', 'jpg', 'png'],
     },
   ];
-  const select_image_path = await ipcMsg_Select_FileOrFolder(['openFile'], filter);
+  const select_image_path = Select_FileOrFolder(['openFile'], filter);
   if (select_image_path) {
     Load_Image_To_Base64(select_image_path[0]).then(res => {
       options.img = res;
@@ -115,13 +115,9 @@ const emit = defineEmits(['dialog_close']);
 
 const save_pic = () => {
   if (cropper.value) {
-    cropper.value!.getCropBlob(async (blob: any) => {
+    cropper.value!.getCropBlob((blob: any) => {
       const custom_avatar_path = `${STORE_System().CacheFile_Path}/images/`;
-      const result: string[] = await Save_File_From_Blob(
-        blob,
-        custom_avatar_path,
-        'useravatar.jpg'
-      );
+      const result: string[] = window.Export_File(blob, custom_avatar_path, 'useravatar.jpg');
       Msg('保存' + result[1], result[0]);
       emit('dialog_close');
       setTimeout(() => {

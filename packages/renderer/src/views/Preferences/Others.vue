@@ -23,9 +23,9 @@
 
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { Load_Local_Files } from '../../script/utils/handlefiles';
-import { ipcMsg_Get_Path } from '../../script/utils/ipcmessage';
-import { Msg } from '../../script/utils/message';
+import { Load_Local_Files } from '/utils/handlefiles';
+import { ipcMsg_Get_Path } from '/utils/ipcmessage';
+import { Msg } from '/utils/message';
 
 //导出&导入缓存
 const export_localstorage = async () => {

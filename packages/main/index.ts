@@ -2,7 +2,6 @@ import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { release } from 'os';
 import fs from 'fs';
 import { join } from 'path';
-import { Buffer } from 'buffer';
 import { Copy } from './utils/FileOperation';
 
 // Disable GPU Acceleration for Windows 7
@@ -89,22 +88,6 @@ ipcMain.on('Restart', e => {
 
 ipcMain.handle('Get_Path', async (event, arg) => {
   return app.getPath(arg);
-});
-
-ipcMain.handle('Select_FileOrFolder', async (event, properties, filters) => {
-  const res = dialog.showOpenDialogSync({
-    filters: filters,
-    properties: properties,
-  });
-  return res;
-});
-
-ipcMain.handle('Export_File', async (event, arg) => {
-  const wordFile = arg.WordFile;
-  const savePath = arg.SavePath ?? '';
-  const saveName = arg.SaveName;
-  const buff = Buffer.from(wordFile as ArrayBuffer);
-  fs.writeFileSync(savePath + saveName, buff);
 });
 
 app.on('window-all-closed', () => {

@@ -103,19 +103,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, nextTick, Ref, provide } from 'vue';
-import { Cloudy, InfoFilled, Refresh, Postcard, EditPen } from '@element-plus/icons-vue';
-import { HTTP_checkToken } from '../../script/api/apiList';
-import { getItem } from '../../script/utils/storage';
-import { REQUEST_get_casedetailinfo } from '../../script/request/casedetailinfo';
+import { ref, inject, nextTick, Ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { STORE_Login } from '../../store/modules/login';
-import { STORE_Editor } from '../../store/modules/editor';
-import { STORE_Request } from '../../store/modules/request';
-import { Msg } from '../../script/utils/message';
+import { Cloudy, InfoFilled, Refresh, Postcard, EditPen } from '@element-plus/icons-vue';
 
-import Casedetail from './Casedetail.vue';
+import { HTTP_checkToken } from '/script/api/apiList';
+import { REQUEST_get_casedetailinfo } from '/script/request/casedetailinfo';
+
+import { Msg } from '/utils/message';
+import { getItem } from '/utils/storage';
+
+import { STORE_Login } from '/store/modules/login';
+import { STORE_Editor } from '/store/modules/editor';
+import { STORE_Request } from '/store/modules/request';
+
 import Editor from './Caseeditor.vue';
+import Casedetail from './Casedetail.vue';
 
 const STORE_login_instance = STORE_Login();
 const STORE_editor_instance = STORE_Editor();

@@ -29,9 +29,9 @@
 import { ElUpload } from 'element-plus';
 import { ref } from 'vue';
 import Nzh from 'nzh';
-import { Msg } from '../script/utils/message';
-import { STORE_System } from '../store/modules/system';
-import { STORE_Setting } from '../store/modules/setting';
+import { Msg } from '/utils/message';
+import { STORE_System } from '/store/modules/system';
+import { STORE_Setting } from '/store/modules/setting';
 
 const upload = ref<InstanceType<typeof ElUpload>>();
 const input = ref();

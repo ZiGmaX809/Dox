@@ -92,15 +92,16 @@ import '@/assets/css/global.scss';
 import { Ref, ref, nextTick, provide } from 'vue';
 import { Files, Search, Document, Setting } from '@element-plus/icons-vue';
 
-import loginpage from './views/Login.vue';
-import ClipboardObserver from './script/utils/clipboardmoni';
+import loginpage from '/views/Login.vue';
 
-import { STORE_Setting } from '@store/modules/setting';
-import { STORE_Editor } from '@store/modules/editor';
-import { STORE_Clipboard } from '@store/modules/clipboard';
-import { STORE_Login } from '@store/modules/login';
-import { STORE_System } from '@store/modules/system';
-import { Load_Image_To_Base64 } from '@utils/handlefiles';
+import { STORE_Login } from '/store/modules/login';
+import { STORE_Editor } from '/store/modules/editor';
+import { STORE_System } from '/store/modules/system';
+import { STORE_Setting } from '/store/modules/setting';
+import { STORE_Clipboard } from '/store/modules/clipboard';
+
+import ClipboardObserver from '/utils/clipboardmoni';
+import { Load_Image_To_Base64 } from '/utils/handlefiles';
 
 const STORE_editor_instance = STORE_Editor();
 const STORE_setting_instance = STORE_Setting();

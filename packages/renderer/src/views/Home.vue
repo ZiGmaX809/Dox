@@ -133,10 +133,11 @@
 <script setup lang="ts">
 import { ref, inject, reactive, Ref } from "vue";
 import { Refresh } from "@element-plus/icons-vue";
-import { REQUEST_get_caselist } from "../script/request/caselist";
-import { STORE_Request } from "../store/modules/request";
-import { STORE_Login } from "../store/modules/login";
-import { Msg } from "../script/utils/message";
+
+import { REQUEST_get_caselist } from "/script/request/caselist";
+import { STORE_Request } from "/store/modules/request";
+import { STORE_Login } from "/store/modules/login";
+import { Msg } from "/utils/message";
 
 const reload: { reload: () => void } = inject("reload")!;
 

@@ -100,9 +100,9 @@
         </p></template>
 
 <script setup lang="ts">
-import { handleChange_num } from '../../script/utils/settings';
 import { computed, ref } from 'vue';
-import { STORE_Setting } from '../../store/modules/setting';
+import { handleChange_num } from '/utils/settings';
+import { STORE_Setting } from '/store/modules/setting';
 
 const STORE_setting_instance = STORE_Setting();
 
