@@ -22,9 +22,9 @@
 </template>
 
 <script setup lang="ts">
+import { STORE_System } from '@/store/modules/system';
 import { ElMessageBox } from 'element-plus';
 import { Load_Local_Files } from '/utils/handlefiles';
-import { ipcMsg_Get_Path } from '/utils/ipcmessage';
 import { Msg } from '/utils/message';
 
 //导出&导入缓存
@@ -39,7 +39,7 @@ const export_localstorage = async () => {
   }
   const final_json = Object.fromEntries(arr_text);
 
-  const downloads_path = await ipcMsg_Get_Path('downloads');
+  const downloads_path = STORE_System().Download_Path;
 
   if (downloads_path) {
     const file_fullpath = `${downloads_path}/export_${now.getTime()}.json`;
