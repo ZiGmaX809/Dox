@@ -15,7 +15,7 @@
             size="small"
             type="danger"
             :icon="Delete"
-            @click="handleDelete(scope.$index)"
+            @click="Delete_Lawfile(scope.$index)"
           ></el-button>
         </template>
       </el-table-column>
@@ -26,7 +26,7 @@
     <p class="pref_p">引入新的法律法规文件</p>
     <el-button size="small" @click="ImportFileDialogVisible = true">引入</el-button>
     <el-dialog v-model="ImportFileDialogVisible" title="引入新文件">
-      <ImportFile @dialog_close="close_dialog" />
+      <ImportFile />
     </el-dialog>
   </div>
   <p class="pref_desc_p">
@@ -38,7 +38,7 @@
     <br />
     <br />
     下载法律法规:
-    <el-link type="success" class="pref_desc_p" @click="copy_url(law_url)">
+    <el-link type="success" class="pref_desc_p" @click="Copy_Url(law_url)">
       {{ law_url }}
     </el-link>
     (北大法宝中国法律法规数据库，需互联网下载后导入)
@@ -53,8 +53,8 @@
     的导入，其他指导性文件、意见暂不支持。
   </p>
   <div class="pref_div">
-    <p class="pref_p">行政区划地址信息（更新时间：{{ pca_update_time() }}）</p>
-    <el-button size="small" @click="import_pcafile()">选择文件并更新</el-button>
+    <p class="pref_p">行政区划地址信息（更新时间：{{ pca_Update_Time() }}）</p>
+    <el-button size="small" @click="Import_pcafile()">选择文件并更新</el-button>
   </div>
   <p class="pref_desc_p">
     地域范围为国家统计局开展统计调查的全国31个省、自治区、直辖市，
@@ -62,7 +62,7 @@
     未包括我国台湾省、香港特别行政区、澳门特别行政区。
     <br />
     项目更新地址：
-    <el-link type="success" class="pref_desc_p" @click="copy_url(pca_url)" name="ajsh">
+    <el-link type="success" class="pref_desc_p" @click="Copy_Url(pca_url)" name="ajsh">
       {{ pca_url }}
     </el-link>
     <br />
@@ -71,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { Delete } from '@element-plus/icons-vue';
 import { STORE_Setting } from '../../store/modules/setting';
 import { STORE_System } from '../../store/modules/system';
@@ -93,13 +93,9 @@ const tableData = reactive({
   list: STORE_setting_instance.lawfilelist,
 });
 
-const copy_url = (url: string) => {
+const Copy_Url = (url: string) => {
   window.clipboard.writeText(url);
   Msg('已复制', 'success');
-};
-
-const close_dialog = () => {
-  ImportFileDialogVisible.value = false;
 };
 
 const Refresh_lawfiles = async () => {
@@ -110,22 +106,24 @@ const Refresh_lawfiles = async () => {
   }, 300);
 };
 
+
+
 //删除引入的法律法规
-const handleDelete = (index: number) => {
+const Delete_Lawfile = (index: number) => {
   console.log(STORE_Setting().lawfilelist[index]);
 };
 
 //行政区划信息更新
-const pca_update_time = () => {
+const pca_Update_Time = () => {
   const data = window.fs.statSync(STORE_system_instance.CacheFile_Path + '/divisions/pca.json');
   return data.ctime.toLocaleDateString();
 };
 
 /** 导入行政区划信息 */
-const import_pcafile = async () => {
+const Import_pcafile = async () => {
   const File_Result = await Load_Local_Files();
   if (File_Result) {
-    const bool = JSON.parse(File_Result)['北京市'] != undefined ? true : false;
+    const bool = JSON.parse(File_Result)['北京市'] != undefined ? true : false; //校验文件
     if (bool) {
       window.fs.writeFileSync(
         STORE_system_instance.CacheFile_Path + '/divisions/pca.json',
@@ -136,4 +134,8 @@ const import_pcafile = async () => {
     Msg(bool ? '已成功导入行政区划文件' : '导入失败，请校验文件！', bool ? 'success' : 'error');
   }
 };
+
+// onMounted(() => {
+  
+// }),
 </script>

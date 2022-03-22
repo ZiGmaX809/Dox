@@ -24,8 +24,10 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      '/public': path.resolve(__dirname, './public'),
+      '@': path.resolve(__dirname, 'src'),
+      '@public': path.resolve(__dirname, 'src/public'),
+      '@store': path.resolve(__dirname, 'src/store'),
+      '@utils': path.resolve(__dirname,'src/script/utils')
     },
   },
   base: './',
@@ -51,12 +53,13 @@ export default defineConfig({
  * For usage of Electron and NodeJS APIs in the Renderer process
  * @see https://github.com/caoxiemeihao/electron-vue-vite/issues/52
  */
-export function resolveElectron(resolves: Parameters<typeof resolve>[0] = {}): Plugin {
+export function resolveElectron(resolves: Parameters<typeof resolve>[0] = {}): Plugin[] {
   const builtins = builtinModules.filter(t => !t.startsWith('_'));
 
   /**
    * @see https://github.com/caoxiemeihao/vite-plugins/tree/main/packages/resolve#readme
    */
+
   return resolve({
     electron: electronExport(),
     ...builtinModulesExport(builtins),

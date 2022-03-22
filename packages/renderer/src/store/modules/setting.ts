@@ -21,7 +21,7 @@ interface SettingState {
   offline_bool: boolean;
   offline_time: string;
   offline_timestamp: number;
-  lawfilelist: string[];
+  lawfilelist: any[];
 }
 
 export const STORE_Setting = defineStore({
@@ -81,6 +81,9 @@ export const STORE_Setting = defineStore({
     },
     Change_lawfilelist(list: any[]) {
       this.lawfilelist = list;
+    },
+    Add_lawfile(data:{}){
+      this.lawfilelist.push(data);
     },
     Switch_writeSystemClipboard_bool(bool: boolean) {
       this.writeSystemClipboard_bool = bool;

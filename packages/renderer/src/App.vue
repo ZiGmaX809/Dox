@@ -95,12 +95,12 @@ import { Files, Search, Document, Setting } from '@element-plus/icons-vue';
 import loginpage from './views/Login.vue';
 import ClipboardObserver from './script/utils/clipboardmoni';
 
-import { STORE_Setting } from './store/modules/setting';
-import { STORE_Editor } from './store/modules/editor';
-import { STORE_Clipboard } from './store/modules/clipboard';
-import { STORE_Login } from './store/modules/login';
-import { STORE_System } from './store/modules/system';
-import { Load_Image_To_Base64 } from './script/utils/handlefiles';
+import { STORE_Setting } from '@store/modules/setting';
+import { STORE_Editor } from '@store/modules/editor';
+import { STORE_Clipboard } from '@store/modules/clipboard';
+import { STORE_Login } from '@store/modules/login';
+import { STORE_System } from '@store/modules/system';
+import { Load_Image_To_Base64 } from '@utils/handlefiles';
 
 const STORE_editor_instance = STORE_Editor();
 const STORE_setting_instance = STORE_Setting();

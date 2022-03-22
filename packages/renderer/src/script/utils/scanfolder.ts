@@ -1,3 +1,5 @@
+import { STORE_Setting } from "@/store/modules/setting";
+import { STORE_System } from "@/store/modules/system";
 import { Stats } from "original-fs";
 
 /**
@@ -63,3 +65,13 @@ export const scan_filesnum = async (folderpath: string) => {
   });
   return num;
 };
+
+
+export async function Scan_Lawfiles () {
+  const final_list = await scan_allfiles(`${STORE_System().CacheFile_Path}/lawfiles`);
+  setTimeout(() => {
+    STORE_Setting().Change_lawfilelist(final_list);
+    return  final_list;
+    
+  }, 300);
+}
