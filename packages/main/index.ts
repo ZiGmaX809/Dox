@@ -71,23 +71,26 @@ async function add_userData() {
 
 app.whenReady().then(add_userData).then(createWindow);
 
-ipcMain.on('Min', e => win?.minimize());
-ipcMain.on('Max', e => {
+ipcMain.on('Min', _e => win?.minimize());
+ipcMain.on('Max', _e => {
   if (win?.isMaximized()) {
     win.unmaximize();
   } else {
     win?.maximize();
   }
 });
-ipcMain.on('Close', e => app.quit());
+ipcMain.on('Close', _e => app.quit());
 
-ipcMain.on('Restart', e => {
+ipcMain.on('Restart', _e => {
   app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) });
   app.exit(0);
 });
 
-ipcMain.handle('Get_Path', async (event, arg) => {
-  return app.getPath(arg);
+ipcMain.handleOnce('Get_Path', (_event, path_list: string[]): string[] => {
+  type pathtype = 'userData' | 'documents' | 'downloads';
+  return path_list.map(path => {
+    return app.getPath(path as pathtype);
+  });
 });
 
 app.on('window-all-closed', () => {

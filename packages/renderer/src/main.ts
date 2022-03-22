@@ -25,9 +25,8 @@ createApp(App)
 //   console.log("[Receive Main-process message]:", ...args);
 // });
 if (STORE_Setting().first_launch) {
-  STORE_System().Set_CacheFile_Path(
-    (await ipcMsg_Get_Path('userData')).replace(/\s/g, '') + '/CacheFiles'
-  );
-  STORE_Setting().Set_exportfile_path(await ipcMsg_Get_Path('documents'));
+  const path_list = ['userData', 'documents', 'downloads'];
+  const paths = await ipcMsg_Get_Path(path_list);
+  STORE_System().Set_LocalFolder_Path(paths);
   STORE_Setting().first_launch = false;
 }
