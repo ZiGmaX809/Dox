@@ -16,7 +16,7 @@ export const STORE_System = defineStore({
   },
   actions: {
     Set_LocalFolder_Path(pathlist: string[]) {
-      this.CacheFile_Path = pathlist[0];
+      this.CacheFile_Path = pathlist[0].replace(/\s/g, '') + '/CacheFiles';
       this.Download_Path = pathlist[1];
       STORE_Setting().Set_exportfile_path(pathlist[2]);
     },

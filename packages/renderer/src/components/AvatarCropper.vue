@@ -90,16 +90,16 @@ const options: cropperInter = reactive({
   enlarge: 0.9999,
 });
 
-const select_pic = () => {
+const select_pic = async () => {
   const filter = [
     {
       name: '图片',
       extensions: ['jpeg', 'jpg', 'png'],
     },
   ];
-  const select_image_path = Select_FileOrFolder(['openFile'], filter);
+  const  select_image_path = await Select_FileOrFolder(['openFile'], filter);
   if (select_image_path) {
-    Load_Image_To_Base64(select_image_path[0]).then(res => {
+    Load_Image_To_Base64(select_image_path).then(res => {
       options.img = res;
       save_disabled.value = false;
     });

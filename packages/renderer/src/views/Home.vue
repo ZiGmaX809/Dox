@@ -142,7 +142,7 @@ import { Msg } from "/utils/message";
 const reload: { reload: () => void } = inject("reload")!;
 
 const mycaselist = reactive(STORE_Request().MyCaseList);
-const drawer: Ref<boolean> = inject("drawer") ?? ref(false); //登录抽屉界面
+const drawer: Ref<boolean> = inject("drawer")!; //登录抽屉界面
 
 const currentPage = ref(1);
 const pagesize = ref(20);

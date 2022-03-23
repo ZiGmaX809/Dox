@@ -139,7 +139,7 @@ const set_avatar_src = () => {
   } else {
     const babg_avatar_url = STORE_Login().Avatar;
     if (!babg_avatar_url) {
-      avatar_src.value = new URL('./images/fail.png', import.meta.url).href;
+      avatar_src.value = new URL('../public/images/fail.png', import.meta.url).href;
     } else {
       avatar_src.value = babg_avatar_url;
     }

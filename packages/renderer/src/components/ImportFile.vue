@@ -1,4 +1,3 @@
-: any: any: any: anyimport { STORE_Setting } from '../store/modules/setting';
 <template>
   <el-upload
     ref="upload"
@@ -8,6 +7,7 @@
     :auto-upload="false"
     :on-change="handleSelected"
     :on-remove="handleRemove"
+    :on-exceed="handleExceed"
     :http-request="uploadHandler"
   >
     <template #trigger>
@@ -19,7 +19,7 @@
     <el-input size="small" v-model="input" placeholder="索引简称" class="upload_class-input" />
     <template #tip>
       <div class="el-upload__tip" style="color: #909090">
-        因为需要设置索引缩写，故只支持单个文件导入，如需导入多个文件请多次执行。
+        因为需要设置索引缩写，所以只支持单个文件导入，如需导入多个文件请多次执行。
       </div>
     </template>
   </el-upload>
@@ -33,7 +33,7 @@ import { Msg } from '/utils/message';
 import { STORE_System } from '/store/modules/system';
 import { STORE_Setting } from '/store/modules/setting';
 
-const upload = ref<InstanceType<typeof ElUpload>>();
+const upload = ref();
 const input = ref();
 const import_btn = ref(true);
 
@@ -43,13 +43,18 @@ const handleSelected = (uploadfile: {}) => {
   }
 };
 
+const handleExceed = (files: any[]) => {
+  upload.value.clearFiles()
+  upload.value.handleStart(files[0])
+}
+
 const handleRemove = () => {
   import_btn.value = true;
 };
 
 const upl = () => {
   // 手动开始上传
-  upload.value!.submit();
+  upload.value.submit();
 };
 
 const uploadHandler: any = (params: {
@@ -64,6 +69,8 @@ const uploadHandler: any = (params: {
     Msg('请输入索引简称', 'error');
   }
 };
+
+
 
 const nzh = Nzh.cn;
 
@@ -145,7 +152,6 @@ const readText = async (params: { file: any; onProgress: any; onSuccess?: any })
 
       //向Store添加条目
       const new_list = {
-        filepath: export_path,
         fullname: filename,
         name: input.value,
       };
@@ -154,7 +160,6 @@ const readText = async (params: { file: any; onProgress: any; onSuccess?: any })
 
       //重置导入插件
       input.value = '';
-      upload.value!.clearFiles();
       import_btn.value = true;
     } else {
       Msg('导入失败，请确认法条格式', 'error');
@@ -172,5 +177,9 @@ const readText = async (params: { file: any; onProgress: any; onSuccess?: any })
     @extend .upload_class;
     width: 200px;
   }
+}
+
+.el-upload__tip {
+  user-select: none;
 }
 </style>

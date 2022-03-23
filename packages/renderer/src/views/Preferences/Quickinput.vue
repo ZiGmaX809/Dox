@@ -6,17 +6,27 @@
     <el-button size="small" @click="Refresh_lawfiles">刷新</el-button>
   </div>
   <p class="pref_desc_table">
-    <el-table :data="tableData.list" border style="width: 100%; max-height: 500px">
+    <el-table
+      :data="tableData.list"
+      border
+      height="400"
+      style="width: 100%; height: 400px"
+      v-if="isReloadLawfilesList"
+    >
       <el-table-column prop="fullname" label="引入文件名称" />
       <el-table-column prop="name" label="索引缩写" width="200" />
       <el-table-column align="center" label="操作" width="80">
         <template #default="scope">
-          <el-button
-            size="small"
-            type="danger"
-            :icon="Delete"
-            @click="Delete_Lawfile(scope.$index)"
-          ></el-button>
+          <el-popconfirm
+            confirm-button-text="确认"
+            cancel-button-text="取消"
+            title="确认删除该文件？"
+            @confirm="Delete_Lawfile(scope.$index)"
+          >
+            <template #reference>
+              <el-button size="small" type="danger" :icon="Delete"></el-button>
+            </template>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -25,7 +35,7 @@
   <div class="pref_div">
     <p class="pref_p">引入新的法律法规文件</p>
     <el-button size="small" @click="ImportFileDialogVisible = true">引入</el-button>
-    <el-dialog v-model="ImportFileDialogVisible" title="引入新文件">
+    <el-dialog v-model="ImportFileDialogVisible" title="引入新法律法规文件">
       <ImportFile />
     </el-dialog>
   </div>
@@ -71,11 +81,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
+import { nextTick, reactive, ref } from 'vue';
 import { Delete } from '@element-plus/icons-vue';
 import { STORE_Setting } from '/store/modules/setting';
 import { STORE_System } from '/store/modules/system';
-import { scan_allfiles } from '/utils/scanfolder';
+import { Scan_Lawfiles } from '/utils/scanfolder';
 import { Load_Local_Files } from '/utils/handlefiles';
 import { Msg } from '/utils/message';
 
@@ -88,6 +98,7 @@ const pca_url = ref('https://github.com/modood/Administrative-divisions-of-China
 const law_url = ref('http://gov.pkulaw.cn/');
 
 const ImportFileDialogVisible = ref(false);
+const isReloadLawfilesList = ref(true);
 
 //法律法规文件管理
 const tableData = reactive({
@@ -99,19 +110,23 @@ const Copy_Url = (url: string) => {
   Msg('已复制', 'success');
 };
 
-const Refresh_lawfiles = async () => {
-  const final_list = await scan_allfiles(`${STORE_system_instance.CacheFile_Path}/lawfiles`);
-  setTimeout(() => {
-    tableData.list = final_list;
-    STORE_setting_instance.Change_lawfilelist(final_list);
-  }, 300);
+const Refresh_lawfiles = () => {
+  tableData.list = Scan_Lawfiles();
 };
-
-
 
 //删除引入的法律法规
 const Delete_Lawfile = (index: number) => {
-  console.log(STORE_Setting().lawfilelist[index]);
+  const del_name = STORE_Setting().lawfilelist[index].name;
+  const del_path = `${STORE_System().CacheFile_Path}/lawfiles/${del_name}.json`;
+  window.Remove(del_path);
+  STORE_setting_instance.Del_lawfile(index);
+
+  //刷新表格
+  isReloadLawfilesList.value = false;
+  nextTick(() => {
+    isReloadLawfilesList.value = true;
+    Msg('删除成功！', 'success');
+  });
 };
 
 //行政区划信息更新
@@ -137,6 +152,6 @@ const Import_pcafile = async () => {
 };
 
 // onMounted(() => {
-  
+
 // }),
 </script>

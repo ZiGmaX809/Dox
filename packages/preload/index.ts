@@ -19,11 +19,10 @@ contextBridge.exposeInMainWorld('removeLoading', removeLoading);
 contextBridge.exposeInMainWorld('shell', shell);
 contextBridge.exposeInMainWorld('path', path);
 contextBridge.exposeInMainWorld('clipboard', clipboard);
-contextBridge.exposeInMainWorld('Romove', FileOperation.Remove);
+contextBridge.exposeInMainWorld('Remove', FileOperation.Remove);
 contextBridge.exposeInMainWorld('Copy', FileOperation.Copy);
 contextBridge.exposeInMainWorld('Move', FileOperation.Move);
 contextBridge.exposeInMainWorld('Export_File', FileOperation.Export_File);
-contextBridge.exposeInMainWorld('Select_FileOrFolder', FileOperation.Select_FileOrFolder);
 contextBridge.exposeInMainWorld('ipcRenderer', withPrototype(ipcRenderer));
 
 // `exposeInMainWorld` can't detect attributes and methods of `prototype`, manually patching it.

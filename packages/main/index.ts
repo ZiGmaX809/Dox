@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, dialog, OpenDialogSyncOptions } from 'electron';
 import { release } from 'os';
 import fs from 'fs';
 import { join } from 'path';
@@ -86,10 +86,17 @@ ipcMain.on('Restart', _e => {
   app.exit(0);
 });
 
+ipcMain.handle('Select_FileOrFolder', async (_event, options: OpenDialogSyncOptions) => {
+  const res = dialog.showOpenDialogSync(options);
+  if (res) {
+    return res[0];
+  }
+});
+
 ipcMain.handleOnce('Get_Path', (_event, path_list: string[]): string[] => {
   type pathtype = 'userData' | 'documents' | 'downloads';
   return path_list.map(path => {
-    return app.getPath(path as pathtype);
+    return app.getPath(<pathtype>path);
   });
 });
 

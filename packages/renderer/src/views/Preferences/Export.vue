@@ -76,8 +76,8 @@ const switch_class_caseid_bool = computed({
   },
 });
 
-const Select_export_path = () => {
-  const res = Select_FileOrFolder(['openDirectory']);
+const Select_export_path = async () => {
+  const res = await Select_FileOrFolder(['openDirectory']);
   if (res) {
     const f_path = res + '/';
     STORE_setting_instance.Set_exportfile_path(f_path);

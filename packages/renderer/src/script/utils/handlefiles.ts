@@ -7,7 +7,7 @@ import { OpenDialogSyncOptions } from 'electron';
  * @returns
  */
 export /** */
- const Load_Image_To_Base64 = (obj: string | Blob) => {
+const Load_Image_To_Base64 = (obj: string | Blob) => {
   let blob: Blob;
   if (typeof obj == 'string') {
     const buffer = window.fs.readFileSync(obj);
@@ -32,7 +32,7 @@ export /** */
  * @param encoding （可选）读取文件编码
  * @returns 读取结果
  */
-export const Load_Local_Files = (
+export const Load_Local_Files = async (
   path?: string,
   filter?: any[],
   encoding?: { encoding: BufferEncoding }
@@ -49,9 +49,9 @@ export const Load_Local_Files = (
   if (path) {
     return window.fs.readFileSync(path, encoding_);
   } else {
-    const res_path = Select_FileOrFolder(['openFile'], fileter_);
+    const res_path = await Select_FileOrFolder(['openFile'], fileter_);
     if (res_path) {
-      return window.fs.readFileSync(res_path[0], encoding_);
+      return window.fs.readFileSync(res_path, encoding_);
     }
   }
 };
@@ -62,7 +62,7 @@ export const Load_Local_Files = (
  * @param properties dialog类型：['openFile','openDirectory']
  * @returns 文件内容
  */
-export const Select_FileOrFolder = (
+export const Select_FileOrFolder = async (
   properties: (
     | 'openFile'
     | 'openDirectory'
@@ -77,12 +77,10 @@ export const Select_FileOrFolder = (
   filters?: any[]
 ) => {
   const options: OpenDialogSyncOptions = {
-    filters: filters,
     properties: properties,
+    filters: filters,
   };
-  const res_path = window.Select_FileOrFolder(options);
-
-  if (res_path) {
-    return res_path;
-  }
+  return await window.ipcRenderer.invoke('Select_FileOrFolder', options).then((res: string) => {
+    return res;
+  });
 };

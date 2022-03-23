@@ -36,7 +36,7 @@ export const STORE_Setting = defineStore({
       auto_int2em: true,
       editor_font_name: '系统字体=',
       editor_font_size: '16px',
-      editor_lineheight: "1",
+      editor_lineheight: '1',
       clipboard_bool: false,
       clipboard_num: 50,
       clipboard_textlength: 300,
@@ -52,6 +52,7 @@ export const STORE_Setting = defineStore({
     };
   },
   actions: {
+    /** 剪贴板 **/
     Switch_clipboard_bool(bool: boolean) {
       this.clipboard_bool = bool;
     },
@@ -61,9 +62,19 @@ export const STORE_Setting = defineStore({
     Change_clipboard_textlength(num: number) {
       this.clipboard_textlength = num;
     },
+    Switch_writeSystemClipboard_bool(bool: boolean) {
+      this.writeSystemClipboard_bool = bool;
+    },
+
+    /** 偏好 **/
     Change_org_code(num: number) {
       this.org_code = num;
     },
+    Switch_custom_avatar(bool: boolean) {
+      this.custom_avatar_bool = bool;
+    },
+
+    /** 编辑器 **/
     Set_font_name(str: string) {
       this.editor_font_name = str;
     },
@@ -76,18 +87,19 @@ export const STORE_Setting = defineStore({
     Switch_auto_int2em(bool: boolean) {
       this.auto_int2em = bool;
     },
-    Switch_custom_avatar(bool: boolean) {
-      this.custom_avatar_bool = bool;
-    },
+
+    /** 快捷输入 **/
     Change_lawfilelist(list: any[]) {
       this.lawfilelist = list;
     },
-    Add_lawfile(data:{}){
+    Add_lawfile(data: {}) {
       this.lawfilelist.push(data);
     },
-    Switch_writeSystemClipboard_bool(bool: boolean) {
-      this.writeSystemClipboard_bool = bool;
+    Del_lawfile(index: number) {
+      this.lawfilelist.splice(index, 1);
     },
+
+    /** 导出 **/
     Set_exportfile_path(path: string) {
       this.exportfile_path = path;
     },
@@ -100,6 +112,8 @@ export const STORE_Setting = defineStore({
     Switch_class_caseid_bool(bool: boolean) {
       this.class_caseid_bool = bool;
     },
+
+    /** 高级 **/
     Switch_offline_bool(bool: boolean) {
       this.offline_bool = bool;
     },

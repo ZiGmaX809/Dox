@@ -17,7 +17,7 @@
         <Others />
 
         <p class="pref_author">MADE BY ZiGma</p>
-        <p class="pref_version">v0.0.2</p>
+        <p class="pref_version">v0.0.3 Alpha</p>
       </div>
     </el-scrollbar>
   </div>

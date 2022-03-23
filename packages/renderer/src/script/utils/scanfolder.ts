@@ -1,6 +1,6 @@
-import { STORE_Setting } from "@/store/modules/setting";
-import { STORE_System } from "@/store/modules/system";
-import { Stats } from "original-fs";
+import { STORE_Setting } from '@/store/modules/setting';
+import { STORE_System } from '@/store/modules/system';
+import { Stats } from 'original-fs';
 
 /**
  * 遍历文件夹并返回文件名称
@@ -17,10 +17,10 @@ export const walkSync = (
   ) => void
 ) => {
   window.fs.readdirSync(currentDirPath).forEach(function (name) {
-    var filePath = window.path.join(currentDirPath, name);
-    var filename = name;
-    var filename_withoutsuffix = name.replace(/\..*/g, "");
-    var stat = window.fs.statSync(filePath);
+    let filePath = window.path.join(currentDirPath, name);
+    let filename = name;
+    let filename_withoutsuffix = name.replace(/\..*/g, '');
+    let stat = window.fs.statSync(filePath);
     callback(filePath, filename, filename_withoutsuffix, stat);
   });
 };
@@ -31,25 +31,17 @@ export const walkSync = (
  * @param folderpath 法律法规文件夹目录地址
  * @returns 数组，包含每个文件path、fullname、name
  */
-export const scan_allfiles = async (folderpath: string) => {
+const scan_allfiles = (folderpath: string) => {
   const file_list: any[] = [];
-  walkSync(folderpath, (filepath, name, w_name) => {
-    if (w_name != "") {
+  walkSync(folderpath, (filepath, _name, w_name) => {
+    if (w_name != '') {
+      const content = window.fs.readFileSync(filepath, 'utf8');
       file_list.push({
-        filepath: filepath,
-        fullname: "",
+        fullname: JSON.parse(content).name,
         name: w_name,
       });
     }
   });
-
-  file_list.forEach(async (file, index) => {
-    window.fs.readFile(file.filepath, "utf8", (err, res) => {
-      if (err) throw err;
-      file_list[index]["fullname"] = JSON.parse(res).name;
-    });
-  });
-
   return file_list;
 };
 
@@ -60,18 +52,17 @@ export const scan_allfiles = async (folderpath: string) => {
  */
 export const scan_filesnum = async (folderpath: string) => {
   let num = 0;
-  window.fs.readdirSync(folderpath).forEach((item) => {
+  window.fs.readdirSync(folderpath).forEach(item => {
     num++;
   });
   return num;
 };
 
-
-export async function Scan_Lawfiles () {
-  const final_list = await scan_allfiles(`${STORE_System().CacheFile_Path}/lawfiles`);
-  setTimeout(() => {
-    STORE_Setting().Change_lawfilelist(final_list);
-    return  final_list;
-    
-  }, 300);
+/**
+ * 遍历本地法律法规文件夹
+ */
+export function Scan_Lawfiles() {
+  const final_list = scan_allfiles(`${STORE_System().CacheFile_Path}/lawfiles`);
+  STORE_Setting().Change_lawfilelist(final_list);
+  return final_list;
 }

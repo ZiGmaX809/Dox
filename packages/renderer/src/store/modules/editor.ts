@@ -29,7 +29,7 @@ export const STORE_Editor = defineStore({
     Set_prev_fy(data: string) {
       this.prev_fy = data;
     },
-    Set_case_id(id:string){
+    Set_case_id(id: string) {
       this.case_id = id;
     },
     Set_editor_isChanged() {
@@ -67,14 +67,11 @@ export const STORE_Editor = defineStore({
     },
     Set_presetText() {
       //启动程序时即加载
-      window.fs.readFile(
+      const presetText = window.fs.readFileSync(
         `${STORE_System().CacheFile_Path}/presettext/EditStrings.json`,
-        'utf8',
-        (err, res) => {
-          if (err) throw err;
-          this.presetText = JSON.parse(res).Template;
-        }
+        'utf8'
       );
+      this.presetText = JSON.parse(presetText).Template;
     },
   },
 });

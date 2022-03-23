@@ -1,6 +1,6 @@
 {
-  "name": "Dox",
-  "version": "0.0.1",
+  "name": "dox",
+  "version": "0.0.3",
   "main": "dist/main/index.cjs",
   "author": "ZiGma",
   "license": "MIT",

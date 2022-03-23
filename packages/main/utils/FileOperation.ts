@@ -1,4 +1,4 @@
-import { dialog, OpenDialogOptions, OpenDialogSyncOptions } from 'electron';
+import { dialog, OpenDialogSyncOptions } from 'electron';
 import fs from 'fs';
 
 /**
@@ -87,17 +87,4 @@ export function Export_File(blob: Blob, Path: string, Name: string) {
   } else {
     return ['error', '参数错误！'];
   }
-}
-
-/**
- * 选择文件或文件夹路径
- * @param options { filters:过滤器; properties:选择文件或文件夹 }
- * @returns 返回路径
- */
-export function Select_FileOrFolder(options: OpenDialogSyncOptions) {
-  const res = dialog.showOpenDialogSync({
-    filters: options.filters,
-    properties: options.properties,
-  });
-  return res;
 }
