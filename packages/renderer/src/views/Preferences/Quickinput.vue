@@ -9,6 +9,7 @@
     <el-table
       :data="tableData.list"
       border
+      stripe
       height="400"
       style="width: 100%; height: 400px"
       v-if="isReloadLawfilesList"
@@ -150,8 +151,4 @@ const Import_pcafile = async () => {
     Msg(bool ? '已成功导入行政区划文件' : '导入失败，请校验文件！', bool ? 'success' : 'error');
   }
 };
-
-// onMounted(() => {
-
-// }),
 </script>

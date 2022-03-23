@@ -275,14 +275,9 @@ export const exportWord = async (
     );
   });
 
-  // Packer.toBlob(doc).then((blob) => {
-  //   saveAs(blob, ah + ".docx");
-  //   // window.fs.writeFileSync(ah + ".docx", blob);
-  // });
-
   Packer.toBlob(doc).then(async blob => {
     const Path = STORE_Setting().exportfile_path;
-    const Name = ah + '.doc';
+    const Name = ah + '.docx';
 
     const result: string[] = window.Export_File(blob, Path, Name);
     Msg(ah + '导出' + result[1], result[0]);

@@ -79,13 +79,13 @@ class AxiosHttpRequest implements BaseType {
     instance.interceptors.request.use(
       (config: AxiosRequestType) => {
         // 非请求当事人信息时,取消重复请求
-        // if (!config.url?.includes("caseDetail")) {
+        if (!config.url?.includes("caseDetail")) {
         removeSource(config);
         config.cancelToken = new CancelToken((c) => {
           // 将取消函数存起来
           sources.push({ umet: config.url + "&" + config.method, cancel: c });
         });
-        // }
+        }
 
         // 添加全局的loading..
         // if (config.url?.indexOf("queryCaseDsrList") != -1) {

@@ -6,8 +6,7 @@ import { OpenDialogSyncOptions } from 'electron';
  * @param _cbty callback类型['base64'|'blob']
  * @returns
  */
-export /** */
-const Load_Image_To_Base64 = (obj: string | Blob) => {
+export const Load_Image_To_Base64 = (obj: string | Blob) => {
   let blob: Blob;
   if (typeof obj == 'string') {
     const buffer = window.fs.readFileSync(obj);

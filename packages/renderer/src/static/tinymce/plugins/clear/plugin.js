@@ -1,4 +1,5 @@
 import { ElMessageBox} from 'element-plus';
+import { STORE_Editor } from '/store/modules/editor';
 
 tinymce.PluginManager.add('clear', function (editor, url) {
   var pluginName = '清屏';
@@ -17,6 +18,7 @@ tinymce.PluginManager.add('clear', function (editor, url) {
         if (orgin_text.includes('text-indent')) {
           editor.execCommand('indent2em');
         }
+        STORE_Editor().Reset_editor_isChanged();
       })
       .catch(() => {});
   };

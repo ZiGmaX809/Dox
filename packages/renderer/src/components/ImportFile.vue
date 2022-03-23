@@ -26,9 +26,9 @@
 </template>
 
 <script setup lang="ts">
+import Nzh from 'nzh';
 import { ElUpload } from 'element-plus';
 import { ref } from 'vue';
-import Nzh from 'nzh';
 import { Msg } from '/utils/message';
 import { STORE_System } from '/store/modules/system';
 import { STORE_Setting } from '/store/modules/setting';
@@ -69,8 +69,6 @@ const uploadHandler: any = (params: {
     Msg('请输入索引简称', 'error');
   }
 };
-
-
 
 const nzh = Nzh.cn;
 
