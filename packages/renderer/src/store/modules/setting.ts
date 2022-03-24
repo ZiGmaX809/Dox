@@ -15,6 +15,7 @@ interface SettingState {
   clipboard_textlength: number;
   writeSystemClipboard_bool: boolean;
   exportfile_path: string;
+  export_format:string;
   class_year_bool: boolean;
   class_year_type: string;
   class_caseid_bool: boolean;
@@ -42,6 +43,7 @@ export const STORE_Setting = defineStore({
       clipboard_textlength: 300,
       writeSystemClipboard_bool: false,
       exportfile_path: '',
+      export_format: 'docx',
       class_year_bool: false,
       class_year_type: '案号年度',
       class_caseid_bool: false,
@@ -102,6 +104,9 @@ export const STORE_Setting = defineStore({
     /** 导出 **/
     Set_exportfile_path(path: string) {
       this.exportfile_path = path;
+    },
+    Set_export_format(type:string){
+      this.export_format = type;
     },
     Switch_class_year_bool(bool: boolean) {
       this.class_year_bool = bool;

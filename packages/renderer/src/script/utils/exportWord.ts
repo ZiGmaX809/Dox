@@ -277,10 +277,10 @@ export const exportWord = async (
 
   Packer.toBlob(doc).then(async blob => {
     const Path = STORE_Setting().exportfile_path;
-    const Name = ah + '.docx';
+    const Name = `${ah}.${STORE_Setting().export_format}`;
 
     const result: string[] = window.Export_File(blob, Path, Name);
-    Msg(ah + '导出' + result[1], result[0]);
+    Msg(Name + '导出' + result[1], result[0]);
   });
 };
 

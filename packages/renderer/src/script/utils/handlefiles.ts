@@ -1,5 +1,6 @@
 import { OpenDialogSyncOptions } from 'electron';
 
+
 /**
  * 读取本地图片并返回一个相应callback类型的Promise
  * @param obj 读取路径或Blob文件
@@ -83,3 +84,5 @@ export const Select_FileOrFolder = async (
     return res;
   });
 };
+
+

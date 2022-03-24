@@ -18,6 +18,7 @@ tinymce.PluginManager.add('clear', function (editor, url) {
         if (orgin_text.includes('text-indent')) {
           editor.execCommand('indent2em');
         }
+        //重置修改
         STORE_Editor().Reset_editor_isChanged();
       })
       .catch(() => {});
