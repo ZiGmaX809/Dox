@@ -50,6 +50,7 @@ Router.beforeEach((to, from, next) => {
       confirmButtonText: '确认',
       cancelButtonText: '取消',
       type: 'warning',
+      buttonSize: 'small',
     })
       .then(() => {
         STORE_Editor().Reset_editor_isChanged();

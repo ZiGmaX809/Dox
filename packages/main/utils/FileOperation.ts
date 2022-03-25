@@ -74,17 +74,15 @@ export function Move(originalPath: string, targetPath: string) {
 
 /**
  * 保存Blob数据为文件
- * @param blob 需要保存的二进制文件
- * @param Path 保存路径
- * @param Name 保存名称
+ * @param file 需要保存的二进制文件
+ * @param FullPath 保存路径
  */
-export function Export_File(blob: Blob, Path: string, Name: string) {
-  if (Path && Name && blob.size > 0) {
-    blob.arrayBuffer().then(res => {
-      fs.writeFileSync(Path + Name, Buffer.from(res));
-    });
-    return ['success', '成功！'];
+export function Export_File(file: Blob | string, FullPath: string) {
+  if (typeof file == 'string') {
+    fs.writeFileSync(FullPath, file);
   } else {
-    return ['error', '参数错误！'];
+    file.arrayBuffer().then(res => {
+      fs.writeFileSync(FullPath, Buffer.from(res));
+    });
   }
 }

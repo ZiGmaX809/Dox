@@ -12,6 +12,7 @@ import {
   Footer,
 } from 'docx';
 import { STORE_Setting } from '../../store/modules/setting';
+import { isFileExisted_And_Export } from './handlefiles';
 import { Msg } from './message';
 
 /**
@@ -279,8 +280,12 @@ export const exportWord = async (
     const Path = STORE_Setting().exportfile_path;
     const Name = `${ah}.${STORE_Setting().export_format}`;
 
-    const result: string[] = window.Export_File(blob, Path, Name);
-    Msg(Name + '导出' + result[1], result[0]);
+    const result: string[] | undefined = await isFileExisted_And_Export(blob, Path, Name);
+
+    if (result) {
+      console.log('🚀 ~ file: exportWord.ts ~ line 284 ~ Packer.toBlob ~ result', result);
+      Msg(Name + '导出' + result[1], result[0]);
+    }
   });
 };
 

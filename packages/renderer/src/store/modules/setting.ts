@@ -15,7 +15,7 @@ interface SettingState {
   clipboard_textlength: number;
   writeSystemClipboard_bool: boolean;
   exportfile_path: string;
-  export_format:string;
+  export_format: string;
   class_year_bool: boolean;
   class_year_type: string;
   class_caseid_bool: boolean;
@@ -94,7 +94,12 @@ export const STORE_Setting = defineStore({
     Change_lawfilelist(list: any[]) {
       this.lawfilelist = list;
     },
-    Add_lawfile(data: {}) {
+    Add_lawfile(data: { fullname: string; name: string }) {
+      const list = this.lawfilelist;
+      const index = list.findIndex(item => item.name == data.name);
+      if (index) {
+        this.lawfilelist.splice(index, 1);
+      }
       this.lawfilelist.push(data);
     },
     Del_lawfile(index: number) {
@@ -105,7 +110,7 @@ export const STORE_Setting = defineStore({
     Set_exportfile_path(path: string) {
       this.exportfile_path = path;
     },
-    Set_export_format(type:string){
+    Set_export_format(type: string) {
       this.export_format = type;
     },
     Switch_class_year_bool(bool: boolean) {

@@ -30,6 +30,8 @@ import Nzh from 'nzh';
 import { ElUpload } from 'element-plus';
 import { ref } from 'vue';
 import { Msg } from '/utils/message';
+import { isFileExisted_And_Export } from '/utils/handlefiles';
+
 import { STORE_System } from '/store/modules/system';
 import { STORE_Setting } from '/store/modules/setting';
 
@@ -44,9 +46,9 @@ const handleSelected = (uploadfile: {}) => {
 };
 
 const handleExceed = (files: any[]) => {
-  upload.value.clearFiles()
-  upload.value.handleStart(files[0])
-}
+  upload.value.clearFiles();
+  upload.value.handleStart(files[0]);
+};
 
 const handleRemove = () => {
   import_btn.value = true;
@@ -77,7 +79,7 @@ const readText = async (params: { file: any; onProgress: any; onSuccess?: any })
   const readFile = new FileReader();
 
   let filename = params.file.name.replace(/\.\w*/, '');
-  readFile.onload = e => {
+  readFile.onload = async e => {
     const m_text: any = e.target?.result;
     //去除第一条之前的所有信息&编章节信息&附则等信息
     const m2_text = m_text.replace(
@@ -144,23 +146,30 @@ const readText = async (params: { file: any; onProgress: any; onSuccess?: any })
     //对比分割法条数量和最后一条条文编码是否一致来确定是否全部导入
     if (arr_count.length == Number(arr_count[arr_count.length - 1])) {
       //导出结果到本地文件夹
-      const export_path = `${STORE_System().CacheFile_Path}/lawfiles/${input.value}.json`;
-      // const path = window.path.resolve(`packages/renderer/public/lawfiles/test.json`);
-      window.fs.writeFileSync(export_path, JSON.stringify(info_json));
+      const export_path = `${STORE_System().CacheFile_Path}/lawfiles/`;
+      const export_name = `${input.value}.json`;
+      const result: string[] | undefined = await isFileExisted_And_Export(
+        JSON.stringify(info_json),
+        export_path,
+        export_name
+      );
 
-      //向Store添加条目
-      const new_list = {
-        fullname: filename,
-        name: input.value,
-      };
-      STORE_Setting().Add_lawfile(new_list);
-      Msg(`成功导入${arr_count.length}条法条，请手动核实条目数量，如不正确请重新导入`, 'success');
+      if (result) {
+        Msg(`导入${input.value}${result[1]}，包含${arr_count.length}条法条。`, result[0]);
+        //向Store添加条目
+        const new_list = {
+          fullname: filename,
+          name: input.value,
+        };
+        const bool = STORE_Setting().Add_lawfile(new_list);
 
-      //重置导入插件
-      input.value = '';
-      import_btn.value = true;
+        //重置导入插件
+        input.value = '';
+        upload.value.clearFiles();
+        import_btn.value = true;
+      }
     } else {
-      Msg('导入失败，请确认法条格式', 'error');
+      Msg('导入失败，请确认法条格式是否支持', 'error');
     }
   };
   readFile.readAsText(params.file);

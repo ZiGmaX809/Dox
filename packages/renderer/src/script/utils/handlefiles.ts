@@ -1,5 +1,6 @@
 import { OpenDialogSyncOptions } from 'electron';
-
+import { ElMessageBox } from 'element-plus';
+import { h, ref } from 'vue';
 
 /**
  * 读取本地图片并返回一个相应callback类型的Promise
@@ -85,4 +86,54 @@ export const Select_FileOrFolder = async (
   });
 };
 
+export const isFileExisted_And_Export = async (
+  file: Blob | string,
+  filepath: string,
+  filename: string
+) => {
+  const isFile = (typeof file == 'string' ? file.length : file.size) > 0;
+  const havetoExport = ref(false);
+  if (filepath && isFile) {
+    const existed = () => {
+      try {
+        window.fs.accessSync(filepath, window.fs.constants.F_OK);
+        return true; //存在
+      } catch (err) {
+        return false; //不存在
+      }
+    };
 
+    if (existed()) {
+      await ElMessageBox({
+        title: '警告',
+        dangerouslyUseHTMLString: true,
+        showCancelButton: true,
+        message: h('p', null, [
+          h(
+            'b',
+            {
+              style: 'user-select: none',
+            },
+            `${filename}`
+          ),
+          ' 已存在，是否覆盖？',
+        ]),
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        buttonSize: 'small',
+        type: 'warning',
+      })
+        .then(action => {
+          havetoExport.value = true;
+        })
+        .catch(err => {});
+    }
+
+    if (havetoExport.value) {
+      window.Export_File(file, filepath + filename);
+      return ['success', '成功！'];
+    }
+  } else {
+    return ['error', '参数错误！'];
+  }
+};
