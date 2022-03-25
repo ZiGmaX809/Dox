@@ -161,7 +161,7 @@ const readText = async (params: { file: any; onProgress: any; onSuccess?: any })
           fullname: filename,
           name: input.value,
         };
-        const bool = STORE_Setting().Add_lawfile(new_list);
+        STORE_Setting().Add_lawfile(new_list);
 
         //重置导入插件
         input.value = '';

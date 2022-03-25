@@ -1,4 +1,3 @@
-import { dialog, OpenDialogSyncOptions } from 'electron';
 import fs from 'fs';
 
 /**
