@@ -16,7 +16,20 @@
     <el-button size="small" type="success" @click="upl" class="upload_class" :disabled="import_btn">
       导入
     </el-button>
-    <el-input size="small" v-model="input" placeholder="索引简称" class="upload_class-input" />
+    <el-tooltip v-model:visible="visible" >
+      <template #content>
+        <span>仅支持汉字及字母</span>
+      </template>
+      <el-input
+        size="small"
+        v-model="input"
+        placeholder="索引简称"
+        clearable
+        class="upload_class-input"
+        @input="(val: string) => handleChange_Text(val)"
+      />
+    </el-tooltip>
+
     <template #tip>
       <div class="el-upload__tip" style="color: #909090">
         因为需要设置索引缩写，所以只支持单个文件导入，如需导入多个文件请多次执行。
@@ -34,6 +47,20 @@ import { isFileExisted_And_Export } from '/utils/handlefiles';
 
 import { STORE_System } from '/store/modules/system';
 import { STORE_Setting } from '/store/modules/setting';
+// import { handleChange_Text } from '/utils/settings';
+
+const handleChange_Text = (val: string) => {
+  if (val.match(/[0-9]/g)) {
+    visible.value = true;
+    setTimeout(() => {
+      visible.value = false;
+    }, 2000);
+  }
+  const _str = val.replace(/[^\u4e00-\u9fa5A-Za-z]/g, '');
+
+  input.value = _str;
+};
+const visible = ref(false);
 
 const upload = ref();
 const input = ref();

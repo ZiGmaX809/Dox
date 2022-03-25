@@ -11,8 +11,8 @@ import {
   convertMillimetersToTwip,
   Footer,
 } from 'docx';
-import { STORE_Setting } from '../../store/modules/setting';
-import { isFileExisted_And_Export } from './handlefiles';
+import { STORE_Setting } from '/store/modules/setting';
+import { isFileExisted_And_Export, mkdirsSync } from './handlefiles';
 import { Msg } from './message';
 
 /**
@@ -277,17 +277,36 @@ export const exportWord = async (
   });
 
   Packer.toBlob(doc).then(async blob => {
-    const Path = STORE_Setting().exportfile_path;
-    const Name = `${ah}.${STORE_Setting().export_format}`;
+    let Path = STORE_Setting().exportfile_path;
+    let Name = `${ah}.${STORE_Setting().export_format}`;
+
+    //判断是否需要按年度、案号分类
+    const year_bool = STORE_Setting().class_year_bool;
+    const caseid_bool = STORE_Setting().class_caseid_bool;
+
+    if (year_bool || caseid_bool) {
+      //年度文件夹路径节点
+      const now_year = new Date().getFullYear();
+      const ah_year = ah.match(/(?<=（)\d{4}(?=）)/g);
+      const final_year =
+        (STORE_Setting().class_year_type == '案号年度' ? ah_year : now_year) + '年案件';
+      const y_path = year_bool ? '/' + final_year : '';
+
+      //案件文件夹路径节点
+      const c_path = caseid_bool ? '/' + ah : '';
+
+      Path = Path + y_path + c_path + '/';
+      mkdirsSync(Path);
+    }
 
     const result: string[] | undefined = await isFileExisted_And_Export(blob, Path, Name);
 
     if (result) {
-      console.log('🚀 ~ file: exportWord.ts ~ line 284 ~ Packer.toBlob ~ result', result);
       Msg(Name + '导出' + result[1], result[0]);
     }
   });
 };
+
 
 function convert_mm2twip(mm: number) {
   return convertMillimetersToTwip(mm);

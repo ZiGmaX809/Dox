@@ -64,7 +64,7 @@
             style="width: 50px"
             controls-position="right"
             :disabled="!switch_clipboard_bool"
-            @input="(val: any) => handleChange_num(val,200)"
+            @input="(val: string) => handleChange_num(val,200)"
           />
         </div>
         <p class="pref_desc_p">
@@ -80,7 +80,7 @@
             style="width: 50px"
             controls-position="right"
             :disabled="!switch_clipboard_bool"
-            @input="(val: any) => handleChange_num(val,600)"
+            @input="(val: string) => handleChange_num(val,600)"
           />
         </div>
         <p class="pref_desc_p">

@@ -92,10 +92,11 @@ export const isFileExisted_And_Export = async (
 ) => {
   const isFile = (typeof file == 'string' ? file.length : file.size) > 0;
   const havetoExport = ref(false);
-  if (filepath && isFile) {
+  const final_path = filepath + filename;
+  if (final_path && isFile) {
     const existed = () => {
       try {
-        window.fs.accessSync(filepath, window.fs.constants.F_OK);
+        window.fs.accessSync(final_path, window.fs.constants.F_OK);
         return true; //存在
       } catch (err) {
         return false; //不存在
@@ -113,9 +114,9 @@ export const isFileExisted_And_Export = async (
             {
               style: 'user-select: none',
             },
-            `${filename}`
+            `${final_path}`
           ),
-          ' 已存在，是否覆盖？',
+          h('p', ' 已存在，是否覆盖？'),
         ]),
         confirmButtonText: '确认',
         cancelButtonText: '取消',
@@ -126,13 +127,27 @@ export const isFileExisted_And_Export = async (
           havetoExport.value = true;
         })
         .catch(err => {});
+    } else {
+      havetoExport.value = true;
     }
 
     if (havetoExport.value) {
-      window.Export_File(file, filepath + filename);
+      window.Export_File(file, final_path);
+      console.log('🚀 ~ file: handlefiles.ts ~ line 134 ~ final_path', final_path);
       return ['success', '成功！'];
     }
   } else {
     return ['error', '参数错误！'];
+  }
+};
+
+export const mkdirsSync = (dirname: string) => {
+  if (window.fs.existsSync(dirname)) {
+    return true;
+  } else {
+    if (mkdirsSync(window.path.dirname(dirname))) {
+      window.fs.mkdirSync(dirname);
+      return true;
+    }
   }
 };

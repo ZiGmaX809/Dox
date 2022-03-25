@@ -38,7 +38,7 @@
       size="small"
       style="width: 50px"
       controls-position="right"
-      @input="(val: any) => handleChange_num(val,9999)"
+      @input="(val: string) => handleChange_num(val,9999)"
     />
   </div>
   <p class="pref_desc_p">登录用户名前缀数字。</p>

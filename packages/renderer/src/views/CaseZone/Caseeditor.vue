@@ -3,7 +3,14 @@
   <!-- 快捷区 -->
   <div class="quickview_right">
     <div style="display: flex; justify-content: space-between">
-      <el-dropdown size="small" split-button @click="exoprt_word()" placement="bottom-end">
+      <el-dropdown
+        size="small"
+        split-button
+        @click="exoprt_word()"
+        type="success"
+        plain
+        placement="bottom-end"
+      >
         生成文书
         <template #dropdown>
           <el-dropdown-menu>

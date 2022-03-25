@@ -19,6 +19,7 @@
       <el-option v-for="item in export_formats" :key="item" :value="item"></el-option>
     </el-select>
   </div>
+  <p class="pref_desc_p">如当前导出格式无法打开，可以尝试更改导出格式，但是从原理上不同格式的二进制文件并无区别。</p>
 
   <div class="pref_div">
     <p class="pref_p">以年份分类</p>
@@ -97,7 +98,7 @@ const switch_class_caseid_bool = computed({
 const Select_export_path = async () => {
   const res = await Select_FileOrFolder(['openDirectory']);
   if (res) {
-    const f_path = res + '/';
+    const f_path = res;
     STORE_setting_instance.Set_exportfile_path(f_path);
   }
 };

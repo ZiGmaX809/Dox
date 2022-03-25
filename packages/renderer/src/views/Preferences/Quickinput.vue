@@ -113,6 +113,7 @@ const Copy_Url = (url: string) => {
 
 const Refresh_lawfiles = () => {
   tableData.list = Scan_Lawfiles();
+  Msg('刷新成功！', 'success');
 };
 
 //删除引入的法律法规

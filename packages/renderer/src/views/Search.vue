@@ -4,16 +4,13 @@
 </template>
 
 <script lang="ts" setup>
-import { Msg } from '@/script/utils/message';
-import { isFileExisted_And_Export } from '/utils/handlefiles';
-const path = '/Users/zigma/Documents/裁定/';
+import { test } from '@/script/api/apiList';
+const path = '/Users/zigma/Documents/裁定1';
 const tttt = async () => {
-  const result: string[] | undefined = await isFileExisted_And_Export('123', path, 'test2.txt');
-  if (result) {
-    Msg('导出' + result[1], result[0]);
-  }
+  window.fs.access(path, window.fs.constants.W_OK, cb => {
+    console.log('🚀 ~ file: Search.vue ~ line 11 ~ tttt ~ cb', cb ? '不存在' : '存在');
+  });
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
