@@ -6,6 +6,7 @@
       :loop="true"
       :speed="1"
       ref="anim"
+      class="bg-img"
     />
 
     <div id="webbg" class="login-wrap" v-show="showLogin" ref="loginWrap">
@@ -227,8 +228,9 @@ const login = () => {
 
 .bg-img {
   width: 100%;
-  height: 100%;
+  height: 70%;
   user-select: none;
   display: flex;
+  overflow: hidden;
 }
 </style>
