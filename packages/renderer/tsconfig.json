@@ -10,17 +10,7 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": ["esnext", "dom"],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"],
-      "/public/*": ["public/*"],
-      "/store/*": ["src/store/*"],
-      "/script/*": ["src/script/*"],
-      "/components/*": ["src/components/*"],
-      "/views/*": ["src/views/*"],
-      "/utils/*": ["src/script/utils/*"]
-    }
+    "lib": ["esnext", "dom"]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }

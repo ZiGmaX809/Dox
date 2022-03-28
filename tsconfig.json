@@ -12,7 +12,6 @@
     "strict": true,
     "paths": {},
     "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
-    "types":["element-plus/global"]
+    "skipLibCheck": true
   }
 }
