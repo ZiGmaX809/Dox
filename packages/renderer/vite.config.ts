@@ -32,12 +32,5 @@ export default defineConfig({
   },
   server: {
     port: pkg.env.PORT,
-    proxy: {
-      '/api': {
-        target: 'http://babg.zj.pcc/proxy/gzpt-widget-all-new/', //接口域名（你请求的第三方接口）
-        changeOrigin: true, //是否跨域 （虚拟的站点需要更管origin）
-        rewrite: path => path.replace(/^\/api/, ''),
-      },
-    },
   },
 });
