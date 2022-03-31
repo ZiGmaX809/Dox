@@ -2,7 +2,6 @@ import { defineConfig, Plugin } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import resolve from 'vite-plugin-resolve';
 import pkg from '../../package.json';
-import electron from 'vite-plugin-electron-renderer';
 import Components from 'unplugin-vue-components/vite';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 
@@ -12,7 +11,6 @@ export default defineConfig({
   root: __dirname,
   plugins: [
     vue(),
-    electron(),
     resolve(
       /**
        * Here you can specify other modules
