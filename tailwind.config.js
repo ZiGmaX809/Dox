@@ -53,7 +53,7 @@ module.exports = {
       traffic_min: '#febc2e',
       traffic_min_ring: '#de9b12',
       traffic_min_active: '#592800',
-      traffic_max: '#26c83f',
+      traffic_max: '#2bc841',
       traffic_max_ring: '#18a71f',
       traffic_max_active: '#003200',
       custom_bg: '#f3f4f6',
@@ -555,6 +555,7 @@ module.exports = {
       min: 'min-content',
       max: 'max-content',
       fit: 'fit-content',
+      '1px': '1px',
     }),
     inset: ({ theme }) => ({
       auto: 'auto',

@@ -1,6 +1,5 @@
-import { defineConfig, Plugin } from 'vite';
+import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import resolve from 'vite-plugin-resolve';
 import pkg from '../../package.json';
 import Components from 'unplugin-vue-components/vite';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
@@ -11,17 +10,6 @@ export default defineConfig({
   root: __dirname,
   plugins: [
     vue(),
-    resolve(
-      /**
-       * Here you can specify other modules
-       * 🚧 You have to make sure that your module is in `dependencies` and not in the` devDependencies`,
-       *    which will ensure that the electron-builder can package it correctly
-       */
-      {
-        // If you use electron-store, this will work
-        'electron-store': 'const Store = require("electron-store"); export default Store;',
-      }
-    ),
     Components({
       resolvers: [AntDesignVueResolver()],
     }),

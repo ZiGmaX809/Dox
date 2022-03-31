@@ -1,23 +1,36 @@
 <template>
   <div id="MainView">
     <a-layout style="min-height: 100vh">
-      <a-layout-sider style="background-color: #f3f4f6" class="border-r border-r-gray-200">
-        <div class="logo" />
+      <a-layout-sider class="bg-custom_bg border-r border-r-gray-200">
+        <div class="w-full mt-6 mb-6 flex justify-center">
+         
+        </div>
+        <div id="Avatar" class="flex items-center justify-center mt-10 mb-10">
+          <a-avatar
+            src="https://api.lorem.space/image/face?hash=53273"
+            class="h-12 w-12 flex items-center justify-center"
+          />
+          <span class="ml-6 flex flex-col justify-between">
+            <b class="text-base">翁文杰</b>
+            <p class="text-xs text-gray-500">法官助理</p>
+          </span>
+        </div>
+        <div class="flex h-1px bg-gray-200 m-4 select-none" />
         <a-menu v-model:selectedKeys="selectedKeys">
-          <a-menu-item key="1" class="flex rounded-lg ml-2 mr-2">
-            <pie-chart-outlined />
+          <a-menu-item key="1" class="flex rounded-lg ml-2 mr-2 select-none">
+            <inbox-outlined class="!text-lg ml-2" />
             <span class="!ml-5">我的案件</span>
           </a-menu-item>
-          <a-menu-item key="2" class="flex rounded-lg ml-2 mr-2">
-            <desktop-outlined />
+          <a-menu-item key="2" class="flex rounded-lg ml-2 mr-2 select-none">
+            <search-outlined class="!text-lg ml-2" />
             <span class="!ml-5">案件查询</span>
           </a-menu-item>
-          <a-menu-item key="3" class="flex rounded-lg ml-2 mr-2">
-            <user-outlined />
+          <a-menu-item key="3" class="flex rounded-lg ml-2 mr-2 select-none">
+            <file-text-outlined class="!text-lg ml-2" />
             <span class="!ml-5">模版管理</span>
           </a-menu-item>
-          <a-menu-item key="4" class="flex rounded-lg ml-2 mr-2">
-            <team-outlined />
+          <a-menu-item key="4" class="flex rounded-lg ml-2 mr-2 select-none">
+            <setting-outlined class="!text-lg ml-2" />
             <span class="!ml-5">设置</span>
           </a-menu-item>
         </a-menu>
@@ -106,11 +119,11 @@
 
 <script setup lang="ts">
 import {
-  PieChartOutlined,
-  DesktopOutlined,
-  UserOutlined,
-  TeamOutlined,
-  FileOutlined,
+  InboxOutlined,
+  SearchOutlined,
+  FileTextOutlined,
+  SettingOutlined,
+  AntDesignOutlined,
 } from '@ant-design/icons-vue';
 import { ref } from 'vue';
 import Table from './components/Table.vue';
@@ -142,6 +155,8 @@ const collapsed = ref<boolean>(false);
   text-align: center;
   background-color: #fff;
   border-radius: 20px;
+  border: gray;
+  border-width: 0.5px;
 }
 
 #ContentView {
@@ -154,24 +169,19 @@ const collapsed = ref<boolean>(false);
   user-select: none;
 }
 
-.logo {
-  height: 32px;
+/* #Avatar {
+  height: 100px;
   margin: 16px;
-  background: rgba(255, 255, 255, 0.3);
-}
+  background: rgba(81, 79, 79, 0.3);
+} */
 
-.site-layout .site-layout-background {
+/* .site-layout .site-layout-background {
   background: #fff;
-}
+} */
 
-[data-theme='dark'] .site-layout .site-layout-background {
+/* [data-theme='dark'] .site-layout .site-layout-background {
   background: #141414;
-}
-
-.ant-menu-title-content {
-  display: flex !important;
-  align-items: center !important;
-}
+} */
 
 /* 设置菜单样式 */
 .ant-menu,
@@ -179,6 +189,12 @@ const collapsed = ref<boolean>(false);
 .ant-menu-inline {
   background-color: #f3f4f6 !important;
   font-size: 15px;
+}
+
+/* 图标居中 */
+.ant-menu-title-content {
+  display: flex !important;
+  align-items: center !important;
 }
 
 /* 去掉右边框 */
