@@ -1,0 +1,21 @@
+<svg id="layout" data-name="layout"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 385.29 392.3">
+    <defs>
+        <style>.cls-1{fill:url(#grad);}.cls-2{fill:#4d4d4d;}.cls-3{mask:url(#mask);}.cls-4{fill:#040000;opacity:0.8;}</style>
+        <linearGradient id="grad" x1="198.56" y1="342.02" x2="116.45" y2="164.61" gradientUnits="userSpaceOnUse">
+            <stop offset="0.1"/>
+            <stop offset="0.84" stop-color="#fff"/>
+        </linearGradient>
+        <mask id="mask" x="0" y="95.5" width="195.49" height="199.5" maskUnits="userSpaceOnUse">
+            <g transform="translate(-112.2 -71.63)">
+                <polygon class="cls-1" points="307.69 366.63 112.2 366.63 112.2 167.13 202.21 167.13 307.69 366.63"/>
+            </g>
+        </mask>
+    </defs>
+    <path class="cls-2" d="M304.43,71.63H176.72a64.51,64.51,0,0,0-64.51,64.51V399.42a64.51,64.51,0,0,0,64.51,64.51H307.88C412.6,463.93,497.5,379,497.5,274.31v-9.62C497.5,158.06,411.06,71.63,304.43,71.63Zm96,197.51c0,48.17-39.22,97.49-92.7,97.49L202.21,167.13h96.85c56,0,101.34,45.67,101.34,102Z" transform="translate(-112.2 -71.63)"/>
+    <g class="cls-3">
+        <polygon class="cls-4" points="195.49 295 0 295 0 95.5 90.01 95.5 195.49 295"/>
+    </g>
+    <path class="cls-2" d="M303.14,71.63H176.5a64.29,64.29,0,0,0-64.29,65.2h0V238.06q24.86-60.27,90-70.93H303.92Z" transform="translate(-112.2 -71.63)"/>
+</svg>
