@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import './assets/css/index.css';
-import svgIcon from './components/svgIcon.vue';
+import svgIcon from './components/utils/SvgIcon.vue';
 
 createApp(App).component('svg-icon', svgIcon).mount('#app').$nextTick(window.removeLoading);
 

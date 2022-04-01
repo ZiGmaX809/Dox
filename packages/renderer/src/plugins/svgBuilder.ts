@@ -24,8 +24,8 @@ function findSvgFile(dir: PathLike): string[] {
         .replace(svgTitle, ($1, $2) => {
           // console.log(++i)
           // console.log(dirent.name)
-          let width = 0;
-          let height = 0;
+          let width = 300;
+          let height = 300;
           let content = $2.replace(clearHeightWidth, (s1: any, s2: string, s3: number) => {
             if (s2 === 'width') {
               width = s3;
@@ -47,15 +47,15 @@ function findSvgFile(dir: PathLike): string[] {
 }
 
 export const svgBuilder = (path: string, perfix = 'icon'): Plugin => {
-  // if (path === '') return;
   idPerfix = perfix;
   const res = findSvgFile(path);
-  // console.log(res.length)
+  // console.log(res.length);
   // const res = []
+
   return {
     name: 'svg-transform',
     transformIndexHtml(html): string {
-      return html.replace(
+      const tt = html.replace(
         '<body>',
         `
           <body>
@@ -64,6 +64,7 @@ export const svgBuilder = (path: string, perfix = 'icon'): Plugin => {
             </svg>
         `
       );
+      return tt;
     },
   };
 };

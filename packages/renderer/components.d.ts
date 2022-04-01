@@ -20,8 +20,9 @@ declare module 'vue' {
     ATable: typeof import('ant-design-vue/es')['Table']
     ATag: typeof import('ant-design-vue/es')['Tag']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    SvgIcon: typeof import('./src/components/svgIcon.vue')['default']
+    SvgIcon: typeof import('./src/components/utils/SvgIcon.vue')['default']
     Table: typeof import('./src/components/Table.vue')['default']
+    TrafficLight: typeof import('./src/components/utils/TrafficLight.vue')['default']
   }
 }
 
