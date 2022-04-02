@@ -13,6 +13,11 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
+      '/public': path.resolve(__dirname, 'public'),
+      '/store': path.resolve(__dirname, 'src/store'),
+      '/script': path.resolve(__dirname, 'src/script'),
+      '/components': path.resolve(__dirname, 'src/components'),
+      '/views': path.resolve(__dirname, 'src/components/views'),
     },
   },
   plugins: [
@@ -20,12 +25,13 @@ export default defineConfig({
     Components({
       resolvers: [AntDesignVueResolver()],
     }),
-    [svgBuilder(path.resolve(__dirname,'src/assets/svgs/'))],
+    [svgBuilder(path.resolve(__dirname, 'src/assets/svgs/'))],
   ],
   base: './',
   build: {
     sourcemap: true,
     outDir: '../../dist/renderer',
+    target: ['chrome90'],
   },
   server: {
     host: pkg.env.VITE_DEV_SERVER_HOST,

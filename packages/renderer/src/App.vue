@@ -8,7 +8,11 @@
           <b class="text-4xl text-orange-400">.</b>
         </div>
         <div class="flex h-1px bg-gray-200 m-4 select-none" />
-        <div id="Avatar" class="flex flex-col items-center justify-center mt-5 drop-shadow-md">
+        <div
+          id="Avatar"
+          class="flex flex-col items-center justify-center mt-5 drop-shadow-md select-none"
+          @click="Login"
+        >
           <div
             class="h-1/2 w-1/2 flex items-center justify-center rounded-full border-2 border-white"
           >
@@ -22,38 +26,38 @@
           <b class="text-base">ZiGma</b>
         </span>
         <div class="flex h-1px bg-gray-200 m-4 select-none" />
-        <a-menu v-model:selectedKeys="selectedKeys">
+        <a-menu v-model:selectedKeys="selectedKeys" @click="handel_SwitchRouter">
           <a-menu-item
-            key="1"
-            class="flex rounded-lg ml-2 mr-2 select-none drop-shadow-md justify-center"
+            key="/"
+            class="flex rounded-lg mx-2 select-none drop-shadow-md justify-center"
           >
             <solution-outlined class="!text-lg" />
             <span class="!ml-5 w-16">我的案件</span>
           </a-menu-item>
           <a-menu-item
-            key="2"
-            class="flex rounded-lg ml-2 mr-2 select-none drop-shadow-md justify-center"
+            key="/Search"
+            class="flex rounded-lg mx-2 select-none drop-shadow-md justify-center"
           >
             <search-outlined class="!text-lg" />
             <span class="!ml-5 w-16">案件查询</span>
           </a-menu-item>
           <a-menu-item
-            key="3"
-            class="flex rounded-lg ml-2 mr-2 select-none drop-shadow-md justify-center"
+            key="/Template"
+            class="flex rounded-lg mx-2 select-none drop-shadow-md justify-center"
           >
             <file-text-outlined class="!text-lg" />
             <span class="!ml-5 w-16">模版管理</span>
           </a-menu-item>
           <a-menu-item
-            key="4"
-            class="flex rounded-lg ml-2 mr-2 select-none drop-shadow-md justify-center"
+            key="/Preferences"
+            class="flex rounded-lg mx-2 select-none drop-shadow-md justify-center"
           >
             <setting-outlined class="!text-lg" />
             <span class="!ml-5 w-16">设置</span>
           </a-menu-item>
-          <div class="w-full absolute bottom-0 mb-8">
+          <!-- <div class="w-full absolute bottom-0 mb-8">
             <svg-icon name="Sun" color="#4d4d4d" class="w-8 h-8 m-auto hover:" />
-          </div>
+          </div> -->
         </a-menu>
       </a-layout-sider>
       <a-layout class="bg-white">
@@ -67,8 +71,9 @@
           <div
             id="ContentView"
             class="drop-shadow-md bg-white p-5 min-h-fit rounded-md dark:bg-gray-600 border border-gray-100"
+            v-if="isRouterAlive"
           >
-            <Table />
+            <router-view />
           </div>
         </a-layout-content>
         <!-- <a-layout-footer style="text-align: center">
@@ -76,6 +81,16 @@
         </a-layout-footer> -->
       </a-layout>
     </a-layout>
+  </div>
+  <div id="LoginView" class="absolute w-full h-full top-0 left-0 z-50" v-if="isLogined">
+    <transition
+      appear
+      enter-active-class="transition duration-3000 ease-in"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+    >
+      <LoginView @CloseLoginView="handle_CloseLoginView" />
+    </transition>
   </div>
 </template>
 
@@ -86,13 +101,28 @@ import {
   SettingOutlined,
   SolutionOutlined,
 } from '@ant-design/icons-vue';
-import { ref } from 'vue';
-import Table from './components/Table.vue';
+import { Ref, ref } from 'vue';
 import avatar from './assets/imgs/useravatar.jpg';
 import TrafficLight from './components/utils/TrafficLight.vue';
+import LoginView from './components/views/Login/index.vue';
+import Router from './router';
 
-const selectedKeys = ref<string[]>(['4']);
-const collapsed = ref<boolean>(false);
+const isLogined = ref(false);
+
+const isRouterAlive: Ref<boolean> = ref(true);
+const handel_SwitchRouter = (item: { key: string }) => {
+  Router.push(item.key);
+};
+
+const handle_CloseLoginView = (): void => {
+  isLogined.value = false;
+};
+
+const Login = () => {
+  isLogined.value = true;
+};
+
+const selectedKeys = ref<string[]>(['/']);
 </script>
 
 <style>
@@ -100,10 +130,6 @@ const collapsed = ref<boolean>(false);
   width: 100vw;
   height: 100vh;
   text-align: center;
-  /* background-color: #fff;
-  border-radius: 20px;
-  border: gray;
-  border-width: 0.5px; */
 }
 
 #ContentView {
@@ -129,20 +155,6 @@ const collapsed = ref<boolean>(false);
   fill: #040000;
   opacity: 0.5;
 }
-
-/* #Avatar {
-  height: 100px;
-  margin: 16px;
-  background: rgba(81, 79, 79, 0.3);
-} */
-
-/* .site-layout .site-layout-background {
-  background: #fff;
-} */
-
-/* [data-theme='dark'] .site-layout .site-layout-background {
-  background: #141414;
-} */
 
 /* 设置菜单样式 */
 .ant-menu,

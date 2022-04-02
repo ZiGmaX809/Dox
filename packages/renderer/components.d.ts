@@ -9,6 +9,8 @@ declare module 'vue' {
     ABreadcrumbItem: typeof import('ant-design-vue/es')['BreadcrumbItem']
     AButton: typeof import('ant-design-vue/es')['Button']
     ADivider: typeof import('ant-design-vue/es')['Divider']
+    AInput: typeof import('ant-design-vue/es')['Input']
+    AInputPassword: typeof import('ant-design-vue/es')['InputPassword']
     ALayout: typeof import('ant-design-vue/es')['Layout']
     ALayoutContent: typeof import('ant-design-vue/es')['LayoutContent']
     ALayoutFooter: typeof import('ant-design-vue/es')['LayoutFooter']
@@ -19,10 +21,16 @@ declare module 'vue' {
     ASubMenu: typeof import('ant-design-vue/es')['SubMenu']
     ATable: typeof import('ant-design-vue/es')['Table']
     ATag: typeof import('ant-design-vue/es')['Tag']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    Casezone: typeof import('./src/components/views/Casezone/index.vue')['default']
+    Login: typeof import('./src/components/views/Login/index.vue')['default']
+    Preferences: typeof import('./src/components/views/Preferences/index.vue')['default']
+    Search: typeof import('./src/components/views/Search/index.vue')['default']
     SvgIcon: typeof import('./src/components/utils/SvgIcon.vue')['default']
     Table: typeof import('./src/components/Table.vue')['default']
+    Template: typeof import('./src/components/views/Template/index.vue')['default']
     TrafficLight: typeof import('./src/components/utils/TrafficLight.vue')['default']
+    Undefined: typeof import('./src/components/index.vue')['default']
+    Views: typeof import('./src/components/views/index.vue')['default']
   }
 }
 
