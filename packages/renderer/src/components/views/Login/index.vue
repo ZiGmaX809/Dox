@@ -4,12 +4,12 @@
     style="-webkit-user-drag: none"
   >
     <img
-      src="https://play.tailwindcss.com/img/beams.jpg"
+      :src="basms"
       class="absolute top-1/2 left-1/2 max-w-none -translate-x-1/2 -translate-y-1/2 blur"
       width="1308"
     />
     <div
-      class="absolute inset-0 bg-[url(https://play.tailwindcss.com/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"
+      class="absolute inset-0 bg-login-grid bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"
     ></div>
     <div
       id="LoginWindow"
@@ -23,7 +23,9 @@
         <a-input v-model:value="account" class="flex flex-1 w-4/5 m-auto rounded-md" />
         <p class="flex flex-1 w-4/5 m-auto">密码</p>
         <a-input-password v-model:value="password" class="flex flex-1 w-4/5 m-auto rounded-md" />
-        <a-button class="flex flex-1 w-4/5 m-auto rounded-md justify-center bg-sky-500 text-white" >登陆</a-button>
+        <a-button class="flex flex-1 w-4/5 m-auto rounded-md justify-center bg-sky-500 text-white">
+          登陆
+        </a-button>
         <a-button
           @click="Close_Login_View"
           class="flex flex-1 w-4/5 m-auto rounded-md justify-center"
@@ -37,6 +39,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+
+import basms from '@/assets/imgs/beams.jpeg';
+import grid from '@/assets/imgs/useravatar.jpg';
 
 const account = ref<string>('');
 const password = ref<string>('');

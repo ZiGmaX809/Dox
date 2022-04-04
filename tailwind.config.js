@@ -18,6 +18,9 @@ module.exports = {
       ringWidth: {
         0.5: '0.8px',
       },
+      backgroundImage: theme => ({
+        'login-grid': "url('/static/svgs/grid.svg')",
+      }),
     },
     colors: ({ colors }) => ({
       inherit: colors.inherit,
