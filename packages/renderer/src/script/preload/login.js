@@ -29,7 +29,7 @@ async function login(data) {
       ipcRenderer.sendToHost("login success");
     })
     .then((res2) => {
-      console.log(res2);
+      // console.log(res2);
     })
     .catch((err) => {
       ipcRenderer.sendToHost(err);

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12"
+    class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12 select-none"
     style="-webkit-user-drag: none"
   >
     <img
@@ -23,6 +23,7 @@
         <a-input v-model:value="account" class="flex flex-1 w-4/5 m-auto rounded-md" />
         <p class="flex flex-1 w-4/5 m-auto">密码</p>
         <a-input-password v-model:value="password" class="flex flex-1 w-4/5 m-auto rounded-md" />
+        <a-checkbox v-model:checked="remember_me" class="flex flex-1 w-4/5 m-auto text-gray-700">记住用户名和密码</a-checkbox>
         <a-button class="flex flex-1 w-4/5 m-auto rounded-md justify-center bg-sky-500 text-white">
           登陆
         </a-button>
@@ -39,12 +40,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-
 import basms from '@/assets/imgs/beams.jpeg';
-import grid from '@/assets/imgs/useravatar.jpg';
 
 const account = ref<string>('');
 const password = ref<string>('');
+const remember_me = ref(false);
 
 const emit = defineEmits(['CloseLoginView']);
 const Close_Login_View = () => {

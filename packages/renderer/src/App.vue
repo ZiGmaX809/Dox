@@ -10,7 +10,7 @@
         <div class="flex h-1px bg-gray-200 m-4 select-none" />
         <div
           id="Avatar"
-          class="flex flex-col items-center justify-center mt-5 drop-shadow-md select-none"
+          class="flex flex-col items-center justify-center mt-5 drop-shadow-md select-none cursor-pointer"
           @click="Login"
         >
           <div
@@ -23,7 +23,9 @@
         <span class="flex flex-col justify-between mt-5 space-y-1 select-none">
           <p class="text-xs text-gray-600">Alibaba Group</p>
           <p class="text-xs text-gray-600">Taobao</p>
-          <b class="text-base">ZiGma</b>
+          <div>
+            <b class="text-base cursor-pointer" @click="Login">ZiGma</b>
+          </div>
         </span>
         <div class="flex h-1px bg-gray-200 m-4 select-none" />
         <a-menu v-model:selectedKeys="selectedKeys" @click="handel_SwitchRouter">
@@ -82,15 +84,12 @@
       </a-layout>
     </a-layout>
   </div>
-  <div id="LoginView" class="absolute w-full h-full top-0 left-0 z-50" v-if="isLogined">
-    <transition
-      appear
-      enter-active-class="transition duration-3000 ease-in"
-      enter-from-class="opacity-0"
-      enter-to-class="opacity-100"
-    >
-      <LoginView @CloseLoginView="handle_CloseLoginView" />
-    </transition>
+  <div
+    id="LoginView"
+    class="absolute w-full h-full top-0 left-0 z-50 transition-all duration-500 ease-out opacity-0"
+    v-if="isLogined"
+  >
+    <LoginView @CloseLoginView="handle_CloseLoginView" />
   </div>
 </template>
 
@@ -115,11 +114,19 @@ const handel_SwitchRouter = (item: { key: string }) => {
 };
 
 const handle_CloseLoginView = (): void => {
-  isLogined.value = false;
+  setTimeout(() => {
+    isLogined.value = false;
+  }, 300);
+  document.getElementById('LoginView')!.classList.remove('opacity-100');
+  document.getElementById('LoginView')!.classList.add('opacity-0');
 };
 
 const Login = () => {
   isLogined.value = true;
+  setTimeout(() => {
+    document.getElementById('LoginView')!.classList.remove('opacity-0');
+    document.getElementById('LoginView')!.classList.add('opacity-100');
+  }, 100);
 };
 
 const selectedKeys = ref<string[]>(['/']);
