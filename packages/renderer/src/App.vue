@@ -32,28 +32,28 @@
           index="/"
           class="flex h-10 rounded-lg mx-2 select-none drop-shadow-md justify-center"
         >
-          <!-- <el-icon><Files /></el-icon> -->
+          <svg-icon name="store" class="w-6 h-6" />
           <span class="!ml-3 w-16 text-[15px]">我的案件</span>
         </el-menu-item>
         <el-menu-item
           index="/Search"
           class="flex h-10 rounded-lg mx-2 select-none drop-shadow-md justify-center"
         >
-          <!-- <el-icon><Search /></el-icon> -->
+          <svg-icon name="search" class="w-6 h-6" />
           <span class="!ml-3 w-16 text-[15px]">案件查询</span>
         </el-menu-item>
         <el-menu-item
           index="/Template"
           class="flex h-10 rounded-lg mx-2 select-none drop-shadow-md justify-center"
         >
-          <!-- <el-icon><Document /></el-icon> -->
+          <svg-icon name="template" class="w-6 h-6" />
           <span class="!ml-3 w-16 text-[15px]">模板管理</span>
         </el-menu-item>
         <el-menu-item
           index="/Preferences"
           class="flex h-10 rounded-lg mx-2 select-none drop-shadow-md justify-center"
         >
-          <!-- <el-icon><Setting /></el-icon> -->
+          <svg-icon name="set" class="w-6 h-6" />
           <span class="!ml-3 w-16 text-[15px]">设置</span>
         </el-menu-item>
       </el-menu>
@@ -82,7 +82,6 @@
 <script setup lang="ts">
 import TrafficLight from './components/utils/TrafficLight.vue';
 import avatar from './assets/imgs/useravatar.jpg';
-// import { Files, Search, Document, Setting } from '@element-plus/icons-vue';
 import LoginView from './components/views/Login/index.vue';
 
 

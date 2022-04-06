@@ -1,7 +1,13 @@
 <template>
-  <div id="PreferView" ></div>
-  <div class="w-2/3 h-full m-auto bg-slate-600"></div>
-  <h1 class="text-lg">自定义</h1>
+  <div id="PreferMainView" class="w-full h-full">
+    <el-scrollbar>
+      <div id="PreferContentView" class="flex flex-col w-3/5 h-auto m-auto select-none">
+        <Customzie />
+      </div>
+    </el-scrollbar>
+  </div>
 </template>
 
-<script></script>
+<script setup lang="ts">
+import Customzie from './Modules/Customize.vue';
+</script>
