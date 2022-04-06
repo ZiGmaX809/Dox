@@ -18,21 +18,27 @@
       <div class="mx-auto max-w-md w-full text-center space-y-6 py-8">
         <b class="text-2xl text-gray-600">Sign in to your account</b>
       </div>
-      <div class="space-y-3">
-        <p class="flex flex-1 w-4/5 m-auto">用户名</p>
-        <a-input v-model:value="account" class="flex flex-1 w-4/5 m-auto rounded-md" />
-        <p class="flex flex-1 w-4/5 m-auto">密码</p>
-        <a-input-password v-model:value="password" class="flex flex-1 w-4/5 m-auto rounded-md" />
-        <a-checkbox v-model:checked="remember_me" class="flex flex-1 w-4/5 m-auto text-gray-700">记住用户名和密码</a-checkbox>
-        <a-button class="flex flex-1 w-4/5 m-auto rounded-md justify-center bg-sky-500 text-white">
-          登陆
-        </a-button>
-        <a-button
-          @click="Close_Login_View"
-          class="flex flex-1 w-4/5 m-auto rounded-md justify-center"
-        >
-          取消
-        </a-button>
+      <div class="space-y-2">
+        <p class="flex flex-1 w-4/5 m-auto text-sm">用户名</p>
+        <el-input v-model="account" clearable class="!w-4/5 mx-10 rounded-md" />
+        <p class="flex flex-1 w-4/5 m-auto text-sm">密码</p>
+        <el-input v-model="password" show-password class="!w-4/5 mx-10 rounded-md" />
+        <div class="w-full flex">
+          <el-checkbox v-model="remember_me" class="flex flex-1 !w-4/5 mx-10 text-gray-700">
+            记住用户名和密码
+          </el-checkbox>
+        </div>
+        <div class="w-full flex flex-col space-y-2">
+          <el-button
+            type="primary"
+            class="!w-4/5 mx-10 rounded-md justify-center bg-sky-500 text-white"
+          >
+            登陆
+          </el-button>
+          <el-button @click="Close_Login_View" class="!w-4/5 !mx-10 rounded-md justify-center">
+            取消
+          </el-button>
+        </div>
       </div>
     </div>
   </div>

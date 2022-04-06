@@ -1,8 +1,8 @@
 import { createApp } from 'vue';
 import App from './App.vue';
+import './assets/styles/main.css';
 import router from './router/index';
 import store from './store';
-import './assets/css/index.css';
 import svgIcon from './components/utils/SvgIcon.vue';
 
 createApp(App)
