@@ -2,4 +2,4 @@
   <h1>hello world!</h1>
 </template>
 
-<script></script>
+<script setup lang="ts"></script>

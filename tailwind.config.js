@@ -5,7 +5,7 @@ module.exports = {
     './packages/renderer/src/**/*.{js,jsx,ts,tsx,vue}',
   ],
   presets: [
-    require('./packages/renderer/src/assets/styles/element.ts'), // 根据您放置的element.ts配置路径
+    // require('./packages/renderer/src/assets/styles/element.ts'), // 根据您放置的element.ts配置路径
   ],
   darkMode: 'media', // or 'class'
   theme: {

@@ -2,4 +2,4 @@
   <h1>search</h1>
 </template>
 
-<script></script>
+<script setup lang="ts"></script>

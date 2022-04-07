@@ -3,6 +3,7 @@
     <el-scrollbar>
       <div id="PreferContentView" class="flex flex-col w-3/5 h-auto m-auto select-none">
         <Customzie />
+        <Edit />
       </div>
     </el-scrollbar>
   </div>
@@ -10,4 +11,5 @@
 
 <script setup lang="ts">
 import Customzie from './Modules/Customize.vue';
+import Edit from './Modules/Edit.vue'
 </script>
