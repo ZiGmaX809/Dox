@@ -1,5 +1,6 @@
 <template>
-  <div
+ 
+    <div
     class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12 select-none"
     style="-webkit-user-drag: none"
   >
@@ -11,6 +12,7 @@
     <div
       class="absolute inset-0 bg-login-grid bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"
     ></div>
+     <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"></form>
     <div
       id="LoginWindow"
       class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white shadow-xl ring-1 ring-gray-900/5 w-96 h-96 rounded-md"
@@ -31,7 +33,7 @@
         <div class="w-full flex flex-col space-y-2">
           <el-button
             type="primary"
-            class="!w-4/5 mx-10 rounded-md justify-center bg-sky-500 text-white"
+            class="!w-4/5 mx-10 rounded-md justify-center"
           >
             登陆
           </el-button>
@@ -41,7 +43,8 @@
         </div>
       </div>
     </div>
-  </div>
+    </div>
+
 </template>
 
 <script setup lang="ts">

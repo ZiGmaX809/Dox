@@ -13,9 +13,9 @@
         @click="Login"
       >
         <div
-          class="h-1/2 w-1/2 flex items-center justify-center rounded-full border-2 border-white"
+          class="w-24 h-24 flex items-center justify-center rounded-full border-2 border-white overflow-hidden"
         >
-          <img :src="avatar_src" style="-webkit-user-drag: none" class="rounded-full" />
+          <img :src="avatar_src" style="-webkit-user-drag: none" class="rounded-full w-24 h-24" />
         </div>
         <div class="w-3 h-3 -mt-4 -mr-16 bg-green-400 rounded-full border-2 border-white" />
       </div>
@@ -62,7 +62,7 @@
       <el-header
         id="Layout-Header"
         class="bg-white dark:bg-neutral-800 h-10 items-center border-b border-gray-200"
-        style="-webkit-app-region: drag;"
+        style="-webkit-app-region: drag"
       >
         <TrafficLight />
       </el-header>

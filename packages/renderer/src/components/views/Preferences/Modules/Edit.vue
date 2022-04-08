@@ -1,9 +1,9 @@
 <template>
   <b class="text-2xl mt-10">编辑</b>
   <el-divider />
-  <div class="space-y-2">
-    <div class="flex justify-between">
-      <p class="font-bold text-gray-800">默认字体</p>
+  <div class="space-y-3">
+    <div class="flex justify-between h-8">
+      <p class="font-bold ">默认字体</p>
       <el-select
         v-model="default_font_name"
         size="small"
@@ -19,8 +19,8 @@
       </el-select>
     </div>
 
-    <div class="flex justify-between">
-      <p class="font-bold text-gray-800">默认字号</p>
+    <div class="flex justify-between h-8">
+      <p class="font-bold ">默认字号</p>
       <el-select
         v-model="default_font_size"
         size="small"
@@ -31,8 +31,8 @@
       </el-select>
     </div>
 
-    <div class="flex justify-between">
-      <p class="font-bold text-gray-800">默认行高</p>
+    <div class="flex justify-between h-8">
+      <p class="font-bold ">默认行高</p>
       <el-select
         v-model="default_lineheight"
         size="small"
@@ -44,28 +44,28 @@
     </div>
 
     <div>
-      <div class="flex justify-between">
-        <p class="font-bold text-gray-800">默认启用首行缩进</p>
+      <div class="flex justify-between h-8">
+        <p class="font-bold ">默认启用首行缩进</p>
         <el-switch v-model="switch_auto_int2em" />
       </div>
-      <p class="text-sm text-gray-400">
+      <p class="text-xs text-gray-400">
         编辑器内的字体、字号、段落格并不会影响导出文书的格式，仅为了便于编辑文书。
       </p>
     </div>
 
     <div>
-      <div class="flex justify-between">
-        <p class="font-bold text-gray-800">启用剪贴板</p>
+      <div class="flex justify-between h-8">
+        <p class="font-bold ">启用剪贴板</p>
         <el-switch v-model="switch_clipboard_bool" />
       </div>
-      <p class="text-sm text-gray-400">
+      <p class="text-xs text-gray-400">
         启用剪贴板功能后，将会监听系统剪贴板，并且将复制的文本存入缓存中。
       </p>
     </div>
 
     <div>
-      <div class="flex justify-between">
-        <p class="font-bold text-gray-800">剪贴板缓存数量（自定义上限200）</p>
+      <div class="flex justify-between h-8">
+        <p class="font-bold ">剪贴板缓存数量（自定义上限200）</p>
         <el-input
           v-model="STORE_setting_instance.clipboard_num"
           size="small"
@@ -75,14 +75,44 @@
           @input="(val: string) => handleChange_num(val,200)"
         />
       </div>
-      <p class="text-sm text-gray-400">
+      <p class="text-xs text-gray-400">
         条目数量过多将会导致索引效率降低，建议设置缓存条目数量控制在50以内。
         <br />
         超出数量将自动清除最先数据。
       </p>
     </div>
 
-    
+    <div>
+      <div class="flex justify-between h-8">
+        <p class="font-bold ">剪贴板监听字符长度（自定义上限600）</p>
+        <el-input
+          v-model="STORE_setting_instance.clipboard_textlength"
+          size="small"
+          style="width: 50px"
+          controls-position="right"
+          :disabled="!switch_clipboard_bool"
+          @input="(val: string) => handleChange_num(val,600)"
+        />
+      </div>
+      <p class="text-xs text-gray-400">
+        为保证性能，建议监听300字符以内的文本。
+        <br />
+        超出设定长度依旧可以复制粘贴，但不会存入缓存。
+      </p>
+    </div>
+
+    <div>
+      <div class="flex justify-between h-8">
+        <p class="font-bold ">复用剪贴板内容</p>
+        <el-switch
+            v-model="switch_writeSystemClipboard_bool"
+            :disabled="!switch_clipboard_bool"
+          />
+      </div>
+      <p class="text-xs text-gray-400">
+        启用后，点击剪贴板内容时，将会把点击内容写入到系统剪贴板，以便于使用Ctrl+V进行多次粘贴。
+      </p>
+    </div>
   </div>
 </template>
 

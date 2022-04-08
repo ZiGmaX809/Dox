@@ -9,6 +9,10 @@ declare global {
     shell: import('electron').Shell;
     path: typeof import('path');
     clipboard: import('electron').Clipboard;
+    Remove: (Path: string) => void;
+    Copy: (originalPath: string, targetPath: string) => void;
+    Move: (originalPath: string, targetPath: string) => void;
+    Export_File: (file: Blob | string, FullPath: string) => string[];
     removeLoading: () => void;
   }
 }

@@ -1,9 +1,9 @@
 <template>
   <b class="text-2xl mt-10">偏好</b>
   <el-divider />
-  <div class="space-y-2">
+  <div class="space-y-3">
     <div class="flex justify-between">
-      <p class="font-bold text-gray-800">暗黑模式</p>
+      <p class="font-bold ">暗黑模式</p>
       <div class="flex flex-row space-x-2 items-center">
         <div class="w-4 h-4 rounded-full bg-orange-500 ring-1 ring-gray-200" />
         <div class="w-4 h-4 rounded-full bg-green-400 ring-1 ring-gray-200"></div>
@@ -12,7 +12,7 @@
     </div>
 
     <div class="flex justify-between">
-      <p class="font-bold text-gray-800">显示自定义头像</p>
+      <p class="font-bold ">显示自定义头像</p>
       <el-switch v-model="switch_coutom_avatar" />
     </div>
   </div>

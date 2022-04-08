@@ -394,6 +394,7 @@ module.exports = {
         '"Courier New"',
         'monospace',
       ],
+      barlow: ['Barlow'],
     },
     fontSize: {
       xs: ['0.75rem', { lineHeight: '1rem' }],
@@ -971,5 +972,13 @@ module.exports = {
     'active',
     'disabled',
   ],
-  plugins: [],
+  plugins: [
+    function ({ addBase }) {
+      addBase({
+        '.el-button': {
+          'background-color': 'var(--el-button-bg-color,var(--el-color-white))',
+        },
+      });
+    },
+  ],
 };
