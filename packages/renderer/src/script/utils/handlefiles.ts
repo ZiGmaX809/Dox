@@ -1,6 +1,5 @@
 import { OpenDialogSyncOptions } from 'electron';
 import { ElMessageBox } from 'element-plus';
-import { h, ref } from 'vue';
 
 /**
  * 读取本地图片并返回一个相应callback类型的Promise

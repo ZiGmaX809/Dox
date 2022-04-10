@@ -40,8 +40,7 @@
 
 <script setup lang="ts">
 import Nzh from 'nzh';
-import { ElUpload } from 'element-plus';
-import { ref } from 'vue';
+import 'element-plus/theme-chalk/el-upload.css';
 import { Msg } from '/script/utils/message';
 import { isFileExisted_And_Export } from '/script/utils/handlefiles';
 

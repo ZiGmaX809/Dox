@@ -1,5 +1,6 @@
 import { ElMessage } from 'element-plus';
-import 'element-plus/theme-chalk/src/message.scss';
+import 'element-plus/theme-chalk/el-message.css';
+import 'element-plus/theme-chalk/el-badge.css';
 
 export function Msg(msg: string, type: any) {
   ElMessage({

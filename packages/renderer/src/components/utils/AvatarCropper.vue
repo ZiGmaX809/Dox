@@ -55,8 +55,8 @@ import { VueCropper } from 'vue-cropper';
 import { inject, reactive, ref } from 'vue';
 import { STORE_System } from '/store/modules/system';
 
-import { Msg } from '/utils/message';
-import { Load_Image_To_Base64, Select_FileOrFolder } from '/utils/handlefiles';
+import { Msg } from '/script/utils/message';
+import { Load_Image_To_Base64, Select_FileOrFolder } from '/script/utils/handlefiles';
 
 /* vue-cropper DOM */
 const cropper = ref();
@@ -116,8 +116,8 @@ const emit = defineEmits(['dialog_close']);
 const save_pic = () => {
   if (cropper.value) {
     cropper.value!.getCropBlob((blob: any) => {
-      const custom_avatar_path = `${STORE_System().CacheFile_Path}/images/`;
-      const result: string[] = window.Export_File(blob, custom_avatar_path, 'useravatar.jpg');
+      const custom_avatar_path = `${STORE_System().CacheFile_Path}/images/useravatar.jpg`;
+      const result: string[] = window.Export_File(blob, custom_avatar_path);
       Msg('保存' + result[1], result[0]);
       emit('dialog_close');
       setTimeout(() => {

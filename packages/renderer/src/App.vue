@@ -82,7 +82,6 @@
 
 <script setup lang="ts">
 import TrafficLight from './components/utils/TrafficLight.vue';
-import avatar from './assets/imgs/useravatar.jpg';
 import LoginView from './components/views/Login/index.vue';
 
 import { STORE_Login } from '/store/modules/login';
