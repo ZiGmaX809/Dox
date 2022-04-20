@@ -55,7 +55,7 @@
           <ImportFile />
         </el-dialog>
       </div>
-      <p class="text-xs text-gray-400">
+      <p class="text-xs text-neutral-400">
         <b>
           &#10059;&nbsp;注意：快捷输入工具仅为编辑文书的辅助性功能。对于导入的文件，工具将尽可能进行准确匹配、转换，但是无法百分百保证任何法律法规文件导入后法条完整和准确性。
           <br />
@@ -85,7 +85,7 @@
         <p class="font-bold">行政区划地址信息（更新时间：{{ pca_Update_Time() }}）</p>
         <el-button size="small" @click="Import_pcafile()">选择文件并更新</el-button>
       </div>
-      <p class="text-xs text-gray-400">
+      <p class="text-xs text-neutral-400">
         地域范围为国家统计局开展统计调查的全国31个省、自治区、直辖市，
         <br />
         未包括我国台湾省、香港特别行政区、澳门特别行政区。

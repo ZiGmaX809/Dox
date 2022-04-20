@@ -48,7 +48,7 @@
         <p class="font-bold ">默认启用首行缩进</p>
         <el-switch v-model="switch_auto_int2em" />
       </div>
-      <p class="text-xs text-gray-400">
+      <p class="text-xs text-neutral-400">
         编辑器内的字体、字号、段落格并不会影响导出文书的格式，仅为了便于编辑文书。
       </p>
     </div>
@@ -58,7 +58,7 @@
         <p class="font-bold ">启用剪贴板</p>
         <el-switch v-model="switch_clipboard_bool" />
       </div>
-      <p class="text-xs text-gray-400">
+      <p class="text-xs text-neutral-400">
         启用剪贴板功能后，将会监听系统剪贴板，并且将复制的文本存入缓存中。
       </p>
     </div>
@@ -75,7 +75,7 @@
           @input="(val: string) => handleChange_num(val,200)"
         />
       </div>
-      <p class="text-xs text-gray-400">
+      <p class="text-xs text-neutral-400">
         条目数量过多将会导致索引效率降低，建议设置缓存条目数量控制在50以内。
         <br />
         超出数量将自动清除最先数据。
@@ -94,7 +94,7 @@
           @input="(val: string) => handleChange_num(val,600)"
         />
       </div>
-      <p class="text-xs text-gray-400">
+      <p class="text-xs text-neutral-400">
         为保证性能，建议监听300字符以内的文本。
         <br />
         超出设定长度依旧可以复制粘贴，但不会存入缓存。
@@ -109,7 +109,7 @@
             :disabled="!switch_clipboard_bool"
           />
       </div>
-      <p class="text-xs text-gray-400">
+      <p class="text-xs text-neutral-400">
         启用后，点击剪贴板内容时，将会把点击内容写入到系统剪贴板，以便于使用Ctrl+V进行多次粘贴。
       </p>
     </div>

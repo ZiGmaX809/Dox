@@ -1,6 +1,6 @@
 <template>
-  <div style="display: flex; flex-direction: row; height: 500px">
-    <div class="content" style="width: 500px; height: 500px">
+  <div class="flex flex-row h-[500px]">
+    <div class="w-[500px] h-[500px]">
       <vue-cropper
         ref="cropper"
         :img="options.img"
@@ -16,11 +16,11 @@
         :enlarge="options.enlarge"
       />
     </div>
-    <div style="display: flex; flex-direction: column; margin-left: 20px">
-      <el-button size="small" style="width: 100px" @click="select_pic">打开图片</el-button>
+    <div class="flex flex-col ml-5">
+      <el-button size="small" class="w-[100px]" @click="select_pic">打开图片</el-button>
       <el-button
         size="small"
-        style="width: 100px"
+        class="w-[100px] !ml-0 mt-3"
         type="danger"
         :disabled="save_disabled"
         @click="clear_pic"
@@ -29,14 +29,14 @@
       </el-button>
       <el-button
         size="small"
-        style="width: 100px"
+        class="w-[100px] !ml-0 mt-3"
         type="success"
         @click="save_pic"
         :disabled="save_disabled"
       >
         保存
       </el-button>
-      <p style="width: 100px; font-size: 12px; color: #909090">
+      <p class="w-[100px] text-xs text-neutral-400 mt-3">
         Tips:
         <br />
         可在选框外拖动图片；
@@ -97,7 +97,7 @@ const select_pic = async () => {
       extensions: ['jpeg', 'jpg', 'png'],
     },
   ];
-  const  select_image_path = await Select_FileOrFolder(['openFile'], filter);
+  const select_image_path = await Select_FileOrFolder(['openFile'], filter);
   if (select_image_path) {
     Load_Image_To_Base64(select_image_path).then(res => {
       options.img = res;
@@ -127,10 +127,3 @@ const save_pic = () => {
   }
 };
 </script>
-
-<style scoped>
-.el-button + .el-button {
-  margin-top: 10px;
-  margin-left: 0px !important;
-}
-</style>
