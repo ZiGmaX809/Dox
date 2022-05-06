@@ -5,9 +5,10 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Advanced: typeof import('./src/components/views/Preferences/Modules/Advanced.vue')['default']
     AvatarCropper: typeof import('./src/components/utils/AvatarCropper.vue')['default']
     Casezone: typeof import('./src/components/views/Casezone/index.vue')['default']
-    Customize: typeof import('./src/components/views/Preferences/Modules/Customize.vue')['default']
+    Customzie: typeof import('./src/components/views/Preferences/Modules/Customzie.vue')['default']
     Edit: typeof import('./src/components/views/Preferences/Modules/Edit.vue')['default']
     Editor: typeof import('./src/components/views/Preferences/Modules/Editor.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
@@ -27,13 +28,16 @@ declare module '@vue/runtime-core' {
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElPopconfirm: typeof import('element-plus/es')['ElPopconfirm']
+    ElProgress: typeof import('element-plus/es')['ElProgress']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElUpload: typeof import('element-plus/es')['ElUpload']
+    Export: typeof import('./src/components/views/Preferences/Modules/Export.vue')['default']
     ImportFile: typeof import('./src/components/utils/ImportFile.vue')['default']
     Login: typeof import('./src/components/views/Login/index.vue')['default']
     Notice: typeof import('./src/components/utils/Notice.vue')['default']

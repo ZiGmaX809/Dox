@@ -44,7 +44,6 @@
 <script setup lang="ts">
 import { computed, inject, ref } from 'vue';
 import { STORE_Setting } from '/store/modules/setting';
-import { handleChange_num } from '/script/utils/settings';
 import AvatarCropper from '/components/utils/AvatarCropper.vue';
 
 const STORE_setting_instance = STORE_Setting();

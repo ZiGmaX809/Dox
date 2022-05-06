@@ -1,5 +1,5 @@
-import { HTTP_getPartyInfoList, HTTP_getqueryCaseDsrList } from '/script/api/apiList';
-import { getItem, setItem } from '/utils/storage';
+import { HTTP_getPartyInfoList, HTTP_getqueryCaseDsrList } from '../api/apiList';
+import { getItem, setItem } from '/scripts/utils/storage';
 import { STORE_Login } from '/store/modules/login';
 
 /**

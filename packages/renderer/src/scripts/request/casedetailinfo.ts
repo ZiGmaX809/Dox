@@ -1,4 +1,4 @@
-import { HTTP_getCaseDetail } from '/script/api/apiList';
+import { HTTP_getCaseDetail } from '/scripts/api/apiList';
 import { STORE_Login } from '/store/modules/login';
 import { STORE_System } from '/store/modules/system';
 import { STORE_Request } from '/store/modules/request';

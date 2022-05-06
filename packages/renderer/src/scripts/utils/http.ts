@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { ElMessage } from "element-plus";
-import { showLoading, hideLoading } from "../utils/loading";
+import { showLoading, hideLoading } from "./loading";
 
 // 接口类型和方法
 interface BaseType {

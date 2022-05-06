@@ -16,7 +16,7 @@
       "@/*": ["src/*"],
       "/public/*": ["public/*"],
       "/store/*": ["src/store/*"],
-      "/script/*": ["src/script/*"],
+      "/scripts/*": ["src/scripts/*"],
       "/components/*": ["src/components/*"],
       "/views/*": ["src/components/views/*"]
     }

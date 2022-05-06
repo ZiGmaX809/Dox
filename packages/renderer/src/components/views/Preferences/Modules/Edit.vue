@@ -118,7 +118,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { handleChange_num } from '/script/utils/settings';
+import { handleChange_num } from '/scripts/utils/settings';
 import { STORE_Setting } from '/store/modules/setting';
 
 const STORE_setting_instance = STORE_Setting();

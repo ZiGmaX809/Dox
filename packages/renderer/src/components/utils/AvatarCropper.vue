@@ -55,8 +55,8 @@ import { VueCropper } from 'vue-cropper';
 import { inject, reactive, ref } from 'vue';
 import { STORE_System } from '/store/modules/system';
 
-import { Msg } from '/script/utils/message';
-import { Load_Image_To_Base64, Select_FileOrFolder } from '/script/utils/handlefiles';
+import { Msg } from '/scripts/utils/message';
+import { Load_Image_To_Base64, Select_FileOrFolder } from '/scripts/utils/handlefiles';
 
 /* vue-cropper DOM */
 const cropper = ref();

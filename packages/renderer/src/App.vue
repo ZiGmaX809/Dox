@@ -1,6 +1,6 @@
 <template>
   <el-container class="w-screen h-screen">
-    <el-aside class="w-[200px] bg-custom_bg border-r border-r-gray-200 h-screen">
+    <el-aside class="!w-[200px] bg-custom_bg border-r border-r-gray-200 h-screen">
       <div class="w-full mt-6 mb-6 flex justify-center select-none items-baseline">
         <svg-icon id="black" name="Logo" class="w-12 h-12" />
         <b class="text-4xl font-sans" style="color: #4d4d4d">ox</b>
@@ -27,31 +27,31 @@
         </div>
       </span>
       <div class="flex h-1px bg-gray-200 m-4 select-none" />
-      <el-menu router default-active="/" class="!space-y-2">
+      <el-menu router default-active="/" class="!space-y-2 ">
         <el-menu-item
           index="/"
-          class="flex h-10 rounded-lg mx-2 select-none drop-shadow-md justify-center"
+          class="flex !h-10 rounded-lg !mx-2 select-none drop-shadow-md justify-center "
         >
           <svg-icon name="store" class="w-6 h-6" />
           <span class="!ml-3 w-16 text-[15px]">我的案件</span>
         </el-menu-item>
         <el-menu-item
           index="/Search"
-          class="flex h-10 rounded-lg mx-2 select-none drop-shadow-md justify-center"
+          class="flex !h-10 rounded-lg mx-2 select-none drop-shadow-md justify-center"
         >
           <svg-icon name="search" class="w-6 h-6" />
           <span class="!ml-3 w-16 text-[15px]">案件查询</span>
         </el-menu-item>
         <el-menu-item
           index="/Template"
-          class="flex h-10 rounded-lg mx-2 select-none drop-shadow-md justify-center"
+          class="flex !h-10 rounded-lg mx-2 select-none drop-shadow-md justify-center"
         >
           <svg-icon name="template" class="w-6 h-6" />
           <span class="!ml-3 w-16 text-[15px]">模板管理</span>
         </el-menu-item>
         <el-menu-item
           index="/Preferences"
-          class="flex h-10 rounded-lg mx-2 select-none drop-shadow-md justify-center"
+          class="flex !h-10 rounded-lg mx-2 select-none drop-shadow-md justify-center"
         >
           <svg-icon name="set" class="w-6 h-6" />
           <span class="!ml-3 w-16 text-[15px]">设置</span>
@@ -90,7 +90,7 @@ import { STORE_System } from '/store/modules/system';
 import { STORE_Setting } from '/store/modules/setting';
 import { STORE_Clipboard } from '/store/modules/clipboard';
 
-import { Load_Image_To_Base64 } from '/script/utils/handlefiles';
+import { Load_Image_To_Base64 } from '/scripts/utils/handlefiles';
 
 const STORE_editor_instance = STORE_Editor();
 const STORE_setting_instance = STORE_Setting();
@@ -140,13 +140,13 @@ provide('avatar_src', set_avatar_src);
 
 <style>
 .el-menu {
-  border-right: solid 0px;
-  --el-menu-bg-color: rgba(0, 0, 0, 0);
-  --el-menu-hover-bg-color: #fafafa;
+  border-right: solid 0px !important;
+  --el-menu-bg-color: rgba(0, 0, 0, 0) !important;
+  --el-menu-hover-bg-color: #fafafa !important;
 }
 
 .el-menu-item.is-active {
-  background-color: #fafafa;
-  color: #384151;
+  background-color: #fafafa !important;
+  color: #384151 !important;
 }
 </style>

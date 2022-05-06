@@ -105,9 +105,9 @@
 import { nextTick, reactive, ref } from 'vue';
 import { STORE_Setting } from '/store/modules/setting';
 import { STORE_System } from '/store/modules/system';
-import { Scan_Lawfiles } from '/script/utils/scanfolder';
-import { Load_Local_Files } from '/script/utils/handlefiles';
-import { Msg } from '/script/utils/message';
+import { Scan_Lawfiles } from '/scripts/utils/scanfolder';
+import { Load_Local_Files } from '/scripts/utils/handlefiles';
+import { Msg } from '/scripts/utils/message';
 
 import ImportFile from '/components/utils/ImportFile.vue';
 

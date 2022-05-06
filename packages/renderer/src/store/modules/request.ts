@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { obj } from "..";
-import { walkSync } from "../../script/utils/scanfolder";
+import { walkSync } from "/scripts/utils/scanfolder";
 import { STORE_System } from "./system";
 
 interface RequestState {

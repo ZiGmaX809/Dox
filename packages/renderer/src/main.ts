@@ -5,10 +5,10 @@ import router from './router/index';
 import store from './store';
 import svgIcon from './components/utils/SvgIcon.vue';
 
-import { ipcMsg_Get_Path } from '/script/utils/ipcmessage';
+import { ipcMsg_Get_Path } from './scripts/utils/ipcmessage';
 import { STORE_System } from '/store/modules/system';
 import { STORE_Setting } from '/store/modules/setting';
-import { Scan_Lawfiles } from '/script/utils/scanfolder';
+import { Scan_Lawfiles } from './scripts/utils/scanfolder';
 
 createApp(App)
   .use(store)

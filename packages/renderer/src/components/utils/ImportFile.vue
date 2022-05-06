@@ -41,8 +41,8 @@
 <script setup lang="ts">
 import Nzh from 'nzh';
 import 'element-plus/theme-chalk/el-upload.css';
-import { Msg } from '/script/utils/message';
-import { isFileExisted_And_Export } from '/script/utils/handlefiles';
+import { Msg } from '/scripts/utils/message';
+import { isFileExisted_And_Export } from '/scripts/utils/handlefiles';
 
 import { STORE_System } from '/store/modules/system';
 import { STORE_Setting } from '/store/modules/setting';

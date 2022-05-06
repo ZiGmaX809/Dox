@@ -11,9 +11,9 @@ import Editor from '@tinymce/tinymce-vue';
 // import "tinymce/skins/content/default/content.min.css";
 //引入方式引入node_modules里的tinymce相关文件文件
 import tinymce from 'tinymce/tinymce'; //tinymce默认hidden，不引入则不显示编辑器
-import { STORE_Editor } from '../store/modules/editor';
+import { STORE_Editor } from '/store/modules/editor';
 import { reactive, ref, watch } from 'vue';
-import { STORE_Setting } from '../store/modules/setting';
+import { STORE_Setting } from '/store/modules/setting';
 
 import 'tinymce/themes/silver'; //编辑器主题，不引入则报错
 import 'tinymce/models/dom'; //6.0.0新增特性

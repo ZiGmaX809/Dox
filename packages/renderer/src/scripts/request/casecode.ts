@@ -1,5 +1,5 @@
 import { STORE_Login } from "/store/modules/login";
-import { HTTP_getCodeList } from "/script/api/apiList";
+import { HTTP_getCodeList } from '/scripts/api/apiList';
 
 /**
  * 暂时弃用

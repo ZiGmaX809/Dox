@@ -13,7 +13,6 @@
 
 <script setup lang="ts">
 import "element-plus/dist/index.css";
-import { ref } from "vue";
 import { STORE_Request } from "/store/modules/request";
 
 const res = ref(0);

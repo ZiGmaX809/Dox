@@ -1,4 +1,4 @@
-import { Msg } from '@/script/utils/message';
+import { Msg } from '@/scripts/utils/message';
 import { STORE_Editor } from '@/store/modules/editor';
 
 tinymce.PluginManager.add('customsave', function (editor, url) {
