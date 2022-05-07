@@ -17,20 +17,21 @@
         >
           <img :src="avatar_src" style="-webkit-user-drag: none" class="rounded-full w-24 h-24" />
         </div>
+
         <div class="w-3 h-3 -mt-4 -mr-16 bg-green-400 rounded-full border-2 border-white" />
       </div>
       <span class="flex flex-col justify-between mt-5 space-y-1 select-none">
-        <p class="text-xs text-gray-600 text-center">Alibaba Group</p>
-        <p class="text-xs text-gray-600 text-center">Taobao</p>
+        <p class="text-xs text-gray-600 text-center">{{ unit }}</p>
+        <p class="text-xs text-gray-600 text-center">{{ department }}</p>
         <div class="text-center">
-          <b class="text-base cursor-pointer" @click="Login">ZiGma</b>
+          <b class="text-base cursor-pointer" @click="Login">{{ username }}</b>
         </div>
       </span>
       <div class="flex h-1px bg-gray-200 m-4 select-none" />
-      <el-menu router default-active="/" class="!space-y-2 ">
+      <el-menu router default-active="/" class="!space-y-2">
         <el-menu-item
           index="/"
-          class="flex !h-10 rounded-lg !mx-2 select-none drop-shadow-md justify-center "
+          class="flex !h-10 rounded-lg !mx-2 select-none drop-shadow-md justify-center"
         >
           <svg-icon name="store" class="w-6 h-6" />
           <span class="!ml-3 w-16 text-[15px]">我的案件</span>
@@ -61,7 +62,7 @@
     <el-container>
       <el-header
         id="Layout-Header"
-        class="bg-white dark:bg-neutral-800 h-10 items-center border-b border-gray-200"
+        class="bg-white dark:bg-neutral-800 !h-10 items-center border-b border-gray-200"
         style="-webkit-app-region: drag"
       >
         <TrafficLight />
@@ -100,6 +101,10 @@ const isLogined = ref(false);
 const isRouterAlive = ref(true);
 
 const avatar_src = ref();
+
+const username = STORE_Login()?.LoginResult?.data?.yhxm ?? '点击登录';
+const department = STORE_Login()?.LoginResult?.data?.depart?.bmmc ?? '-';
+const unit = STORE_Login()?.LoginResult?.data?.fy?.fymc ?? '-';
 
 const Login = () => {
   isLogined.value = true;

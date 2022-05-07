@@ -15,10 +15,11 @@
      <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"></form>
     <div
       id="LoginWindow"
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white shadow-xl ring-1 ring-gray-900/5 w-96 h-96 rounded-md"
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white shadow-xl ring-1 ring-gray-900/5 w-96 h-[410px] rounded-md"
     >
-      <div class="mx-auto max-w-md w-full text-center space-y-6 py-8">
-        <b class="text-2xl text-gray-600">Sign in to your account</b>
+      <div class="flex flex-col mx-auto max-w-md w-full text-center space-y-2 py-8">
+        <b class="text-3xl bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500 ">Login To</b>
+        <b class="text-xl bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">The Case Office Platform</b>
       </div>
       <div class="space-y-2">
         <p class="flex flex-1 w-4/5 m-auto text-sm">用户名</p>

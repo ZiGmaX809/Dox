@@ -12,7 +12,7 @@ declare global {
     Remove: (Path: string) => void;
     Copy: (originalPath: string, targetPath: string) => void;
     Move: (originalPath: string, targetPath: string) => void;
-    Export_File: (file: Blob | string, FullPath: string) => string[];
+    Export_File: (file: Blob | string, FullPath: string) => void;
     removeLoading: () => void;
   }
 }

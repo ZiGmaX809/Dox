@@ -7,7 +7,7 @@
       <el-select
         v-model="default_font_name"
         size="small"
-        style="width: 80px"
+        style="width: 90px"
         @change="(val:Event) => Set_Editer_font_name(val)"
       >
         <el-option
@@ -24,7 +24,7 @@
       <el-select
         v-model="default_font_size"
         size="small"
-        style="width: 60px"
+        style="width: 70px"
         @change="(val:Event) => Set_Editer_font_size(val)"
       >
         <el-option v-for="item in font_sizes" :key="item" :value="item"></el-option>
@@ -36,7 +36,7 @@
       <el-select
         v-model="default_lineheight"
         size="small"
-        style="width: 50px"
+        style="width: 60px"
         @change="(val:Event) => Set_Editer_lineheight(val)"
       >
         <el-option v-for="item in lineheights" :key="item" :value="item"></el-option>

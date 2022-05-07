@@ -2,14 +2,53 @@
   <b class="text-2xl mt-10">高级</b>
   <el-divider />
   <div class="space-y-3">
-    <div class="flex justify-between h-8">
-      <p class="font-bold">离线功能</p>
-      <el-switch v-model="switch_offline_bool" />
+    <div>
+      <div class="flex justify-between h-8">
+        <p class="font-bold">离线功能</p>
+        <el-switch v-model="switch_offline_bool" />
+      </div>
+
+      <div class="flex justify-between">
+        <p class="text-xs text-neutral-400 mr-2">
+          <b>
+            &#10059;&nbsp;注意：此功能仅缓存「我的案件」中尚在审理的案件信息，因涉及当事人信息，请遵守相关规章制度！
+          </b>
+          <br />
+          开启离线功能后，可在脱机状态下查看案件、编辑、生成文书。
+          <br />
+          考虑到服务器负载，拉取数据间隔为60秒，请手动点击离线数据按钮进行数据离线。
+          <br />
+          已拉取案件数量：{{ offline_files_num.data }}；上次拉取时间：{{
+            STORE_setting_instance.offline_time
+          }}；
+        </p>
+        <div class="flex flex-col">
+          <el-button
+            size="small"
+            class="!ml-0"
+            @click="download_offline_files()"
+            :disabled="!switch_offline_bool"
+          >
+            离线数据
+          </el-button>
+          <el-button
+            size="small"
+            class="!ml-0 mt-2"
+            type="danger"
+            @click=""
+            :disabled="!switch_offline_bool"
+          >
+            清理过期数据
+          </el-button>
+        </div>
+      </div>
     </div>
 
     <div>
-
-
+      <div class="flex justify-between h-8">
+        <p class="font-bold">本地资源文件夹</p>
+        <el-button size="small" @click="open_cachefile()">打开</el-button>
+      </div>
     </div>
   </div>
 </template>

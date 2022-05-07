@@ -6,7 +6,7 @@ export function Msg(msg: string, type: any) {
   ElMessage({
     message: msg,
     grouping: true,
-    offset: 50,
+    offset: 30,
     type: type,
   });
 }

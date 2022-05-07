@@ -117,8 +117,8 @@ const save_pic = () => {
   if (cropper.value) {
     cropper.value!.getCropBlob((blob: any) => {
       const custom_avatar_path = `${STORE_System().CacheFile_Path}/images/useravatar.jpg`;
-      const result: string[] = window.Export_File(blob, custom_avatar_path);
-      Msg('保存' + result[1], result[0]);
+      window.Export_File(blob, custom_avatar_path);
+      Msg('保存成功!','success');
       emit('dialog_close');
       setTimeout(() => {
         avatar_src();
