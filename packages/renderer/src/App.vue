@@ -10,7 +10,7 @@
       <div
         id="Avatar"
         class="flex flex-col items-center justify-center mt-5 drop-shadow-md select-none cursor-pointer"
-        @click="Login"
+        @click="ShowLoginView"
       >
         <div
           class="w-24 h-24 flex items-center justify-center rounded-full border-2 border-white overflow-hidden"
@@ -24,7 +24,7 @@
         <p class="text-xs text-gray-600 text-center">{{ unit }}</p>
         <p class="text-xs text-gray-600 text-center">{{ department }}</p>
         <div class="text-center">
-          <b class="text-base cursor-pointer" @click="Login">{{ username }}</b>
+          <b class="text-base cursor-pointer" @click="ShowLoginView">{{ username }}</b>
         </div>
       </span>
       <div class="flex h-1px bg-gray-200 m-4 select-none" />
@@ -77,14 +77,11 @@
     class="absolute w-full h-full top-0 left-0 z-50 transition-all duration-500 ease-in-out opacity-0"
     v-if="isLogined"
   >
-    <LoginView @CloseLoginView="handle_CloseLoginView" />
+    <Login @CloseLoginView="handle_CloseLoginView" />
   </div>
 </template>
 
 <script setup lang="ts">
-import TrafficLight from './components/utils/TrafficLight.vue';
-import LoginView from './components/views/Login/index.vue';
-
 import { STORE_Login } from '/store/modules/login';
 import { STORE_Editor } from '/store/modules/editor';
 import { STORE_System } from '/store/modules/system';
@@ -106,7 +103,7 @@ const username = STORE_Login()?.LoginResult?.data?.yhxm ?? '点击登录';
 const department = STORE_Login()?.LoginResult?.data?.depart?.bmmc ?? '-';
 const unit = STORE_Login()?.LoginResult?.data?.fy?.fymc ?? '-';
 
-const Login = () => {
+const ShowLoginView = () => {
   isLogined.value = true;
   setTimeout(() => {
     document.getElementById('LoginView')!.classList.remove('opacity-0');
@@ -123,9 +120,9 @@ const handle_CloseLoginView = (): void => {
 };
 
 const set_avatar_src = () => {
-  const local_avatar_path = `${STORE_System().CacheFile_Path}/images/`;
+  const local_avatar_path = `${STORE_System().CacheFile_Path}/images/useravatar.jpg`;
   if (STORE_setting_instance.custom_avatar_bool) {
-    Load_Image_To_Base64(local_avatar_path + 'useravatar.jpg').then(res => {
+    Load_Image_To_Base64(local_avatar_path).then(res => {
       avatar_src.value = res;
     });
   } else {
