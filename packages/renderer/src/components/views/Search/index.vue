@@ -1,5 +1,10 @@
 <template>
-
+  <input
+    type="text"
+    placeholder="Custom focus style"
+    class="h-auto rounded-sm outline outline-1 outline-zinc-200 focus:outline-none focus:ring-2 focus:border-blue-400"
+    @input="(val:Event) => handle_num(val)"
+  />
 </template>
 
 <script setup lang="ts">
@@ -19,4 +24,8 @@ const handleExceed: UploadProps['onExceed'] = files => {
 const submitUpload = () => {
   upload.value!.submit();
 };
+
+const handle_num = (val:Event) => {
+  console.log(val)
+}
 </script>

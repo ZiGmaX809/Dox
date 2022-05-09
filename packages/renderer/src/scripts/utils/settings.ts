@@ -1,20 +1,10 @@
-import { STORE_Setting } from '../../store/modules/setting';
+import { STORE_Setting } from '/store/modules/setting';
 
 //设置剪贴板相关设置的上限
-export const handleChange_num = (val: String, max: number) => {
-  const _str = val.replace(/[^0-9.]/g, '');
-  const final_num = Number(_str) > max ? max : Number(_str);
-  switch (max) {
-    case 200:
-      STORE_Setting().Change_clipboard_num(final_num);
-      break;
-    case 600:
-      STORE_Setting().Change_clipboard_textlength(final_num);
-      break;
-    case 9999:
-      STORE_Setting().Change_org_code(final_num);
-      break;
-  }
+export const handleChange_num = (val: string, max: number) => {
+  const input_num = Number(val.toString().replace(/[^\d]/g, ''));
+  const result_num = input_num > max ? max : input_num ;
+  return result_num;
 };
 
 export const handleChange_Text = (val: string) => {

@@ -3,7 +3,7 @@
   <el-divider />
   <div class="space-y-3">
     <div class="flex justify-between h-8">
-      <p class="font-bold ">默认字体</p>
+      <p class="font-bold">默认字体</p>
       <el-select
         v-model="default_font_name"
         size="small"
@@ -20,7 +20,7 @@
     </div>
 
     <div class="flex justify-between h-8">
-      <p class="font-bold ">默认字号</p>
+      <p class="font-bold">默认字号</p>
       <el-select
         v-model="default_font_size"
         size="small"
@@ -32,7 +32,7 @@
     </div>
 
     <div class="flex justify-between h-8">
-      <p class="font-bold ">默认行高</p>
+      <p class="font-bold">默认行高</p>
       <el-select
         v-model="default_lineheight"
         size="small"
@@ -45,7 +45,7 @@
 
     <div>
       <div class="flex justify-between h-8">
-        <p class="font-bold ">默认启用首行缩进</p>
+        <p class="font-bold">默认启用首行缩进</p>
         <el-switch v-model="switch_auto_int2em" />
       </div>
       <p class="text-xs text-neutral-400">
@@ -55,7 +55,7 @@
 
     <div>
       <div class="flex justify-between h-8">
-        <p class="font-bold ">启用剪贴板</p>
+        <p class="font-bold">启用剪贴板</p>
         <el-switch v-model="switch_clipboard_bool" />
       </div>
       <p class="text-xs text-neutral-400">
@@ -64,15 +64,18 @@
     </div>
 
     <div>
-      <div class="flex justify-between h-8">
-        <p class="font-bold ">剪贴板缓存数量（自定义上限200）</p>
-        <el-input
+      <div class="flex justify-between items-center">
+        <p class="font-bold">剪贴板缓存数量（自定义上限200）</p>
+        <input
+          type="text"
           v-model="STORE_setting_instance.clipboard_num"
-          size="small"
-          style="width: 50px"
-          controls-position="right"
+          class="h-5 w-12 text-xs text-zinc-500 rounded-sm pl-1 outline outline-1 outline-zinc-200 focus:outline-none focus:ring-2 focus:border-blue-400"
           :disabled="!switch_clipboard_bool"
-          @input="(val: string) => handleChange_num(val,200)"
+          @input="
+            STORE_setting_instance.Change_clipboard_num(
+              handleChange_num(STORE_setting_instance.clipboard_num, 200)
+            )
+          "
         />
       </div>
       <p class="text-xs text-neutral-400">
@@ -84,14 +87,17 @@
 
     <div>
       <div class="flex justify-between h-8">
-        <p class="font-bold ">剪贴板监听字符长度（自定义上限600）</p>
-        <el-input
+        <p class="font-bold">剪贴板监听字符长度（自定义上限600）</p>
+        <input
+          type="text"
           v-model="STORE_setting_instance.clipboard_textlength"
-          size="small"
-          style="width: 50px"
-          controls-position="right"
+          class="h-5 w-12 text-xs text-zinc-500 rounded-sm pl-1 outline outline-1 outline-zinc-200 focus:outline-none focus:ring-2 focus:border-blue-400"
           :disabled="!switch_clipboard_bool"
-          @input="(val: string) => handleChange_num(val,600)"
+          @input="
+            STORE_setting_instance.Change_clipboard_textlength(
+              handleChange_num(STORE_setting_instance.clipboard_textlength, 600)
+            )
+          "
         />
       </div>
       <p class="text-xs text-neutral-400">
@@ -103,11 +109,8 @@
 
     <div>
       <div class="flex justify-between h-8">
-        <p class="font-bold ">复用剪贴板内容</p>
-        <el-switch
-            v-model="switch_writeSystemClipboard_bool"
-            :disabled="!switch_clipboard_bool"
-          />
+        <p class="font-bold">复用剪贴板内容</p>
+        <el-switch v-model="switch_writeSystemClipboard_bool" :disabled="!switch_clipboard_bool" />
       </div>
       <p class="text-xs text-neutral-400">
         启用后，点击剪贴板内容时，将会把点击内容写入到系统剪贴板，以便于使用Ctrl+V进行多次粘贴。
@@ -117,7 +120,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
 import { handleChange_num } from '/scripts/utils/settings';
 import { STORE_Setting } from '/store/modules/setting';
 
