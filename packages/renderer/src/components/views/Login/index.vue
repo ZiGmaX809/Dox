@@ -11,38 +11,125 @@
     <div
       class="absolute inset-0 bg-login-grid bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"
     ></div>
-    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"></form>
     <div
       id="LoginWindow"
       class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white shadow-xl ring-1 ring-gray-900/5 w-96 h-[410px] rounded-md"
     >
-      <div class="flex flex-col mx-auto max-w-md w-full text-center space-y-2 py-8">
-        <b
-          class="text-3xl bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-blue-500"
-        >
-          Login To
-        </b>
-        <b
-          class="text-xl bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-blue-500"
-        >
-          The Case Office Platform
-        </b>
+      <div class="title w-full flex flex-col justify-center mx-auto text-center space-y-2 py-8">
+        <b class="text-4xl bg-clip-text text-transparent font-extrabold">Login To</b>
+        <b class="text-2xl bg-clip-text text-transparent font-bold">The Case Office Platform</b>
       </div>
       <div class="space-y-2">
         <p class="flex flex-1 w-4/5 m-auto text-sm">用户名</p>
-        <el-input v-model="account" clearable class="!w-4/5 mx-10 rounded-md" />
+
+        <div
+          id="account"
+          class="flex justify-between h-8 w-4/5 m-auto px-2 rounded border border-zinc-200 focus-within:outline-none focus-within:ring-1 focus-within:border-sky-500"
+        >
+          <input
+            ref="account_input"
+            type="text"
+            class="flex flex-1 px-2 text-sm focus:outline-none"
+            v-model="account"
+            @input="show_clear_icon = account.length > 0 ? true : false"         
+          />
+
+          <button
+            class="block rounded-md px-1 text-zinc-400"
+            @click="clear_all_text"
+            tabindex="-1"
+            v-show="show_clear_icon"
+          >
+            <svg fill="currentColor" viewBox="0 0 20 20" class="h-4 w-4">
+              <path
+                fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </button>
+        </div>
+
         <p class="flex flex-1 w-4/5 m-auto text-sm">密码</p>
-        <el-input v-model="password" show-password class="!w-4/5 mx-10 rounded-md" />
-        <div class="w-full flex">
-          <el-checkbox v-model="remember_me" class="flex flex-1 !w-4/5 mx-10 text-gray-700">
-            记住用户名和密码
-          </el-checkbox>
+
+        <div
+          id="psssword"
+          class="flex justify-between h-8 w-4/5 m-auto px-2 rounded border border-zinc-200 focus-within:outline-none focus-within:ring-1 focus-within:border-sky-500"
+        >
+          <input
+            ref="password_input"
+            type="password"
+            class="flex flex-1 px-2 text-sm focus:outline-none"
+            v-model="password"
+          />
+
+          <button
+            class="block rounded-md px-1 text-zinc-400"
+            @click="switch_show_password"
+            tabindex="-1"
+          >
+            <div v-show="show_password">
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                ></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                ></path>
+              </svg>
+            </div>
+
+            <div v-show="!show_password">
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+                ></path>
+              </svg>
+            </div>
+          </button>
+        </div>
+
+        <div class="flex w-4/5 m-auto items-center">
+          <input
+            type="checkbox"
+            v-model="remember_me"
+            class="form-tick w-4 h-4 appearance-none rounded border border-zinc-200 checked:bg-sky-500 checked:border-transparent checked:outline-none"
+          />
+          <label class="ml-2 text-sm">记住用户名和密码</label>
         </div>
         <div class="w-full flex flex-col space-y-2">
-          <el-button type="primary" class="!w-4/5 mx-10 rounded-md justify-center">登陆</el-button>
-          <el-button @click="Close_Login_View" class="!w-4/5 !mx-10 rounded-md justify-center">
+          <button
+            class="flex w-4/5 h-8 m-auto items-center justify-center rounded-md text-white text-sm font-bold bg-sky-500 hover:bg-sky-500/75 active:bg-sky-600"
+          >
+            登录
+          </button>
+          <button
+            class="flex w-4/5 h-8 m-auto items-center justify-center rounded-md text-zinc-500 text-sm font-bold bg-white border border-zinc-200 hover:border-blue-100 hover:bg-sky-50 hover:text-blue-500 active:border-blue-400"
+            @click="Close_Login_View"
+          >
             取消
-          </el-button>
+          </button>
         </div>
       </div>
     </div>
@@ -66,6 +153,23 @@ const account = ref<string>('');
 const password = ref<string>('');
 const remember_me = ref(false);
 
+const password_input = ref();
+const account_input = ref();
+
+const show_clear_icon = ref(false);
+const show_password = ref(false);
+
+const clear_all_text = () => {
+  account.value = '';
+  show_clear_icon.value = false;
+  account_input.value.focus();
+};
+
+const switch_show_password = () => {
+  show_password.value = !show_password.value;
+  password_input.value.type = password_input.value.type == 'password' ? 'text' : 'password';
+};
+
 const emit = defineEmits(['CloseLoginView']);
 const Close_Login_View = () => {
   emit('CloseLoginView');
@@ -73,8 +177,6 @@ const Close_Login_View = () => {
 
 const STORE_login_instance = STORE_Login();
 const loginWrap = ref();
-const drawer: Ref<boolean> = inject('drawer') as Ref<boolean>;
-
 
 const logininfo_ = reactive({
   username: STORE_login_instance.LoginInfo.username,
@@ -182,7 +284,6 @@ const login = () => {
               }
 
               Msg(login_err ? '服务器错误，请稍后再试。' : msg, login_err ? 'error' : 'success');
-              drawer.value = false;
               return;
             }
             login_end = true;
@@ -196,7 +297,6 @@ const login = () => {
       .catch(err => {
         //服务器接口错误时处理
         Msg('服务器接口错误，请稍后再试。', 'error');
-        drawer.value = false;
         hideLoading();
       });
     // .finally(() => {
@@ -208,3 +308,42 @@ const login = () => {
   }
 };
 </script>
+
+<style>
+.form-tick:checked {
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+  border-color: transparent;
+  background-size: 100% 100%;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+
+.title {
+  background-image: -webkit-linear-gradient(
+    left,
+    #fb7185,
+    #facc15 10%,
+    #75d701 20%,
+    #38bdf8 30%,
+    #c084fc 40%,
+    #fb7185 50%,
+    #facc15 60%,
+    #75d701 70%,
+    #38bdf8 80%,
+    #c084fc 90%,
+    #fb7185
+  );
+  -webkit-background-clip: text;
+  color: transparent;
+  background-size: 400% 100%;
+  animation: flowlight 5s linear infinite;
+}
+@keyframes flowlight {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -66.7% 0;
+  }
+}
+</style>

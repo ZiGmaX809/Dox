@@ -91,7 +91,7 @@
         <input
           type="text"
           v-model="STORE_setting_instance.clipboard_textlength"
-          class="h-5 w-12 text-xs text-zinc-500 rounded-sm pl-1 outline outline-1 outline-zinc-200 focus:outline-none focus:ring-2 focus:border-blue-400"
+          class="h-5 w-12 text-xs text-zinc-500 rounded-sm pl-1 outline outline-1 outline-zinc-200 focus:outline-none focus:ring-2 focus:border-blue-500"
           :disabled="!switch_clipboard_bool"
           @input="
             STORE_setting_instance.Change_clipboard_textlength(
