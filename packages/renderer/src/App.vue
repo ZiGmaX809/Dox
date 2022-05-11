@@ -12,13 +12,20 @@
         class="flex flex-col items-center justify-center mt-5 drop-shadow-md select-none cursor-pointer"
         @click="ShowLoginView"
       >
-        <div
-          class="w-24 h-24 flex items-center justify-center rounded-full border-2 border-white overflow-hidden"
-        >
-          <img :src="avatar_src" style="-webkit-user-drag: none" class="rounded-full w-24 h-24" />
+        <div class="w-24 h-24 relative">
+          <div
+            class="w-full h-full items-center justify-center rounded-full border-2 border-white overflow-hidden"
+          >
+            <img
+              :src="avatar_src"
+              style="-webkit-user-drag: none"
+              class="rounded-full w-full h-full object-center"
+            />
+          </div>
+          <div
+            class="absolute w-3 h-3 bg-green-400 rounded-full border-2 border-white top-[75px] left-[75px]"
+          />
         </div>
-
-        <div class="w-3 h-3 -mt-4 -mr-16 bg-green-400 rounded-full border-2 border-white" />
       </div>
       <span class="flex flex-col justify-between mt-5 space-y-1 select-none">
         <p class="text-xs text-gray-600 text-center">{{ unit }}</p>

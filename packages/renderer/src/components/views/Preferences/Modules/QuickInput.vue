@@ -33,7 +33,7 @@
             >
               <template #reference>
                 <el-button size="small" type="danger" class="w-9">
-                  <svg-icon name="ashbin" color="#fff" class="w-5 h-5"></svg-icon>
+                  <svg-icon name="ashbin" class="w-5 h-5 text-white"></svg-icon>
                 </el-button>
                 <!-- <div
                   class="flex w-9 h-6 m-auto bg-red-500 justify-center rounded hover:bg-red-400 hover:cursor-pointer"
@@ -64,9 +64,12 @@
         <br />
         <br />
         下载法律法规:
-        <el-link type="success" class="pref_desc_p" @click="Copy_Url(law_url)">
+        <a
+          class="text-lime-500 underline font-bold cursor-pointer hover:text-lime-500/75 after:content-['_↗']"
+          @click="Copy_Url(law_url)"
+        >
           {{ law_url }}
-        </el-link>
+        </a>
         (北大法宝中国法律法规数据库，需互联网下载后导入)
         <br />
         <i>国务院下属国家法律法规数据库因更新效率问题以及无法下载TXT文件格式而不被支持。</i>
@@ -91,9 +94,12 @@
         未包括我国台湾省、香港特别行政区、澳门特别行政区。
         <br />
         项目更新地址：
-        <el-link type="success" class="pref_desc_p" @click="Copy_Url(pca_url)" name="ajsh">
+        <a
+          class="text-lime-500 underline font-bold cursor-pointer hover:text-lime-500/75 after:content-['_↗']"
+          @click="Copy_Url(pca_url)"
+        >
           {{ pca_url }}
-        </el-link>
+        </a>
         <br />
         下载pca.json文件引入即可
       </p>
