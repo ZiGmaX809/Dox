@@ -38,6 +38,7 @@ declare module '@vue/runtime-core' {
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     Export: typeof import('./src/components/views/Preferences/Modules/Export.vue')['default']
+    Home: typeof import('./src/components/views/Home/index.vue')['default']
     ImportFile: typeof import('./src/components/utils/ImportFile.vue')['default']
     Login: typeof import('./src/components/views/Login/index.vue')['default']
     Notice: typeof import('./src/components/utils/Notice.vue')['default']
@@ -51,7 +52,6 @@ declare module '@vue/runtime-core' {
     TEditor: typeof import('./src/components/utils/TEditor.vue')['default']
     Template: typeof import('./src/components/views/Template/index.vue')['default']
     TrafficLight: typeof import('./src/components/utils/TrafficLight.vue')['default']
-    Views: typeof import('./src/components/views/index.vue')['default']
   }
 }
 

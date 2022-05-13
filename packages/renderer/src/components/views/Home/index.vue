@@ -3,7 +3,7 @@
     :data="tableData"
     style="width: 100%"
     :row-class-name="tableRowClassName"
-    class="shadow-md rounded p-1"
+    border
   >
     <el-table-column prop="date" label="Date" width="180" />
     <el-table-column prop="name" label="Name" width="180" />

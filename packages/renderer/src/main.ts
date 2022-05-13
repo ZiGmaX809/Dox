@@ -13,7 +13,7 @@ import { Scan_Lawfiles } from './scripts/utils/scanfolder';
 createApp(App)
   .use(store)
   .use(router)
-  .component('svg-icon', svgIcon)
+  // .component('svg-icon', svgIcon)
   .mount('#app')
   .$nextTick(window.removeLoading);
 

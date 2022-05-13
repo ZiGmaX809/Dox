@@ -3,11 +3,20 @@
   <el-divider />
   <div class="space-y-3">
     <div class="flex justify-between">
-      <p class="font-bold">暗黑模式</p>
+      <p class="font-bold">主题</p>
       <div class="flex flex-row space-x-2 items-center">
-        <div class="w-4 h-4 rounded-full bg-orange-500 ring-1 ring-gray-200" />
-        <div class="w-4 h-4 rounded-full bg-green-400 ring-1 ring-gray-200"></div>
-        <div class="w-4 h-4 rounded-full bg-sky-600 ring-1 ring-gray-200"></div>
+        <div class="flex themeable-dracula">
+          <button class="w-4 h-4 rounded-full bg-themeable-background ring-1 ring-gray-200" />
+        </div>
+        <div class="flex themeable-material">
+          <button class="w-4 h-4 rounded-full bg-themeable-background ring-1 ring-gray-200" />
+        </div>
+        <div class="flex themeable-example-theme">
+          <button class="w-4 h-4 rounded-full bg-themeable-background ring-1 ring-gray-200" />
+        </div>
+        <div class="flex themeable-example-theme2">
+          <button class="w-4 h-4 rounded-full bg-themeable-background ring-1 ring-gray-200" />
+        </div>
       </div>
     </div>
 

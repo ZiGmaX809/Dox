@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import Home from '/views/index.vue';
+import Home from '/views/Home/index.vue';
 import Search from '/views/Search/index.vue';
 import Template from '/views/Template/index.vue';
 import Casezone from '/views/CaseZone/index.vue';

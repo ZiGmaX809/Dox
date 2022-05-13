@@ -19,12 +19,6 @@
         <el-table-column prop="name" label="索引缩写" width="200" />
         <el-table-column align="center" label="操作" width="80">
           <template #default="scope">
-            <!-- <div
-              class="flex w-9 h-6 m-auto bg-red-500 justify-center rounded hover:bg-red-400 hover:cursor-pointer"
-            >
-              <svg-icon name="ashbin" color="#fff" class="w-6 h-6"></svg-icon>
-            </div> -->
-
             <el-popconfirm
               confirm-button-text="确认"
               cancel-button-text="取消"
@@ -35,11 +29,6 @@
                 <el-button size="small" type="danger" class="w-9">
                   <svg-icon name="ashbin" class="w-5 h-5 text-white"></svg-icon>
                 </el-button>
-                <!-- <div
-                  class="flex w-9 h-6 m-auto bg-red-500 justify-center rounded hover:bg-red-400 hover:cursor-pointer"
-                >
-                  <svg-icon name="ashbin" color="#fff" class="w-6 h-6"></svg-icon>
-                </div> -->
               </template>
             </el-popconfirm>
           </template>
