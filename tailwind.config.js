@@ -5,9 +5,56 @@ module.exports = {
     // Example content paths...
     './packages/renderer/public/**/*.html',
     './packages/renderer/src/**/*.{js,jsx,ts,tsx,vue}',
+    './node_modules/flowbite/**/*.js',
   ],
   presets: [
     // require('./packages/renderer/src/assets/styles/element.ts'), // 根据您放置的element.ts配置路径
+  ],
+  plugins: [
+    require('flowbite/plugin'),
+    require('@tailwindcss/forms'),
+    themeable({
+      themes: [
+        {
+          name: 'example-theme',
+          palette: {
+            // color palette key: hex code
+            background: '#ff00ae',
+            foreground: '#F8F8F2',
+            // primary: '#42a5f5',
+            main: '#ffffff',
+            selection: '#44475A',
+            comment: '#6272A4',
+            cyan: '#8BE9FD',
+            green: '#50FA7B',
+            orange: '#FFB86C',
+            pink: '#FF79C6',
+            purple: '#BD93F9',
+            red: '#FF5555',
+            yellow: '#F1FA8C',
+          },
+        },
+        {
+          name: 'example-theme2',
+          palette: {
+            // color palette key: hex code
+            background: '#59e60e',
+            foreground: '#F8F8F2',
+            // primary: '#42a5f5',
+            main: '#ffffff',
+            selection: '#44475A',
+            comment: '#6272A4',
+            cyan: '#8BE9FD',
+            green: '#50FA7B',
+            orange: '#FFB86C',
+            pink: '#FF79C6',
+            purple: '#BD93F9',
+            red: '#FF5555',
+            yellow: '#F1FA8C',
+          },
+        },
+      ],
+    }),
   ],
   darkMode: 'media', // or 'class'
   theme: {
@@ -973,56 +1020,5 @@ module.exports = {
     'focus-visible',
     'active',
     'disabled',
-  ],
-  plugins: [
-    function ({ addBase }) {
-      addBase({
-        '.el-button': {
-          'background-color': 'var(--el-button-bg-color,var(--el-color-white))',
-        },
-      });
-    },
-    themeable({
-      themes: [
-        {
-          name: 'example-theme',
-          palette: {
-            // color palette key: hex code
-            background: '#ff00ae',
-            foreground: '#F8F8F2',
-            // primary: '#42a5f5',
-            main: '#ffffff',
-            selection: '#44475A',
-            comment: '#6272A4',
-            cyan: '#8BE9FD',
-            green: '#50FA7B',
-            orange: '#FFB86C',
-            pink: '#FF79C6',
-            purple: '#BD93F9',
-            red: '#FF5555',
-            yellow: '#F1FA8C',
-          },
-        },
-        {
-          name: 'example-theme2',
-          palette: {
-            // color palette key: hex code
-            background: '#59e60e',
-            foreground: '#F8F8F2',
-            // primary: '#42a5f5',
-            main: '#ffffff',
-            selection: '#44475A',
-            comment: '#6272A4',
-            cyan: '#8BE9FD',
-            green: '#50FA7B',
-            orange: '#FFB86C',
-            pink: '#FF79C6',
-            purple: '#BD93F9',
-            red: '#FF5555',
-            yellow: '#F1FA8C',
-          },
-        },
-      ],
-    }),
   ],
 };

@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 import { showLoading, hideLoading } from "./loading";
 
 // 接口类型和方法
@@ -160,21 +160,21 @@ class AxiosHttpRequest implements BaseType {
 
         if (code == 200 || login_status) {
           if (ismsg) {
-            ElMessage({
-              message: msg_txt === "null" ? "请求成功！" : msg_txt,
-              grouping: true,
-              type: "success",
-              offset: 50,
-            });
+            // ElMessage({
+            //   message: msg_txt === "null" ? "请求成功！" : msg_txt,
+            //   grouping: true,
+            //   type: "success",
+            //   offset: 50,
+            // });
           }
 
           return Promise.resolve(res.data);
         } else {
-          ElMessage.error({
-            message: msg,
-            duration: 5 * 1000,
-            offset: 50,
-          });
+          // ElMessage.error({
+          //   message: msg,
+          //   duration: 5 * 1000,
+          //   offset: 50,
+          // });
           //return Promise.reject(res.data);
           return res.data;
         }
@@ -193,11 +193,11 @@ class AxiosHttpRequest implements BaseType {
               message.substr(message.length - 3) +
               "异常，请稍后重试。";
           }
-          ElMessage.error({
-            message: message,
-            duration: 5 * 1000,
-            offset: 50,
-          });
+          // ElMessage.error({
+          //   message: message,
+          //   duration: 5 * 1000,
+          //   offset: 50,
+          // });
         }
         if (isloading) {
           hideLoading();

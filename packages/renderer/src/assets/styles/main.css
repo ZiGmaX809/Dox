@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+/* @layer base {
   @font-face {
     font-family: 'Barlow';
     font-weight: medium;
     src: url('@/assets/fonts/Barlow-Medium.woff2') format('woff2'),
       url('@/assets/fonts/Barlow-Medium.ttf') format('truetype');
   }
-}
+} */

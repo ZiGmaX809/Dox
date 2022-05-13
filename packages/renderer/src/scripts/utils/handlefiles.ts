@@ -1,5 +1,5 @@
 import { OpenDialogSyncOptions } from 'electron';
-import { ElMessageBox } from 'element-plus';
+// import { ElMessageBox } from 'element-plus';
 
 /**
  * 读取本地图片并返回一个相应callback类型的Promise
@@ -102,33 +102,33 @@ export const isFileExisted_And_Export = async (
       }
     };
 
-    if (existed()) {
-      await ElMessageBox({
-        title: '警告',
-        dangerouslyUseHTMLString: true,
-        showCancelButton: true,
-        message: h('p', null, [
-          h(
-            'b',
-            {
-              style: 'user-select: none',
-            },
-            `${final_path}`
-          ),
-          h('p', ' 已存在，是否覆盖？'),
-        ]),
-        confirmButtonText: '确认',
-        cancelButtonText: '取消',
-        buttonSize: 'small',
-        type: 'warning',
-      })
-        .then(action => {
-          havetoExport.value = true;
-        })
-        .catch(err => {});
-    } else {
-      havetoExport.value = true;
-    }
+    // if (existed()) {
+    //   await ElMessageBox({
+    //     title: '警告',
+    //     dangerouslyUseHTMLString: true,
+    //     showCancelButton: true,
+    //     message: h('p', null, [
+    //       h(
+    //         'b',
+    //         {
+    //           style: 'user-select: none',
+    //         },
+    //         `${final_path}`
+    //       ),
+    //       h('p', ' 已存在，是否覆盖？'),
+    //     ]),
+    //     confirmButtonText: '确认',
+    //     cancelButtonText: '取消',
+    //     buttonSize: 'small',
+    //     type: 'warning',
+    //   })
+    //     .then(action => {
+    //       havetoExport.value = true;
+    //     })
+    //     .catch(err => {});
+    // } else {
+    //   havetoExport.value = true;
+    // }
 
     if (havetoExport.value) {
       window.Export_File(file, final_path);

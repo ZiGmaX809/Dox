@@ -3,16 +3,17 @@ import App from './App.vue';
 import './assets/styles/main.css';
 import router from './router/index';
 import store from './store';
+import 'flowbite';
 import svgIcon from './components/utils/SvgIcon.vue';
 
 import { ipcMsg_Get_Path } from './scripts/utils/ipcmessage';
-import { STORE_System } from '/store/modules/system';
-import { STORE_Setting } from '/store/modules/setting';
+import { STORE_System } from './store/modules/system';
+import { STORE_Setting } from './store/modules/setting';
 import { Scan_Lawfiles } from './scripts/utils/scanfolder';
 
 createApp(App)
   .use(store)
-  .use(router)
+  // .use(router)
   // .component('svg-icon', svgIcon)
   .mount('#app')
   .$nextTick(window.removeLoading);
