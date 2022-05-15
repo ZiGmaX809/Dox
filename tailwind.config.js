@@ -5,23 +5,37 @@ module.exports = {
     // Example content paths...
     './packages/renderer/public/**/*.html',
     './packages/renderer/src/**/*.{js,jsx,ts,tsx,vue}',
-    './node_modules/flowbite/**/*.js',
   ],
   presets: [
     // require('./packages/renderer/src/assets/styles/element.ts'), // 根据您放置的element.ts配置路径
   ],
   plugins: [
-    require('flowbite/plugin'),
     require('@tailwindcss/forms'),
+    require('daisyui'),
     themeable({
       themes: [
         {
-          name: 'example-theme',
+          name: 'Cecil',
           palette: {
             // color palette key: hex code
-            background: '#ff00ae',
-            foreground: '#F8F8F2',
-            // primary: '#42a5f5',
+            sider_bg: '#f3f4f6', //zinc-100
+            header_bg: '#fafafa', //zinc-50
+
+            logo_text: '#4d4d4d',
+
+            sider_menu_text: '#374151', //gray-700
+            sider_menu_hover: '#fafafa', //zinc-50
+
+            view_board: '#e5e7eb', //gray-200
+            divider: '#e4e4e7', //zinc-200
+
+            avatar_border: '#ffffff',
+
+            info_text: '#4b5563', //gray-600
+            info_text_main: '#000000',
+
+            foreground: '#ffffff',
+
             main: '#ffffff',
             selection: '#44475A',
             comment: '#6272A4',
@@ -35,12 +49,27 @@ module.exports = {
           },
         },
         {
-          name: 'example-theme2',
+          name: 'Night',
           palette: {
             // color palette key: hex code
-            background: '#59e60e',
-            foreground: '#F8F8F2',
-            // primary: '#42a5f5',
+            sider_bg: '#3f3f46', //zinc-700
+            header_bg: '#52525b', //zinc-600
+
+            logo_text: '#fefefe',
+
+            view_board: '#e5e7eb', //gray-200
+            divider: '#e4e4e7', //zinc-200
+
+            avatar_border: '#ffffff',
+
+            info_text: '#d1d5db', //gray-300
+            info_text_main: '#f4f4f5', //zinc-100
+
+            sider_menu_text: '#374151', //gray-700
+            sider_menu_hover: '#fafafa', //zinc-50
+
+            foreground: '#ffffff',
+
             main: '#ffffff',
             selection: '#44475A',
             comment: '#6272A4',
@@ -56,6 +85,17 @@ module.exports = {
       ],
     }),
   ],
+  // daisyUI config (optional)
+  daisyui: {
+    styled: true,
+    themes: true,
+    base: true,
+    utils: true,
+    logs: true,
+    rtl: false,
+    prefix: '',
+    darkTheme: 'dark',
+  },
   darkMode: 'media', // or 'class'
   theme: {
     screens: {

@@ -14,11 +14,11 @@ const Router = createRouter({
       name: 'Home',
       component: Home,
     },
-    {
-      path: '/Casezone',
-      name: 'Casezone',
-      component: Casezone,
-    },
+    // {
+    //   path: '/Casezone',
+    //   name: 'Casezone',
+    //   component: Casezone,
+    // },
     {
       path: '/Search',
       name: 'Search',
@@ -29,11 +29,11 @@ const Router = createRouter({
       name: 'Template',
       component: Template,
     },
-    {
-      path: '/Preferences',
-      name: 'Preferences',
-      component: Preferences,
-    },
+    // {
+    //   path: '/Preferences',
+    //   name: 'Preferences',
+    //   component: Preferences,
+    // },
   ],
 });
 

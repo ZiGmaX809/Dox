@@ -1,5 +1,5 @@
-<template>
-  <div
+<!-- <template> -->
+<!-- <div
     class="relative px-4 py-3 w-1/2 bg-sky-50 text-blue-500 rounded border border-blue-100 select-none"
   >
     <div class="text-blue-400 flex flex-row items-center">
@@ -45,28 +45,42 @@
     <div class="absolute h-5 -right-3 -top-2.5 rounded-full bg-yellow-500">
       <span class="flex text-white h-full text-xs px-2 items-center text-center">19</span>
     </div>
-  </div>
-</template>
+  </div> -->
 
+<!-- </template> -->
+
+<!-- <script setup lang="ts"></script> -->
 <script setup lang="ts">
-import { ref } from 'vue';
-import { genFileId } from 'element-plus';
-import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
+import { ref, computed } from 'vue'
+import { Combobox, ComboboxInput, ComboboxOptions, ComboboxOption } from '@headlessui/vue'
 
-const upload = ref<UploadInstance>();
+const people = [
+  'Wade Cooper',
+  'Arlene McCoy',
+  'Devon Webb',
+  'Tom Cook',
+  'Tanya Fox',
+  'Hellen Schmidt',
+]
+const selectedPerson = ref(people[0])
+const query = ref('')
 
-const handleExceed: UploadProps['onExceed'] = files => {
-  upload.value!.clearFiles();
-  const file = files[0] as UploadRawFile;
-  file.uid = genFileId();
-  upload.value!.handleStart(file);
-};
-
-const submitUpload = () => {
-  upload.value!.submit();
-};
-
-const handle_num = (val: Event) => {
-  console.log(val);
-};
+const filteredPeople = computed(() =>
+  query.value === ''
+    ? people
+    : people.filter((person) => {
+        return person.toLowerCase().includes(query.value.toLowerCase())
+      })
+)
 </script>
+
+<template>
+  <Combobox v-model="selectedPerson">
+    <ComboboxInput @change="query = $event.target.value" />
+    <ComboboxOptions>
+      <ComboboxOption v-for="person in filteredPeople" :key="person" :value="person">
+        {{ person }}
+      </ComboboxOption>
+    </ComboboxOptions>
+  </Combobox>
+</template>

@@ -29,7 +29,7 @@
           <input
             ref="account_input"
             type="text"
-            class="flex flex-1 px-2 text-sm focus:outline-none"
+            class="flex flex-1 px-2 text-sm focus:outline-none "
             v-model="account"
             @input="show_clear_icon = account.length > 0 ? true : false"
           />
@@ -106,10 +106,10 @@ import { Ref } from 'vue';
 import { STORE_Login } from '/store/modules/login';
 import { STORE_Setting } from '/store/modules/setting';
 
-import { Msg } from '/scripts/utils/message';
-import { REQUEST_get_caselist } from '/scripts/request/caselist';
-import { showLoading, hideLoading } from '/scripts/utils/loading';
-import { HTTP_checkuserinfo, HTTP_checkToken } from '/scripts/api/apiList';
+// import { Msg } from '/scripts/utils/message';
+// import { REQUEST_get_caselist } from '/scripts/request/caselist';
+// import { showLoading, hideLoading } from '/scripts/utils/loading';
+// import { HTTP_checkuserinfo, HTTP_checkToken } from '/scripts/api/apiList';
 
 const account = ref<string>('');
 const password = ref<string>('');
@@ -145,130 +145,130 @@ const logininfo_ = reactive({
   passwd: STORE_login_instance.LoginInfo.password,
 });
 
-const login = () => {
-  showLoading('正在登录......');
-  //获取用户信息
-  const username_ = (<HTMLInputElement>document.getElementById('username')).value;
-  const password_ = (<HTMLInputElement>document.getElementById('passwd')).value;
+// const login = () => {
+//   // showLoading('正在登录......');
+//   //获取用户信息
+//   const username_ = (<HTMLInputElement>document.getElementById('username')).value;
+//   const password_ = (<HTMLInputElement>document.getElementById('passwd')).value;
 
-  //匹配缓存用户名与输入用户是否一致以判断是否是第一次登陆
-  const first_login = username_ != STORE_login_instance.LoginInfo.username ? true : false;
+//   //匹配缓存用户名与输入用户是否一致以判断是否是第一次登陆
+//   const first_login = username_ != STORE_login_instance.LoginInfo.username ? true : false;
 
-  //判断输入信息
-  if (username_ != '' && password_ != '') {
-    //格式化登录信息
-    const data = {
-      username: username_,
-      password: password_,
-      themeurl: 'http://babg.zj.pcc/',
-      rememberU: 'on',
-      rememberP: 'on',
-    };
+//   //判断输入信息
+//   if (username_ != '' && password_ != '') {
+//     //格式化登录信息
+//     const data = {
+//       username: username_,
+//       password: password_,
+//       themeurl: 'http://babg.zj.pcc/',
+//       rememberU: 'on',
+//       rememberP: 'on',
+//     };
 
-    //初始化preload脚本地址等信息
-    const preload_url =
-      'file://' + window.path.resolve('packages/renderer/src/script/preload/login.js');
-    const login_info = {
-      ...data,
-      username: STORE_Setting().org_code + '-' + username_,
-    };
-    const logindata = qs.stringify(login_info);
-    let _obj = document.createElement('webview');
+//     //初始化preload脚本地址等信息
+//     const preload_url =
+//       'file://' + window.path.resolve('packages/renderer/src/script/preload/login.js');
+//     const login_info = {
+//       ...data,
+//       username: STORE_Setting().org_code + '-' + username_,
+//     };
+//     const logindata = qs.stringify(login_info);
+//     let _obj = document.createElement('webview');
 
-    //确认登陆信息是否正确
-    HTTP_checkuserinfo(logindata)
-      .then(async (res: any) => {
-        let login_end = false; //ipcRenderer发送信息计数
-        let login_err = false;
-        if (res.msg == null) {
-          //登陆信息无误,保存用户名和密码到localStorage
-          STORE_login_instance.Set_LoginInfo(data);
+//     //确认登陆信息是否正确
+//     HTTP_checkuserinfo(logindata)
+//       .then(async (res: any) => {
+//         let login_end = false; //ipcRenderer发送信息计数
+//         let login_err = false;
+//         if (res.msg == null) {
+//           //登陆信息无误,保存用户名和密码到localStorage
+//           STORE_login_instance.Set_LoginInfo(data);
 
-          let ft = false; //防止dom-ready在重定向后多次刷新
-          _obj.src =
-            'http://203.49.14.89/gzpt3-platform/static/login/default/login.html?themeurl=http://babg.zj.pcc/';
-          _obj.setAttribute('preload', preload_url);
-          loginWrap.value.appendChild(_obj);
+//           let ft = false; //防止dom-ready在重定向后多次刷新
+//           _obj.src =
+//             'http://203.49.14.89/gzpt3-platform/static/login/default/login.html?themeurl=http://babg.zj.pcc/';
+//           _obj.setAttribute('preload', preload_url);
+//           loginWrap.value.appendChild(_obj);
 
-          _obj.addEventListener('dom-ready', e => {
-            if (!ft) {
-              // _obj.openDevTools();
-              _obj.send('login', logindata);
-              ft = true;
-            }
-          });
+//           _obj.addEventListener('dom-ready', e => {
+//             if (!ft) {
+//               // _obj.openDevTools();
+//               _obj.send('login', logindata);
+//               ft = true;
+//             }
+//           });
 
-          _obj.addEventListener('ipc-message', async e => {
-            let reasult = e.channel;
-            if (reasult == 'login success') {
-              //登录成功后延迟获取Token等信息
-              setTimeout(() => {
-                _obj.send('gettoken');
-              }, 2000);
-            } else if (reasult.includes('result')) {
-              //输出获取的Token等信息
-              let result = reasult.replace('result:', '').split(',');
+//           _obj.addEventListener('ipc-message', async e => {
+//             let reasult = e.channel;
+//             if (reasult == 'login success') {
+//               //登录成功后延迟获取Token等信息
+//               setTimeout(() => {
+//                 _obj.send('gettoken');
+//               }, 2000);
+//             } else if (reasult.includes('result')) {
+//               //输出获取的Token等信息
+//               let result = reasult.replace('result:', '').split(',');
 
-              //将获取的Token和头像地址写到localStorage
-              STORE_login_instance.Set_Token(result[0]);
-              STORE_login_instance.Set_UserID(result[1]);
-              STORE_login_instance.Set_Avatar(result[2]);
-            } else {
-              login_err = true;
-            }
+//               //将获取的Token和头像地址写到localStorage
+//               STORE_login_instance.Set_Token(result[0]);
+//               STORE_login_instance.Set_UserID(result[1]);
+//               STORE_login_instance.Set_Avatar(result[2]);
+//             } else {
+//               login_err = true;
+//             }
 
-            //执行两次或者报错后结束登录
-            if (login_end || login_err) {
-              _obj.removeEventListener('dom-ready', e => {});
-              _obj.removeEventListener('ipc-message', e => {});
+//             //执行两次或者报错后结束登录
+//             if (login_end || login_err) {
+//               _obj.removeEventListener('dom-ready', e => {});
+//               _obj.removeEventListener('ipc-message', e => {});
 
-              loginWrap.value.removeChild(_obj);
+//               loginWrap.value.removeChild(_obj);
 
-              const token = STORE_login_instance.Token;
-              if (token) {
-                //获取用户代码等信息
-                await HTTP_checkToken(token).then(async (res: any) => {
-                  STORE_login_instance.Set_LoginResult(res);
-                  await REQUEST_get_caselist(false);
-                  hideLoading();
-                });
-              }
+//               const token = STORE_login_instance.Token;
+//               if (token) {
+//                 //获取用户代码等信息
+//                 await HTTP_checkToken(token).then(async (res: any) => {
+//                   STORE_login_instance.Set_LoginResult(res);
+//                   await REQUEST_get_caselist(false);
+//                   // hideLoading();
+//                 });
+//               }
 
-              //判断是否是第一次登陆
-              let msg = '';
-              if (first_login) {
-                msg = '登录成功，即将刷新。';
-                setTimeout(() => {
-                  window.location.reload();
-                }, 1000);
-              } else {
-                msg = '登录成功';
-              }
+//               //判断是否是第一次登陆
+//               let msg = '';
+//               if (first_login) {
+//                 msg = '登录成功，即将刷新。';
+//                 setTimeout(() => {
+//                   window.location.reload();
+//                 }, 1000);
+//               } else {
+//                 msg = '登录成功';
+//               }
 
-              Msg(login_err ? '服务器错误，请稍后再试。' : msg, login_err ? 'error' : 'success');
-              return;
-            }
-            login_end = true;
-          });
-        } else {
-          //登录信息校验失败
-          // Msg(res.msg, "error");
-          hideLoading();
-        }
-      })
-      .catch(err => {
-        //服务器接口错误时处理
-        Msg('服务器接口错误，请稍后再试。', 'error');
-        hideLoading();
-      });
-    // .finally(() => {
-    //   hideLoading();
-    // });
-  } else {
-    const msg_ = username_ == '' ? '用户名' : '密码';
-    Msg(msg_ + '不能为空', 'warning');
-  }
-};
+//               // Msg(login_err ? '服务器错误，请稍后再试。' : msg, login_err ? 'error' : 'success');
+//               return;
+//             }
+//             login_end = true;
+//           });
+//         } else {
+//           //登录信息校验失败
+//           // Msg(res.msg, "error");
+//           // hideLoading();
+//         }
+//       })
+//       .catch(err => {
+//         //服务器接口错误时处理
+//         // Msg('服务器接口错误，请稍后再试。', 'error');
+//         // hideLoading();
+//       });
+//     // .finally(() => {
+//     //   hideLoading();
+//     // });
+//   } else {
+//     const msg_ = username_ == '' ? '用户名' : '密码';
+//     // Msg(msg_ + '不能为空', 'warning');
+//   }
+// };
 </script>
 
 <style>
