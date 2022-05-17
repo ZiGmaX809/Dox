@@ -29,11 +29,11 @@ const Router = createRouter({
       name: 'Template',
       component: Template,
     },
-    // {
-    //   path: '/Preferences',
-    //   name: 'Preferences',
-    //   component: Preferences,
-    // },
+    {
+      path: '/Preferences',
+      name: 'Preferences',
+      component: Preferences,
+    },
   ],
 });
 

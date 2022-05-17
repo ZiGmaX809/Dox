@@ -22,6 +22,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Search: typeof import('./src/components/views/Search/index.vue')['default']
+    SiderMenu: typeof import('./src/components/utils/SiderMenu.vue')['default']
     SvgIcon: typeof import('./src/components/utils/SvgIcon.vue')['default']
     TEditor: typeof import('./src/components/utils/TEditor.vue')['default']
     Template: typeof import('./src/components/views/Template/index.vue')['default']

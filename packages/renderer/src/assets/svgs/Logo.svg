@@ -2,7 +2,7 @@
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 385.29 392.3">
     <defs>
-        <style>.cls-1{fill:url(#grad);}.cls-2{fill:#4d4d4d;}.cls-3{mask:url(#mask);}.cls-4{fill:#040000;opacity:0.8;}</style>
+        <style>.cls-1{fill:url(#grad);}.cls-2{@apply fill-themeable-logo_text;}.cls-3{mask:url(#mask);}</style>
         <linearGradient id="grad" x1="198.56" y1="342.02" x2="116.45" y2="164.61" gradientUnits="userSpaceOnUse">
             <stop offset="0.1"/>
             <stop offset="0.84" stop-color="#fff"/>

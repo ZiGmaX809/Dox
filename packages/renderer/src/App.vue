@@ -1,95 +1,46 @@
 <template>
-  <div id="container_view" class="flex w-screen h-screen themeable-Cecil">
-    <div
-      id="sider_view"
-      class="w-[200px] bg-themeable-sider_bg border-r border-r-themeable-view_board h-screen"
-    >
+  <div id="container_view" class="container flex w-screen h-screen" :data-theme="theme">
+    <div id="sider_view" class="w-[200px] bg-base-200 border-r border-base-300 h-screen">
       <div class="w-full mt-6 mb-6 flex justify-center select-none items-baseline">
-        <svg-icon id="black" name="Logo" class="w-12 h-12" />
+        <svg-icon id="Logo" name="Logo" class="w-12 h-12" />
         <b class="text-4xl font-sans text-themeable-logo_text">ox</b>
         <b class="text-4xl text-orange-400">.</b>
       </div>
-      <div class="flex h-1px bg-themeable-divider m-4 select-none" />
+      <div class="divider before:!h-[1px] after:!h-[1px] m-4 select-none" />
       <div
         id="Avatar"
         class="flex flex-col items-center justify-center mt-5 drop-shadow-md select-none cursor-pointer"
         @click="ShowLoginView"
       >
         <div class="w-24 h-24 relative">
-          <div
-            class="w-full h-full items-center justify-center rounded-full border-2 border-themeable-avatar_border overflow-hidden"
-          >
-            <img
-              :src="avatar_src"
-              style="-webkit-user-drag: none"
-              class="rounded-full w-full h-full object-center"
-            />
+          <div class="avatar online">
+            <div class="w-24 rounded-full ring-2 ring-base-100">
+              <img :src="avatar_src" style="-webkit-user-drag: none" />
+            </div>
           </div>
-          <div
-            class="absolute w-3 h-3 rounded-full border-2 border-themeable-avatar_border top-[75px] left-[75px]"
-            :class="login_status"
-          />
         </div>
       </div>
       <span class="flex flex-col justify-between mt-5 space-y-1 select-none">
-        <p class="text-xs text-themeable-info_text text-center">{{ unit }}</p>
-        <p class="text-xs text-themeable-info_text text-center">{{ department }}</p>
+        <p class="text-xs text-base-content text-center">{{ unit }}</p>
+        <p class="text-xs text-base-content text-center">{{ department }}</p>
         <div class="text-center">
-          <b class="text-base text-themeable-info_text_main cursor-pointer" @click="ShowLoginView">{{ username }}</b>
+          <b class="text-base text-base-content cursor-pointer" @click="ShowLoginView">
+            {{ username }}
+          </b>
         </div>
       </span>
-      <div class="flex h-1px bg-themeable-divider m-4 select-none" />
-      <div class="px-2">
-        <ul id="Sidebar" class="space-y-2">
-          <li
-            id="item_menu_1"
-            class="sider_menu_active"
-            :class="sider_menu_style"
-            @click="(val:Event) => active(val)"
-          >
-            <a href="#" :class="sider_menu_a_style">
-              <div class="flex justify-center m-auto">
-                <svg-icon name="store" class="w-6 h-6" />
-                <span class="ml-3 w-16 text-[15px]">我的案件</span>
-              </div>
-            </a>
-          </li>
-          <li id="item_menu_2" :class="sider_menu_style" @click="(val:Event) => active(val)">
-            <a href="#Template" :class="sider_menu_a_style">
-              <div class="flex justify-center m-auto">
-                <svg-icon name="template" class="w-6 h-6" />
-                <span class="ml-3 w-16 text-[15px]">模板管理</span>
-              </div>
-            </a>
-          </li>
-          <li id="item_menu_3" :class="sider_menu_style" @click="(val:Event) => active(val)">
-            <a href="#Search" :class="sider_menu_a_style">
-              <div class="flex justify-center m-auto">
-                <svg-icon name="search" class="w-6 h-6" />
-                <span class="ml-3 w-16 text-[15px]">案件查询</span>
-              </div>
-            </a>
-          </li>
-          <li id="item_menu_4" :class="sider_menu_style" @click="(val:Event) => active(val)">
-            <a href="#Preferences" :class="sider_menu_a_style">
-              <div class="flex justify-center m-auto">
-                <svg-icon name="set" class="w-6 h-6" />
-                <span class="ml-3 w-16 text-[15px]">设置</span>
-              </div>
-            </a>
-          </li>
-        </ul>
-      </div>
+      <div class="divider before:!h-[1px] after:!h-[1px] m-4 select-none" />
+      <SiderMenu />
     </div>
     <div class="flex flex-col flex-1">
       <div
         id="header_view"
-        class="bg-themeable-header_bg h-10 w-full items-center border-b border-b-themeable-view_board"
+        class="bg-base-200 h-10 w-full items-center border-b border-base-300"
         style="-webkit-app-region: drag"
       >
         <TrafficLight />
       </div>
-      <div id="main_view" class="flex-1 p-2">
+      <div id="main_view" class="flex-1 p-5 bg-base-100">
         <router-view />
       </div>
     </div>
@@ -116,37 +67,13 @@ const STORE_editor_instance = STORE_Editor();
 const STORE_setting_instance = STORE_Setting();
 const STORE_clipboard_instance = STORE_Clipboard();
 
-interface type_target {
-  [id: string]: any;
-}
+const login_status = ref('bg-green-400');
 
-const sider_menu_style = ref(
-  'rounded-lg hover:bg-zinc-50 hover:shadow-md transition duration-300 ease-in-out'
-);
-const sider_menu_a_style = ref(
-  'flex items-center p-2 text-base font-normal text-gray-700 drag_none'
-);
-
-const active = (val: Event) => {
-  const { id } = val.currentTarget as type_target;
-  remove_active_class();
-  document.getElementById(id)!.classList.add('sider_menu_active');
-};
-
-const remove_active_class = () => {
-  document.getElementById('Sidebar')!.childNodes.forEach(cls => {
-    const { id } = cls as type_target;
-    const class_list = Array.from(document.getElementById(id)!.classList);
-    if (class_list.includes('sider_menu_active')) {
-      document.getElementById(id)!.classList.remove('sider_menu_active');
-    }
-  });
-};
-
-const login_status = ref('bg-green-400')
+const theme = ref('light');
 
 const isLogined = ref(false);
 const isRouterAlive = ref(true);
+const isDark = ref(true);
 
 const avatar_src = ref();
 
@@ -188,15 +115,32 @@ const set_avatar_src = () => {
 
 set_avatar_src();
 
+const set_theme = (val: string) => {
+  theme.value = val;
+};
+
 provide('avatar_src', set_avatar_src);
+provide('theme', set_theme);
 </script>
 
 <style>
+:root {
+  --logo-fill-color: #4d4d4d;
+  --logo-shadow-color: #040000;
+}
+
 .sider_menu_active {
-  @apply bg-themeable-sider_menu_hover shadow-md;
+  @apply bg-primary text-primary-content shadow-md;
 }
 
 .drag_none {
   -webkit-user-drag: none;
+}
+
+.cls-2 {
+  @apply fill-base-content;
+}
+.cls-4 {
+  @apply fill-neutral opacity-80;
 }
 </style>
