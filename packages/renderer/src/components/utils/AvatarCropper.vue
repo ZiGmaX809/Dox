@@ -16,8 +16,11 @@
         :enlarge="options.enlarge"
       />
     </div>
-    <div class="flex flex-col ml-5">
-      <el-button size="small" class="w-[100px]" @click="select_pic">打开图片</el-button>
+    <div class="flex flex-col ml-5 space-y-2">
+      <button class="btn btn-sm btn-primary" @click="select_pic">打开图片</button>
+      <button class="btn btn-sm btn-secondary" @click="clear_pic">清除</button>
+      <button class="btn btn-sm btn-accent" @click="save_pic">保存</button>
+      <!-- <el-button size="small" class="w-[100px]" @click="select_pic">打开图片</el-button>
       <el-button
         size="small"
         class="w-[100px] !ml-0 mt-3"
@@ -35,7 +38,7 @@
         :disabled="save_disabled"
       >
         保存
-      </el-button>
+      </el-button> -->
       <p class="w-[100px] text-xs text-neutral-400 mt-3">
         Tips:
         <br />
@@ -118,7 +121,7 @@ const save_pic = () => {
     cropper.value!.getCropBlob((blob: any) => {
       const custom_avatar_path = `${STORE_System().CacheFile_Path}/images/useravatar.jpg`;
       window.Export_File(blob, custom_avatar_path);
-      Msg('保存成功!','success');
+      Msg('保存成功!', 'success');
       emit('dialog_close');
       setTimeout(() => {
         avatar_src();

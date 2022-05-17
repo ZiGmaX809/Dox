@@ -67,13 +67,10 @@ const STORE_editor_instance = STORE_Editor();
 const STORE_setting_instance = STORE_Setting();
 const STORE_clipboard_instance = STORE_Clipboard();
 
-const login_status = ref('bg-green-400');
-
-const theme = ref('light');
+const theme = ref(STORE_setting_instance.theme);
 
 const isLogined = ref(false);
 const isRouterAlive = ref(true);
-const isDark = ref(true);
 
 const avatar_src = ref();
 
@@ -117,6 +114,7 @@ set_avatar_src();
 
 const set_theme = (val: string) => {
   theme.value = val;
+  STORE_setting_instance.Change_theme(val);
 };
 
 provide('avatar_src', set_avatar_src);
@@ -127,6 +125,16 @@ provide('theme', set_theme);
 :root {
   --logo-fill-color: #4d4d4d;
   --logo-shadow-color: #040000;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
 }
 
 .sider_menu_active {
