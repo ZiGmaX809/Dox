@@ -44,6 +44,11 @@
         <router-view />
       </div>
     </div>
+    <div
+      class="absolute translate-x-[200px] translate-y-10 w-[calc(100vw_-_200px)] h-[calc(100vh_-_40px)] pointer-events-none overflow-hidden"
+    >
+      <div id="msg_view" class="flex flex-col-reverse"></div>
+    </div>
   </div>
   <div
     id="LoginView"

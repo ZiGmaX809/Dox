@@ -17,28 +17,10 @@
       />
     </div>
     <div class="flex flex-col ml-5 space-y-2">
-      <button class="btn btn-sm btn-primary" @click="select_pic">打开图片</button>
-      <button class="btn btn-sm btn-secondary" @click="clear_pic">清除</button>
-      <button class="btn btn-sm btn-accent" @click="save_pic">保存</button>
-      <!-- <el-button size="small" class="w-[100px]" @click="select_pic">打开图片</el-button>
-      <el-button
-        size="small"
-        class="w-[100px] !ml-0 mt-3"
-        type="danger"
-        :disabled="save_disabled"
-        @click="clear_pic"
-      >
-        清除
-      </el-button>
-      <el-button
-        size="small"
-        class="w-[100px] !ml-0 mt-3"
-        type="success"
-        @click="save_pic"
-        :disabled="save_disabled"
-      >
-        保存
-      </el-button> -->
+      <label class="btn btn-sm btn-primary" @click="select_pic">打开图片</label>
+      <label class="btn btn-sm btn-secondary" :class="isdisabled" @click="clear_pic">清除</label>
+      <label for="my-modal" class="btn btn-sm btn-accent" :class="isdisabled" @click="save_pic">保存</label>
+      <label for="my-modal" class="btn btn-sm">关闭</label>
       <p class="w-[100px] text-xs text-neutral-400 mt-3">
         Tips:
         <br />
@@ -57,13 +39,14 @@ import 'vue-cropper/dist/index.css';
 import { VueCropper } from 'vue-cropper';
 import { inject, reactive, ref } from 'vue';
 import { STORE_System } from '/store/modules/system';
-
-import { Msg } from '/scripts/utils/message';
+import Msg from '/scripts/utils/message';
 import { Load_Image_To_Base64, Select_FileOrFolder } from '/scripts/utils/handlefiles';
+
 
 /* vue-cropper DOM */
 const cropper = ref();
 const save_disabled = ref(true);
+const isdisabled = ref('btn-disabled')
 const avatar_src: () => void = inject('avatar_src')!;
 
 interface cropperInter {
@@ -104,25 +87,23 @@ const select_pic = async () => {
   if (select_image_path) {
     Load_Image_To_Base64(select_image_path).then(res => {
       options.img = res;
-      save_disabled.value = false;
+      isdisabled.value = ''
     });
   }
 };
 
 const clear_pic = () => {
   options.img = '';
-  save_disabled.value = true;
+  isdisabled.value = 'btn-disabled'
 };
-
-const emit = defineEmits(['dialog_close']);
 
 const save_pic = () => {
   if (cropper.value) {
     cropper.value!.getCropBlob((blob: any) => {
       const custom_avatar_path = `${STORE_System().CacheFile_Path}/images/useravatar.jpg`;
       window.Export_File(blob, custom_avatar_path);
-      Msg('保存成功!', 'success');
-      emit('dialog_close');
+      // Msg('保存成功!', 'success');
+      // Msg({ text: '保存成功', type: 'error' });
       setTimeout(() => {
         avatar_src();
       }, 500);

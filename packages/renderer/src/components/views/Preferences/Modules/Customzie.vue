@@ -65,9 +65,6 @@
       <div class="modal">
         <div class="modal-box w-[668px] max-w-5xl">
           <AvatarCropper />
-          <div class="modal-action">
-            <label for="my-modal" class="btn">Yay!</label>
-          </div>
         </div>
       </div>
     </div>
@@ -75,7 +72,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue';
 import { STORE_Setting } from '/store/modules/setting';
 import AvatarCropper from '/components/utils/AvatarCropper.vue';
 

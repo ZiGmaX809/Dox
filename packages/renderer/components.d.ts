@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     Home: typeof import('./src/components/views/Home/index.vue')['default']
     ImportFile: typeof import('./src/components/utils/ImportFile.vue')['default']
     Login: typeof import('./src/components/views/Login/index.vue')['default']
+    Msg: typeof import('./src/components/utils/Msg.vue')['default']
     Notice: typeof import('./src/components/utils/Notice.vue')['default']
     Others: typeof import('./src/components/views/Preferences/Modules/Others.vue')['default']
     Preferences: typeof import('./src/components/views/Preferences/index.vue')['default']
