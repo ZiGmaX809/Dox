@@ -19,7 +19,9 @@
     <div class="flex flex-col ml-5 space-y-2">
       <label class="btn btn-sm btn-primary" @click="select_pic">打开图片</label>
       <label class="btn btn-sm btn-secondary" :class="isdisabled" @click="clear_pic">清除</label>
-      <label for="my-modal" class="btn btn-sm btn-accent" :class="isdisabled" @click="save_pic">保存</label>
+      <label for="my-modal" class="btn btn-sm btn-accent" :class="isdisabled" @click="save_pic">
+        保存
+      </label>
       <label for="my-modal" class="btn btn-sm">关闭</label>
       <p class="w-[100px] text-xs text-neutral-400 mt-3">
         Tips:
@@ -42,11 +44,10 @@ import { STORE_System } from '/store/modules/system';
 import Msg from '/scripts/utils/message';
 import { Load_Image_To_Base64, Select_FileOrFolder } from '/scripts/utils/handlefiles';
 
-
 /* vue-cropper DOM */
 const cropper = ref();
 const save_disabled = ref(true);
-const isdisabled = ref('btn-disabled')
+const isdisabled = ref('btn-disabled');
 const avatar_src: () => void = inject('avatar_src')!;
 
 interface cropperInter {
@@ -87,14 +88,14 @@ const select_pic = async () => {
   if (select_image_path) {
     Load_Image_To_Base64(select_image_path).then(res => {
       options.img = res;
-      isdisabled.value = ''
+      isdisabled.value = '';
     });
   }
 };
 
 const clear_pic = () => {
   options.img = '';
-  isdisabled.value = 'btn-disabled'
+  isdisabled.value = 'btn-disabled';
 };
 
 const save_pic = () => {
@@ -103,7 +104,7 @@ const save_pic = () => {
       const custom_avatar_path = `${STORE_System().CacheFile_Path}/images/useravatar.jpg`;
       window.Export_File(blob, custom_avatar_path);
       // Msg('保存成功!', 'success');
-      // Msg({ text: '保存成功', type: 'error' });
+      Msg('保存成功', 'success', 3000);
       setTimeout(() => {
         avatar_src();
       }, 500);

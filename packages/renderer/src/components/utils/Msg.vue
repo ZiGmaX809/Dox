@@ -27,16 +27,7 @@ const props = defineProps({
 });
 
 const alert_type = (type: boolean) => {
-  switch (props.type) {
-    case 'warning':
-      return type ? 'alert-warning' : 'warning';
-    case 'success':
-      return type ? 'alert-success' : 'success';
-    case 'error':
-      return type ? 'alert-error' : 'error';
-    case 'info':
-      return type ? 'alert-info' : 'info';
-  }
+  return type ? `alert-${props.type}` : props.type;
 };
 
 const isShow = ref(false);

@@ -35,7 +35,7 @@
     <div class="flex flex-col flex-1">
       <div
         id="header_view"
-        class="bg-base-200 h-10 w-full items-center border-b border-base-300"
+        class="bg-base-200/50 h-10 w-full items-center border-b border-base-300"
         style="-webkit-app-region: drag"
       >
         <TrafficLight />
