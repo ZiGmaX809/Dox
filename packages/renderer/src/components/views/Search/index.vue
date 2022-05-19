@@ -1,20 +1,16 @@
 <template>
-  <Switch v-model="test"></Switch>
-  <Button
-    v-model="test"
-    id="test-1"
-    for="change_avatar_modal"
-    class="btn btn-xs ml-3 modal-button"
-  ></Button>
-
-  <input type="checkbox" id="change_avatar_modal" class="modal-toggle" />
-  <div class="modal">
-    <div class="modal-box w-[668px] max-w-5xl">
-      <AvatarCropper />
-    </div>
-  </div>
+  <Dropdown v-model="theme" :itemList="theme_list"></Dropdown>
 </template>
 
 <script setup lang="ts">
-const test = ref(true);
+const theme_list: string[] = [
+  'light',
+  'dark',
+  'cupcake',
+  'bumblebee',
+  'emerald',
+  'corporate',
+  'synthwave',
+];
+const theme = ref('light')
 </script>

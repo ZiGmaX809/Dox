@@ -5,8 +5,6 @@
     type="checkbox"
     :checked="checked"
     @change="handleInput"
-    :true-value="trueValue"
-    :false-value="falseValue"
   />
 </template>
 
