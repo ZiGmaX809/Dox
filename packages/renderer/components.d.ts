@@ -7,6 +7,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Advanced: typeof import('./src/components/views/Preferences/Modules/Advanced.vue')['default']
     AvatarCropper: typeof import('./src/components/utils/AvatarCropper.vue')['default']
+    Button: typeof import('./src/components/utils/Button.vue')['default']
     Casezone: typeof import('./src/components/views/Casezone/index.vue')['default']
     Customzie: typeof import('./src/components/views/Preferences/Modules/Customzie.vue')['default']
     Edit: typeof import('./src/components/views/Preferences/Modules/Edit.vue')['default']
@@ -25,6 +26,7 @@ declare module '@vue/runtime-core' {
     Search: typeof import('./src/components/views/Search/index.vue')['default']
     SiderMenu: typeof import('./src/components/utils/SiderMenu.vue')['default']
     SvgIcon: typeof import('./src/components/utils/SvgIcon.vue')['default']
+    Switch: typeof import('./src/components/utils/Switch.vue')['default']
     TEditor: typeof import('./src/components/utils/TEditor.vue')['default']
     Template: typeof import('./src/components/views/Template/index.vue')['default']
     TrafficLight: typeof import('./src/components/utils/TrafficLight.vue')['default']

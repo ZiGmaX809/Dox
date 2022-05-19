@@ -56,12 +56,12 @@
           :checked="custom_avatar_checked"
           @click="switch_coutom_avatar_bool"
         />
-        <label for="my-modal" class="btn btn-xs ml-3 modal-button" :class="custom_avatar_btn">
+        <label for="change_avatar_modal" class="btn btn-xs ml-3 modal-button" :class="custom_avatar_btn">
           更换头像
         </label>
       </div>
 
-      <input type="checkbox" id="my-modal" class="modal-toggle" />
+      <input type="checkbox" id="change_avatar_modal" class="modal-toggle" />
       <div class="modal">
         <div class="modal-box w-[668px] max-w-5xl">
           <AvatarCropper />
@@ -127,4 +127,8 @@ const switch_coutom_avatar_bool = () => {
   STORE_setting_instance.Switch_custom_avatar(custom_avatar_checked.value);
   avatar_src();
 };
+
+onMounted(() => {
+  custom_avatar_btn.value = custom_avatar_checked.value ? '' : 'btn-disabled';
+})
 </script>

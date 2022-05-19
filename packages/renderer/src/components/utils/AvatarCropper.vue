@@ -19,10 +19,10 @@
     <div class="flex flex-col ml-5 space-y-2">
       <label class="btn btn-sm btn-primary" @click="select_pic">打开图片</label>
       <label class="btn btn-sm btn-secondary" :class="isdisabled" @click="clear_pic">清除</label>
-      <label for="my-modal" class="btn btn-sm btn-accent" :class="isdisabled" @click="save_pic">
+      <label for="change_avatar_modal" class="btn btn-sm btn-accent" :class="isdisabled" @click="save_pic">
         保存
       </label>
-      <label for="my-modal" class="btn btn-sm">关闭</label>
+      <label for="change_avatar_modal" class="btn btn-sm">关闭</label>
       <p class="w-[100px] text-xs text-neutral-400 mt-3">
         Tips:
         <br />
