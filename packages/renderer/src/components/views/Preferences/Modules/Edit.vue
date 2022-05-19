@@ -43,9 +43,7 @@
         </Explain>
       </div>
 
-      <div class="flex items-center">
-        <input type="checkbox" class="toggle toggle-md" :checked="false" @click="" />
-      </div>
+      <Switch v-model="switch_auto_int2em" />
     </div>
 
     <div class="flex justify-between">
@@ -53,63 +51,66 @@
         <p class="font-bold">启用剪贴板</p>
         <Explain>启用剪贴板功能后，将会监听系统剪贴板，并且将复制的文本存入缓存中。</Explain>
       </div>
-      <div class="flex items-center">
-        <input type="checkbox" class="toggle toggle-md" :checked="false" @click="" />
-      </div>
+      <Switch v-model="switch_clipboard_bool" />
     </div>
 
-    <div>
-      <div class="flex justify-between items-center">
-        <p class="font-bold">剪贴板缓存数量（自定义上限200）</p>
-        <input
-          type="text"
-          v-model="STORE_setting_instance.clipboard_num"
-          class="h-5 w-12 text-xs text-zinc-500 rounded-sm pl-1 outline outline-1 outline-zinc-200 focus:outline-none focus:ring-2 focus:border-blue-400"
-          :disabled="!switch_clipboard_bool"
-          @input="
-            STORE_setting_instance.Change_clipboard_num(
-              handleChange_num(STORE_setting_instance.clipboard_num, 200)
-            )
-          "
-        />
+    <div class="flex justify-between">
+      <div class="flex items-center h-10">
+        <p class="font-bold">剪贴板缓存数量</p>
+        <Explain>
+          <b>自定义上限200</b>
+          <br />
+          条目数量过多将会导致索引效率降低，建议设置缓存条目数量控制在50以内。
+          <br />
+          超出数量将自动清除最先数据。
+        </Explain>
       </div>
-      <p class="text-xs text-neutral-400">
-        条目数量过多将会导致索引效率降低，建议设置缓存条目数量控制在50以内。
-        <br />
-        超出数量将自动清除最先数据。
-      </p>
+
+      <input
+        type="text"
+        v-model="STORE_setting_instance.clipboard_num"
+        class="input input-bordered input-primary input-xs w-12 max-w-xs"
+        :disabled="!switch_clipboard_bool"
+        @input="
+          STORE_setting_instance.Change_clipboard_num(
+            handleChange_num(STORE_setting_instance.clipboard_num, 200)
+          )
+        "
+      />
     </div>
 
-    <div>
-      <div class="flex justify-between h-8">
-        <p class="font-bold">剪贴板监听字符长度（自定义上限600）</p>
-        <input
-          type="text"
-          v-model="STORE_setting_instance.clipboard_textlength"
-          class="h-5 w-12 text-xs text-zinc-500 rounded-sm pl-1 outline outline-1 outline-zinc-200 focus:outline-none focus:ring-2 focus:border-blue-500"
-          :disabled="!switch_clipboard_bool"
-          @input="
-            STORE_setting_instance.Change_clipboard_textlength(
-              handleChange_num(STORE_setting_instance.clipboard_textlength, 600)
-            )
-          "
-        />
+    <div class="flex justify-between">
+      <div class="flex items-center h-10">
+        <p class="font-bold">剪贴板监听字符长度</p>
+        <Explain>
+          <b>自定义上限600</b>
+          <br />
+          为保证性能，建议监听300字符以内的文本。
+          <br />
+          超出设定长度依旧可以复制粘贴，但不会存入缓存。
+        </Explain>
       </div>
-      <p class="text-xs text-neutral-400">
-        为保证性能，建议监听300字符以内的文本。
-        <br />
-        超出设定长度依旧可以复制粘贴，但不会存入缓存。
-      </p>
+      <input
+        type="text"
+        v-model="STORE_setting_instance.clipboard_textlength"
+        class="input input-bordered input-primary input-xs w-12 max-w-xs"
+        :disabled="!switch_clipboard_bool"
+        @input="
+          STORE_setting_instance.Change_clipboard_textlength(
+            handleChange_num(STORE_setting_instance.clipboard_textlength, 600)
+          )
+        "
+      />
     </div>
 
-    <div>
-      <div class="flex justify-between h-8">
+    <div class="flex justify-between">
+      <div class="flex items-center h-10">
         <p class="font-bold">复用剪贴板内容</p>
-        <!-- <el-switch v-model="switch_writeSystemClipboard_bool" :disabled="!switch_clipboard_bool" /> -->
+        <Explain>
+          启用后，点击剪贴板内容时，将会把点击内容写入到系统剪贴板，以便于使用Ctrl+V进行多次粘贴。
+        </Explain>
       </div>
-      <p class="text-xs text-neutral-400">
-        启用后，点击剪贴板内容时，将会把点击内容写入到系统剪贴板，以便于使用Ctrl+V进行多次粘贴。
-      </p>
+      <Switch v-model="switch_writeSystemClipboard_bool" />
     </div>
   </div>
 </template>
@@ -185,28 +186,16 @@ const lineheights = [1, 1.5, 2, 2.5, 3];
 
 const change_fonts_family = (item: { value: string; label: string }) => {
   default_font_name.value = item.label;
+  STORE_setting_instance.Set_font_name(item.label);
 };
 
 const change_fonts_size = (val: string) => {
   default_font_size.value = val;
+  STORE_setting_instance.Set_font_size(val);
 };
 
 const change_lineheight = (val: number) => {
   default_lineheight.value = val.toString();
-};
-
-const Set_Editer_font_name = (val: Event) => {
-  const res = val.toString();
-  STORE_setting_instance.Set_font_name(res);
-};
-
-const Set_Editer_font_size = (val: Event) => {
-  const res = val.toString();
-  STORE_setting_instance.Set_font_size(res);
-};
-
-const Set_Editer_lineheight = (val: Event) => {
-  const res = val.toString();
-  STORE_setting_instance.Set_lineheight(res);
+  STORE_setting_instance.Set_lineheight(val.toString());
 };
 </script>
