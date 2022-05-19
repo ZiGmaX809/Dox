@@ -1,66 +1,115 @@
 <template>
   <b class="text-2xl mt-10">编辑</b>
-  <el-divider />
-  <div class="space-y-3">
-    <div class="flex justify-between h-8">
+  <div class="divider before:!h-[1px] after:!h-[1px] select-none" />
+  <div class="text-base-content">
+    <div class="flex justify-between items-center h-10">
       <p class="font-bold">默认字体</p>
-      <el-select
-        v-model="default_font_name"
-        size="small"
-        style="width: 90px"
-        @change="(val:Event) => Set_Editer_font_name(val)"
-      >
-        <el-option
-          v-for="item in fonts_family"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
-      </el-select>
+      <div class="dropdown dropdown-end">
+        <label tabindex="0" class="btn gap-2 m-1 btn-sm bg-base-100 btn-ghost text-base-content">
+          {{ default_font_name }}
+          <svg-icon name="down" class="w-4 h-4" />
+        </label>
+        <ul
+          tabindex="0"
+          class="dropdown-content menu menu-compact p-2 shadow-lg bg-base-100 border border-base-300 rounded-md w-auto max-h-60"
+        >
+          <li v-for="item in fonts_family" @click="change_fonts_family(item)">
+            <a>
+              {{ item.label }}
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <div class="flex justify-between h-8">
+    <div class="flex justify-between items-center h-10">
       <p class="font-bold">默认字号</p>
-      <el-select
-        v-model="default_font_size"
-        size="small"
-        style="width: 70px"
-        @change="(val:Event) => Set_Editer_font_size(val)"
-      >
-        <el-option v-for="item in font_sizes" :key="item" :value="item"></el-option>
-      </el-select>
+      <div class="dropdown dropdown-end">
+        <label tabindex="0" class="btn gap-2 m-1 btn-sm bg-base-100 btn-ghost text-base-content">
+          {{ default_font_size }}
+          <svg-icon name="down" class="w-4 h-4" />
+        </label>
+        <ul
+          tabindex="0"
+          class="dropdown-content menu menu-compact p-2 shadow-lg bg-base-100 border border-base-300 rounded-md w-auto max-h-80"
+        >
+          <li v-for="item in font_sizes" @click="change_fonts_size(item)">
+            <a>
+              {{ item }}
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <div class="flex justify-between h-8">
+    <div class="flex justify-between items-center h-10">
       <p class="font-bold">默认行高</p>
-      <el-select
-        v-model="default_lineheight"
-        size="small"
-        class="w-14"
-        @change="(val:Event) => Set_Editer_lineheight(val)"
-      >
-        <el-option v-for="item in lineheights" :key="item" :value="item"></el-option>
-      </el-select>
+
+      <div class="dropdown dropdown-end">
+        <label tabindex="0" class="btn gap-2 m-1 btn-sm bg-base-100 btn-ghost text-base-content">
+          {{ default_lineheight }}
+          <svg-icon name="down" class="w-4 h-4" />
+        </label>
+        <ul
+          tabindex="0"
+          class="dropdown-content menu menu-compact p-2 shadow-lg bg-base-100 border border-base-300 rounded-md w-auto max-h-80"
+        >
+          <li v-for="item in lineheights" @click="change_lineheight(item)">
+            <a>
+              {{ item }}
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <div>
-      <div class="flex justify-between h-8">
+    <div class="flex justify-between">
+      <div class="flex items-center h-10">
         <p class="font-bold">默认启用首行缩进</p>
-        <el-switch v-model="switch_auto_int2em" />
+        <div class="dropdown">
+          <label tabindex="0" class="btn btn-circle btn-ghost btn-xs m-1 text-base-content/70">
+            <svg-icon name="question" class="w-4 h-4"></svg-icon>
+          </label>
+          <div
+            tabindex="0"
+            class="card compact dropdown-content shadow-lg bg-base-100 border border-base-300 rounded-box w-96"
+          >
+            <div class="card-body">
+              <p class="text-base-content">
+                编辑器内的字体、字号、段落格并不会影响导出文书的格式，仅为了便于编辑文书。
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-      <p class="text-xs text-neutral-400">
-        编辑器内的字体、字号、段落格并不会影响导出文书的格式，仅为了便于编辑文书。
-      </p>
+
+      <div class="flex items-center">
+        <input type="checkbox" class="toggle toggle-md" :checked="false" @click="" />
+      </div>
     </div>
 
-    <div>
-      <div class="flex justify-between h-8">
+    <div class="flex justify-between">
+      <div class="flex items-center h-10">
         <p class="font-bold">启用剪贴板</p>
-        <el-switch v-model="switch_clipboard_bool" />
+        <div class="dropdown">
+          <label tabindex="0" class="btn btn-circle btn-ghost btn-xs m-1 text-base-content/70">
+            <svg-icon name="question" class="w-4 h-4"></svg-icon>
+          </label>
+          <div
+            tabindex="0"
+            class="card compact dropdown-content shadow-lg bg-base-100 border border-base-300 rounded-box w-96"
+          >
+            <div class="card-body">
+              <p class="text-base-content">
+                启用剪贴板功能后，将会监听系统剪贴板，并且将复制的文本存入缓存中。
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-      <p class="text-xs text-neutral-400">
-        启用剪贴板功能后，将会监听系统剪贴板，并且将复制的文本存入缓存中。
-      </p>
+      <div class="flex items-center">
+        <input type="checkbox" class="toggle toggle-md" :checked="false" @click="" />
+      </div>
     </div>
 
     <div>
@@ -110,7 +159,7 @@
     <div>
       <div class="flex justify-between h-8">
         <p class="font-bold">复用剪贴板内容</p>
-        <el-switch v-model="switch_writeSystemClipboard_bool" :disabled="!switch_clipboard_bool" />
+        <!-- <el-switch v-model="switch_writeSystemClipboard_bool" :disabled="!switch_clipboard_bool" /> -->
       </div>
       <p class="text-xs text-neutral-400">
         启用后，点击剪贴板内容时，将会把点击内容写入到系统剪贴板，以便于使用Ctrl+V进行多次粘贴。
@@ -187,6 +236,18 @@ const default_font_size = ref(STORE_setting_instance.editor_font_size);
 const font_sizes = ['12px', '14px', '16px', '18px', '20px', '22px', '24px'];
 const default_lineheight = ref(STORE_setting_instance.editor_lineheight);
 const lineheights = [1, 1.5, 2, 2.5, 3];
+
+const change_fonts_family = (item: { value: string; label: string }) => {
+  default_font_name.value = item.label;
+};
+
+const change_fonts_size = (val: string) => {
+  default_font_size.value = val;
+};
+
+const change_lineheight = (val: number) => {
+  default_lineheight.value = val.toString();
+};
 
 const Set_Editer_font_name = (val: Event) => {
   const res = val.toString();

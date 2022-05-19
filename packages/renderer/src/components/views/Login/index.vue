@@ -1,41 +1,40 @@
 <template>
   <div
-    class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12 select-none"
+    class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-base-100 py-6 sm:py-12 select-none"
     style="-webkit-user-drag: none"
   >
     <img
       :src="basms"
-      class="absolute top-1/2 left-1/2 max-w-none -translate-x-1/2 -translate-y-1/2 blur"
-      width="1308"
+      class="absolute top-1/2 left-1/2 max-w-none -translate-x-1/2 -translate-y-1/2 blur w-screen"
     />
     <div
       class="absolute inset-0 bg-login-grid bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"
     ></div>
     <div
       id="LoginWindow"
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white shadow-xl ring-1 ring-gray-900/5 w-96 h-[410px] rounded-md"
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-base-100 shadow-xl ring-1 ring-gray-900/5 w-96 h-[410px] rounded-md"
     >
       <div class="title w-full flex flex-col justify-center mx-auto text-center space-y-2 py-8">
         <b class="text-4xl bg-clip-text text-transparent font-extrabold">Login To</b>
         <b class="text-2xl bg-clip-text text-transparent font-bold">The Case Office Platform</b>
       </div>
       <div class="space-y-2">
-        <p class="flex flex-1 w-4/5 m-auto text-sm">用户名</p>
+        <p class="flex flex-1 w-4/5 m-auto text-sm text-base-content">用户名</p>
 
         <div
           id="account"
-          class="flex justify-between h-8 w-4/5 m-auto px-2 rounded border border-zinc-200 focus-within:outline-none focus-within:ring-1 focus-within:border-sky-500"
+          class="group flex input input-bordered input-sm w-4/5 m-auto px-2 border-base-content/20 focus-within:outline-none focus-within:border-primary-focus"
         >
           <input
             ref="account_input"
             type="text"
-            class="flex flex-1 px-2 text-sm focus:outline-none "
-            v-model="account"
-            @input="show_clear_icon = account.length > 0 ? true : false"
+            class="flex flex-1 px-2 text-sm bg-base-100 focus:outline-none"
+            v-model="logininfo_.account"
+            @input="show_clear_icon = logininfo_.account.length > 0 ? true : false"
           />
 
           <button
-            class="block rounded-md px-1 text-zinc-400"
+            class="block rounded-md px-1 text-base-content/30"
             @click="clear_all_text"
             tabindex="-1"
             v-show="show_clear_icon"
@@ -48,17 +47,17 @@
 
         <div
           id="psssword"
-          class="flex justify-between h-8 w-4/5 m-auto px-2 rounded border border-zinc-200 focus-within:outline-none focus-within:ring-1 focus-within:border-sky-500"
+          class="flex input input-bordered input-sm w-4/5 m-auto px-2 border-base-content/20 focus-within:outline-none focus-within:border-primary-focus"
         >
           <input
             ref="password_input"
             type="password"
-            class="flex flex-1 px-2 text-sm focus:outline-none"
-            v-model="password"
+            class="flex flex-1 px-2 text-sm bg-base-100 focus:outline-none"
+            v-model="logininfo_.password"
           />
 
           <button
-            class="block rounded-md px-1 text-zinc-400"
+            class="block rounded-md px-1 text-base-content/30"
             @click="switch_show_password"
             tabindex="-1"
           >
@@ -76,18 +75,19 @@
           <input
             type="checkbox"
             v-model="remember_me"
-            class="form-tick w-4 h-4 appearance-none rounded border border-zinc-200 checked:bg-sky-500 checked:border-transparent checked:outline-none"
+            class="checkbox checkbox-xs checkbox-primary border-base-content/20"
           />
           <label class="ml-2 text-sm">记住用户名和密码</label>
         </div>
         <div class="w-full flex flex-col space-y-2">
           <button
-            class="flex w-4/5 h-8 m-auto items-center justify-center rounded-md text-white text-sm font-bold bg-sky-500 hover:bg-sky-500/75 active:bg-sky-600"
+            class="w-4/5 m-auto btn btn-sm btn-primary hover:bg-primary-focus/75 active:bg-primary-focus"
+            @click="test_login"
           >
             登录
           </button>
           <button
-            class="flex w-4/5 h-8 m-auto items-center justify-center rounded-md text-zinc-500 text-sm font-bold bg-white border border-zinc-200 hover:border-blue-100 hover:bg-sky-50 hover:text-blue-500 active:border-blue-400"
+            class="w-4/5 m-auto btn btn-sm btn-outline border-base-200 hover:border-primary/30 hover:bg-primary/10 hover:text-primary active:border-primary"
             @click="Close_Login_View"
           >
             取消
@@ -122,7 +122,7 @@ const show_clear_icon = ref(false);
 const show_password = ref(false);
 
 const clear_all_text = () => {
-  account.value = '';
+  logininfo_.account = '';
   show_clear_icon.value = false;
   account_input.value.focus();
 };
@@ -141,8 +141,16 @@ const STORE_login_instance = STORE_Login();
 const loginWrap = ref();
 
 const logininfo_ = reactive({
-  username: STORE_login_instance.LoginInfo.username,
-  passwd: STORE_login_instance.LoginInfo.password,
+  account: STORE_login_instance.LoginInfo.username,
+  password: STORE_login_instance.LoginInfo.password,
+});
+
+const test_login = () => {
+  console.log(logininfo_.account);
+};
+
+onMounted(() => {
+  show_clear_icon.value = logininfo_.account.length > 0 ? true : false;
 });
 
 // const login = () => {

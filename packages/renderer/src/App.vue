@@ -1,5 +1,5 @@
 <template>
-  <div id="container_view" class="container flex w-screen h-screen" :data-theme="theme">
+  <div id="container_view" class="flex w-screen h-screen" :data-theme="theme">
     <div id="sider_view" class="w-[200px] bg-base-200 border-r border-base-300 h-screen">
       <div class="w-full mt-6 mb-6 flex justify-center select-none items-baseline">
         <svg-icon id="Logo" name="Logo" class="w-12 h-12" />
@@ -32,10 +32,10 @@
       <div class="divider before:!h-[1px] after:!h-[1px] m-4 select-none" />
       <SiderMenu />
     </div>
-    <div class="flex flex-col flex-1">
+    <div class="flex-1 flex flex-col">
       <div
         id="header_view"
-        class="bg-base-200/50 h-10 w-full items-center border-b border-base-300"
+        class="bg-base-200/50 h-10 items-center border-b border-base-300"
         style="-webkit-app-region: drag"
       >
         <TrafficLight />
@@ -49,13 +49,13 @@
     >
       <div id="msg_view" class="flex flex-col-reverse"></div>
     </div>
-  </div>
-  <div
-    id="LoginView"
-    class="absolute w-full h-full top-0 left-0 z-50 transition-all duration-500 ease-in-out opacity-0"
-    v-if="isLogined"
-  >
-    <Login @CloseLoginView="handle_CloseLoginView" />
+    <div
+      id="LoginView"
+      class="absolute w-full h-full top-0 left-0 z-50 transition-all duration-500 ease-in-out opacity-0"
+      v-if="isLogined"
+    >
+      <Login @CloseLoginView="handle_CloseLoginView" />
+    </div>
   </div>
 </template>
 

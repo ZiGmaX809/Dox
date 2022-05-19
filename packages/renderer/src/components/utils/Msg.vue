@@ -1,9 +1,9 @@
 <template>
   <transition name="down">
-    <div class="alert shadow-lg" v-show="isShow" :class="alert_type(true)">
+    <div class="alert shadow-lg" v-show="isShow" :class="alert_type('bg')">
       <div>
-        <svg-icon :name="alert_type(false)!" class="w-5 h-5" />
-        <span class="text-success-content">{{ props.text }}</span>
+        <svg-icon :name="alert_type('icon')!" class="w-5 h-5" />
+        <span :class="alert_type('text')">{{ props.text }}</span>
       </div>
     </div>
   </transition>
@@ -26,8 +26,18 @@ const props = defineProps({
   },
 });
 
-const alert_type = (type: boolean) => {
-  return type ? `alert-${props.type}` : props.type;
+//存在bug，直接返回props.type无法读取，只能返回字符串
+const alert_type = (type: string) => {
+  switch (props.type) {
+    case 'warning':
+      return type == 'bg' ? 'alert-warning' : type == 'text' ? 'text-warning-content' : 'warning';
+    case 'success':
+      return type == 'bg' ? 'alert-success' : type == 'text' ? 'text-success-content' : 'success';
+    case 'error':
+      return type == 'bg' ? 'alert-error' : type == 'text' ? 'text-error-content' : 'error';
+    case 'info':
+      return type == 'bg' ? 'alert-info' : type == 'text' ? 'text-info-content' : 'info';
+  }
 };
 
 const isShow = ref(false);

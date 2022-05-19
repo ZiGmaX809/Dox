@@ -8,18 +8,18 @@
 </template>
 
 <script setup lang="ts">
-import Message from '/scripts/utils/message';
+import Msg from '/scripts/utils/message';
 const test1 = () => {
-  Message('登录sdrfsdf失asasda败', 'success', 3000);
+  Msg('登录sdrfsdf失asasda败', 'success', 3000);
 };
 const test2 = () => {
-  Message('登录sdrfsdf失asasda败', 'info', 3000);
+  Msg('登录sdrfsdf失asasda败', 'info', 3000);
 };
 const test3 = () => {
-  Message('登录sdrfsdf失asasda败', 'error', 3000);
+  Msg('登录sdrfsdf失asasda败', 'error', 3000);
 };
 const test4 = () => {
-  Message('登录sdrfsdf失asasda败', 'warning', 3000);
+  Msg('登录sdrfsdf失asasda败', 'warning', 3000);
 };
 </script>
 

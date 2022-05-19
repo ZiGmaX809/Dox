@@ -11,7 +11,7 @@
         </label>
         <ul
           tabindex="0"
-          class="dropdown-content menu p-2 shadow-lg bg-base-100 border border-base-300 rounded-md w-60 max-h-56 scrollbar-thin hover:scrollbar-thumb-zinc-300"
+          class="dropdown-content menu p-2 shadow-lg bg-base-100 border border-base-300 rounded-md w-auto max-h-60 scrollbar-thin hover:scrollbar-thumb-zinc-200"
         >
           <li v-for="item in theme_list" @click="change_theme(item)">
             <a>
@@ -23,7 +23,7 @@
     </div>
 
     <div class="flex justify-between">
-      <div class="flex flex-row items-center h-10">
+      <div class="flex items-center h-10">
         <p class="font-bold">显示自定义头像</p>
         <div class="dropdown">
           <label tabindex="0" class="btn btn-circle btn-ghost btn-xs m-1 text-base-content/70">

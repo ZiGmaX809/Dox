@@ -1,21 +1,17 @@
 import { createVNode, render } from 'vue';
-import myMessage from '/components/utils/Msg.vue';
+import _Msg from '/components/utils/Msg.vue';
 
-export default (text: string, type: string, showtime: number) => {
+const Msg = (text: string, type: string, showtime: number) => {
   const msg_div = document.createElement('div');
-  const class_ = `w-1/3 translate-x-[calc((100vw_-_200px)/2_-_50%)] mt-2 select-none`;
+  const class_ = `w-[400px] translate-x-[calc((100vw_-_200px)/2_-_50%)] mt-2 select-none`;
   msg_div.setAttribute('id', 'test_div');
-  msg_div.setAttribute(
-    'class',
-    class_
-  );
+  msg_div.setAttribute('class', class_);
   document.getElementById('msg_view')!.appendChild(msg_div);
-
 
   //createVNode 用于创建一个虚拟节点
   // 参数1 支持组件
   // 参数2 表示传递给组件的选项
-  const vnode = createVNode(myMessage, { text, type, showtime });
+  const vnode = createVNode(_Msg, { text, type, showtime });
   //把虚拟的节点渲染到页面的DOM中即可
   // render函数的参数
   //参数一：表示表示需要渲染的内容（虚拟节点）
@@ -28,3 +24,5 @@ export default (text: string, type: string, showtime: number) => {
     clearTimeout(timeout);
   }, showtime + 500);
 };
+
+export default Msg;
