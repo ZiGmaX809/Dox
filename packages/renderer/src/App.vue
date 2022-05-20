@@ -37,8 +37,9 @@
         id="header_view"
         class="bg-base-200/50 h-10 items-center border-b border-base-300"
         style="-webkit-app-region: drag"
+        @dblclick="trafficlight.maximize"
       >
-        <TrafficLight />
+        <TrafficLight ref="trafficlight" />
       </div>
       <div id="main_view" class="flex-1 p-5 bg-base-100">
         <router-view />
@@ -78,6 +79,7 @@ const isLogined = ref(false);
 const isRouterAlive = ref(true);
 
 const avatar_src = ref();
+const trafficlight = ref()
 
 const username = STORE_Login()?.LoginResult?.data?.yhxm ?? '点击登录';
 const department = STORE_Login()?.LoginResult?.data?.depart?.bmmc ?? '-';
@@ -115,23 +117,18 @@ const set_avatar_src = () => {
   }
 };
 
-set_avatar_src();
-
 const set_theme = (val: string) => {
   theme.value = val;
   STORE_setting_instance.Change_theme(val);
 };
+
+set_avatar_src();
 
 provide('avatar_src', set_avatar_src);
 provide('theme', set_theme);
 </script>
 
 <style>
-:root {
-  --logo-fill-color: #4d4d4d;
-  --logo-shadow-color: #040000;
-}
-
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -140,10 +137,6 @@ provide('theme', set_theme);
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-}
-
-.sider_menu_active {
-  @apply bg-primary text-primary-content shadow-md;
 }
 
 .drag_none {

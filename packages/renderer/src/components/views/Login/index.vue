@@ -12,7 +12,7 @@
     ></div>
     <div
       id="LoginWindow"
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-base-100 shadow-xl ring-1 ring-gray-900/5 w-96 h-[410px] rounded-md"
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-base-100 shadow-xl ring-1 ring-base-200 w-96 h-[410px] rounded-md"
     >
       <div class="title w-full flex flex-col justify-center mx-auto text-center space-y-2 py-8">
         <b class="text-4xl bg-clip-text text-transparent font-extrabold">Login To</b>
@@ -87,7 +87,7 @@
             登录
           </button>
           <button
-            class="w-4/5 m-auto btn btn-sm btn-outline border-base-200 hover:border-primary/30 hover:bg-primary/10 hover:text-primary active:border-primary"
+            class="w-4/5 m-auto btn btn-sm btn-outline border-base-content/10 hover:border-primary/30 hover:bg-primary/10 hover:text-primary active:border-primary"
             @click="Close_Login_View"
           >
             取消
@@ -99,7 +99,7 @@
 </template>
 
 <script setup lang="ts">
-import basms from '@/assets/imgs/beams.jpeg';
+import basms from '@/assets/imgs/logo_bg.png';
 import qs from 'qs';
 import { Ref } from 'vue';
 

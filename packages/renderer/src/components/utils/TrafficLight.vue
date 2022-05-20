@@ -73,4 +73,8 @@ const minimize = () => {
 const close = () => {
   window.ipcRenderer.send('Close');
 };
+
+defineExpose({
+  maximize
+})
 </script>

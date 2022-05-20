@@ -1,5 +1,5 @@
 import { createVNode, render } from 'vue';
-import _Msg from '/components/utils/Msg.vue';
+import _Msg from '/components/encapsulated/Msg.vue';
 
 const Msg = (text: string, type: string, showtime: number) => {
   const msg_div = document.createElement('div');

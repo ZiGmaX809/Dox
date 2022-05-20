@@ -49,7 +49,9 @@
     <div class="flex justify-between">
       <div class="flex items-center h-10">
         <p class="font-bold">启用剪贴板</p>
-        <Explain>启用剪贴板功能后，将会监听系统剪贴板，并且将复制的文本存入缓存中。</Explain>
+        <Explain>
+          启用剪贴板功能后，将会监听系统剪贴板，并且将复制的文本存入缓存中仪以便编辑器中使用。
+        </Explain>
       </div>
       <Switch v-model="switch_clipboard_bool" />
     </div>
@@ -69,7 +71,7 @@
       <input
         type="text"
         v-model="STORE_setting_instance.clipboard_num"
-        class="input input-bordered input-primary input-xs w-12 max-w-xs"
+        :class="input_class"
         :disabled="!switch_clipboard_bool"
         @input="
           STORE_setting_instance.Change_clipboard_num(
@@ -93,7 +95,7 @@
       <input
         type="text"
         v-model="STORE_setting_instance.clipboard_textlength"
-        class="input input-bordered input-primary input-xs w-12 max-w-xs"
+        :class="input_class"
         :disabled="!switch_clipboard_bool"
         @input="
           STORE_setting_instance.Change_clipboard_textlength(
@@ -107,7 +109,7 @@
       <div class="flex items-center h-10">
         <p class="font-bold">复用剪贴板内容</p>
         <Explain>
-          启用后，点击剪贴板内容时，将会把点击内容写入到系统剪贴板，以便于使用Ctrl+V进行多次粘贴。
+          启用后，点击剪贴板内容时，将会把点击内容写入到系统剪贴板，以便于使用快捷键（Ctrl+V）进行多次粘贴。
         </Explain>
       </div>
       <Switch v-model="switch_writeSystemClipboard_bool" />
@@ -120,6 +122,7 @@ import { handleChange_num } from '/scripts/utils/settings';
 import { STORE_Setting } from '/store/modules/setting';
 
 const STORE_setting_instance = STORE_Setting();
+const input_class = 'input input-bordered input-primary input-xs w-12 max-w-xs';
 
 //首行缩进取值&设置
 const switch_auto_int2em = computed({

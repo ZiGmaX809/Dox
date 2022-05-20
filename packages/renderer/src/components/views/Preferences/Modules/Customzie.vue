@@ -4,22 +4,6 @@
   <div class="text-base-content">
     <div class="flex justify-between items-center h-10">
       <p class="font-bold">主题</p>
-      <!-- <div class="dropdown dropdown-end">
-        <label tabindex="0" class="btn gap-2 m-1 btn-sm bg-base-100 btn-ghost text-base-content">
-          {{ active_theme }}
-          <svg-icon name="down" class="w-4 h-4" />
-        </label>
-        <ul
-          tabindex="0"
-          class="dropdown-content menu p-2 shadow-lg bg-base-100 border border-base-300 rounded-md w-auto max-h-60 scrollbar-thin hover:scrollbar-thumb-zinc-200"
-        >
-          <li v-for="item in theme_list" @click="change_theme(item)">
-            <a>
-              {{ item }}
-            </a>
-          </li>
-        </ul>
-      </div> -->
       <Dropdown v-model="active_theme">
         <li v-for="item in theme_list" @click="change_theme(item)">
           <a>
@@ -102,8 +86,6 @@ const theme_list: string[] = [
 const active_theme = ref(STORE_setting_instance.theme);
 
 const change_theme = (themename: string) => {
-  console.log('🚀 ~ file: Customzie.vue ~ line 99 ~ themename', themename);
-
   theme(themename);
   active_theme.value = themename;
 };
