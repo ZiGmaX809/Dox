@@ -1,6 +1,12 @@
 import { createVNode, render } from 'vue';
 import _Msg from '/components/encapsulated/Msg.vue';
 
+/**
+ * 
+ * @param text 消息内容
+ * @param type 消息类型——'success'|'info'|'error'|'warning'
+ * @param showtime 显示时常
+ */
 const Msg = (text: string, type: string, showtime: number) => {
   const msg_div = document.createElement('div');
   const class_ = `w-[400px] translate-x-[calc((100vw_-_200px)/2_-_50%)] mt-2 select-none`;

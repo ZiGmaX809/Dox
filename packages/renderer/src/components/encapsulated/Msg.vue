@@ -2,8 +2,8 @@
   <transition name="down">
     <div class="alert shadow-lg" v-show="isShow" :class="alert_type('bg')">
       <div>
-        <svg-icon :name="alert_type('icon')!" class="w-5 h-5" />
-        <span :class="alert_type('text')">{{ props.text }}</span>
+        <svg-icon :name="alert_type('icon')!" class="w-4 h-4" />
+        <span class="text-md" :class="alert_type('text')">{{ props.text }}</span>
       </div>
     </div>
   </transition>
@@ -18,7 +18,7 @@ const props = defineProps({
   type: {
     type: String,
     // warning 警告  error 错误  success 成功 info 信息
-    default: 'warning',
+    default: 'success',
   },
   showtime: {
     type: Number,

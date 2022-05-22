@@ -1,8 +1,8 @@
 <template>
   <b class="text-2xl mt-10">编辑</b>
-  <div class="divider before:!h-[1px] after:!h-[1px] select-none" />
+  <Divider />
   <div class="text-base-content">
-    <div class="flex justify-between items-center h-10">
+    <PreferencesItem>
       <p class="font-bold">默认字体</p>
       <Dropdown v-model="default_font_name" size="small">
         <li v-for="item in fonts_family" @click="change_fonts_family(item)">
@@ -11,9 +11,9 @@
           </a>
         </li>
       </Dropdown>
-    </div>
+    </PreferencesItem>
 
-    <div class="flex justify-between items-center h-10">
+    <PreferencesItem>
       <p class="font-bold">默认字号</p>
       <Dropdown v-model="default_font_size" size="small">
         <li v-for="item in font_sizes" @click="change_fonts_size(item)">
@@ -22,9 +22,9 @@
           </a>
         </li>
       </Dropdown>
-    </div>
+    </PreferencesItem>
 
-    <div class="flex justify-between items-center h-10">
+    <PreferencesItem>
       <p class="font-bold">默认行高</p>
       <Dropdown v-model="default_lineheight" size="small">
         <li v-for="item in lineheights" @click="change_lineheight(item)">
@@ -33,10 +33,10 @@
           </a>
         </li>
       </Dropdown>
-    </div>
+    </PreferencesItem>
 
-    <div class="flex justify-between">
-      <div class="flex items-center h-10">
+    <PreferencesItem>
+      <div class="flex items-center">
         <p class="font-bold">默认启用首行缩进</p>
         <Explain>
           编辑器内的字体、字号、段落格并不会影响导出文书的格式，仅为了便于编辑文书。
@@ -44,20 +44,20 @@
       </div>
 
       <Switch v-model="switch_auto_int2em" />
-    </div>
+    </PreferencesItem>
 
-    <div class="flex justify-between">
-      <div class="flex items-center h-10">
+    <PreferencesItem>
+      <div class="flex items-center">
         <p class="font-bold">启用剪贴板</p>
         <Explain>
           启用剪贴板功能后，将会监听系统剪贴板，并且将复制的文本存入缓存中仪以便编辑器中使用。
         </Explain>
       </div>
       <Switch v-model="switch_clipboard_bool" />
-    </div>
+    </PreferencesItem>
 
-    <div class="flex justify-between">
-      <div class="flex items-center h-10">
+    <PreferencesItem>
+      <div class="flex items-center">
         <p class="font-bold">剪贴板缓存数量</p>
         <Explain>
           <b>自定义上限200</b>
@@ -79,10 +79,10 @@
           )
         "
       />
-    </div>
+    </PreferencesItem>
 
-    <div class="flex justify-between">
-      <div class="flex items-center h-10">
+    <PreferencesItem>
+      <div class="flex items-center">
         <p class="font-bold">剪贴板监听字符长度</p>
         <Explain>
           <b>自定义上限600</b>
@@ -103,17 +103,17 @@
           )
         "
       />
-    </div>
+    </PreferencesItem>
 
-    <div class="flex justify-between">
-      <div class="flex items-center h-10">
+    <PreferencesItem>
+      <div class="flex items-center">
         <p class="font-bold">复用剪贴板内容</p>
         <Explain>
           启用后，点击剪贴板内容时，将会把点击内容写入到系统剪贴板，以便于使用快捷键（Ctrl+V）进行多次粘贴。
         </Explain>
       </div>
       <Switch v-model="switch_writeSystemClipboard_bool" />
-    </div>
+    </PreferencesItem>
   </div>
 </template>
 

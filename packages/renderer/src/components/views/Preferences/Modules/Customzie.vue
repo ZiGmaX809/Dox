@@ -1,8 +1,8 @@
 <template>
   <b class="text-2xl mt-10">偏好</b>
-  <div class="divider before:!h-[1px] after:!h-[1px] select-none" />
+  <Divider />
   <div class="text-base-content">
-    <div class="flex justify-between items-center h-10">
+    <PreferencesItem>
       <p class="font-bold">主题</p>
       <Dropdown v-model="active_theme">
         <li v-for="item in theme_list" @click="change_theme(item)">
@@ -11,10 +11,10 @@
           </a>
         </li>
       </Dropdown>
-    </div>
+    </PreferencesItem>
 
-    <div class="flex justify-between">
-      <div class="flex items-center h-10">
+    <PreferencesItem>
+      <div class="flex items-center">
         <p class="font-bold">显示自定义头像</p>
         <Explain>
           <b>1.</b>
@@ -39,7 +39,7 @@
           <AvatarCropper />
         </Dialog>
       </div>
-    </div>
+    </PreferencesItem>
   </div>
 </template>
 

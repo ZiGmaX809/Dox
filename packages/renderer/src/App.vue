@@ -6,7 +6,7 @@
         <b class="text-4xl font-sans text-themeable-logo_text">ox</b>
         <b class="text-4xl text-orange-400">.</b>
       </div>
-      <div class="divider before:!h-[1px] after:!h-[1px] m-4 select-none" />
+      <Divider custom_class="m-4"/>
       <div
         id="Avatar"
         class="flex flex-col items-center justify-center mt-5 drop-shadow-md select-none cursor-pointer"
@@ -29,7 +29,7 @@
           </b>
         </div>
       </span>
-      <div class="divider before:!h-[1px] after:!h-[1px] m-4 select-none" />
+      <Divider custom_class="m-4"/>
       <SiderMenu />
     </div>
     <div class="flex-1 flex flex-col">

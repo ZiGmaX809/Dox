@@ -1,5 +1,5 @@
 <template>
-  <label :id="dialog_id" :for="props.for" :class="props.class">更换头像</label>
+  <label ref="_dialog" :for="props.for" :class="props.class">更换头像</label>
   <input type="checkbox" :id="props.for" class="modal-toggle" />
   <div class="modal">
     <div :class="props.slot_class">
@@ -25,13 +25,13 @@ const props = defineProps({
   },
 });
 
-const dialog_id = 'dialog_' + Math.ceil(Math.random() * 10).toString();
+const _dialog = ref()
 
 const isDisabled = (bool: boolean) => {
   if (bool) {
-    document.getElementById(dialog_id)!.removeAttribute('disabled');
+    _dialog.value.removeAttribute('disabled');
   } else {
-    document.getElementById(dialog_id)!.setAttribute('disabled', '');
+    _dialog.value.setAttribute('disabled', '');
   }
 };
 

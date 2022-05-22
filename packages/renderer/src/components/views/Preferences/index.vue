@@ -3,7 +3,7 @@
     <div id="PreferContentView" class="flex flex-col w-3/5 h-[calc(100vh_-_80px)] m-auto select-none  ">
       <Customzie />
       <Edit />
-      <!-- <Export /> -->
+      <Export />
       <!-- <QuickInput /> -->
       <!-- <Advanced /> -->
       <!-- <Others /> -->

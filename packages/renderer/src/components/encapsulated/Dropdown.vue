@@ -1,6 +1,10 @@
 <template>
   <div class="dropdown dropdown-end">
-    <label tabindex="0" class="btn gap-2 m-1 btn-sm bg-base-100 btn-ghost text-base-content">
+    <label
+      ref="_dropdown"
+      tabindex="0"
+      class="btn gap-2 m-1 btn-sm bg-base-100 btn-ghost text-base-content"
+    >
       {{ modelValue }}
       <svg-icon name="down" class="w-4 h-4" />
     </label>
@@ -28,13 +32,34 @@ const props = defineProps({
     type: String,
     default: 'normal',
   },
+  disabled: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const scroll_class = ref();
 
-onMounted(() => {
-  const size_ = props.size == 'small' ? 'menu-compact' : '';
+const _dropdown = ref();
 
+const isDisabled = (bool: boolean) => {
+  if (bool) {
+    _dropdown.value.removeAttribute('disabled');
+  } else {
+    _dropdown.value.setAttribute('disabled', '');
+  }
+};
+
+watch(
+  () => props.disabled,
+  n => {
+    isDisabled(n);
+  }
+);
+
+onMounted(() => {
+  isDisabled(props.disabled);
+  const size_ = props.size == 'small' ? 'menu-compact' : '';
   if (props.isScroll) {
     scroll_class.value = `scrollbar-thin hover:scrollbar-thumb-zinc-200 ${size_}`;
   }
