@@ -40,8 +40,8 @@
 
 <script setup lang="ts">
 import Nzh from 'nzh';
-import 'element-plus/theme-chalk/el-upload.css';
-import { Msg } from '/scripts/utils/message';
+// import 'element-plus/theme-chalk/el-upload.css';
+// import { Msg } from '/scripts/utils/message';
 import { isFileExisted_And_Export } from '/scripts/utils/handlefiles';
 
 import { STORE_System } from '/store/modules/system';
@@ -94,7 +94,7 @@ const uploadHandler: any = (params: {
       readText(params);
     }, 100);
   } else {
-    Msg('请输入索引简称', 'error');
+    // Msg('请输入索引简称', 'error');
   }
 };
 
@@ -181,7 +181,7 @@ const readText = async (params: { file: any; onProgress: any; onSuccess?: any })
       );
 
       if (result) {
-        Msg(`导入${input.value}${result[1]}，包含${arr_count.length}条法条。`, result[0]);
+        // Msg(`导入${input.value}${result[1]}，包含${arr_count.length}条法条。`, result[0]);
         //向Store添加条目
         const new_list = {
           fullname: filename,
@@ -195,7 +195,7 @@ const readText = async (params: { file: any; onProgress: any; onSuccess?: any })
         import_btn.value = true;
       }
     } else {
-      Msg('导入失败，请确认法条格式是否支持', 'error');
+      // Msg('导入失败，请确认法条格式是否支持', 'error');
     }
   };
   readFile.readAsText(params.file);

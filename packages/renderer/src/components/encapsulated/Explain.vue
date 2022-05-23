@@ -5,7 +5,8 @@
     </label>
     <div
       tabindex="0"
-      class="card compact dropdown-content shadow-xl bg-base-100 border border-base-300 rounded-box w-96"
+      class="card compact dropdown-content shadow-xl bg-base-100 border border-base-300 rounded-box"
+      :class="card_style"
     >
       <div class="card-body">
         <p class="text-base-content"><slot /></p>
@@ -24,5 +25,22 @@ const props = defineProps({
     type: String,
     default: 'question',
   },
+  width: {
+    type: String,
+    default: '400px'
+  },
+  offset:{
+    type: String,
+    default: '0'
+  }
 });
+
+const card_style = ref()
+
+onMounted(() => {
+  const css_w = `w-[${props.width}]`
+  const css_off = ` -translate-x-${props.offset}`
+  card_style.value = css_w + css_off;
+
+})
 </script>

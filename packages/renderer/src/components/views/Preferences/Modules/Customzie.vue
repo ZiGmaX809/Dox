@@ -35,6 +35,7 @@
           for="change_avatar_modal"
           class="btn btn-xs ml-3 modal-button"
           slot_class="modal-box w-[668px] max-w-5xl"
+          label="更换头像"
         >
           <AvatarCropper />
         </Dialog>

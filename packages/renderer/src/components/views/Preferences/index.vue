@@ -10,11 +10,11 @@
       <Customzie />
       <Edit />
       <Export />
-      <!-- <QuickInput /> -->
+      <QuickInput />
       <!-- <Advanced /> -->
       <!-- <Others /> -->
 
-      <p class="font-barlow mt-10 text-center">MADE BY ZiGma</p>
+      <p class="font-barlow mt-20 text-center">MADE BY ZiGma</p>
       <p class="font-barlow text-sm text-center">v0.0.3 Alpha</p>
     </div>
   </div>

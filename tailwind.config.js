@@ -4,7 +4,7 @@ module.exports = {
     './packages/renderer/public/**/*.html',
     './packages/renderer/src/**/*.{js,jsx,ts,tsx,vue}',
   ],
-  plugins: [require('daisyui'), require('tailwind-scrollbar')],
+  plugins: [require('daisyui'), require('tailwind-scrollbar-daisyui')],
   // daisyUI config (optional)
   variants: {
     scrollbar: ['rounded'],

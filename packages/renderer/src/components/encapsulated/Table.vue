@@ -1,5 +1,5 @@
 <template>
-  <div class="border border-base-200 rounded">
+  <div class="border border-base-300 rounded-md overflow-hidden">
     <table class="group flex flex-col table-auto min-w-full text-sm divide-y divide-base-200 bg-base-200/30">
       <thead class="block">
         <tr class="grid grid-cols-20 divide-x divide-base-200 bg-base-200/30">
