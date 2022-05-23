@@ -1,7 +1,7 @@
 <template>
   <div class="border border-base-200 rounded">
-    <table class="flex flex-col table-auto min-w-full text-sm divide-y divide-base-200 bg-base-200/30">
-      <thead class="block w-[calc(100%_-_10px)]">
+    <table class="group flex flex-col table-auto min-w-full text-sm divide-y divide-base-200 bg-base-200/30">
+      <thead class="block">
         <tr class="grid grid-cols-20 divide-x divide-base-200 bg-base-200/30">
           <th class="flex justify-center  p-2 font-medium text-left text-base-content whitespace-nowrap">序号</th>
           <th class="flex justify-center  p-2 font-medium text-left text-base-content whitespace-nowrap">详情</th>
@@ -24,7 +24,7 @@
         </tr>
       </thead>
       <tbody
-        class="flex flex-col divide-y divide-base-200 h-[calc(100vh_-_160px)] overflow-y-auto overflow-x-hidden bg-base-100"
+        class="flex flex-col divide-y divide-base-200 h-[calc(100vh_-_160px)] overflow-y-auto overflow-x-hidden bg-base-100 scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300"
       >
         <tr class="grid grid-cols-20 divide-x divide-base-200" v-for="(item, index) in case_list">
           <td
@@ -59,3 +59,14 @@
 const list_json = JSON.parse(localStorage.getItem('RequestInfo')!);
 const case_list = list_json.MyCaseList?.data;
 </script>
+
+
+<style>
+/* ::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  @apply group-hover:!bg-base-300 group-hover:!rounded-xl
+} */
+</style>

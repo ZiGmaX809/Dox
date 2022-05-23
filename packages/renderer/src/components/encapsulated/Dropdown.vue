@@ -10,7 +10,7 @@
     </label>
     <ul
       tabindex="0"
-      class="dropdown-content menu p-2 shadow-lg bg-base-100 border border-base-300 rounded-md w-auto max-h-80"
+      class="dropdown-content menu p-2 shadow-lg bg-base-100 border border-base-300 rounded-md w-auto max-h-80 "
       :class="scroll_class"
     >
       <slot />
@@ -61,7 +61,7 @@ onMounted(() => {
   isDisabled(props.disabled);
   const size_ = props.size == 'small' ? 'menu-compact' : '';
   if (props.isScroll) {
-    scroll_class.value = `scrollbar-thin hover:scrollbar-thumb-zinc-200 ${size_}`;
+    scroll_class.value = `scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300 ${size_}`;
   }
 });
 </script>

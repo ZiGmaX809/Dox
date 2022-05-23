@@ -1,6 +1,12 @@
 <template>
-  <div id="PreferMainView" class="w-full h-full scrollbar-thin hover:scrollbar-thumb-zinc-300">
-    <div id="PreferContentView" class="flex flex-col w-3/5 h-[calc(100vh_-_80px)] m-auto select-none  ">
+  <div
+    id="PreferMainView"
+    class="w-full h-full scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300"
+  >
+    <div
+      id="PreferContentView"
+      class="flex flex-col w-3/5 h-[calc(100vh_-_80px)] m-auto select-none"
+    >
       <Customzie />
       <Edit />
       <Export />

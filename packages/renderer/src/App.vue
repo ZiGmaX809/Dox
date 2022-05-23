@@ -105,7 +105,7 @@ const set_avatar_src = () => {
   const local_avatar_path = `${STORE_System().CacheFile_Path}/images/useravatar.jpg`;
   if (STORE_setting_instance.custom_avatar_bool) {
     Load_Image_To_Base64(local_avatar_path).then(res => {
-      avatar_src.value = res;
+      avatar_src.value = res!;
     });
   } else {
     const babg_avatar_url = STORE_Login().Avatar;
@@ -129,16 +129,6 @@ provide('theme', set_theme);
 </script>
 
 <style>
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-}
-
 .drag_none {
   -webkit-user-drag: none;
 }
