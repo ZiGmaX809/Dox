@@ -1,5 +1,5 @@
 <template>
-  <el-upload
+  <!-- <el-upload
     ref="upload"
     action=""
     accept=".txt"
@@ -35,7 +35,9 @@
         因为需要设置索引缩写，所以只支持单个文件导入，如需导入多个文件请多次执行。
       </div>
     </template>
-  </el-upload>
+  </el-upload> -->
+
+  
 </template>
 
 <script setup lang="ts">

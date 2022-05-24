@@ -4,13 +4,13 @@
   <div class="text-base-content">
     <PreferencesItem>
       <p class="font-bold">已引入的法律法规文件</p>
-      <button class="btn btn-xs" @click="Refresh_lawfiles">选择文件夹</button>
+      <button class="btn btn-xs" @click="Refresh_lawfiles">刷新</button>
     </PreferencesItem>
 
     <PreferencesItem>
       <div class="flex items-center">
         <p class="font-bold">引入新的法律法规文件</p>
-        <Explain width="600px" offset="40">
+        <Explain z_class="w-[680px] -translate-x-48">
           <b>
             &#10059;&nbsp;注意：快捷输入工具仅为编辑文书的辅助性功能。对于导入的文件，工具将尽可能进行准确匹配、转换，但是无法百分百保证任何法律法规文件导入后法条完整和准确性。
             <br />

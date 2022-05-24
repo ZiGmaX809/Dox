@@ -1,36 +1,29 @@
 <template>
   <b class="text-2xl mt-10">其他</b>
-  <el-divider />
-  <div class="space-y-3">
-    <div class="flex justify-between h-8">
+  <Divider />
+  <div class="text-base-content">
+    <PreferencesItem>
       <p class="font-bold">导出配置及缓存数据</p>
-      <el-button size="small" @click="export_localstorage()">导出</el-button>
-    </div>
+      <button class="btn btn-xs" @click="export_localstorage()">导出</button>
+    </PreferencesItem>
 
-    <div class="flex justify-between h-8">
+    <PreferencesItem>
       <p class="font-bold">导入配置及缓存数据</p>
-      <el-button size="small" @click="import_localstorage()">选择文件并导入</el-button>
-    </div>
+      <button class="btn btn-xs" @click="import_localstorage()">选择文件并导入</button>
+    </PreferencesItem>
 
-    <div>
-      <div class="flex justify-between h-8">
-        <p class="font-bold">重置应用</p>
-        <el-button size="small" type="danger" @click="reset_program()">重置</el-button>
-      </div>
-      <p class="text-xs text-red-500">
-        <b >
-          &#10059;&nbsp;注意：重置应用将删除所有与本工具相关文件与配置，包括已导入的法律法规文件、模板、行政区划文件，该操作不可逆，请谨慎操作！
-        </b>
-      </p>
-    </div>
+    <PreferencesItem>
+      <p class="font-bold">重置应用</p>
+      <button class="btn btn-error btn-xs" @click="reset_program()">重置</button>
+    </PreferencesItem>
   </div>
 </template>
 
 <script setup lang="ts">
 import { STORE_System } from '@/store/modules/system';
-import { ElMessageBox } from 'element-plus';
+// import { ElMessageBox } from 'element-plus';
 import { Load_Local_Files } from '/scripts/utils/handlefiles';
-import { Msg } from '/scripts/utils/message';
+// import { Msg } from '/scripts/utils/message';
 
 //导出&导入缓存
 const export_localstorage = async () => {
@@ -50,7 +43,7 @@ const export_localstorage = async () => {
     const file_fullpath = `${downloads_path}/export_${now.getTime()}.json`;
     window.fs.writeFileSync(file_fullpath, JSON.stringify(final_json));
 
-    Msg(`已导出至 ${file_fullpath} `, 'success');
+    // Msg(`已导出至 ${file_fullpath} `, 'success');
   }
 };
 
@@ -62,7 +55,7 @@ const import_localstorage = async () => {
       window.localStorage.setItem(key, json_[key]);
     }
 
-    Msg('成功导入缓存文件，应用将在3秒内重启', 'success');
+    // Msg('成功导入缓存文件，应用将在3秒内重启', 'success');
 
     setTimeout(() => {
       window.ipcRenderer.send('Restart');
@@ -71,12 +64,13 @@ const import_localstorage = async () => {
 };
 
 const reset_program = () => {
-  ElMessageBox.confirm('确认重置应用？', '警告', {
-    confirmButtonText: '确认',
-    cancelButtonText: '取消',
-    type: 'warning',
-  }).then(() => {
-    Msg('重置成功，应用将在3秒内重启！', 'success');
-  });
+  //注意：重置应用将删除所有与本工具相关文件与配置，包括已导入的法律法规文件、模板、行政区划文件，该操作不可逆，请谨慎操作！
+  // ElMessageBox.confirm('确认重置应用？', '警告', {
+  //   confirmButtonText: '确认',
+  //   cancelButtonText: '取消',
+  //   type: 'warning',
+  // }).then(() => {
+  //   Msg('重置成功，应用将在3秒内重启！', 'success');
+  // });
 };
 </script>

@@ -11,8 +11,8 @@
       <Edit />
       <Export />
       <QuickInput />
-      <!-- <Advanced /> -->
-      <!-- <Others /> -->
+      <Advanced />
+      <Others />
 
       <p class="font-barlow mt-20 text-center">MADE BY ZiGma</p>
       <p class="font-barlow text-sm text-center">v0.0.3 Alpha</p>

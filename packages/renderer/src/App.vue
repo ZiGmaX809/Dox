@@ -6,7 +6,7 @@
         <b class="text-4xl font-sans text-themeable-logo_text">ox</b>
         <b class="text-4xl text-orange-400">.</b>
       </div>
-      <Divider custom_class="m-4"/>
+      <Divider custom_class="m-4" />
       <div
         id="Avatar"
         class="flex flex-col items-center justify-center mt-5 drop-shadow-md select-none cursor-pointer"
@@ -29,7 +29,7 @@
           </b>
         </div>
       </span>
-      <Divider custom_class="m-4"/>
+      <Divider custom_class="m-4" />
       <SiderMenu />
     </div>
     <div class="flex-1 flex flex-col">
@@ -73,13 +73,13 @@ const STORE_editor_instance = STORE_Editor();
 const STORE_setting_instance = STORE_Setting();
 const STORE_clipboard_instance = STORE_Clipboard();
 
-const theme = ref(STORE_setting_instance.theme);
+const theme = ref(STORE_setting_instance.light_theme);
 
 const isLogined = ref(false);
 const isRouterAlive = ref(true);
 
 const avatar_src = ref();
-const trafficlight = ref()
+const trafficlight = ref();
 
 const username = STORE_Login()?.LoginResult?.data?.yhxm ?? '点击登录';
 const department = STORE_Login()?.LoginResult?.data?.depart?.bmmc ?? '-';
@@ -117,13 +117,24 @@ const set_avatar_src = () => {
   }
 };
 
-const set_theme = (val: string) => {
-  theme.value = val;
-  STORE_setting_instance.Change_theme(val);
+const set_theme = (darkmode: boolean, val: string) => {
+  const sys_darkmode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (darkmode == sys_darkmode) {
+    theme.value = val;
+  }
 };
 
-set_avatar_src();
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+  if (STORE_setting_instance.auto_darkmode) {
+    const get_theme_name = e.matches
+      ? STORE_setting_instance.dark_theme
+      : STORE_setting_instance.light_theme;
 
+    set_theme(e.matches, get_theme_name);
+  }
+});
+
+set_avatar_src();
 provide('avatar_src', set_avatar_src);
 provide('theme', set_theme);
 </script>

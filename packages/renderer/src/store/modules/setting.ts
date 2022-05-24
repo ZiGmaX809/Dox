@@ -2,7 +2,9 @@ import { defineStore } from 'pinia';
 
 interface SettingState {
   first_launch: boolean;
-  theme: string;
+  light_theme: string;
+  dark_theme: string;
+  auto_darkmode: boolean;
   org_code: number;
   custom_avatar_bool: boolean;
   custom_avatar_url: string;
@@ -30,7 +32,9 @@ export const STORE_Setting = defineStore({
   state: (): SettingState => {
     return {
       first_launch: true,
-      theme: 'light',
+      light_theme: 'light',
+      dark_theme: 'dark',
+      auto_darkmode: true,
       org_code: 1301,
       custom_avatar_bool: false,
       custom_avatar_url: '',
@@ -55,8 +59,14 @@ export const STORE_Setting = defineStore({
   },
   actions: {
     /** 主题 **/
-    Change_theme(themename: string) {
-      this.theme = themename;
+    Change_light_theme(themename: string) {
+      this.light_theme = themename;
+    },
+    Change_dark_theme(themename: string) {
+      this.dark_theme = themename;
+    },
+    Switch_auto_darkmode_bool(bool: boolean) {
+      this.auto_darkmode = bool;
     },
     /** 剪贴板 **/
     Switch_clipboard_bool(bool: boolean) {

@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 // import { ElMessage } from "element-plus";
-import { showLoading, hideLoading } from "./loading";
+// import { showLoading, hideLoading } from "./loading";
 
 // 接口类型和方法
 interface BaseType {
@@ -155,7 +155,7 @@ class AxiosHttpRequest implements BaseType {
         }
 
         if (isloading) {
-          hideLoading();
+          // hideLoading();
         }
 
         if (code == 200 || login_status) {
@@ -200,7 +200,7 @@ class AxiosHttpRequest implements BaseType {
           // });
         }
         if (isloading) {
-          hideLoading();
+          // hideLoading();
         }
         return Promise.reject(error);
       }
@@ -225,7 +225,7 @@ class AxiosHttpRequest implements BaseType {
   ) {
     const instance = axios.create();
     if (isloading) {
-      showLoading(loading_txt === "null" ? "努力加载中......" : loading_txt);
+      // showLoading(loading_txt === "null" ? "努力加载中......" : loading_txt);
     }
     options = Object.assign(this.getConfigParams(), options);
     this.interceptors(instance, options.url, ismsg, isloading, msg_txt);

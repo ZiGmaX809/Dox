@@ -3,14 +3,30 @@
   <Divider />
   <div class="text-base-content">
     <PreferencesItem>
-      <p class="font-bold">主题</p>
-      <Dropdown v-model="active_theme">
-        <li v-for="item in theme_list" @click="change_theme(item)">
+      <p class="font-bold">浅色主题</p>
+      <Dropdown v-model="active_light_theme">
+        <li v-for="item in theme_light_list" @click="change_theme(false, item)">
           <a>
             {{ item }}
           </a>
         </li>
       </Dropdown>
+    </PreferencesItem>
+
+    <PreferencesItem>
+      <p class="font-bold">深色主题</p>
+      <Dropdown v-model="active_dark_theme">
+        <li v-for="item in theme_dark_list" @click="change_theme(true, item)">
+          <a>
+            {{ item }}
+          </a>
+        </li>
+      </Dropdown>
+    </PreferencesItem>
+
+    <PreferencesItem>
+      <p class="font-bold">跟随系统自动切换</p>
+      <Switch v-model="switch_auto_darkmode_bool" />
     </PreferencesItem>
 
     <PreferencesItem>
@@ -49,46 +65,56 @@ import { STORE_Setting } from '/store/modules/setting';
 
 const STORE_setting_instance = STORE_Setting();
 
-const theme: (val: string) => void = inject('theme')!;
+const theme: (darkmode: boolean, val: string) => void = inject('theme')!;
 const avatar_src: () => void = inject('avatar_src')!;
 
-const theme_list: string[] = [
+const theme_light_list: string[] = [
   'light',
-  'dark',
   'cupcake',
   'bumblebee',
   'emerald',
   'corporate',
-  'synthwave',
   'retro',
   'cyberpunk',
   'valentine',
-  'halloween',
   'garden',
-  'forest',
-  'aqua',
   'lofi',
   'pastel',
   'fantasy',
   'wireframe',
-  'black',
-  'luxury',
-  'dracula',
   'cmyk',
   'autumn',
-  'business',
   'acid',
   'lemonade',
-  'night',
-  'coffee',
   'winter',
 ];
 
-const active_theme = ref(STORE_setting_instance.theme);
+const theme_dark_list: string[] = [
+  'dark',
+  'synthwave',
+  'halloween',
+  'forest',
+  'aqua',
+  'black',
+  'luxury',
+  'dracula',
+  'business',
+  'night',
+  'coffee',
+];
 
-const change_theme = (themename: string) => {
-  theme(themename);
-  active_theme.value = themename;
+const active_light_theme = ref(STORE_setting_instance.light_theme);
+const active_dark_theme = ref(STORE_setting_instance.dark_theme);
+
+const change_theme = (darkmode: boolean, themename: string) => {
+  theme(darkmode, themename);
+  if (!darkmode) {
+    active_light_theme.value = themename;
+    STORE_setting_instance.Change_light_theme(themename);
+  } else {
+    active_dark_theme.value = themename;
+    STORE_setting_instance.Change_dark_theme(themename);
+  }
 };
 
 const switch_coutom_avatar_bool = computed({
@@ -98,6 +124,15 @@ const switch_coutom_avatar_bool = computed({
   set(newVal: boolean) {
     STORE_setting_instance.Switch_custom_avatar(newVal);
     avatar_src();
+  },
+});
+
+const switch_auto_darkmode_bool = computed({
+  get() {
+    return STORE_setting_instance.auto_darkmode;
+  },
+  set(newVal: boolean) {
+    STORE_setting_instance.Switch_auto_darkmode_bool(newVal);
   },
 });
 </script>
