@@ -31,11 +31,18 @@
       </span>
       <Divider custom_class="m-4" />
       <SiderMenu />
-      <label class="swap swap-rotate absolute inset-x-0 bottom-12" :class="swap_class">
-        <input ref="swap" type="checkbox" @click="switch_manual_darkmode" :checked="!check_mode" />
-        <svg-icon class="swap-on fill-base-content w-8 h-8" name="sun" />
-        <svg-icon class="swap-off fill-base-content w-8 h-8" name="moon" />
-      </label>
+      <div class="absolute inset-x-0 bottom-14 flex justify-center">
+        <label class="swap swap-rotate m-auto" :class="swap_class">
+          <input
+            ref="swap"
+            type="checkbox"
+            @click="switch_manual_darkmode"
+            :checked="!check_mode"
+          />
+          <svg-icon class="swap-on fill-base-content w-8 h-8" name="sun" />
+          <svg-icon class="swap-off fill-base-content w-8 h-8" name="moon" />
+        </label>
+      </div>
     </div>
     <div class="flex-1 flex flex-col">
       <div
@@ -130,7 +137,9 @@ const set_avatar_src = () => {
  * 判断暗黑模式并从pinia读取主题名称并修改当前主题
  */
 const change_theme = () => {
+  //判断是否自动切换主题，并绑定状态图标
   const get_theme_name = (mode: boolean) => {
+    check_mode.value = mode ? true : false;
     return mode ? STORE_setting_instance.dark_theme : STORE_setting_instance.light_theme;
   };
 
@@ -141,25 +150,7 @@ const change_theme = () => {
       : get_theme_name(check_mode.value);
   };
 
-  if (theme.value != final_theme_name() && STORE_setting_instance.auto_darkmode) {
-    check_mode.value = !check_mode.value;
-    STORE_setting_instance.Switch_manual_darkmode_bool(check_mode.value);
-  }
-
   theme.value = final_theme_name();
-
-  // //判断是否自动切换主题，是则跟随系统主题
-  // if (STORE_setting_instance.auto_darkmode) {
-  //   // swap.value.removeAttribute('disabled');
-  //   //true 为暗黑模式  false 为非暗黑模式
-  //   const now_sys_theme_mode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  //   //获取当前模式的主题名称
-  //   theme.value = get_theme_name(now_sys_theme_mode);
-  //   //手动切换主题模式
-  // } else {
-  //   // swap.value.setAttribute('disabled', '');
-  //   theme.value = get_theme_name(check_mode.value);
-  // }
 };
 
 const switch_manual_darkmode = () => {
