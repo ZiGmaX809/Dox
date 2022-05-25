@@ -15,6 +15,7 @@
 
     <PreferencesItem>
       <p class="font-bold">深色主题</p>
+
       <Dropdown v-model="active_dark_theme">
         <li v-for="item in theme_dark_list" @click="change_theme(true, item)">
           <a>
@@ -25,7 +26,7 @@
     </PreferencesItem>
 
     <PreferencesItem>
-      <p class="font-bold">跟随系统自动切换</p>
+      <p class="font-bold">跟随系统自动切换深色模式</p>
       <Switch v-model="switch_auto_darkmode_bool" />
     </PreferencesItem>
 
@@ -65,7 +66,8 @@ import { STORE_Setting } from '/store/modules/setting';
 
 const STORE_setting_instance = STORE_Setting();
 
-const theme: (darkmode: boolean, val: string) => void = inject('theme')!;
+const theme: () => void = inject('theme')!;
+const swap: () => void = inject('set_swap_state')!;
 const avatar_src: () => void = inject('avatar_src')!;
 
 const theme_light_list: string[] = [
@@ -107,7 +109,6 @@ const active_light_theme = ref(STORE_setting_instance.light_theme);
 const active_dark_theme = ref(STORE_setting_instance.dark_theme);
 
 const change_theme = (darkmode: boolean, themename: string) => {
-  theme(darkmode, themename);
   if (!darkmode) {
     active_light_theme.value = themename;
     STORE_setting_instance.Change_light_theme(themename);
@@ -115,6 +116,7 @@ const change_theme = (darkmode: boolean, themename: string) => {
     active_dark_theme.value = themename;
     STORE_setting_instance.Change_dark_theme(themename);
   }
+  theme();
 };
 
 const switch_coutom_avatar_bool = computed({
@@ -133,6 +135,8 @@ const switch_auto_darkmode_bool = computed({
   },
   set(newVal: boolean) {
     STORE_setting_instance.Switch_auto_darkmode_bool(newVal);
+    swap();
+    theme();
   },
 });
 </script>
