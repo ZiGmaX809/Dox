@@ -5,6 +5,7 @@ interface SettingState {
   light_theme: string;
   dark_theme: string;
   auto_darkmode: boolean;
+  manual_darkmode: boolean;
   org_code: number;
   custom_avatar_bool: boolean;
   custom_avatar_url: string;
@@ -35,6 +36,7 @@ export const STORE_Setting = defineStore({
       light_theme: 'light',
       dark_theme: 'dark',
       auto_darkmode: true,
+      manual_darkmode: true,
       org_code: 1301,
       custom_avatar_bool: false,
       custom_avatar_url: '',
@@ -67,6 +69,9 @@ export const STORE_Setting = defineStore({
     },
     Switch_auto_darkmode_bool(bool: boolean) {
       this.auto_darkmode = bool;
+    },
+    Switch_manual_darkmode_bool(bool: boolean) {
+      this.manual_darkmode = bool;
     },
     /** 剪贴板 **/
     Switch_clipboard_bool(bool: boolean) {

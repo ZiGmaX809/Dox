@@ -1,6 +1,6 @@
 <template>
   <div id="container_view" class="flex w-screen h-screen" :data-theme="theme">
-    <div id="sider_view" class="w-[200px] bg-base-200 border-r border-base-300 h-screen">
+    <div id="sider_view" class="relative w-[200px] bg-base-200 border-r border-base-300 h-screen">
       <div class="w-full mt-6 mb-6 flex justify-center select-none items-baseline">
         <svg-icon id="Logo" name="Logo" class="w-12 h-12" />
         <b class="text-4xl font-sans text-themeable-logo_text">ox</b>
@@ -31,6 +31,11 @@
       </span>
       <Divider custom_class="m-4" />
       <SiderMenu />
+      <label class="swap swap-rotate absolute inset-x-0 bottom-12" :class="swap_class">
+        <input ref="swap" type="checkbox" @click="switch_manual_darkmode" :checked="!check_mode" />
+        <svg-icon class="swap-on fill-base-content w-8 h-8" name="sun" />
+        <svg-icon class="swap-off fill-base-content w-8 h-8" name="moon" />
+      </label>
     </div>
     <div class="flex-1 flex flex-col">
       <div
@@ -68,15 +73,19 @@ import { STORE_Setting } from '/store/modules/setting';
 import { STORE_Clipboard } from '/store/modules/clipboard';
 
 import { Load_Image_To_Base64 } from '/scripts/utils/handlefiles';
+import Msg from './scripts/utils/message';
 
 const STORE_editor_instance = STORE_Editor();
 const STORE_setting_instance = STORE_Setting();
 const STORE_clipboard_instance = STORE_Clipboard();
 
-const theme = ref(STORE_setting_instance.light_theme);
-
 const isLogined = ref(false);
 const isRouterAlive = ref(true);
+
+const check_mode = ref(STORE_setting_instance.manual_darkmode);
+const theme = ref();
+const swap = ref();
+const swap_class = ref();
 
 const avatar_src = ref();
 const trafficlight = ref();
@@ -117,26 +126,73 @@ const set_avatar_src = () => {
   }
 };
 
-const set_theme = (darkmode: boolean, val: string) => {
-  const sys_darkmode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  if (darkmode == sys_darkmode) {
-    theme.value = val;
+/**
+ * 判断暗黑模式并从pinia读取主题名称并修改当前主题
+ */
+const change_theme = () => {
+  const get_theme_name = (mode: boolean) => {
+    return mode ? STORE_setting_instance.dark_theme : STORE_setting_instance.light_theme;
+  };
+
+  const final_theme_name = () => {
+    const now_sys_theme_mode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return STORE_setting_instance.auto_darkmode
+      ? get_theme_name(now_sys_theme_mode)
+      : get_theme_name(check_mode.value);
+  };
+
+  if (theme.value != final_theme_name() && STORE_setting_instance.auto_darkmode) {
+    check_mode.value = !check_mode.value;
+    STORE_setting_instance.Switch_manual_darkmode_bool(check_mode.value);
+  }
+
+  theme.value = final_theme_name();
+
+  // //判断是否自动切换主题，是则跟随系统主题
+  // if (STORE_setting_instance.auto_darkmode) {
+  //   // swap.value.removeAttribute('disabled');
+  //   //true 为暗黑模式  false 为非暗黑模式
+  //   const now_sys_theme_mode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  //   //获取当前模式的主题名称
+  //   theme.value = get_theme_name(now_sys_theme_mode);
+  //   //手动切换主题模式
+  // } else {
+  //   // swap.value.setAttribute('disabled', '');
+  //   theme.value = get_theme_name(check_mode.value);
+  // }
+};
+
+const switch_manual_darkmode = () => {
+  check_mode.value = !check_mode.value;
+  change_theme();
+  STORE_setting_instance.Switch_manual_darkmode_bool(check_mode.value);
+};
+
+const set_swap_state = () => {
+  //切换是否跟随系统时，针对切换按钮进行固化
+  if (STORE_setting_instance.auto_darkmode) {
+    //当自动切换主题时，针对图标进行变化
+    swap.value.setAttribute('disabled', '');
+    swap_class.value = 'cursor-not-allowed';
+  } else {
+    swap.value.removeAttribute('disabled');
+    swap_class.value = '';
   }
 };
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-  if (STORE_setting_instance.auto_darkmode) {
-    const get_theme_name = e.matches
-      ? STORE_setting_instance.dark_theme
-      : STORE_setting_instance.light_theme;
-
-    set_theme(e.matches, get_theme_name);
-  }
+  change_theme();
 });
 
-set_avatar_src();
 provide('avatar_src', set_avatar_src);
-provide('theme', set_theme);
+provide('theme', change_theme);
+provide('set_swap_state', set_swap_state);
+
+onMounted(() => {
+  change_theme();
+  set_swap_state();
+  set_avatar_src();
+});
 </script>
 
 <style>

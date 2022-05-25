@@ -1,5 +1,6 @@
 <template>
   <Dropdown v-model="theme" :itemList="theme_list"></Dropdown>
+  <label class="btn btn-disabled" >test</label>
 </template>
 
 <script setup lang="ts">
