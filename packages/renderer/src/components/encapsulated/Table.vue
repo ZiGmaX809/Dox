@@ -1,10 +1,10 @@
 <template>
-  <div class="border border-base-300 rounded-lg overflow-hidden">
+  <div class="border border-base-content/5 rounded-lg overflow-hidden">
     <table
-      class="group flex flex-col table-auto min-w-full text-sm divide-y divide-base-200 bg-base-200/30"
+      class="group flex flex-col table-auto min-w-full text-sm divide-y divide-base-content/5 border-base-content/5"
     >
       <thead class="block">
-        <tr class="grid grid-cols-20 divide-x divide-base-200 bg-base-200/30">
+        <tr class="grid grid-cols-20 divide-x divide-base-content/5 bg-base-200/30">
           <th
             class="flex justify-center p-2 font-medium text-left text-base-content whitespace-nowrap"
           >
@@ -38,9 +38,9 @@
         </tr>
       </thead>
       <tbody
-        class="flex flex-col divide-y divide-base-200 h-[calc(100vh_-_180px)] overflow-y-auto overflow-x-hidden bg-base-100 scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300"
+        class="flex flex-col divide-y divide-base-content/5 h-[calc(100vh_-_180px)] overflow-y-auto overflow-x-hidden bg-base-100 scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300"
       >
-        <tr class="grid grid-cols-20 divide-x divide-base-200" v-for="(item, index) in case_list">
+        <tr class="grid grid-cols-20 divide-x divide-base-content/5" v-for="(item, index) in case_list">
           <td
             class="flex items-center float-left p-2 justify-center text-center font-medium text-base-content"
           >
@@ -65,7 +65,7 @@
   </div>
   <div class="btn-group justify-center mt-5">
     <button
-      class="btn btn-sm btn-ghost"
+      class="btn btn-sm btn-ghost border border-base-content/5 bg-base-100 "
       v-for="page_num in total_page"
       @click="select_page(page_num)"
       :key="page_num"
@@ -92,13 +92,3 @@ const select_page = (p: number) => {
   document.getElementById(`page${p}`)?.classList.add('btn-active');
 };
 </script>
-
-<style>
-/* ::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0);
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb {
-  @apply group-hover:!bg-base-300 group-hover:!rounded-xl
-} */
-</style>

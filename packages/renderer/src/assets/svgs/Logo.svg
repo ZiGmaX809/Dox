@@ -1,21 +1,20 @@
-<svg id="layout" data-name="layout"
+<svg id="layout"
     xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 385.29 392.3">
+    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 385.3 392.3">
     <defs>
-        <style>.cls-1{fill:url(#grad);}.cls-2{@apply fill-themeable-logo_text;}.cls-3{mask:url(#mask);}</style>
-        <linearGradient id="grad" x1="198.56" y1="342.02" x2="116.45" y2="164.61" gradientUnits="userSpaceOnUse">
+        <style>.cls-1{fill:url(#grad);}.cls-3{mask:url(#mask);}</style>
+        <linearGradient id="grad" x1="186.06" y1="354.02" x2="103.98" y2="176.67" gradientUnits="userSpaceOnUse">
             <stop offset="0.1"/>
             <stop offset="0.84" stop-color="#fff"/>
         </linearGradient>
-        <mask id="mask" x="0" y="95.5" width="195.49" height="199.5" maskUnits="userSpaceOnUse">
-            <g transform="translate(-112.2 -71.63)">
-                <polygon class="cls-1" points="307.69 366.63 112.2 366.63 112.2 167.13 202.21 167.13 307.69 366.63"/>
+        <mask id="mask" x="0.12" y="95.73" width="195.49" height="199.4" maskUnits="userSpaceOnUse">
+            <g transform="translate(-99.57 -83.47)">
+                <polygon class="cls-1" points="295.19 378.61 99.7 378.61 99.7 179.21 189.7 179.21 295.19 378.61"/>
             </g>
         </mask>
     </defs>
-    <path class="cls-2" d="M304.43,71.63H176.72a64.51,64.51,0,0,0-64.51,64.51V399.42a64.51,64.51,0,0,0,64.51,64.51H307.88C412.6,463.93,497.5,379,497.5,274.31v-9.62C497.5,158.06,411.06,71.63,304.43,71.63Zm96,197.51c0,48.17-39.22,97.49-92.7,97.49L202.21,167.13h96.85c56,0,101.34,45.67,101.34,102Z" transform="translate(-112.2 -71.63)"/>
+    <path id="main" class="cls-2" d="M294.9,83.47h-131a64.29,64.29,0,0,0-64.29,64.29v262.1a65.93,65.93,0,0,0,65.92,65.92h130.6c104.26,0,188.78-87.61,188.78-191.87C484.87,177.28,401.53,83.47,294.9,83.47Zm.17,295h0L189.79,179.37l105.11-.07c55.67,0,92.87,48.5,92.87,104.16C387.77,334.66,346.26,378.47,295.07,378.47Z" transform="translate(-99.57 -83.47)"/>
     <g class="cls-3">
-        <polygon class="cls-4" points="195.49 295 0 295 0 95.5 90.01 95.5 195.49 295"/>
+        <path id="shadow" class="cls-4" d="M295.19,378.61H99.7V269.8a90.39,90.39,0,0,1,90.09-90.43l0,.07Z" transform="translate(-99.57 -83.47)"/>
     </g>
-    <path class="cls-2" d="M303.14,71.63H176.5a64.29,64.29,0,0,0-64.29,65.2h0V238.06q24.86-60.27,90-70.93H303.92Z" transform="translate(-112.2 -71.63)"/>
 </svg>

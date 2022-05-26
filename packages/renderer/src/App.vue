@@ -2,8 +2,8 @@
   <div id="container_view" class="flex w-screen h-screen" :data-theme="theme">
     <div id="sider_view" class="relative w-[200px] bg-base-200 border-r border-base-300 h-screen">
       <div class="w-full mt-6 mb-6 flex justify-center select-none items-baseline">
-        <svg-icon id="Logo" name="Logo" class="w-12 h-12" />
-        <b class="text-4xl font-sans text-themeable-logo_text">ox</b>
+        <svg-icon id="Logo" name="Logo" class="w-12 h-12 text=base-300" />
+        <b class="text-4xl font-sans text-base-content/70">ox</b>
         <b class="text-4xl text-orange-400">.</b>
       </div>
       <Divider custom_class="m-4" />
@@ -192,9 +192,9 @@ onMounted(() => {
 }
 
 .cls-2 {
-  @apply fill-base-content;
+  @apply fill-base-content/70;
 }
 .cls-4 {
-  @apply fill-neutral opacity-80;
+  @apply fill-neutral-focus opacity-100;
 }
 </style>
