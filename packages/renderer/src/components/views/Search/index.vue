@@ -1,17 +1,14 @@
 <template>
-  <Dropdown v-model="theme" :itemList="theme_list"></Dropdown>
-  <label class="btn btn-disabled" >test</label>
+  <div class="mt-96"><Pagination @change-page="changePage" :total="total" :page="1" /></div>
 </template>
 
 <script setup lang="ts">
-const theme_list: string[] = [
-  'light',
-  'dark',
-  'cupcake',
-  'bumblebee',
-  'emerald',
-  'corporate',
-  'synthwave',
-];
-const theme = ref('light')
+const total = ref(200);
+// const pageSize = ref(20);
+// 控制页码的变化
+const changePage = (page: any) => {
+  // 修改分页参数，重新调用接口即可
+  // 重新调用接口，渲染数据
+  console.log(page);
+};
 </script>

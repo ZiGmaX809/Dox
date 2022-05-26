@@ -18,11 +18,12 @@ declare module '@vue/runtime-core' {
     Export: typeof import('./src/components/views/Preferences/Modules/Export.vue')['default']
     Home: typeof import('./src/components/views/Home/index.vue')['default']
     ImportFile: typeof import('./src/components/utils/ImportFile.vue')['default']
-    Input: typeof import('./src/components/encapsulated/Input.vue')['default']
+    Input: typeof import('./src/components/encapsulated/Input.vue')['default'];
     Login: typeof import('./src/components/views/Login/index.vue')['default']
     Msg: typeof import('./src/components/encapsulated/Msg.vue')['default']
     Notice: typeof import('./src/components/utils/Notice.vue')['default']
     Others: typeof import('./src/components/views/Preferences/Modules/Others.vue')['default']
+    Pagination: typeof import('./src/components/encapsulated/Pagination.vue')['default']
     Preferences: typeof import('./src/components/views/Preferences/index.vue')['default']
     PreferencesItem: typeof import('./src/components/encapsulated/PreferencesItem.vue')['default']
     QuickInput: typeof import('./src/components/views/Preferences/Modules/QuickInput.vue')['default']

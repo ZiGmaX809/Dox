@@ -1,17 +1,18 @@
 <template>
-  <div class="dropdown dropdown-end">
+  <div class="dropdown" :class="dropdown_direction_class">
     <label
-      ref="_dropdown"
+      ref="disabled_dropdown"
       tabindex="0"
-      class="btn gap-2 m-1 btn-sm bg-base-100 btn-ghost text-base-content"
+      class="btn gap-2 m-1 bg-base-100 btn-ghost text-base-content"
+      :class="btn_size_class"
     >
       {{ modelValue }}
       <svg-icon name="down" class="w-4 h-4" />
     </label>
     <ul
       tabindex="0"
-      class="dropdown-content menu p-2 shadow-lg bg-base-100 border border-base-300 rounded-md w-auto max-h-80 "
-      :class="scroll_class"
+      class="dropdown-content menu p-2 shadow-lg bg-base-100 border border-base-300 rounded-md w-auto max-h-80"
+      :class="list_class"
     >
       <slot />
     </ul>
@@ -28,7 +29,11 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  size: {
+  btn_size: {
+    type: String,
+    default: 'normal',
+  },
+  list_size: {
     type: String,
     default: 'normal',
   },
@@ -36,18 +41,46 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  direction: {
+    type: String,
+    default: 'bottom-end',
+  },
 });
 
-const scroll_class = ref();
+const list_class = ref();
+const btn_size_class = ref();
+const dropdown_direction_class = ref();
 
-const _dropdown = ref();
+const disabled_dropdown = ref();
 
 const isDisabled = (bool: boolean) => {
   if (bool) {
-    _dropdown.value.removeAttribute('disabled');
+    disabled_dropdown.value.removeAttribute('disabled');
   } else {
-    _dropdown.value.setAttribute('disabled', '');
+    disabled_dropdown.value.setAttribute('disabled', '');
   }
+};
+
+const direction_list: {
+  [key: string]: string;
+} = {
+  bottom: '',
+  top: 'dropdown-top ',
+  left: 'dropdown-left ',
+  right: 'dropdown-right',
+  'bottom-end': 'dropdown-end',
+  'top-end': 'dropdown-top dropdown-end',
+  'left-end': 'dropdown-left dropdown-end',
+  'right-end': 'dropdown-right dropdown-end',
+};
+
+const btn_size_list: {
+  [key: string]: string;
+} = {
+  normal: '',
+  tiny: 'btn-xs',
+  small: 'btn-sm',
+  large: 'btn-lg',
 };
 
 watch(
@@ -58,10 +91,24 @@ watch(
 );
 
 onMounted(() => {
+  //是否有效
   isDisabled(props.disabled);
-  const size_ = props.size == 'small' ? 'menu-compact' : '';
+
+  //列表大小
+  const list_size_ = props.list_size == 'small' ? 'menu-compact' : '';
+
+  //按钮大小
+  btn_size_class.value = btn_size_list[props.btn_size];
+
+  //列表方向
+  dropdown_direction_class.value = direction_list[props.direction];
+
+  //是否显示滚动条
   if (props.isScroll) {
-    scroll_class.value = `scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300 ${size_}`;
+    const scroll_class = 'scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300';
+    list_class.value = `${scroll_class} ${list_size_}`;
+  } else {
+    list_class.value = `${list_size_}`;
   }
 });
 </script>

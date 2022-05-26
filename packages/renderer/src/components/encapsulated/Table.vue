@@ -38,13 +38,16 @@
         </tr>
       </thead>
       <tbody
-        class="flex flex-col divide-y divide-base-content/5 h-[calc(100vh_-_180px)] overflow-y-auto overflow-x-hidden bg-base-100 scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300"
+        class="flex flex-col divide-y divide-base-content/5 h-[calc(100vh_-_180px)] overflow-y-auto overflow-x-hidden bg-base-100 scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300 "
       >
-        <tr class="grid grid-cols-20 divide-x divide-base-content/5" v-for="(item, index) in case_list">
+        <tr
+          class="grid grid-cols-20 divide-x divide-base-content/5 hover:bg-base-300 last:!border-b-base-content"
+          v-for="(item, index) in show_list.list"
+        >
           <td
             class="flex items-center float-left p-2 justify-center text-center font-medium text-base-content"
           >
-            {{ index + 1 }}
+            {{ index + 1 + (page_ - 1) * page_size_ }}
           </td>
           <td class="float-left p-2 font-medium text-base-content"></td>
           <td class="flex items-center col-span-4 float-left p-2r text-info cursor-pointer">
@@ -63,32 +66,47 @@
       </tbody>
     </table>
   </div>
-  <div class="btn-group justify-center mt-5">
-    <button
-      class="btn btn-sm btn-ghost border border-base-content/5 bg-base-100 "
-      v-for="page_num in total_page"
-      @click="select_page(page_num)"
-      :key="page_num"
-      :id="`page${page_num}`"
-    >
-      {{ page_num }}
-    </button>
+  <div class="flex w-full mt-5 justify-center">
+    <Pagination
+      @change-page="changePage"
+      @change-page-size="changePageSize"
+      :total="total_case"
+      :page="page_"
+      :page-size="page_size_"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 const list_json = JSON.parse(localStorage.getItem('RequestInfo')!);
 const case_list = list_json.MyCaseList?.data;
-const total_page = Math.ceil(case_list.length / 20);
+const page_ = ref(1);
+const page_size_ = ref(20);
 
-const itemRefs: any[] = [];
-const setItemRef = (el: any) => {
-  if (el) {
-    itemRefs.push(el);
+interface Case {
+  [key: string]: any;
+}
+const show_list: Case = reactive({
+  list: [],
+});
+const total_case = ref(case_list.length);
+
+const changePage = (page: number) => {
+  show_list.list = [];
+  page_.value = page;
+  for (let i = 0; i < case_list.length; i++) {
+    if (i >= (page - 1) * page_size_.value && i < page * page_size_.value) {
+      show_list.list.push(case_list[i]);
+    }
   }
 };
 
-const select_page = (p: number) => {
-  document.getElementById(`page${p}`)?.classList.add('btn-active');
+const changePageSize = (page_size: number) => {
+  page_size_.value = page_size;
+  changePage(page_.value);
 };
+
+onMounted(() => {
+  changePage(1);
+});
 </script>
