@@ -6,17 +6,19 @@
       <div class="flex items-center">
         <p class="font-bold">离线功能</p>
         <Explain z_class="w-[500px]">
-          <b>
-            &#10059;&nbsp;注意：此功能仅缓存「我的案件」中尚在审理的案件信息，因涉及当事人信息，请遵守相关规章制度！
-          </b>
-          <br />
-          开启离线功能后，可在脱机状态下查看案件、编辑、生成文书。
-          <br />
-          考虑到服务器负载，拉取数据间隔为60秒，请手动点击离线数据按钮进行数据离线。
-          <br />
-          已拉取案件数量：{{ offline_files_num.data }}；上次拉取时间：{{
-            STORE_setting_instance.offline_time
-          }}；
+          <p>
+            <b>
+              &#10059;&nbsp;注意：此功能仅缓存「我的案件」中尚在审理的案件信息，因涉及当事人信息，请遵守相关规章制度！
+            </b>
+            <br />
+            开启离线功能后，可在脱机状态下查看案件、编辑、生成文书。
+            <br />
+            考虑到服务器负载，拉取数据间隔为60秒，请手动点击离线数据按钮进行数据离线。
+            <br />
+            已拉取案件数量：{{ offline_files_num.data }}；上次拉取时间：{{
+              STORE_setting_instance.offline_time
+            }}；
+          </p>
         </Explain>
       </div>
 

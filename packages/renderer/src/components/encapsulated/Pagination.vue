@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row items-center text-sm space-x-5">
-    <Dropdown v-model="currentPagesize" btnSize="tiny" listSize="small" direction="top-end">
+    <Dropdown v-model="currentPagesize_label" btnSize="tiny" listSize="small" direction="top-end">
       <li v-for="item in pagesize_list" @click="changePageSize(item)">
         <a>
           {{ item }}
@@ -35,12 +35,12 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
-  //每页数据条数
-  //   pagesize: {
-  //     type: Number,
-  //     default: 20,
-  //   },
-  //   默认初始页码
+  // 每页数据条数
+  pagesize: {
+    type: Number,
+    default: 30,
+  },
+  // 默认初始页码
   page: {
     type: Number,
   },
@@ -50,16 +50,16 @@ const emits = defineEmits(['change-page', 'change-page-size']);
 
 // attrs表示父组件传递的属性，但是props没有接收的属性，这种属性不是响应式的  attrs接收父组件传递的当前页
 
-const pagesize = ref(20);
-const pagesize_list: string[] = ['20/Pages', '30/Pages', '50/Pages', '100/Pages'];
-const currentPagesize = ref('20/Pages');
+const pagesize_list: string[] = ['30/Pages', '50/Pages', '100/Pages'];
+const currentPagesize_label = ref('30/Pages');
 
 // 总页数
-const pages = computed(() => Math.ceil(props.total / pagesize.value));
+const pages = computed(() => Math.ceil(props.total / props.pagesize));
 // 当前页码
 // console.log(attrs.page)
 // 如果父组件没有传递档当前页码，默认是第一页
 const currentPage = ref(props.page || 1);
+const currentPagesize = ref(props.pagesize);
 // 动态计算页码列表
 const list = computed(() => {
   // 当父组件传递total的值发生变化时，计算属性会重新计算
@@ -108,9 +108,9 @@ const changePage = (type: number | string) => {
 };
 
 const changePageSize = (val: string) => {
-  currentPagesize.value = val;
+  currentPagesize_label.value = val;
   currentPage.value = 1;
-  pagesize.value = Number(val.split('/')[0]);
-  emits('change-page-size', pagesize.value);
+  currentPagesize.value = Number(val.split('/')[0]);
+  emits('change-page-size', props.pagesize);
 };
 </script>

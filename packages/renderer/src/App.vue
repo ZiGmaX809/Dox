@@ -21,8 +21,8 @@
         </div>
       </div>
       <span class="flex flex-col justify-between mt-5 space-y-1 select-none">
-        <p class="text-xs text-base-content text-center">{{ unit }}</p>
-        <p class="text-xs text-base-content text-center">{{ department }}</p>
+        <p class="text-xs text-base-content/80 text-center">{{ unit }}</p>
+        <p class="text-xs text-base-content/80 text-center">{{ department }}</p>
         <div class="text-center">
           <b class="text-base text-base-content cursor-pointer" @click="ShowLoginView">
             {{ username }}
