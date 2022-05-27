@@ -20,6 +20,13 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * 列表框组件
+ * 可自定义 按钮大小、列表大小、列表方向
+ * 按钮大小：tiny、small、normal、large
+ * 列表大小：small、normal
+ * 列表方向：top、left、righgt、bottom-end、top-end、left-end、right-end
+ */
 const props = defineProps({
   modelValue: {
     //绑定值，必须等于active-value或inactive-value，默认为Boolean类型  如果是vue2 这里绑定是 `value`
@@ -29,11 +36,11 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  btn_size: {
+  btnSize: {
     type: String,
     default: 'normal',
   },
-  list_size: {
+  listSize: {
     type: String,
     default: 'normal',
   },
@@ -95,10 +102,10 @@ onMounted(() => {
   isDisabled(props.disabled);
 
   //列表大小
-  const list_size_ = props.list_size == 'small' ? 'menu-compact' : '';
+  const list_size_ = props.listSize == 'small' ? 'menu-compact' : '';
 
   //按钮大小
-  btn_size_class.value = btn_size_list[props.btn_size];
+  btn_size_class.value = btn_size_list[props.btnSize];
 
   //列表方向
   dropdown_direction_class.value = direction_list[props.direction];

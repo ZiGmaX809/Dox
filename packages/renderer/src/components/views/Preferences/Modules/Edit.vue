@@ -4,7 +4,7 @@
   <div class="text-base-content">
     <PreferencesItem>
       <p class="font-bold">默认字体</p>
-      <Dropdown v-model="default_font_name" btn_size="small" list_size="small">
+      <Dropdown v-model="default_font_name" btnSize="small" listSize="small">
         <li v-for="item in fonts_family" @click="change_fonts_family(item)">
           <a>
             {{ item.label }}
@@ -15,7 +15,7 @@
 
     <PreferencesItem>
       <p class="font-bold">默认字号</p>
-      <Dropdown v-model="default_font_size" btn_size="small" list_size="small">
+      <Dropdown v-model="default_font_size" btnSize="small" listSize="small">
         <li v-for="item in font_sizes" @click="change_fonts_size(item)">
           <a>
             {{ item }}
@@ -26,7 +26,7 @@
 
     <PreferencesItem>
       <p class="font-bold">默认行高</p>
-      <Dropdown v-model="default_lineheight" btn_size="small" list_size="small">
+      <Dropdown v-model="default_lineheight" btnSize="small" listSize="small">
         <li v-for="item in lineheights" @click="change_lineheight(item)">
           <a>
             {{ item }}

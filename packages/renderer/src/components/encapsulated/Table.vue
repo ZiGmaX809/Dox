@@ -1,65 +1,44 @@
 <template>
   <div class="border border-base-content/5 rounded-lg overflow-hidden">
-    <table
-      class="group flex flex-col table-auto min-w-full text-sm divide-y divide-base-content/5 border-base-content/5"
-    >
-      <thead class="block">
-        <tr class="grid grid-cols-20 divide-x divide-base-content/5 bg-base-200/30">
-          <th
-            class="flex justify-center p-2 font-medium text-left text-base-content whitespace-nowrap"
-          >
-            序号
-          </th>
-          <th
-            class="flex justify-center p-2 font-medium text-left text-base-content whitespace-nowrap"
-          >
-            详情
-          </th>
-          <th
-            class="col-span-4 float-left p-2 font-medium text-left text-base-content whitespace-nowrap"
-          >
-            案号
-          </th>
-          <th
-            class="flex justify-center p-2 font-medium text-left text-base-content whitespace-nowrap"
-          >
-            审限
-          </th>
-          <th
-            class="col-span-4 float-left p-2 font-medium text-left text-base-content whitespace-nowrap"
-          >
-            案由
-          </th>
-          <th
-            class="col-span-9 float-left p-2 font-medium text-left text-base-content whitespace-nowrap"
-          >
-            当事人信息
-          </th>
+    <table class="min-w-full text-sm divide-y divide-base-content/5">
+      <thead>
+        <tr
+          class="grid grid-cols-20 divide-x divide-base-content/5 bg-base-200/50 font-medium text-base-content"
+        >
+          <th class="p-2">序号</th>
+          <th class="p-2">详情</th>
+          <th class="p-2 col-span-4">案号</th>
+          <th class="p-2">审限</th>
+          <th class="p-2 col-span-4">案由</th>
+          <th class="p-2 col-span-9">当事人信息</th>
         </tr>
       </thead>
       <tbody
-        class="flex flex-col divide-y divide-base-content/5 h-[calc(100vh_-_180px)] overflow-y-auto overflow-x-hidden bg-base-100 scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300 "
+        class="flex flex-col h-[calc(100vh_-_180px)] scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300"
       >
         <tr
-          class="grid grid-cols-20 divide-x divide-base-content/5 hover:bg-base-300 last:!border-b-base-content"
+          class="grid grid-cols-20 divide-x divide-base-content/5 border-base-content/5"
           v-for="(item, index) in show_list.list"
+          :class="{
+            'border-b': index + 1 !== page_ * page_size_, // 当前页的最后一条数据不显示下边框
+          }"
         >
           <td
-            class="flex items-center float-left p-2 justify-center text-center font-medium text-base-content"
+            class="flex justify-center items-center p-2 font-medium text-base-content text-center"
           >
             {{ index + 1 + (page_ - 1) * page_size_ }}
           </td>
-          <td class="float-left p-2 font-medium text-base-content"></td>
-          <td class="flex items-center col-span-4 float-left p-2r text-info cursor-pointer">
+          <td class="flex p-2 font-medium text-base-content"></td>
+          <td class="flex items-center col-span-4 p-2 text-info cursor-pointer">
             {{ item.ah }}
           </td>
-          <td class="flex items-center justify-center p-2 text-center">
+          <td class="flex justify-center items-center p-2">
             {{ item.qx }}
           </td>
-          <td class="flex items-center col-span-4 float-left p-2">
+          <td class="flex items-center col-span-4 p-2">
             {{ item.ayms }}
           </td>
-          <td class="flex items-center col-span-9 float-left p-2">
+          <td class="flex items-center col-span-9 p-2">
             {{ item.dsr }}
           </td>
         </tr>
@@ -103,7 +82,7 @@ const changePage = (page: number) => {
 
 const changePageSize = (page_size: number) => {
   page_size_.value = page_size;
-  changePage(page_.value);
+  changePage(1);
 };
 
 onMounted(() => {

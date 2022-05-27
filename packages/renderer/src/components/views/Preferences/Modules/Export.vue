@@ -17,7 +17,7 @@
           如当前导出格式无法打开，可以尝试更改导出格式，但是从原理上不同格式的二进制文件并无区别。
         </Explain>
       </div>
-      <Dropdown v-model="STORE_setting_instance.export_format">
+      <Dropdown v-model="STORE_setting_instance.export_format" btnSize="small">
         <li v-for="item in export_formats" @click="Set_Export_format(item)">
           <a>
             {{ item }}
@@ -35,7 +35,7 @@
       </div>
       <div class="flex items-center">
         <Switch v-model="switch_class_year_bool" />
-        <Dropdown v-model="STORE_setting_instance.class_year_type" :disabled="switch_class_year_bool">
+        <Dropdown v-model="STORE_setting_instance.class_year_type" :disabled="switch_class_year_bool" btnSize="small">
           <li v-for="item in export_year_type" @click="Set_class_year_type(item)">
             <a>
               {{ item }}

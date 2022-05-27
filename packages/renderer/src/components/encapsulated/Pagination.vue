@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row items-center text-sm space-x-5">
-    <Dropdown v-model="current_pagesize" btn_size="tiny" list_size="small" direction="top-end">
+    <Dropdown v-model="currentPagesize" btnSize="tiny" listSize="small" direction="top-end">
       <li v-for="item in pagesize_list" @click="changePageSize(item)">
         <a>
           {{ item }}
@@ -52,7 +52,7 @@ const emits = defineEmits(['change-page', 'change-page-size']);
 
 const pagesize = ref(20);
 const pagesize_list: string[] = ['20/Pages', '30/Pages', '50/Pages', '100/Pages'];
-const current_pagesize = ref('20/Pages');
+const currentPagesize = ref('20/Pages');
 
 // 总页数
 const pages = computed(() => Math.ceil(props.total / pagesize.value));
@@ -108,7 +108,8 @@ const changePage = (type: number | string) => {
 };
 
 const changePageSize = (val: string) => {
-  current_pagesize.value = val;
+  currentPagesize.value = val;
+  currentPage.value = 1;
   pagesize.value = Number(val.split('/')[0]);
   emits('change-page-size', pagesize.value);
 };

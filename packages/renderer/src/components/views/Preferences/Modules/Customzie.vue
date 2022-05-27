@@ -4,7 +4,7 @@
   <div class="text-base-content">
     <PreferencesItem>
       <p class="font-bold">浅色主题</p>
-      <Dropdown v-model="active_light_theme">
+      <Dropdown v-model="active_light_theme" btnSize="small">
         <li v-for="item in theme_light_list" @click="change_theme(false, item)">
           <a>
             {{ item }}
@@ -16,7 +16,7 @@
     <PreferencesItem>
       <p class="font-bold">深色主题</p>
 
-      <Dropdown v-model="active_dark_theme">
+      <Dropdown v-model="active_dark_theme" btnSize="small">
         <li v-for="item in theme_dark_list" @click="change_theme(true, item)">
           <a>
             {{ item }}
