@@ -26,8 +26,7 @@
           </td>
           <td class="flex p-2 items-center">
             <Explain
-              iconName="choose"
-              iconClass="w-6 h-6"
+              iconName="down"
               z_class="w-[850px]"
               :direction="currentPagesize - index < 5 ? 'top' : 'bottom'"
             >
