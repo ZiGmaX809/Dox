@@ -1,6 +1,11 @@
 <template>
   <div class="dropdown" :class="direction_list[direction]">
-    <label tabindex="0" class="btn btn-circle btn-ghost btn-xs m-1 text-base-content/70" @click="show = !show">
+    <label
+      tabindex="0"
+      class="btn btn-circle btn-ghost btn-xs m-1 text-base-content/70"
+      @click="show = !show"
+      @blur="show = false"
+    >
       <svg-icon :name="props.iconName" :class="iconSize"></svg-icon>
     </label>
     <div
@@ -30,7 +35,7 @@ const props = defineProps({
     type: String,
     default: 'w-96',
   },
-  iconSize:{
+  iconSize: {
     type: String,
     default: 'w-4 h-4',
   },
