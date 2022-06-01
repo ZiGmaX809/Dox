@@ -3,8 +3,7 @@
     <label
       tabindex="0"
       class="btn btn-circle btn-ghost btn-xs m-1 text-base-content/70"
-      @click="show = !show"
-      @blur="show = false"
+      @click="show = true"
     >
       <svg-icon :name="props.iconName" :class="iconSize"></svg-icon>
     </label>

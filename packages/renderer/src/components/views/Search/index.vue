@@ -1,7 +1,7 @@
 <template>
   <table class="border-collapse border border-slate-500 table-auto w-full">
   <thead>
-    <tr class="grid grid-cols-20 bg-base-200/30">
+    <tr class="bg-base-200/30">
       <th class="border border-slate-600 ">State</th>
       <th class="border border-slate-600 ">City</th>
     </tr>

@@ -3,7 +3,7 @@
     <Dropdown v-model="currentPagesize_label" btnSize="tiny" listSize="small" direction="top-end">
       <li v-for="item in pagesize_list" @click="changePageSize(item)">
         <a>
-          {{ item }}
+          {{ item  + '/Page'}}
         </a>
       </li>
     </Dropdown>
@@ -28,7 +28,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts">import { PropType } from 'vue';
+
 const props = defineProps({
   //数据总条数
   total: {
@@ -36,7 +37,7 @@ const props = defineProps({
     default: 0,
   },
   // 每页数据条数
-  pagesize: {
+  currentpagesize: {
     type: Number,
     default: 30,
   },
@@ -44,32 +45,31 @@ const props = defineProps({
   page: {
     type: Number,
   },
+  pagesize:{
+    type:Array as PropType<number[]>,
+  }
 });
 
 const emits = defineEmits(['change-page', 'change-page-size']);
 
-// attrs表示父组件传递的属性，但是props没有接收的属性，这种属性不是响应式的  attrs接收父组件传递的当前页
-
-const pagesize_list: string[] = ['30/Pages', '50/Pages', '100/Pages'];
-const currentPagesize_label = ref('30/Pages');
+const pagesize_list: number[] = props.pagesize!;
+const currentPagesize_label = ref(pagesize_list[0] + '/Page');
 
 // 总页数
-const pages = computed(() => Math.ceil(props.total / props.pagesize));
+const pages = computed(() => Math.ceil(props.total / props.currentpagesize));
 // 当前页码
-// console.log(attrs.page)
 // 如果父组件没有传递档当前页码，默认是第一页
 const currentPage = ref(props.page || 1);
-const currentPagesize = ref(props.pagesize);
+const currentPagesize = ref(props.currentpagesize);
 // 动态计算页码列表
 const list = computed(() => {
   // 当父组件传递total的值发生变化时，计算属性会重新计算
-  // pages = Math.ceil(props.total / props.pagesize)
   const result = [];
   // 总页码小于等于8；大于8
   if (pages.value == 0) {
     result.push(1);
   } else if (pages.value <= 8) {
-    // 总页码小于等于10的情况
+    // 总页码小于等于8的情况
     for (let i = 1; i <= pages.value; i++) {
       result.push(i);
     }
@@ -107,10 +107,10 @@ const changePage = (type: number | string) => {
   }
 };
 
-const changePageSize = (val: string) => {
-  currentPagesize_label.value = val;
+const changePageSize = (val: number) => {
+  currentPagesize_label.value = `${val}/Page`;
   currentPage.value = 1;
-  currentPagesize.value = Number(val.split('/')[0]);
-  emits('change-page-size', props.pagesize);
+  currentPagesize.value = val;
+  emits('change-page-size', val);
 };
 </script>

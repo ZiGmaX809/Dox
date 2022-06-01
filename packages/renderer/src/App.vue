@@ -53,7 +53,7 @@
       >
         <TrafficLight ref="trafficlight" />
       </div>
-      <div id="main_view" class="flex-1 p-5 bg-base-100">
+      <div id="main_view" class="flex-1 p-5 bg-base-100 overflow-hidden">
         <router-view />
       </div>
     </div>
