@@ -1,120 +1,62 @@
 <template>
-  <div class="border border-base-content/5 rounded-lg overflow-hidden">
-    <table class="min-w-full text-sm divide-y divide-base-content/5">
+  <div class="rounded-lg overflow-hidden border border-base-content/10">
+    <table class="min-w-full text-sm table-fixed">
       <thead>
-        <tr class="grid grid-cols-20 divide-x divide-base-content/5 bg-base-200/50 font-medium">
-          <th class="p-2">序号</th>
-          <th class="p-2">详情</th>
-          <th class="p-2 col-span-4">案号</th>
-          <th class="p-2">审限</th>
-          <th class="p-2 col-span-4">案由</th>
-          <th class="p-2 col-span-9">当事人信息</th>
+        <tr
+          class="bg-base-content/5 divide-x divide-base-content/5 border-b border-b-base-content/5"
+        >
+          <th class="p-2" :style="{ width: item.width }" v-for="item in table_head">
+            {{ item.title }}
+          </th>
         </tr>
       </thead>
-      <tbody
-        class="flex flex-col h-[calc(100vh_-_180px)] scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300"
-      >
-        <tr
-          class="grid grid-cols-20 divide-x divide-base-content/5 border-base-content/5"
-          v-for="(item, index) in show_list.list"
-          :class="{
-            'border-b': index + 1 !== currentPage * currentPagesize, // 当前页的最后一条数据不显示下边框
-          }"
-        >
-          <td class="flex justify-center items-center p-2 font-medium text-center">
-            {{ index + 1 + (currentPage - 1) * currentPagesize }}
-          </td>
-          <td class="flex p-2 items-center">
-            <Explain
-              iconName="down"
-              z_class="w-[850px]"
-              :direction="currentPagesize - index < 5 ? 'top' : 'bottom'"
-            >
-              <div class="flex flex-row">
-                <p class="w-1/6">
-                  <b>案号代码</b>
-                  <br />
-                  <b>审判组织形式</b>
-                  <br />
-                  <b>审限届满日期</b>
-                  <br />
-                  <b>原审法院</b>
-                  <br />
-                  <b>原审案号</b>
-                </p>
-                <p class="w-1/3">
-                  {{ item.ahdm }}
-                  <br />
-                  {{ item.spzzxs }}
-                  <br />
-                  {{ item.sxjmrqr }}
-                  <br />
-                  {{ item.ysfydm }}
-                  <br />
-                  {{ item.ysah }}
-                </p>
-                <p class="w-1/6">
-                  <b>状态</b>
-                  <br />
-                  <b>立案日期</b>
-                  <br />
-                  <b>收案日期</b>
-                  <br />
-                  <b>收案人</b>
-                  <br />
-                  <b>承办部门</b>
-                </p>
-                <p class="w-1/6">
-                  {{ item.ajztmc }}
-                  <br />
-                  {{ item.larq }}
-                  <br />
-                  {{ item.sarq }}
-                  <br />
-                  {{ item.sar }}
-                  <br />
-                  {{ item.cbbm1 }}
-                </p>
-                <p class="w-1/6">
-                  <b>承办人</b>
-                  <br />
-                  <b>审判长</b>
-                  <br />
-                  <b>合议庭成员</b>
-                  <br />
-                  <b>法官助理</b>
-                  <br />
-                  <b>书记员</b>
-                </p>
-                <p class="w-1/6">
-                  {{ item.cbr }}
-                  <br />
-                  {{ item.spz }}
-                  <br />
-                  {{ item.hycy }}
-                  <br />
-                  {{ item.fgzl }}
-                  <br />
-                  {{ item.sjy }}
-                </p>
-              </div>
-            </Explain>
-          </td>
-          <td class="flex items-center col-span-4 p-2 text-info cursor-pointer">
-            {{ item.ah }}
-          </td>
-          <td class="flex justify-center items-center p-2">
-            {{ item.qx }}
-          </td>
-          <td class="flex items-center col-span-4 p-2">
-            {{ item.ayms }}
-          </td>
-          <td class="flex items-center col-span-9 p-2">
-            {{ item.dsr }}
-          </td>
-        </tr>
-      </tbody>
     </table>
+    <div
+      class="w-full h-[calc(100vh_-_180px)] scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300"
+    >
+      <table class="min-w-full text-sm table-fixed">
+        <tbody>
+          <tr
+            class="divide-x divide-base-content/5"
+            v-for="(item, index) in show_list.list"
+            :class="{
+              'border-b border-b-base-content/5': index + 1 !== currentPage * currentPagesize, // 当前页的最后一条数据不显示下边框
+            }"
+          >
+            <td class="p-2 text-center" :style="{ width: table_head[0].width }">
+              {{ index + 1 + (currentPage - 1) * currentPagesize }}
+            </td>
+            <td
+              class="p-2 text-center"
+              :style="{ width: table_head[1].width }"
+              @click="test = !test"
+            >
+              <!-- <Explain
+                iconName="down"
+                z_class="w-[850px]"
+                :direction="currentPagesize - index < 5 ? 'top' : 'bottom'"
+                :width="list_width[index]"
+              >
+                
+              </Explain> -->
+            </td>
+            <td class="p-2 text-info cursor-pointer" :style="{ width: table_head[2].width }">
+              {{ item.ah }}
+            </td>
+            <td class="p-2 text-center" :style="{ width: table_head[3].width }">
+              {{ item.qx }}
+            </td>
+            <td class="p-2" :style="{ width: table_head[4].width }">
+              {{ item.ayms }}
+            </td>
+            <td class="p-2" :style="{ width: table_head[5].width }">
+              {{ item.dsr }}
+            </td>
+          </tr>
+          <tr></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <div class="flex w-full mt-5 justify-center">
     <Pagination
@@ -122,7 +64,8 @@
       @change-page-size="changePageSize"
       :total="total_item"
       :page="currentPage"
-      :pagesize="currentPagesize"
+      :currentpagesize="currentPagesize"
+      :pagesize="pagesize"
     />
   </div>
 </template>
@@ -131,8 +74,11 @@
 const list_json = JSON.parse(localStorage.getItem('RequestInfo')!);
 const case_list = list_json.MyCaseList?.data;
 const currentPage = ref(1);
-const currentPagesize = ref(30);
 const total_item = ref(case_list.length);
+const pagesize = [20, 30, 50, 100];
+const currentPagesize = ref(pagesize[0]);
+const tbody_ref = ref();
+const test = ref(false);
 
 interface Case {
   [key: string]: any;
@@ -141,14 +87,49 @@ const show_list: Case = reactive({
   list: [],
 });
 
+const table_head = [
+  {
+    title: '序号',
+    key: 'index',
+    width: '60px',
+  },
+  {
+    title: '详情',
+    key: 'detail',
+    width: '60px',
+  },
+  {
+    title: '案号',
+    key: 'ah',
+    width: '200px',
+  },
+  {
+    title: '审限',
+    key: 'qx',
+    width: '60px',
+  },
+  {
+    title: '案由',
+    key: 'ayms',
+    width: '200px',
+  },
+  {
+    title: '当事人信息',
+    key: 'dsr',
+    width: '',
+  },
+];
+
 const changePage = (page: number) => {
   show_list.list = [];
   currentPage.value = page;
+  // 分页显示
   for (let i = 0; i < case_list.length; i++) {
     if (i >= (page - 1) * currentPagesize.value && i < page * currentPagesize.value) {
       show_list.list.push(case_list[i]);
     }
   }
+  // console.log(tbody_ref.value.scrollHeight, tbody_ref.value.clientHeight);
 };
 
 const changePageSize = (page_size: number) => {
