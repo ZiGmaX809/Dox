@@ -12,6 +12,7 @@
       </thead>
     </table>
     <div
+      ref="tbody_ref"
       class="w-full h-[calc(100vh_-_180px)] scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300"
     >
       <table class="min-w-full text-sm table-fixed">
@@ -20,7 +21,7 @@
             class="divide-x divide-base-content/5"
             v-for="(item, index) in show_list.list"
             :class="{
-              'border-b border-b-base-content/5': index + 1 !== currentPage * currentPagesize, // 当前页的最后一条数据不显示下边框
+              'border-b border-b-base-content/5': index + 1 !== currentPage * currentPagesize,
             }"
           >
             <td class="p-2 text-center" :style="{ width: table_head[0].width }">
@@ -75,7 +76,7 @@ const list_json = JSON.parse(localStorage.getItem('RequestInfo')!);
 const case_list = list_json.MyCaseList?.data;
 const currentPage = ref(1);
 const total_item = ref(case_list.length);
-const pagesize = [20, 30, 50, 100];
+const pagesize = [30, 50, 100];
 const currentPagesize = ref(pagesize[0]);
 const tbody_ref = ref();
 const test = ref(false);
@@ -139,5 +140,6 @@ const changePageSize = (page_size: number) => {
 
 onMounted(() => {
   changePage(1);
+  // console.log(tbody_ref.value.scrollHeight, tbody_ref.value.clientHeight);
 });
 </script>
