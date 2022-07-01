@@ -37,7 +37,7 @@
     "unplugin-auto-import": "^0.9.0",
     "unplugin-vue-components": "^0.19.6",
     "vite": "^2.9.10",
-    "vite-plugin-electron": "^0.4.6",
+    "vite-plugin-electron": "^0.6.2",
     "vite-plugin-resolve": "^2.1.2",
     "vue": "^3.2.37",
     "vue-cropper": "^1.0.3",
