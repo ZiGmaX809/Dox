@@ -11,9 +11,9 @@
 ## Features
 
 📦 Out of the box  
-🎯 Based on [vue-ts](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-vue-ts) template, less invasive  
+🎯 Based on the official [vue-ts](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-vue-ts) template, less invasive  
 🌱 Extensible, really simple directory structure  
-💪 Support using Node.js API in Renderer-process  
+💪 Support using Node.js API in Electron-Renderer  
 🔩 Support C/C++ native addons  
 🖥 It's easy to implement multiple windows  
 
@@ -46,20 +46,30 @@ npm create electron-vite
   └── vite.config.ts
 ```
 
-## Examples
+## 🚨 `dependencies` vs `devDependencies`
 
-Used in Main-process 👉 [electron-vite-boilerplate](https://github.com/caoxiemeihao/electron-vite-boilerplate)
+**Put Node.js packages in `dependencies`**
 
-Used in Renderer-process 👉 [electron-vite-boilerplate/tree/nodeIntegration](https://github.com/caoxiemeihao/electron-vite-boilerplate/tree/nodeIntegration)
+**e.g.** `electron-store` `sqlite3` `serilaport` `mongodb` ...others
 
-> List the modules you may use as far as possible
-###### ES Modules
+**Put Web packages in `devDependencies`**
 
-- [execa](https://www.npmjs.com/package/execa)
-- [node-fetch](https://www.npmjs.com/package/node-fetch)
-- [file-type](https://www.npmjs.com/package/file-type)
+**e.g.** `vue` `vue-router` `vuex` `pinia` `element-plus` `ant-design-vue` `axios` ...others
 
-###### Native Addons(C/C++)
+See more 👉 [dependencies vs devDependencies](https://github.com/electron-vite/vite-plugin-electron-renderer#dependencies-vs-devdependencies)
 
-- [sqlite3](https://www.npmjs.com/package/sqlite3)
-- [serialport](https://www.npmjs.com/package/serialport)
+## 🚨 ESM packages
+
+**e.g.** `node-fetch` `execa` `got` ...others
+
+1. `npm i vite-plugin-esmodule -D`
+2. Configure in vite.config.ts
+
+```ts
+import esmodule from 'vite-plugin-esmodule'
+export default {
+  plugins: [
+    esmodule(['got', 'execa', 'node-fetch']),
+  ],
+}
+```

@@ -3,7 +3,7 @@ import { join } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import electron from 'vite-plugin-electron'
-import renderer from 'vite-plugin-electron/renderer'
+import pkg from './package.json'
 
 rmSync('dist', { recursive: true, force: true }) // v14.14.0
 
@@ -16,7 +16,6 @@ export default defineConfig({
         entry: 'electron/main/index.ts',
         vite: {
           build: {
-            sourcemap: false,
             outDir: 'dist/electron/main',
           },
         },
@@ -24,7 +23,7 @@ export default defineConfig({
       preload: {
         input: {
           // You can configure multiple preload here
-          splash: join(__dirname, 'electron/preload/splash.ts'),
+          index: join(__dirname, 'electron/preload/index.ts'),
         },
         vite: {
           build: {
@@ -34,8 +33,12 @@ export default defineConfig({
           }
         }
       },
+      // Enables use of Node.js API in the Renderer-process
+      renderer: {},
     }),
-    // Enable use Electron, Node.js API in Renderer-process
-    renderer(),
   ],
+  server: {
+    host: pkg.env.VITE_DEV_SERVER_HOST,
+    port: pkg.env.VITE_DEV_SERVER_PORT,
+  },
 })
