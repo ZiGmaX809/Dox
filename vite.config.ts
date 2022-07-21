@@ -22,7 +22,7 @@ export default defineConfig({
       '/scripts': path.resolve(__dirname, '/src/scripts'),
       '/components': path.resolve(__dirname, '/src/components'),
       '/views': path.resolve(__dirname, '/src/components/views'),
-      '/electron': path.resolve(__dirname, '/electron'),
+      '/main': path.resolve(__dirname, '/electron/main'),
     },
   },
   plugins: [

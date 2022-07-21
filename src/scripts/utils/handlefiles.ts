@@ -1,5 +1,5 @@
 import { ipcRenderer, OpenDialogSyncOptions } from 'electron';
-import { Export_File } from '/electron/main/utils/FileOperation';
+import { Export_File } from '/main/utils/FileOperation';
 import fs from 'fs';
 import path from 'path';
 // import { ElMessageBox } from 'element-plus';
