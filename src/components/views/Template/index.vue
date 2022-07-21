@@ -10,16 +10,16 @@
 <script setup lang="ts">
 import Msg from '/scripts/utils/message';
 const test1 = () => {
-  Msg('登录sdrfsdf失asasda败', 'success', 3000);
+  Msg('登录sdrfsdf失asasda败', 'success');
 };
 const test2 = () => {
-  Msg('登录sdrfsdf失asasda败', 'info', 3000);
+  Msg('登录sdrfsdf失asasda败', 'info');
 };
 const test3 = () => {
-  Msg('登录sdrfsdf失asasda败', 'error', 3000);
+  Msg('登录sdrfsdf失asasda败', 'error');
 };
 const test4 = () => {
-  Msg('登录sdrfsdf失asasda败', 'warning', 3000);
+  Msg('登录sdrfsdf失asasda败', 'warning');
 };
 </script>
 

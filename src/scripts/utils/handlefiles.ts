@@ -1,5 +1,7 @@
-import { OpenDialogSyncOptions } from 'electron';
+import { ipcRenderer, OpenDialogSyncOptions } from 'electron';
+import { Export_File } from '/electron/main/utils/FileOperation';
 import fs from 'fs';
+import path from 'path';
 // import { ElMessageBox } from 'element-plus';
 
 /**
@@ -47,11 +49,11 @@ export const Load_Local_Files = async (
 
   //无路径即进行选择
   if (path) {
-    return window.fs.readFileSync(path, encoding_);
+    return fs.readFileSync(path, encoding_);
   } else {
     const res_path = await Select_FileOrFolder(['openFile'], fileter_);
     if (res_path) {
-      return window.fs.readFileSync(res_path, encoding_);
+      return fs.readFileSync(res_path, encoding_);
     }
   }
 };
@@ -80,7 +82,7 @@ export const Select_FileOrFolder = async (
     properties: properties,
     filters: filters,
   };
-  return await window.ipcRenderer.invoke('Select_FileOrFolder', options).then((res: string) => {
+  return await ipcRenderer.invoke('Select_FileOrFolder', options).then((res: string) => {
     return res;
   });
 };
@@ -96,7 +98,7 @@ export const isFileExisted_And_Export = async (
   if (final_path && isFile) {
     const existed = () => {
       try {
-        window.fs.accessSync(final_path, window.fs.constants.F_OK);
+        fs.accessSync(final_path, fs.constants.F_OK);
         return true; //存在
       } catch (err) {
         return false; //不存在
@@ -132,7 +134,7 @@ export const isFileExisted_And_Export = async (
     // }
 
     if (havetoExport.value) {
-      window.Export_File(file, final_path);
+      Export_File(file, final_path);
       console.log('🚀 ~ file: handlefiles.ts ~ line 134 ~ final_path', final_path);
       return ['success', '成功！'];
     }
@@ -142,11 +144,11 @@ export const isFileExisted_And_Export = async (
 };
 
 export const mkdirsSync = (dirname: string) => {
-  if (window.fs.existsSync(dirname)) {
+  if (fs.existsSync(dirname)) {
     return true;
   } else {
-    if (mkdirsSync(window.path.dirname(dirname))) {
-      window.fs.mkdirSync(dirname);
+    if (mkdirsSync(path.dirname(dirname))) {
+      fs.mkdirSync(dirname);
       return true;
     }
   }

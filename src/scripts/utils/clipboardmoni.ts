@@ -1,3 +1,5 @@
+import { clipboard } from "electron";
+
 interface Options {
   duration: number;
   textChange: (text: string, beforeText: string) => void;
@@ -26,7 +28,7 @@ class ClipboardObserver {
   setTimer(): void {
     this.timer = setInterval(() => {
       if (this.textChange) {
-        const text = window.clipboard.readText();
+        const text = clipboard.readText();
         if (this.isDiffText(this.beforeText, text)) {
           this.textChange(text, this.beforeText);
           this.beforeText = text;
@@ -47,7 +49,7 @@ class ClipboardObserver {
    */
   setClipboardDefaultValue(): void {
     // if (this.textChange) {
-    this.beforeText = window.clipboard.readText();
+    this.beforeText = clipboard.readText();
     // }
   }
 

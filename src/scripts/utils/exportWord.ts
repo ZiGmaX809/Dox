@@ -13,7 +13,7 @@ import {
 } from 'docx';
 import { STORE_Setting } from '/store/modules/setting';
 import { isFileExisted_And_Export, mkdirsSync } from './handlefiles';
-import { Msg } from './message';
+import Msg from './message';
 
 /**
  *
@@ -306,7 +306,6 @@ export const exportWord = async (
     }
   });
 };
-
 
 function convert_mm2twip(mm: number) {
   return convertMillimetersToTwip(mm);
