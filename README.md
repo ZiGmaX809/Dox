@@ -36,40 +36,30 @@ npm create electron-vite
 ```diff
 + ├─┬ electron
 + │ ├─┬ main
-+ │ │ └── index.ts    entry of Electron-main
++ │ │ └── index.ts    entry of Electron-Main
 + │ └─┬ preload
-+ │   └── index.ts    entry of Electron-preload
++ │   └── index.ts    entry of Preload-Scripts
   ├─┬ src
-  │ └── main.ts       entry of Electron-renderer
+  │ └── main.ts       entry of Electron-Renderer
   ├── index.html
   ├── package.json
   └── vite.config.ts
 ```
 
-## 🚨 `dependencies` vs `devDependencies`
+## 🚨
 
-**Put Node.js packages in `dependencies`**
+By default, this template integrates Node.js in the Renderer process. If you don't need it, you just remove the option below. [Because it will modify the default config of Vite](https://github.com/electron-vite/vite-plugin-electron/tree/main/packages/electron-renderer#config-presets-opinionated).
 
-**e.g.** `electron-store` `sqlite3` `serilaport` `mongodb` ...others
+```diff
+# vite.config.ts
 
-**Put Web packages in `devDependencies`**
-
-**e.g.** `vue` `vue-router` `vuex` `pinia` `element-plus` `ant-design-vue` `axios` ...others
-
-See more 👉 [dependencies vs devDependencies](https://github.com/electron-vite/vite-plugin-electron-renderer#dependencies-vs-devdependencies)
-
-## 🚨 ESM packages
-
-**e.g.** `node-fetch` `execa` `got` ...others
-
-1. `npm i vite-plugin-esmodule -D`
-2. Configure in vite.config.ts
-
-```ts
-import esmodule from 'vite-plugin-esmodule'
-export default {
-  plugins: [
-    esmodule(['got', 'execa', 'node-fetch']),
-  ],
-}
+electron({
+- renderer: {}
+})
 ```
+
+## FAQ
+
+- [dependencies vs devDependencies](https://github.com/electron-vite/vite-plugin-electron/tree/main/packages/electron-renderer#dependencies-vs-devdependencies)
+- [Using C/C++ native addons in Electron-Renderer](https://github.com/electron-vite/vite-plugin-electron/tree/main/packages/electron-renderer#load-nodejs-cc-native-modules)
+- [Node.js ESM packages](https://github.com/electron-vite/vite-plugin-electron/tree/main/packages/electron-renderer#nodejs-esm-packages) (e.g. `execa` `node-fetch`)
