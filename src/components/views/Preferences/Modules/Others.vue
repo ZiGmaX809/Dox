@@ -21,6 +21,8 @@
 
 <script setup lang="ts">
 import { STORE_System } from '@/store/modules/system';
+import { ipcRenderer } from 'electron';
+import fs from 'fs';
 // import { ElMessageBox } from 'element-plus';
 import { Load_Local_Files } from '/scripts/utils/handlefiles';
 // import { Msg } from '/scripts/utils/message';
@@ -41,7 +43,7 @@ const export_localstorage = async () => {
 
   if (downloads_path) {
     const file_fullpath = `${downloads_path}/export_${now.getTime()}.json`;
-    window.fs.writeFileSync(file_fullpath, JSON.stringify(final_json));
+    fs.writeFileSync(file_fullpath, JSON.stringify(final_json));
 
     // Msg(`已导出至 ${file_fullpath} `, 'success');
   }
@@ -58,7 +60,7 @@ const import_localstorage = async () => {
     // Msg('成功导入缓存文件，应用将在3秒内重启', 'success');
 
     setTimeout(() => {
-      window.ipcRenderer.send('Restart');
+      ipcRenderer.send('Restart');
     }, 3000);
   }
 };

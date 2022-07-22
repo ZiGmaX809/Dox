@@ -4,6 +4,8 @@ import { STORE_System } from '/store/modules/system';
 import { STORE_Request } from '/store/modules/request';
 import { STORE_Setting } from '/store/modules/setting';
 
+import fs from 'fs';
+
 /**
  * 通过案号代码获取案件详细信息
  * @param code 案号代码
@@ -23,7 +25,7 @@ export const REQUEST_get_casedetailinfo = async (
       if (STORE_Setting().offline_bool) {
         //是否开启离线功能
         //离线读取本地json文件
-        const res = window.fs.readFileSync(
+        const res = fs.readFileSync(
           `${STORE_System().CacheFile_Path}/offlinecasefiles/${id}.json`,
           'utf8'
         );
@@ -72,7 +74,7 @@ export const REQUEST_get_ALL_casedetailinfo = async (
   };
   return await HTTP_getCaseDetail(data, isloadingview, ismsg)
     .then((res: any) => {
-      window.fs.writeFileSync(
+      fs.writeFileSync(
         `${STORE_System().CacheFile_Path}/offlinecasefiles/${id}.json`,
         JSON.stringify(res)
       );

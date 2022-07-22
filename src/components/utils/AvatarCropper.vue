@@ -43,6 +43,7 @@ import { inject, reactive, ref } from 'vue';
 import { STORE_System } from '/store/modules/system';
 import Msg from '/scripts/utils/message';
 import { Load_Image_To_Base64, Select_FileOrFolder } from '/scripts/utils/handlefiles';
+import { Export_File } from '/main/utils/FileOperation';
 
 /* vue-cropper DOM */
 const cropper = ref();
@@ -102,7 +103,7 @@ const save_pic = () => {
   if (cropper.value) {
     cropper.value!.getCropBlob((blob: any) => {
       const custom_avatar_path = `${STORE_System().CacheFile_Path}/images/useravatar.jpg`;
-      window.Export_File(blob, custom_avatar_path);
+      Export_File(blob, custom_avatar_path);
       // Msg('保存成功!', 'success');
       Msg('保存成功', 'success', 3000);
       setTimeout(() => {

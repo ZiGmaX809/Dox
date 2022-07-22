@@ -86,6 +86,9 @@ import { Load_Local_Files } from '/scripts/utils/handlefiles';
 
 import ImportFile from '/components/utils/ImportFile.vue';
 import Msg from '@/scripts/utils/message';
+import { clipboard } from 'electron';
+import fs from 'fs';
+import { Remove } from '/main/utils/FileOperation';
 
 const STORE_setting_instance = STORE_Setting();
 const STORE_system_instance = STORE_System();
@@ -102,7 +105,7 @@ const tableData = reactive({
 });
 
 const Copy_Url = (url: string) => {
-  window.clipboard.writeText(url);
+  clipboard.writeText(url);
   Msg('已复制', 'success', 3000);
 };
 
@@ -115,7 +118,7 @@ const Refresh_lawfiles = () => {
 const Delete_Lawfile = (index: number) => {
   const del_name = STORE_Setting().lawfilelist[index].name;
   const del_path = `${STORE_System().CacheFile_Path}/lawfiles/${del_name}.json`;
-  window.Remove(del_path);
+  Remove(del_path);
   STORE_setting_instance.Del_lawfile(index);
 
   //刷新表格
@@ -128,7 +131,7 @@ const Delete_Lawfile = (index: number) => {
 
 //行政区划信息更新
 const pca_Update_Time = () => {
-  const data = window.fs.statSync(STORE_system_instance.CacheFile_Path + '/divisions/pca.json');
+  const data = fs.statSync(STORE_system_instance.CacheFile_Path + '/divisions/pca.json');
   return data.ctime.toLocaleDateString();
 };
 
@@ -138,7 +141,7 @@ const Import_pcafile = async () => {
   if (File_Result) {
     const bool = JSON.parse(File_Result)['北京市'] != undefined ? true : false; //校验文件
     if (bool) {
-      window.fs.writeFileSync(
+      fs.writeFileSync(
         STORE_system_instance.CacheFile_Path + '/divisions/pca.json',
         File_Result
       );

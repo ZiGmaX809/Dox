@@ -58,6 +58,7 @@ import { REQUEST_get_ALL_casedetailinfo } from '/scripts/request/casedetailinfo'
 import { delay } from '/scripts/utils/delay';
 // import { Msg } from '/scripts/utils/message';
 import Notice from '/components/utils/Notice.vue';
+import { shell } from 'electron';
 
 const STORE_setting_instance = STORE_Setting();
 const STORE_system_instance = STORE_System();
@@ -67,7 +68,7 @@ const open_cachefile = async () => {
   const cacheFile_path = STORE_system_instance.CacheFile_Path;
 
   if (cacheFile_path != '') {
-    window.shell.openPath(cacheFile_path);
+    shell.openPath(cacheFile_path);
   }
 };
 
