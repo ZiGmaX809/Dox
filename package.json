@@ -39,7 +39,7 @@
     "vue": "^3.2.37",
     "vue-cropper": "^1.0.3",
     "vue-router": "^4.1.2",
-    "vue-tsc": "^0.38.9"
+    "vue-tsc": "^0.39.4"
   },
   "env": {
     "VITE_DEV_SERVER_HOST": "127.0.0.1",
