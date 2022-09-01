@@ -21,7 +21,7 @@
     "axios": "^0.27.2",
     "daisyui": "^2.19.1",
     "docx": "^7.4.1",
-    "electron": "^19.0.8",
+    "electron": "^20.1.1",
     "electron-builder": "^23.1.0",
     "nzh": "^1.0.8",
     "pinia": "^2.0.16",
