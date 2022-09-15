@@ -67,7 +67,7 @@ export default defineConfig({
     [svgBuilder(path.resolve(__dirname, 'src/assets/svgs/'))],
   ],
   server: {
-    host: pkg.env.VITE_DEV_SERVER_HOST,
-    port: pkg.env.VITE_DEV_SERVER_PORT,
+    host: pkg.debug.env.VITE_DEV_SERVER_HOSTNAME,
+    port: pkg.debug.env.VITE_DEV_SERVER_PORT,
   },
 });
