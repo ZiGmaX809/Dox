@@ -3,11 +3,11 @@
     <Dropdown v-model="currentPagesize_label" btnSize="tiny" listSize="small" direction="top-end">
       <li v-for="item in pagesize_list" @click="changePageSize(item)">
         <a>
-          {{ item  + '/Page'}}
+          {{ item + '/Page' }}
         </a>
       </li>
     </Dropdown>
-    <div class="btn-group items-center w-fit">
+    <div class="btn-group rounded-l-lg overflow-hidden items-center w-fit">
       <a
         @click="changePage(item)"
         :class="
@@ -28,7 +28,8 @@
   </div>
 </template>
 
-<script setup lang="ts">import { PropType } from 'vue';
+<script setup lang="ts">
+import { PropType } from 'vue';
 
 const props = defineProps({
   //数据总条数
@@ -45,9 +46,9 @@ const props = defineProps({
   page: {
     type: Number,
   },
-  pagesize:{
-    type:Array as PropType<number[]>,
-  }
+  pagesize: {
+    type: Array as PropType<number[]>,
+  },
 });
 
 const emits = defineEmits(['change-page', 'change-page-size']);

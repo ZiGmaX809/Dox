@@ -4,11 +4,8 @@ module.exports = {
     './public/**/*.html',
     './src/**/*.{js,jsx,ts,tsx,vue}',
   ],
-  plugins: [require('daisyui'), require('tailwind-scrollbar-daisyui')],
+  plugins: [require('daisyui'), require('tailwind-scrollbar')({ nocompatible: true })],
   // daisyUI config (optional)
-  variants: {
-    scrollbar: ['rounded'],
-  },
   daisyui: {
     styled: true,
     themes: true,

@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-lg overflow-hidden border border-base-content/10">
+  <div class="group rounded-lg overflow-hidden border border-base-content/10">
     <table class="min-w-full text-sm table-fixed">
       <thead>
         <tr
@@ -13,7 +13,7 @@
     </table>
     <div
       ref="tbody_ref"
-      class="w-full h-[calc(100vh_-_180px)] scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300"
+      class="w-full h-[calc(100vh_-_180px)] scrollbar-thin group-hover:scrollbar-thumb-base-300 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
     >
       <table class="min-w-full text-sm table-fixed">
         <tbody>
