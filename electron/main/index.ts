@@ -1,8 +1,24 @@
 import { app, BrowserWindow, shell, ipcMain, OpenDialogSyncOptions, dialog } from 'electron';
-import { release } from 'os';
-import fs from 'fs';
-import { join } from 'path';
+import { release } from 'node:os';
+import fs from 'node:fs';
+import { join } from 'node:path';
 import { Copy } from './utils/FileOperation';
+
+// The built directory structure
+//
+// ├─┬ dist-electron
+// │ ├─┬ main
+// │ │ └── index.js    > Electron-Main
+// │ └─┬ preload
+// │   └── index.js    > Preload-Scripts
+// ├─┬ dist
+// │ └── index.html    > Electron-Renderer
+//
+process.env.DIST_ELECTRON = join(__dirname, '..');
+process.env.DIST = join(process.env.DIST_ELECTRON, '../dist');
+process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
+  ? join(process.env.DIST_ELECTRON, '../public')
+  : process.env.DIST;
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration();
@@ -19,9 +35,6 @@ if (!app.requestSingleInstanceLock()) {
 // This warning only shows in development mode
 // Read more on https://www.electronjs.org/docs/latest/tutorial/security
 // process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
-
-process.env.DIST = join(__dirname, '../..');
-process.env.PUBLIC = app.isPackaged ? process.env.DIST : join(process.env.DIST, '../public');
 
 let win: BrowserWindow | null = null;
 // Here, you can also use other preload
@@ -46,12 +59,13 @@ async function createWindow() {
     frame: false,
   });
 
-  if (app.isPackaged) {
-    win.loadFile(indexHtml);
-  } else {
+  if (process.env.VITE_DEV_SERVER_URL) {
+    // electron-vite-vue#298
     win.loadURL(url);
     // Open devTool if the app is not packaged
     win.webContents.openDevTools();
+  } else {
+    win.loadFile(indexHtml);
   }
 
   // Test actively push message to the Electron-Renderer
@@ -60,9 +74,9 @@ async function createWindow() {
   });
 
   // Make all links open with the browser, not with the application
-  win.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith('https:')) shell.openExternal(url);
-    return { action: 'deny' };
+  win.webContents.on('will-navigate', (event, url) => {
+    event.preventDefault();
+    shell.openExternal(url);
   });
 }
 
@@ -105,7 +119,6 @@ ipcMain.handleOnce('Get_Path', (_event, path_list: string[]): string[] => {
   });
 });
 
-
 app.on('window-all-closed', () => {
   win = null;
   if (process.platform !== 'darwin') app.quit();
@@ -128,18 +141,19 @@ app.on('activate', () => {
   }
 });
 
-// new window example arg: new windows url
-ipcMain.handle('open-win', (event, arg) => {
+// New window example arg: new windows url
+ipcMain.handle('open-win', (_, arg) => {
   const childWindow = new BrowserWindow({
     webPreferences: {
       preload,
+      nodeIntegration: true,
+      contextIsolation: false,
     },
-  });
+  })
 
-  if (app.isPackaged) {
-    childWindow.loadFile(indexHtml, { hash: arg });
+  if (process.env.VITE_DEV_SERVER_URL) {
+    childWindow.loadURL(`${url}#${arg}`)
   } else {
-    childWindow.loadURL(`${url}/#${arg}`);
-    // childWindow.webContents.openDevTools({ mode: "undocked", activate: true })
+    childWindow.loadFile(indexHtml, { hash: arg })
   }
-});
+})

@@ -1,7 +1,7 @@
 import { ipcRenderer, OpenDialogSyncOptions } from 'electron';
 import { Export_File } from '/main/utils/FileOperation';
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 /**
  * 读取本地图片并返回一个相应callback类型的Promise

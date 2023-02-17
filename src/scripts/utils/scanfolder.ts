@@ -1,8 +1,8 @@
 import { STORE_Setting } from '/store/modules/setting';
 import { STORE_System } from '/store/modules/system';
 import { Stats } from 'original-fs';
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 /**
  * 遍历文件夹并返回文件名称

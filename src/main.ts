@@ -4,6 +4,7 @@ import '@/assets/styles/main.css';
 import router from '@/router/index';
 import store from '@/store';
 import svgIcon from '/components/utils/SvgIcon.vue';
+import './samples/node-api';
 
 import { ipcMsg_Get_Path } from '/scripts/utils/ipcmessage';
 import { STORE_System } from '/store/modules/system';
@@ -19,11 +20,6 @@ createApp(App)
   .$nextTick(() => {
     postMessage({ payload: 'removeLoading' }, '*');
   });
-
-// Usage of ipcRenderer.on
-ipcRenderer.on('main-process-message', (_event, ...args) => {
-  console.log('[Receive Main-process message]:', ...args);
-});
 
 if (STORE_Setting().first_launch) {
   const path_list = ['userData', 'documents', 'downloads'];

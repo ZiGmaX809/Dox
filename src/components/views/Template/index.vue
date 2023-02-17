@@ -1,9 +1,11 @@
 <template>
-  <div class="flex flex-wrap">
-    <button class="btn" @click="test1">success</button>
-    <button class="btn" @click="test2">2</button>
-    <button class="btn" @click="test3">3</button>
-    <button class="btn" @click="test4">4</button>
+  <div
+    class="w-96 h-52 shadow-xl image-full overflow-hidden rounded-lg border border-solid border-gray-200"
+  >
+    <img
+      class="h-full w-auto overflow-auto"
+      src="https://upload.wikimedia.org/wikipedia/zh/thumb/1/18/Fantastic_Beasts_-_The_Secrets_of_Dumbledore_Poster.jpg/220px-Fantastic_Beasts_-_The_Secrets_of_Dumbledore_Poster.jpg"
+    />
   </div>
 </template>
 
