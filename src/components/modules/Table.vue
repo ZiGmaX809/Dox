@@ -13,16 +13,13 @@
     </table>
     <div
       ref="tbody_ref"
-      class="w-full h-[calc(100vh_-_180px)] scrollbar-thin group-hover:scrollbar-thumb-base-300 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+      class="w-full h-[calc(100vh_-_180px)] scrollbar-thin scrollbar-w-1.5 group-hover:scrollbar-thumb-base-300 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
     >
       <table class="min-w-full text-sm table-fixed">
-        <tbody>
+        <tbody class="divide-y divide-base-content/5">
           <tr
             class="divide-x divide-base-content/5"
             v-for="(item, index) in show_list.list"
-            :class="{
-              'border-b border-b-base-content/5': index + 1 !== currentPage * currentPagesize,
-            }"
           >
             <td class="p-2 text-center" :style="{ width: table_head[0].width }">
               {{ index + 1 + (currentPage - 1) * currentPagesize }}
@@ -76,7 +73,7 @@ const list_json = JSON.parse(localStorage.getItem('RequestInfo')!);
 const case_list = list_json.MyCaseList?.data;
 const currentPage = ref(1);
 const total_item = ref(case_list.length);
-const pagesize = [30, 50, 100];
+const pagesize = [10, 30, 50, 100];
 const currentPagesize = ref(pagesize[0]);
 const tbody_ref = ref();
 const test = ref(false);

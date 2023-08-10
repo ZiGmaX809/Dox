@@ -15,7 +15,6 @@
 
     <PreferencesItem>
       <p class="font-bold">深色主题</p>
-
       <Dropdown v-model="active_dark_theme" btnSize="small">
         <li v-for="item in theme_dark_list" @click="change_theme(true, item)">
           <a>

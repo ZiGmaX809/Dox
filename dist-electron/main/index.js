@@ -42,7 +42,7 @@ async function createWindow() {
     win.loadFile(indexHtml);
   }
   win.webContents.on("did-finish-load", () => {
-    win == null ? void 0 : win.webContents.send("main-process-message", new Date().toLocaleString());
+    win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
   });
   win.webContents.on("will-navigate", (event, url2) => {
     event.preventDefault();

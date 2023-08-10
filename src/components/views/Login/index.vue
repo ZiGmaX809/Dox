@@ -150,7 +150,7 @@ const test_login = () => {
 };
 
 onMounted(() => {
-  show_clear_icon.value = logininfo_.account.length > 0 ? true : false;
+  // show_clear_icon.value = logininfo_.account.length > 0 ? true : false;
 });
 
 // const login = () => {

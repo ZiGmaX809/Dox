@@ -1,5 +1,5 @@
 import { createVNode, render } from 'vue';
-import _Msg from '/components/encapsulated/Msg.vue';
+import _Msg from '/components/modules/Msg.vue';
 
 /**
  * 

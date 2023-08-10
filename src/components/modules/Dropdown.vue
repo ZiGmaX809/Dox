@@ -11,7 +11,7 @@
     </label>
     <ul
       tabindex="0"
-      class="dropdown-content menu p-2 shadow-lg bg-base-100 border border-base-300 rounded-md w-auto max-h-80"
+      class="dropdown-content menu p-2 shadow-lg bg-base-100 border border-base-300 rounded-md w-auto max-h-80 flex-nowrap z-50 overflow-auto"
       :class="list_class"
     >
       <slot />
@@ -112,7 +112,7 @@ onMounted(() => {
 
   //是否显示滚动条
   if (props.isScroll) {
-    const scroll_class = 'scrollbar-thin scrollbar-thumb-rounded hover:scrollbar-thumb-base-300';
+    const scroll_class = 'scrollbar-thin scrollbar-w-1 group-hover:scrollbar-thumb-base-300 scrollbar-thumb-rounded-full scrollbar-track-rounded-full';
     list_class.value = `${scroll_class} ${list_size_}`;
   } else {
     list_class.value = `${list_size_}`;

@@ -28,6 +28,22 @@
     <button class="btn">3</button>
     <button class="btn">4</button>
   </div>
+
+  <div class="dropdown">
+    <label tabindex="0" class="btn m-1">Click</label>
+    <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-30 max-h-80 overflow-y-scroll overflow-x-visible flex-nowrap scrollbar-thin scrollbar-w-1 group-hover:scrollbar-thumb-base-300 scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
+      <li><a>Item 1</a></li>
+      <li><a>Item 2</a></li>
+      <li><a>Item 1</a></li>
+      <li><a>Item 2</a></li>
+      <li><a>Item 1</a></li>
+      <li><a>Item 2</a></li>
+      <li><a>Item 1</a></li>
+      <li><a>Item 2</a></li>
+      <li><a>Item 1</a></li>
+      <li><a>Item 2</a></li>
+    </ul>
+  </div>
 </template>
 
 <script setup lang="ts">

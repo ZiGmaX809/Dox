@@ -7,8 +7,8 @@
         </a>
       </li>
     </Dropdown>
-    <div class="btn-group rounded-l-lg overflow-hidden items-center w-fit">
-      <a
+    <div class="btn-group">
+      <button
         @click="changePage(item)"
         :class="
           typeof item === `string`
@@ -17,12 +17,12 @@
             ? `btn-active`
             : ``
         "
-        class="btn btn-sm btn-ghost border border-base-content/5 bg-base-100"
+        class="btn btn-sm btn-ghost border-base-content/5 bg-base-100"
         v-for="item in list"
         :key="item"
       >
         {{ item }}
-      </a>
+    </button>
     </div>
     <span class="w-[100px]">Total {{ total }}</span>
   </div>

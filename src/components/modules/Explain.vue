@@ -9,7 +9,7 @@
     </label>
     <div
       tabindex="0"
-      class="card compact dropdown-content drop-shadow-xl bg-base-100 border border-base-300 rounded-box"
+      class="card compact dropdown-content drop-shadow-xl bg-base-100 border border-base-300 rounded-box z-50"
       :class="card_style"
       v-if="show"
     >
