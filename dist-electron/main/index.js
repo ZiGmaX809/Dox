@@ -1,12 +1,10 @@
 "use strict";
 const electron = require("electron");
 const node_os = require("node:os");
-require("node:fs");
 const node_path = require("node:path");
-require("fs");
 process.env.DIST_ELECTRON = node_path.join(__dirname, "..");
 process.env.DIST = node_path.join(process.env.DIST_ELECTRON, "../dist");
-process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL ? node_path.join(process.env.DIST_ELECTRON, "../public") : process.env.DIST;
+process.env.VITE_PUBLIC = process.env.VITE_DEV_SERVER_URL ? node_path.join(process.env.DIST_ELECTRON, "../public") : process.env.DIST;
 if (node_os.release().startsWith("6.1"))
   electron.app.disableHardwareAcceleration();
 if (process.platform === "win32")
@@ -22,7 +20,7 @@ const indexHtml = node_path.join(process.env.DIST, "index.html");
 async function createWindow() {
   win = new electron.BrowserWindow({
     title: "Main window",
-    icon: node_path.join(process.env.PUBLIC, "favicon.ico"),
+    icon: node_path.join(process.env.VITE_PUBLIC, "favicon.ico"),
     webPreferences: {
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
@@ -30,10 +28,7 @@ async function createWindow() {
       // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
       nodeIntegration: true,
       contextIsolation: false
-    },
-    width: 1280,
-    height: 800,
-    frame: false
+    }
   });
   if (process.env.VITE_DEV_SERVER_URL) {
     win.loadURL(url);
@@ -42,34 +37,15 @@ async function createWindow() {
     win.loadFile(indexHtml);
   }
   win.webContents.on("did-finish-load", () => {
-    win == null ? void 0 : win.webContents.send("main-process-message", new Date().toLocaleString());
+    win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
   });
-  win.webContents.on("will-navigate", (event, url2) => {
-    event.preventDefault();
-    electron.shell.openExternal(url2);
+  win.webContents.setWindowOpenHandler(({ url: url2 }) => {
+    if (url2.startsWith("https:"))
+      electron.shell.openExternal(url2);
+    return { action: "deny" };
   });
 }
 electron.app.whenReady().then(createWindow);
-electron.ipcMain.on("Min", (_e) => win == null ? void 0 : win.minimize());
-electron.ipcMain.on("Max", (_e) => {
-  if (win == null ? void 0 : win.isMaximized()) {
-    win.unmaximize();
-  } else {
-    win == null ? void 0 : win.maximize();
-  }
-});
-electron.ipcMain.on("Close", (_e) => electron.app.quit());
-electron.ipcMain.handle("Select_FileOrFolder", async (_event, options) => {
-  const res = electron.dialog.showOpenDialogSync(options);
-  if (res) {
-    return res[0];
-  }
-});
-electron.ipcMain.handleOnce("Get_Path", (_event, path_list) => {
-  return path_list.map((path) => {
-    return electron.app.getPath(path);
-  });
-});
 electron.app.on("window-all-closed", () => {
   win = null;
   if (process.platform !== "darwin")

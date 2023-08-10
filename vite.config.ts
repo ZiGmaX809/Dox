@@ -1,16 +1,9 @@
 import { rmSync } from 'node:fs'
 import { defineConfig } from 'vite'
-import { svgBuilder } from './src/plugins/svgBuilder';
-import AutoImport from 'unplugin-auto-import/vite';
-import Components from 'unplugin-vue-components/vite';
 import vue from '@vitejs/plugin-vue'
 import electron from 'vite-plugin-electron'
-import renderer from 'vite-plugin-electron-renderer';
-import path from 'node:path';
+import renderer from 'vite-plugin-electron-renderer'
 import pkg from './package.json'
-
-
-rmSync('dist', { recursive: true, force: true }) // v14.14.0
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -21,30 +14,7 @@ export default defineConfig(({ command }) => {
   const sourcemap = isServe || !!process.env.VSCODE_DEBUG
 
   return {
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, '/src'),
-        '/public': path.resolve(__dirname, '/public'),
-        '/store': path.resolve(__dirname, '/src/store'),
-        '/scripts': path.resolve(__dirname, '/src/scripts'),
-        '/components': path.resolve(__dirname, '/src/components'),
-        '/views': path.resolve(__dirname, '/src/components/views'),
-        '/main': path.resolve(__dirname, '/electron/main'),
-      },
-    },
     plugins: [
-      AutoImport({
-        include: [
-          /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
-          /\.vue$/,
-          /\.vue\?vue/, // .vue
-          /\.md$/, // .md
-        ],
-        imports: ['vue', 'vue-router'],
-      }),
-      Components({
-        resolvers: [],
-      }),
       vue(),
       electron([
         {
@@ -52,9 +22,9 @@ export default defineConfig(({ command }) => {
           entry: 'electron/main/index.ts',
           onstart(options) {
             if (process.env.VSCODE_DEBUG) {
-              console.log(/* For `.vscode/.debug.script.mjs` */ '[startup] Electron App');
+              console.log(/* For `.vscode/.debug.script.mjs` */'[startup] Electron App')
             } else {
-              options.startup();
+              options.startup()
             }
           },
           vite: {
@@ -71,9 +41,9 @@ export default defineConfig(({ command }) => {
         {
           entry: 'electron/preload/index.ts',
           onstart(options) {
-            // Notify the Renderer-Process to reload the page when the Preload-Scripts build is complete,
+            // Notify the Renderer-Process to reload the page when the Preload-Scripts build is complete, 
             // instead of restarting the entire Electron App.
-            options.reload();
+            options.reload()
           },
           vite: {
             build: {
@@ -85,24 +55,18 @@ export default defineConfig(({ command }) => {
               },
             },
           },
-        },
+        }
       ]),
       // Use Node.js API in the Renderer-process
-      renderer({
-        nodeIntegration: true,
-      }),
-      [svgBuilder(path.resolve(__dirname, 'src/assets/svgs/'))],
+      renderer(),
     ],
-    server:
-      process.env.VSCODE_DEBUG &&
-      (() => {
-        const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL);
-        return {
-          host: url.hostname,
-          port: +url.port,
-        };
-      })(),
+    server: process.env.VSCODE_DEBUG && (() => {
+      const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL)
+      return {
+        host: url.hostname,
+        port: +url.port,
+      }
+    })(),
     clearScreen: false,
-  };
-
-});
+  }
+})

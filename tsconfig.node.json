@@ -1,32 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
     "composite": true,
     "module": "ESNext",
     "moduleResolution": "Node",
-    "jsx": "preserve",
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"],
-      "/main/*": ["electron/main/*"],
-      "/public/*": ["public/*"],
-      "/store/*": ["src/store/*"],
-      "/scripts/*": ["src/scripts/*"],
-      "/components/*": ["src/components/*"],
-      "/views/*": ["src/components/views/*"]
-    }
+    "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "vite.config.ts",
-    "electron",
-    "package.json",
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "components.d.ts",
-    "auto-imports.d.ts"
-  ]
+  "include": ["vite.config.ts", "package.json", "electron"]
 }
