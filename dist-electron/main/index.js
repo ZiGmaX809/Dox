@@ -7,10 +7,8 @@ require("fs");
 process.env.DIST_ELECTRON = node_path.join(__dirname, "..");
 process.env.DIST = node_path.join(process.env.DIST_ELECTRON, "../dist");
 process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL ? node_path.join(process.env.DIST_ELECTRON, "../public") : process.env.DIST;
-if (node_os.release().startsWith("6.1"))
-  electron.app.disableHardwareAcceleration();
-if (process.platform === "win32")
-  electron.app.setAppUserModelId(electron.app.getName());
+if (node_os.release().startsWith("6.1")) electron.app.disableHardwareAcceleration();
+if (process.platform === "win32") electron.app.setAppUserModelId(electron.app.getName());
 if (!electron.app.requestSingleInstanceLock()) {
   electron.app.quit();
   process.exit(0);
@@ -42,7 +40,7 @@ async function createWindow() {
     win.loadFile(indexHtml);
   }
   win.webContents.on("did-finish-load", () => {
-    win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
+    win?.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
   });
   win.webContents.on("will-navigate", (event, url2) => {
     event.preventDefault();
@@ -50,12 +48,12 @@ async function createWindow() {
   });
 }
 electron.app.whenReady().then(createWindow);
-electron.ipcMain.on("Min", (_e) => win == null ? void 0 : win.minimize());
+electron.ipcMain.on("Min", (_e) => win?.minimize());
 electron.ipcMain.on("Max", (_e) => {
-  if (win == null ? void 0 : win.isMaximized()) {
+  if (win?.isMaximized()) {
     win.unmaximize();
   } else {
-    win == null ? void 0 : win.maximize();
+    win?.maximize();
   }
 });
 electron.ipcMain.on("Close", (_e) => electron.app.quit());
@@ -72,13 +70,11 @@ electron.ipcMain.handleOnce("Get_Path", (_event, path_list) => {
 });
 electron.app.on("window-all-closed", () => {
   win = null;
-  if (process.platform !== "darwin")
-    electron.app.quit();
+  if (process.platform !== "darwin") electron.app.quit();
 });
 electron.app.on("second-instance", () => {
   if (win) {
-    if (win.isMinimized())
-      win.restore();
+    if (win.isMinimized()) win.restore();
     win.focus();
   }
 });
